@@ -1,2 +1,2 @@
 # Geopack
-.NET implementation of Geopack 2008 (Tsyganenko N. A.)
+The .NET implementation of Geopack 2008 (Tsyganenko N. A.)
