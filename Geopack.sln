@@ -25,6 +25,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{FCE92E85-C
 		docs\NuGetPackages.md = docs\NuGetPackages.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{5629D2C8-588F-490D-9A47-0C424916DA0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuroraScienceHub.Geopack.Benchmarks", "benchmarks\AuroraScienceHub.Geopack.Benchmarks\AuroraScienceHub.Geopack.Benchmarks.csproj", "{1220912B-B0E4-4394-9D05-C547EDF84A0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geopack.Cli", "src\Geopack.Cli\Geopack.Cli.csproj", "{7A86A2C9-0FA4-4817-A2BA-A3129DDACD3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +45,19 @@ Global
 		{27EA7AF4-AF64-4CB7-9205-B00DB9AE2020}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27EA7AF4-AF64-4CB7-9205-B00DB9AE2020}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27EA7AF4-AF64-4CB7-9205-B00DB9AE2020}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1220912B-B0E4-4394-9D05-C547EDF84A0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1220912B-B0E4-4394-9D05-C547EDF84A0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1220912B-B0E4-4394-9D05-C547EDF84A0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1220912B-B0E4-4394-9D05-C547EDF84A0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A86A2C9-0FA4-4817-A2BA-A3129DDACD3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A86A2C9-0FA4-4817-A2BA-A3129DDACD3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A86A2C9-0FA4-4817-A2BA-A3129DDACD3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A86A2C9-0FA4-4817-A2BA-A3129DDACD3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B21AD331-D5A9-45DD-9386-381B41EF2CAD} = {B4E78B98-89DB-4195-BCBE-5C50873BAB4E}
 		{27EA7AF4-AF64-4CB7-9205-B00DB9AE2020} = {82AAA21C-6A54-4602-863C-6C42C68283A1}
+		{1220912B-B0E4-4394-9D05-C547EDF84A0B} = {5629D2C8-588F-490D-9A47-0C424916DA0B}
+		{7A86A2C9-0FA4-4817-A2BA-A3129DDACD3E} = {B4E78B98-89DB-4195-BCBE-5C50873BAB4E}
 	EndGlobalSection
 EndGlobal
