@@ -4,6 +4,7 @@
     <TargetFrameworks>netstandard2.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <AssemblyName>AuroraScienceHub.Geopack</AssemblyName>
     <IsPackable>True</IsPackable>
+    <IsAotCompatible>true</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>The .NET implementation of Geopack 2008 (Tsyganenko N. A.)</Description>
   </PropertyGroup>
