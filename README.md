@@ -7,6 +7,8 @@
 
 <details>
 <summary>Details...</summary>
+
+The source code is here: http://geo.phys.spbu.ru/~tsyganenko/Geopack-2008.html
 This collection of subroutines is a result of several upgrades of the original package
 written by N. A. Tsyganenko in 1978-1979.
 
