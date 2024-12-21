@@ -1,18 +1,16 @@
+    ##########################################################################
+    #                                                                        #
+    #                             GEOPACK-2008                               #
+    #                     (MAIN SET OF FORTRAN CODES)                        #
+    #                 (IGRF coefficients updated 01/01/2020)                 #
+    ##########################################################################
 
-          ##########################################################################
-          #                                                                        #
-          #                          GEOPACK-2008_dp                               #
-          #                     (MAIN SET OF FORTRAN CODES)                        #
-          #               (double-precision version of 03/21/08)                   #
-          #                (IGRF coefficients updated 01/01/20)                    #
-          ##########################################################################
 <details>
-<summary>Original FORTRAN Program Text</summary>
-
+<summary>Details...</summary>
 This collection of subroutines is a result of several upgrades of the original package
 written by N. A. Tsyganenko in 1978-1979.
 
-PREFATORY NOTE TO THE VERSION OF FEBRUARY 4, 2008:
+PREFATORY NOTE TO THE VERSION OF FEBRUARY 8, 2008:
 
 To avoid inappropriate use of obsolete subroutines from earlier versions, a suffix 08 was
 added to the name of each subroutine in this release.
@@ -52,13 +50,13 @@ documentation file GEOPACK-2008.DOC.
 
 </details>
 
-          ##########################################################################
-          #                          T96 empiric model                             #
-          #                     (MAIN SET OF FORTRAN CODES)                        #
-          ##########################################################################
+    ##########################################################################
+    #                          T96 empiric model                             #
+    #                     (MAIN SET OF FORTRAN CODES)                        #
+    ##########################################################################
 
 <details>
-<summary>Original FORTRAN Program Text</summary>
+<summary>Details...</summary>
 
 The FORTRAN source code T96_01.FOR is the last version (first release June 22,
 1996, amended in July 2010 for compatibility with Intel Fortran compilers) of
@@ -97,12 +95,9 @@ revised:  in the present version, a smooth approximation was developed for
 the field inside the current layer. As a result, unphysical kinks in the Bz
 profile on the nightside were eliminated.
 
-
-
-            *******************************************
-            | Users should be aware of the following. |
-            *******************************************
-
+    *******************************************
+    | Users should be aware of the following. |
+    *******************************************
 
 (1) A simple linear dependence of the amplitudes of the field sources on the
 SQRT(Pdyn), Dst, and the IMF-related parameter EPS=SQRT(N)*V*Bt*sin(theta/2)

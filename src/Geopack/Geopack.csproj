@@ -6,7 +6,7 @@
     <IsPackable>True</IsPackable>
     <IsAotCompatible>true</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Description>The .NET implementation of Geopack 2008 Double Precision (Tsyganenko N. A.)</Description>
+    <Description>The .NET implementation of Geopack 2008 Single Precision (Tsyganenko N. A.)</Description>
   </PropertyGroup>
 
   <ItemGroup>
