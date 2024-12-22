@@ -14,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GeopackDP\" />
-    <Folder Include="Interfaces\" />
+    <Folder Include="T96\" />
   </ItemGroup>
 
 </Project>
