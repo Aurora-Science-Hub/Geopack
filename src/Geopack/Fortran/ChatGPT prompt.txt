@@ -1,4 +1,0 @@
-Rewrite the Fortran code into c#.
-Don't forget to write xml-comments and inline comments where Fortran code have comments or method/args description.
-Do not inline calls to methods that not provided. Their implementation will be provided later.
-Correctly rewrite all goto statements.
