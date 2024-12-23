@@ -1,11 +1,9 @@
-# Geopack
-The .NET implementation of Geopack 2008 (Tsyganenko N. A.)
-
 ## Tech stack
 - Supported .NET versions:
   - [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
   - [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
   - [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+  - [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 - [Native AOT compilation](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/)
 - [Nullable reference types](https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references)
 - [Central package management](https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management)
