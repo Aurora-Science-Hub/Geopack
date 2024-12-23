@@ -82,9 +82,8 @@ public interface IGeopack08
     /// <summary>
     /// Converts spherical coordinates into Cartesian ones and vice versa (theta and phi in radians).
     /// </summary>
-    /// <param name="j">
-    /// If j > 0: input is spherical coordinates (r, theta, phi) and output is Cartesian coordinates (x, y, z).
-    /// If j < 0: input is Cartesian coordinates (x, y, z) and output is spherical coordinates (r, theta, phi).
+    /// <param name="direct"> true : input is spherical coordinates (r, theta, phi) and output is Cartesian coordinates (x, y, z);
+    /// false : input is Cartesian coordinates (x, y, z) and output is spherical coordinates (r, theta, phi).
     /// </param>
     /// <param name="r">Radial distance (for spherical input) or x-coordinate (for Cartesian input)</param>
     /// <param name="theta">Colatitude theta in radians (for spherical input) or y-coordinate (for Cartesian input)</param>
@@ -93,10 +92,10 @@ public interface IGeopack08
     /// <param name="y">y-coordinate (for Cartesian output) or colatitude theta in radians (for spherical output)</param>
     /// <param name="z">z-coordinate (for Cartesian output) or longitude phi in radians (for spherical output)</param>
     /// <remarks>
-    /// Note: At the poles (x=0 and y=0), phi is assumed to be 0 when converting from Cartesian to spherical coordinates (i.e., for j < 0).
+    /// At the poles (x=0 and y=0), phi is assumed to be 0 when converting from Cartesian to spherical coordinates (i.e., when direct is false).
     /// </remarks>
     void SPHCAR_08(
-        int j,
+        bool direct,
         float r, float theta, float phi,
         out float x, out float y, out float z);
 
@@ -156,9 +155,9 @@ public interface IGeopack08
     /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
     /// Before calling GSWGSE_08, be sure to invoke the subroutine RECALC_08 to define all necessary elements of transformation matrices.
     /// </remarks>
-    /// <param name="j">
-    /// If j > 0: input is GSW coordinates (xgsw, ygsw, zgsw) and output is GSE coordinates (xgse, ygse, zgse).
-    /// If j < 0: input is GSE coordinates (xgse, ygse, zgse) and output is GSW coordinates (xgsw, ygsw, zgsw).
+    /// <param name="direct">
+    /// true : input is GSW coordinates (xgsw, ygsw, zgsw) and output is GSE coordinates (xgse, ygse, zgse).
+    /// false : input is GSE coordinates (xgse, ygse, zgse) and output is GSW coordinates (xgsw, ygsw, zgsw).
     /// </param>
     /// <param name="xgsw">GSW x-coordinate</param>
     /// <param name="ygsw">GSW y-coordinate</param>
@@ -167,7 +166,7 @@ public interface IGeopack08
     /// <param name="ygse">GSE y-coordinate</param>
     /// <param name="zgse">GSE z-coordinate</param>
     void GSWGSE_08(
-        int j,
+        bool direct,
         float xgsw, float ygsw, float zgsw,
         out float xgse, out float ygse, out float zgse);
 
@@ -180,9 +179,9 @@ public interface IGeopack08
     /// 2. If the values of iyear and/or iday have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in RECALC_08.
     /// </remarks>
-    /// <param name="j">
-    /// If j > 0: input is GEO coordinates (xgeo, ygeo, zgeo) and output is MAG coordinates (xmag, ymag, zmag).
-    /// If j < 0: input is MAG coordinates (xmag, ymag, zmag) and output is GEO coordinates (xgeo, ygeo, zgeo).
+    /// <param name="direct">
+    /// true : input is GEO coordinates (xgeo, ygeo, zgeo) and output is MAG coordinates (xmag, ymag, zmag).
+    /// false : input is MAG coordinates (xmag, ymag, zmag) and output is GEO coordinates (xgeo, ygeo, zgeo).
     /// </param>
     /// <param name="xgeo">GEO x-coordinate</param>
     /// <param name="ygeo">GEO y-coordinate</param>
@@ -191,7 +190,7 @@ public interface IGeopack08
     /// <param name="ymag">MAG y-coordinate</param>
     /// <param name="zmag">MAG z-coordinate</param>
     void GEOMAG_08(
-        int j,
+        bool direct,
         float xgeo, float ygeo, float zgeo,
         out float xmag, out float ymag, out float zmag);
 
@@ -204,9 +203,9 @@ public interface IGeopack08
     /// 2. If the current values of iyear, iday, ihour, min, isec have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in RECALC_08.
     /// </remarks>
-    /// <param name="j">
-    /// If j > 0: input is GEI coordinates (xgei, ygei, zgei) and output is GEO coordinates (xgeo, ygeo, zgeo).
-    /// If j < 0: input is GEO coordinates (xgeo, ygeo, zgeo) and output is GEI coordinates (xgei, ygei, zgei).
+    /// <param name="direct">
+    /// true : input is GEI coordinates (xgei, ygei, zgei) and output is GEO coordinates (xgeo, ygeo, zgeo).
+    /// false : input is GEO coordinates (xgeo, ygeo, zgeo) and output is GEI coordinates (xgei, ygei, zgei).
     /// </param>
     /// <param name="xgei">GEI x-coordinate</param>
     /// <param name="ygei">GEI y-coordinate</param>
@@ -215,7 +214,7 @@ public interface IGeopack08
     /// <param name="ygeo">GEO y-coordinate</param>
     /// <param name="zgeo">GEO z-coordinate</param>
     void GEIGEO_08(
-        int j,
+        bool direct,
         float xgei, float ygei, float zgei,
         out float xgeo, out float ygeo, out float zgeo);
 
@@ -229,9 +228,9 @@ public interface IGeopack08
     /// 3. If the values of components of the solar wind flow velocity have changed.
     /// A non-standard definition is implied here for the solar magnetic coordinate system: it is assumed that the XSM axis lies in the plane defined by the geodipole axis and the observed vector of the solar wind flow (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates, invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="j">
-    /// If j > 0: input is MAG coordinates (xmag, ymag, zmag) and output is SM coordinates (xsm, ysm, zsm).
-    /// If j < 0: input is SM coordinates (xsm, ysm, zsm) and output is MAG coordinates (xmag, ymag, zmag).
+    /// <param name="direct">
+    /// true : input is MAG coordinates (xmag, ymag, zmag) and output is SM coordinates (xsm, ysm, zsm).
+    /// false : input is SM coordinates (xsm, ysm, zsm) and output is MAG coordinates (xmag, ymag, zmag).
     /// </param>
     /// <param name="xmag">MAG x-coordinate</param>
     /// <param name="ymag">MAG y-coordinate</param>
@@ -240,7 +239,7 @@ public interface IGeopack08
     /// <param name="ysm">SM y-coordinate</param>
     /// <param name="zsm">SM z-coordinate</param>
     void MAGSM_08(
-        int j,
+        bool direct,
         float xmag, float ymag, float zmag,
         out float xsm, out float ysm, out float zsm);
 
@@ -254,9 +253,9 @@ public interface IGeopack08
     /// 3. If the values of components of the solar wind flow velocity have changed.
     /// A non-standard definition is implied here for the solar magnetic (SM) coordinate system: it is assumed that the XSM axis lies in the plane defined by the geodipole axis and the observed vector of the solar wind flow (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates, invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="j">
-    /// If j > 0: input is SM coordinates (xsm, ysm, zsm) and output is GSW coordinates (xgsw, ygsw, zgsw).
-    /// If j < 0: input is GSW coordinates (xgsw, ygsw, zgsw) and output is SM coordinates (xsm, ysm, zsm).
+    /// <param name="direct">
+    /// true : input is SM coordinates (xsm, ysm, zsm) and output is GSW coordinates (xgsw, ygsw, zgsw).
+    /// false : input is GSW coordinates (xgsw, ygsw, zgsw) and output is SM coordinates (xsm, ysm, zsm).
     /// </param>
     /// <param name="xsm">SM x-coordinate</param>
     /// <param name="ysm">SM y-coordinate</param>
@@ -265,7 +264,7 @@ public interface IGeopack08
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
     void SMGSW_08(
-        int j,
+        bool direct,
         float xsm, float ysm, float zsm,
         out float xgsw, out float ygsw, out float zgsw);
 
@@ -279,9 +278,9 @@ public interface IGeopack08
     /// 3. If the values of components of the solar wind flow velocity have changed.
     /// This subroutine converts GEO vectors to and from the solar-wind GSW coordinate system, taking into account possible deflections of the solar wind direction from strictly radial. Before converting to/from standard GSM coordinates, invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="j">
-    /// If j > 0: input is GEO coordinates (xgeo, ygeo, zgeo) and output is GSW coordinates (xgsw, ygsw, zgsw).
-    /// If j < 0: input is GSW coordinates (xgsw, ygsw, zgsw) and output is GEO coordinates (xgeo, ygeo, zgeo).
+    /// <param name="direct">
+    /// true : input is GEO coordinates (xgeo, ygeo, zgeo) and output is GSW coordinates (xgsw, ygsw, zgsw).
+    /// false : input is GSW coordinates (xgsw, ygsw, zgsw) and output is GEO coordinates (xgeo, ygeo, zgeo).
     /// </param>
     /// <param name="xgeo">GEO x-coordinate</param>
     /// <param name="ygeo">GEO y-coordinate</param>
@@ -290,7 +289,7 @@ public interface IGeopack08
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
     void GEOGSW_08(
-        int j,
+        bool direct,
         float xgeo, float ygeo, float zgeo,
         out float xgsw, out float ygsw, out float zgsw);
 

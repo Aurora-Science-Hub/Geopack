@@ -1,6 +1,6 @@
 namespace AuroraScienceHub.Geopack.Geopack08;
 
-partial class Geopack
+public sealed partial class Geopack08
 {
 
 }
