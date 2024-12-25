@@ -3,6 +3,7 @@ namespace AuroraScienceHub.Geopack.Interfaces;
 /// <summary>
 /// Geopack-2008 Single Precision contracts
 /// </summary>
+/// <remarks>Here we use original author's comments and </remarks>
 public interface IGeopack08
 {
     /// <summary>
@@ -14,7 +15,7 @@ public interface IGeopack08
     /// The GSW system is essentially similar to the standard GSM (the two systems become identical
     /// to each other in the case of strictly anti-sunward solar wind flow). For a detailed
     /// definition, see introductory comments for the subroutine GSWGSE_08.
-    /// Before the first call of this subroutine, or, if the date/time (iyear, iday, ihour, min, isec),
+    /// Before the first call of this subroutine, or, if the date/time,
     /// or the solar wind velocity components (vgsex, vgsey, vgsez) have changed, the model coefficients
     /// and geo-gsw rotation matrix elements should be updated by calling the subroutine RECALC_08.
     /// </remarks>
@@ -34,7 +35,7 @@ public interface IGeopack08
     /// coefficients (e.g., http://www.ngdc.noaa.gov/IAGA/vmod/igrf.html, revised: 22 March, 2005)
     /// </summary>
     /// <remarks>
-    /// Before the first call of this subroutine, or if the date (iyear and iday) was changed,
+    /// Before the first call of this subroutine, or if the date was changed,
     /// the model coefficients should be updated by calling the subroutine RECALC_08
     /// </remarks>
     /// <param name="r">Spherical geographic (geocentric) coordinates: radial distance r in units re=6371.2 km</param>
@@ -72,7 +73,7 @@ public interface IGeopack08
     /// Calculates four quantities necessary for coordinate transformations
     /// which depend on sun position (and, hence, on universal time and season)
     /// </summary>
-    /// <param name="dateTime">Year, day, and universal time in hours, minutes, and seconds (iday=1 corresponds to January 1)</param>
+    /// <param name="dateTime">Year, day, and universal time in hours, minutes, and seconds</param>
     /// <param name="gst">Greenwich mean sidereal time</param>
     /// <param name="slong">Longitude along ecliptic</param>
     /// <param name="srasn">Right ascension of the sun (radians)</param>
@@ -80,24 +81,33 @@ public interface IGeopack08
     void SUN_08(DateTime dateTime, float gst, float slong, float srasn, float sdec);
 
     /// <summary>
-    /// Converts spherical coordinates into Cartesian ones and vice versa (theta and phi in radians).
+    /// Converts spherical coordinates into Cartesian ones (theta and phi in radians).
     /// </summary>
-    /// <param name="direct"> true : input is spherical coordinates (r, theta, phi) and output is Cartesian coordinates (x, y, z);
-    /// false : input is Cartesian coordinates (x, y, z) and output is spherical coordinates (r, theta, phi).
-    /// </param>
-    /// <param name="r">Radial distance (for spherical input) or x-coordinate (for Cartesian input)</param>
-    /// <param name="theta">Colatitude theta in radians (for spherical input) or y-coordinate (for Cartesian input)</param>
-    /// <param name="phi">Longitude phi in radians (for spherical input) or z-coordinate (for Cartesian input)</param>
-    /// <param name="x">x-coordinate (for Cartesian output) or radial distance (for spherical output)</param>
-    /// <param name="y">y-coordinate (for Cartesian output) or colatitude theta in radians (for spherical output)</param>
-    /// <param name="z">z-coordinate (for Cartesian output) or longitude phi in radians (for spherical output)</param>
-    /// <remarks>
-    /// At the poles (x=0 and y=0), phi is assumed to be 0 when converting from Cartesian to spherical coordinates (i.e., when direct is false).
-    /// </remarks>
+    /// <param name="r">Radial distance (for spherical input)</param>
+    /// <param name="theta">Colatitude theta in radians (for spherical input)</param>
+    /// <param name="phi">Longitude phi in radians (for spherical input)</param>
+    /// <param name="x">x-coordinate (for Cartesian output)</param>
+    /// <param name="y">y-coordinate (for Cartesian output)</param>
+    /// <param name="z">z-coordinate (for Cartesian output)</param>
     void SPHCAR_08(
-        bool direct,
         float r, float theta, float phi,
         out float x, out float y, out float z);
+
+    /// <summary>
+    /// Converts Cartesian into spherical coordinates ones (theta and phi in radians).
+    /// </summary>
+    /// <param name="x">x-coordinate (for Cartesian input)</param>
+    /// <param name="y">y-coordinate (for Cartesian input)</param>
+    /// <param name="z">z-coordinate (for Cartesian input)</param>
+    /// <param name="r">Radial distance (for spherical output)</param>
+    /// <param name="theta">Colatitude theta in radians (for spherical output)</param>
+    /// <param name="phi">Longitude phi in radians (for spherical output)</param>
+    /// <remarks>
+    /// At the poles (x=0 and y=0), phi is assumed to be 0.
+    /// </remarks>
+    void CARSPH_08(
+        float x, float y, float z,
+        out float r, out float theta, out float phi);
 
     /// <summary>
     /// Calculates Cartesian field components from local spherical ones.
@@ -105,7 +115,7 @@ public interface IGeopack08
     /// <param name="theta">Spherical angle theta of the point in radians</param>
     /// <param name="phi">Spherical angle phi of the point in radians</param>
     /// <param name="br">Local spherical component of the field (radial)</param>
-    /// <param name="btheta">Local spherical component of the field (colatitude)</param>
+    /// <param name="btheta">Local spherical component of the field (co-latitude)</param>
     /// <param name="bphi">Local spherical component of the field (longitude)</param>
     /// <param name="bx">Cartesian component of the field (x)</param>
     /// <param name="by">Cartesian component of the field (y)</param>
@@ -124,7 +134,7 @@ public interface IGeopack08
     /// <param name="by">Cartesian component of the field vector (by)</param>
     /// <param name="bz">Cartesian component of the field vector (bz)</param>
     /// <param name="br">Local spherical component of the field vector (radial)</param>
-    /// <param name="btheta">Local spherical component of the field vector (colatitude)</param>
+    /// <param name="btheta">Local spherical component of the field vector (co-latitude)</param>
     /// <param name="bphi">Local spherical component of the field vector (longitude)</param>
     void BCARSP_08(
         float x, float y, float z,
@@ -148,17 +158,14 @@ public interface IGeopack08
     void RECALC_08(DateTime dateTime, float vgsex, float vgsey, float vgsez);
 
     /// <summary>
-    /// Transforms components of any vector between the standard GSE coordinate system and the geocentric solar-wind (GSW) system.
+    /// Transforms components of geocentric solar-wind (GSW) system to GSE coordinate.
     /// </summary>
     /// <remarks>
-    /// In the GSW system, the X axis is antiparallel to the observed direction of the solar wind flow. The Y and Z axes are defined similarly to the standard GSM system.
+    /// In the GSW system, the X axis is antiparallel to the observed direction of the solar wind flow.
+    /// The Y and Z axes are defined similarly to the standard GSM system.
     /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
     /// Before calling GSWGSE_08, be sure to invoke the subroutine RECALC_08 to define all necessary elements of transformation matrices.
     /// </remarks>
-    /// <param name="direct">
-    /// true : input is GSW coordinates (xgsw, ygsw, zgsw) and output is GSE coordinates (xgse, ygse, zgse).
-    /// false : input is GSE coordinates (xgse, ygse, zgse) and output is GSW coordinates (xgsw, ygsw, zgsw).
-    /// </param>
     /// <param name="xgsw">GSW x-coordinate</param>
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
@@ -166,23 +173,37 @@ public interface IGeopack08
     /// <param name="ygse">GSE y-coordinate</param>
     /// <param name="zgse">GSE z-coordinate</param>
     void GSWGSE_08(
-        bool direct,
         float xgsw, float ygsw, float zgsw,
         out float xgse, out float ygse, out float zgse);
 
     /// <summary>
-    /// Converts geographic (GEO) to dipole (MAG) coordinates or vice versa.
+    /// Transforms GSE coordinate components to geocentric solar-wind (GSW) ones.
+    /// </summary>
+    /// <remarks>
+    /// In the GSW system, the X axis is antiparallel to the observed direction of the solar wind flow.
+    /// The Y and Z axes are defined similarly to the standard GSM system.
+    /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
+    /// Before calling GSEGSW_08, be sure to invoke the subroutine RECALC_08 to define all necessary elements of transformation matrices.
+    /// </remarks>
+    /// <param name="xgse">GSE x-coordinate</param>
+    /// <param name="ygse">GSE y-coordinate</param>
+    /// <param name="zgse">GSE z-coordinate</param>
+    /// <param name="xgsw">GSW x-coordinate</param>
+    /// <param name="ygsw">GSW y-coordinate</param>
+    /// <param name="zgsw">GSW z-coordinate</param>
+    void GSEGSW_08(
+         float xgse, float ygse, float zgse,
+         out float xgsw, out float ygsw, out float zgsw);
+
+    /// <summary>
+    /// Converts geographic (GEO) to dipole (MAG) coordinates.
     /// </summary>
     /// <remarks>
     /// Before calling GEOMAG_08, be sure to invoke the subroutine RECALC_08 in two cases:
     /// 1. Before the first transformation of coordinates.
-    /// 2. If the values of iyear and/or iday have been changed.
+    /// 2. If the values of date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in RECALC_08.
     /// </remarks>
-    /// <param name="direct">
-    /// true : input is GEO coordinates (xgeo, ygeo, zgeo) and output is MAG coordinates (xmag, ymag, zmag).
-    /// false : input is MAG coordinates (xmag, ymag, zmag) and output is GEO coordinates (xgeo, ygeo, zgeo).
-    /// </param>
     /// <param name="xgeo">GEO x-coordinate</param>
     /// <param name="ygeo">GEO y-coordinate</param>
     /// <param name="zgeo">GEO z-coordinate</param>
@@ -190,23 +211,37 @@ public interface IGeopack08
     /// <param name="ymag">MAG y-coordinate</param>
     /// <param name="zmag">MAG z-coordinate</param>
     void GEOMAG_08(
-        bool direct,
         float xgeo, float ygeo, float zgeo,
         out float xmag, out float ymag, out float zmag);
 
     /// <summary>
-    /// Converts equatorial inertial (GEI) to geographical (GEO) coordinates or vice versa.
+    /// Converts dipole (MAG) coordinates to geographic (GEO).
+    /// </summary>
+    /// <remarks>
+    /// Before calling MAGGEO_08, be sure to invoke the subroutine RECALC_08 in two cases:
+    /// 1. Before the first transformation of coordinates.
+    /// 2. If the values of date/time have been changed.
+    /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in RECALC_08.
+    /// </remarks>
+    /// <param name="xmag">MAG x-coordinate</param>
+    /// <param name="ymag">MAG y-coordinate</param>
+    /// <param name="zmag">MAG z-coordinate</param>
+    /// <param name="xgeo">GEO x-coordinate</param>
+    /// <param name="ygeo">GEO y-coordinate</param>
+    /// <param name="zgeo">GEO z-coordinate</param>
+    void MAGGEO_08(
+        float xmag, float ymag, float zmag,
+        out float xgeo, out float ygeo, out float zgeo);
+
+    /// <summary>
+    /// Converts equatorial inertial (GEI) to geographical (GEO) coordinates.
     /// </summary>
     /// <remarks>
     /// Before calling GEIGEO_08, be sure to invoke the subroutine RECALC_08 in two cases:
     /// 1. Before the first transformation of coordinates.
-    /// 2. If the current values of iyear, iday, ihour, min, isec have been changed.
+    /// 2. If the current values date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in RECALC_08.
     /// </remarks>
-    /// <param name="direct">
-    /// true : input is GEI coordinates (xgei, ygei, zgei) and output is GEO coordinates (xgeo, ygeo, zgeo).
-    /// false : input is GEO coordinates (xgeo, ygeo, zgeo) and output is GEI coordinates (xgei, ygei, zgei).
-    /// </param>
     /// <param name="xgei">GEI x-coordinate</param>
     /// <param name="ygei">GEI y-coordinate</param>
     /// <param name="zgei">GEI z-coordinate</param>
@@ -214,24 +249,41 @@ public interface IGeopack08
     /// <param name="ygeo">GEO y-coordinate</param>
     /// <param name="zgeo">GEO z-coordinate</param>
     void GEIGEO_08(
-        bool direct,
         float xgei, float ygei, float zgei,
         out float xgeo, out float ygeo, out float zgeo);
 
     /// <summary>
-    /// Converts dipole (MAG) to solar magnetic (SM) coordinates or vice versa.
+    /// Converts geographical (GEO) coordinates to equatorial inertial (GEI).
+    /// </summary>
+    /// <remarks>
+    /// Before calling GEOGEI_08, be sure to invoke the subroutine RECALC_08 in two cases:
+    /// 1. Before the first transformation of coordinates.
+    /// 2. If the current values date/time have been changed.
+    /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in RECALC_08.
+    /// </remarks>
+    /// <param name="xgeo">GEO x-coordinate</param>
+    /// <param name="ygeo">GEO y-coordinate</param>
+    /// <param name="zgeo">GEO z-coordinate</param>
+    /// <param name="xgei">GEI x-coordinate</param>
+    /// <param name="ygei">GEI y-coordinate</param>
+    /// <param name="zgei">GEI z-coordinate</param>
+    void GEOGEI_08(
+        float xgeo, float ygeo, float zgeo,
+        out float xgei, out float ygei, out float zgei);
+
+    /// <summary>
+    /// Converts dipole (MAG) to solar magnetic (SM) coordinates.
     /// </summary>
     /// <remarks>
     /// Before calling MAGSM_08, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
-    /// 2. If the values of iyear, iday, ihour, min, isec have changed.
+    /// 2. If the values of date/time have changed.
     /// 3. If the values of components of the solar wind flow velocity have changed.
-    /// A non-standard definition is implied here for the solar magnetic coordinate system: it is assumed that the XSM axis lies in the plane defined by the geodipole axis and the observed vector of the solar wind flow (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates, invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
+    /// A non-standard definition is implied here for the solar magnetic coordinate system:
+    /// it is assumed that the XSM axis lies in the plane defined by the geodipole axis and the observed vector of the solar wind flow
+    /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
+    /// invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="direct">
-    /// true : input is MAG coordinates (xmag, ymag, zmag) and output is SM coordinates (xsm, ysm, zsm).
-    /// false : input is SM coordinates (xsm, ysm, zsm) and output is MAG coordinates (xmag, ymag, zmag).
-    /// </param>
     /// <param name="xmag">MAG x-coordinate</param>
     /// <param name="ymag">MAG y-coordinate</param>
     /// <param name="zmag">MAG z-coordinate</param>
@@ -239,24 +291,45 @@ public interface IGeopack08
     /// <param name="ysm">SM y-coordinate</param>
     /// <param name="zsm">SM z-coordinate</param>
     void MAGSM_08(
-        bool direct,
         float xmag, float ymag, float zmag,
         out float xsm, out float ysm, out float zsm);
 
     /// <summary>
-    /// Converts solar magnetic (SM) to geocentric solar-wind (GSW) coordinates or vice versa.
+    /// Converts solar magnetic (SM) to dipole (MAG) coordinates.
+    /// </summary>
+    /// <remarks>
+    /// Before calling SMMAG_08, be sure to invoke the subroutine RECALC_08 in three cases:
+    /// 1. Before the first transformation of coordinates.
+    /// 2. If the values of date/time have changed.
+    /// 3. If the values of components of the solar wind flow velocity have changed.
+    /// A non-standard definition is implied here for the solar magnetic coordinate system:
+    /// it is assumed that the XSM axis lies in the plane defined by the geodipole axis and the observed vector of the solar wind flow
+    /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
+    /// invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
+    /// </remarks>
+    /// <param name="xsm">SM x-coordinate</param>
+    /// <param name="ysm">SM y-coordinate</param>
+    /// <param name="zsm">SM z-coordinate</param>
+    /// <param name="xmag">MAG x-coordinate</param>
+    /// <param name="ymag">MAG y-coordinate</param>
+    /// <param name="zmag">MAG z-coordinate</param>
+    void SMMAG_08(
+        float xsm, float ysm, float zsm,
+        out float xmag, out float ymag, out float zmag);
+
+    /// <summary>
+    /// Converts solar magnetic (SM) to geocentric solar-wind (GSW) coordinates.
     /// </summary>
     /// <remarks>
     /// Before calling SMGSW_08, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
-    /// 2. If the values of iyear, iday, ihour, min, isec have been changed.
+    /// 2. If the values of date/time have been changed.
     /// 3. If the values of components of the solar wind flow velocity have changed.
-    /// A non-standard definition is implied here for the solar magnetic (SM) coordinate system: it is assumed that the XSM axis lies in the plane defined by the geodipole axis and the observed vector of the solar wind flow (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates, invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
+    /// A non-standard definition is implied here for the solar magnetic (SM) coordinate system:
+    /// it is assumed that the XSM axis lies in the plane defined by the geodipole axis and the observed vector of the solar wind flow
+    /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
+    /// invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="direct">
-    /// true : input is SM coordinates (xsm, ysm, zsm) and output is GSW coordinates (xgsw, ygsw, zgsw).
-    /// false : input is GSW coordinates (xgsw, ygsw, zgsw) and output is SM coordinates (xsm, ysm, zsm).
-    /// </param>
     /// <param name="xsm">SM x-coordinate</param>
     /// <param name="ysm">SM y-coordinate</param>
     /// <param name="zsm">SM z-coordinate</param>
@@ -264,24 +337,44 @@ public interface IGeopack08
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
     void SMGSW_08(
-        bool direct,
         float xsm, float ysm, float zsm,
         out float xgsw, out float ygsw, out float zgsw);
 
     /// <summary>
-    /// Converts geographic (GEO) to geocentric solar-wind (GSW) coordinates or vice versa.
+    /// Converts geocentric solar-wind (GSW) to solar magnetic (SM) coordinates.
+    /// </summary>
+    /// <remarks>
+    /// Before calling GSWSM_08, be sure to invoke the subroutine RECALC_08 in three cases:
+    /// 1. Before the first transformation of coordinates.
+    /// 2. If the values of date/time have been changed.
+    /// 3. If the values of components of the solar wind flow velocity have changed.
+    /// A non-standard definition is implied here for the solar magnetic (SM) coordinate system:
+    /// it is assumed that the XSM axis lies in the plane defined by the geodipole axis and the observed vector of the solar wind flow
+    /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
+    /// invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
+    /// </remarks>
+    /// <param name="xgsw">GSW x-coordinate</param>
+    /// <param name="ygsw">GSW y-coordinate</param>
+    /// <param name="zgsw">GSW z-coordinate</param>
+    /// <param name="xsm">SM x-coordinate</param>
+    /// <param name="ysm">SM y-coordinate</param>
+    /// <param name="zsm">SM z-coordinate</param>
+    void GSWSM_08(
+        float xgsw, float ygsw, float zgsw,
+        out float xsm, out float ysm, out float zsm);
+
+    /// <summary>
+    /// Converts geographic (GEO) to geocentric solar-wind (GSW) coordinates.
     /// </summary>
     /// <remarks>
     /// Before calling GEOGSW_08, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
-    /// 2. If the values of iyear, iday, ihour, min, isec have changed.
+    /// 2. If the values of date/time have changed.
     /// 3. If the values of components of the solar wind flow velocity have changed.
-    /// This subroutine converts GEO vectors to and from the solar-wind GSW coordinate system, taking into account possible deflections of the solar wind direction from strictly radial. Before converting to/from standard GSM coordinates, invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
+    /// This subroutine converts GEO vectors to and from the solar-wind GSW coordinate system,
+    /// taking into account possible deflections of the solar wind direction from strictly radial.
+    /// Before converting to/from standard GSM coordinates, invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="direct">
-    /// true : input is GEO coordinates (xgeo, ygeo, zgeo) and output is GSW coordinates (xgsw, ygsw, zgsw).
-    /// false : input is GSW coordinates (xgsw, ygsw, zgsw) and output is GEO coordinates (xgeo, ygeo, zgeo).
-    /// </param>
     /// <param name="xgeo">GEO x-coordinate</param>
     /// <param name="ygeo">GEO y-coordinate</param>
     /// <param name="zgeo">GEO z-coordinate</param>
@@ -289,33 +382,62 @@ public interface IGeopack08
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
     void GEOGSW_08(
-        bool direct,
         float xgeo, float ygeo, float zgeo,
         out float xgsw, out float ygsw, out float zgsw);
 
     /// <summary>
-    /// Converts vertical local height (altitude) H and geodetic latitude XMU into geocentric coordinates R and THETA,
-    /// as well as performs the inverse transformation from {R, THETA} to {H, XMU}.
+    /// Converts geocentric solar-wind (GSW) to geographic (GEO) coordinates.
+    /// </summary>
+    /// <remarks>
+    /// Before calling GSWGEO_08, be sure to invoke the subroutine RECALC_08 in three cases:
+    /// 1. Before the first transformation of coordinates.
+    /// 2. If the values of date/time have changed.
+    /// 3. If the values of components of the solar wind flow velocity have changed.
+    /// This subroutine converts GEO vectors to and from the solar-wind GSW coordinate system,
+    /// taking into account possible deflections of the solar wind direction from strictly radial.
+    /// Before converting to/from standard GSM coordinates, invoke RECALC_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
+    /// </remarks>
+    /// <param name="xgsw">GSW x-coordinate</param>
+    /// <param name="ygsw">GSW y-coordinate</param>
+    /// <param name="zgsw">GSW z-coordinate</param>
+    /// <param name="xgeo">GEO x-coordinate</param>
+    /// <param name="ygeo">GEO y-coordinate</param>
+    /// <param name="zgeo">GEO z-coordinate</param>
+    void GSWGEO_08(
+        float xgsw, float ygsw, float zgsw,
+        out float xgeo, out float ygeo, out float zgeo);
+
+    /// <summary>
+    /// Converts vertical local height (altitude) H and geodetic latitude XMU into geocentric coordinates R and THETA.
     /// </summary>
     /// <remarks>
     /// The subroutine uses World Geodetic System WGS84 parameters for the Earth's ellipsoid. The angular quantities
-    /// (geo colatitude THETA and geodetic latitude XMU) are in radians, and the distances (geocentric radius R and
+    /// (geo co-latitude THETA and geodetic latitude XMU) are in radians, and the distances (geocentric radius R and
     /// altitude H above the Earth's ellipsoid) are in kilometers.
-    /// If J > 0, the transformation is made from geodetic to geocentric coordinates using simple direct equations.В
-    /// If J < 0, the inverse transformation from geocentric to geodetic coordinates is made by means of a fast iterative algorithm.
     /// </remarks>
-    /// <param name="j">
-    /// If j > 0: input is geodetic coordinates (H, XMU) and output is geocentric coordinates (R, THETA).
-    /// If j < 0: input is geocentric coordinates (R, THETA) and output is geodetic coordinates (H, XMU).
-    /// </param>
     /// <param name="h">Altitude (km) for geodetic input or geocentric radius (km) for geocentric input</param>
-    /// <param name="xmu">Geodetic latitude (radians) for geodetic input or colatitude (radians) for geocentric input</param>
+    /// <param name="xmu">Geodetic latitude (radians) for geodetic input or co-latitude (radians) for geocentric input</param>
     /// <param name="r">Geocentric radius (km) for geocentric output or altitude (km) for geodetic output</param>
-    /// <param name="theta">Colatitude (radians) for geocentric output or geodetic latitude (radians) for geodetic output</param>
+    /// <param name="theta">Co-latitude (radians) for geocentric output or geodetic latitude (radians) for geodetic output</param>
     void GEODGEO_08(
-        int j,
         float h, float xmu,
         out float r, out float theta);
+
+    /// <summary>
+    /// Converts geocentric coordinates R and THETA into vertical local height (altitude) H and geodetic latitude XMU.
+    /// </summary>
+    /// <remarks>
+    /// The subroutine uses World Geodetic System WGS84 parameters for the Earth's ellipsoid. The angular quantities
+    /// (geo co-latitude THETA and geodetic latitude XMU) are in radians, and the distances (geocentric radius R and
+    /// altitude H above the Earth's ellipsoid) are in kilometers.
+    /// </remarks>
+    /// <param name="h">Altitude (km) for geodetic input or geocentric radius (km) for geocentric input</param>
+    /// <param name="xmu">Geodetic latitude (radians) for geodetic input or co-latitude (radians) for geocentric input</param>
+    /// <param name="r">Geocentric radius (km) for geocentric output or altitude (km) for geodetic output</param>
+    /// <param name="theta">Co-latitude (radians) for geocentric output or geodetic latitude (radians) for geodetic output</param>
+    void GEOGEOD_08(
+        float r, float theta,
+        out float h, out float xmu);
 
     /// <summary>
     /// Calculates the components of the right-hand side vector in the geomagnetic field line equation.

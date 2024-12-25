@@ -2,8 +2,7 @@ namespace AuroraScienceHub.Geopack.Geopack08;
 
 public sealed partial class Geopack08
 {
-    public void SMGSW_08(
+    public void SMMAG_08(
         float xsm, float ysm, float zsm,
-        out float xgsw, out float ygsw, out float zgsw)
-        => throw new NotImplementedException();
+        out float xmag, out float ymag, out float zmag) => throw new NotImplementedException();
 }
