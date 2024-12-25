@@ -1,6 +1,6 @@
 namespace AuroraScienceHub.Geopack.Interfaces;
 
-public interface IT89D_SP
+public interface IT89
 {
     /// <summary>
     /// Computes GSM components of the magnetic field produced by extra terrestrial current systems in the magnetosphere.

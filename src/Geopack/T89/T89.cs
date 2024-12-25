@@ -2,7 +2,7 @@ using AuroraScienceHub.Geopack.Interfaces;
 
 namespace AuroraScienceHub.Geopack.T89;
 
-public sealed class T89 : IT89D_SP
+public sealed class T89 : IT89
 {
     public void T89D_SP(
         int iopt,
