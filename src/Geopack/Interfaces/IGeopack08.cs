@@ -457,11 +457,11 @@ public interface IGeopack08
     /// <param name="inname">Name of the subroutine for the internal part of the total field</param>
     void RHAND_08(
         float x, float y, float z,
-        out float r1, out float r2, out float r3,
         int iopt,
         float[] parmod,
         string exname,
-        string inname);
+        string inname,
+        out float r1, out float r2, out float r3);
 
     /// <summary>
     /// Re-calculates the input values {X, Y, Z} (in GSW coordinates) for any point on a field line,
@@ -493,13 +493,13 @@ public interface IGeopack08
     /// <param name="exname">Name of the subroutine for the external field model</param>
     /// <param name="inname">Name of the subroutine for the internal field model</param>
     void STEP_08(
-        float x, float y, float z,
         float ds, float dsmax,
         float errin,
         int iopt,
         float[] parmod,
         string exname,
-        string inname);
+        string inname,
+        out float x, out float y, out float z);
 
     /// <summary>
     /// Traces a field line from an arbitrary point in space to the Earth's surface or to a model limiting boundary.
@@ -548,10 +548,10 @@ public interface IGeopack08
         float[] parmod,
         string exname,
         string inname,
-        out float xf, out float yf, out float zf,
         float[] xx, float[] yy, float[] zz,
-        out int l,
-        int lmax);
+        int lmax,
+        out float xf, out float yf, out float zf,
+        out int l);
 
     /// <summary>
     /// For any point in space with coordinates (XGSW, YGSW, ZGSW) and specified conditions
