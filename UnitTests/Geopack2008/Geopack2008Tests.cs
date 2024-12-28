@@ -12,8 +12,7 @@ public class Geopack2008
     public void Test1()
     {
         // Arrange
-        var data = TestDataParser
-            .ReadDataFromFile("../../../Geopack2008/TestData/OriginalDataSet.dat");
+        var data = TestDataParser.ReadDataFromFile("../../../Geopack2008/TestData/OriginalDataSet.dat");
 
         var testData = TestDataParser.Parse(data);
         TestDataParser.FillSolarWindVelocity(testData);
