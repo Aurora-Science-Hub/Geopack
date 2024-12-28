@@ -5,16 +5,15 @@ namespace UnitTests.Geopack2008.TestData;
 public static class TestDataParser
 {
     /// <summary>
-    /// Читает данные из файла
+    /// Read data from file
     /// </summary>
     /// <param name="path">Путь к файлу</param>
     public static string ReadDataFromFile(string path) => File.ReadAllText(path);
 
     /// <summary>
-    /// Парсер данных для теста
+    /// Parse test data
     /// </summary>
-    /// <param name="data"> Данные тестовые </param>
-    /// <exception cref="FormatException"></exception>
+    /// <param name="data"> Test data </param>
     public static TestData Parse(string data)
     {
         var lines = data.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);

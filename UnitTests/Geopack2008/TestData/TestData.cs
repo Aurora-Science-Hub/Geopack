@@ -3,7 +3,7 @@
 public sealed class TestData
 {
     /// <summary>
-    /// Дата и время
+    /// Date and Time
     /// </summary>
     public DateTime DateTime { get; set; }
 
@@ -23,27 +23,27 @@ public sealed class TestData
     public float VGSEZ { get; set; }
 
     /// <summary>
-    /// Давление плазмы солнечного ветра
+    /// Solar wind pressure
     /// </summary>
     public float SolarWindPressure { get; set; }
 
     /// <summary>
-    /// Индекс Dst
+    /// Dst index
     /// </summary>
     public float DstIndex { get; set; }
 
     /// <summary>
-    /// Y-компонента межпланетного магнитного поля
+    /// Y-component of the interplanetary magnetic field
     /// </summary>
     public float ByIMF { get; set; }
 
     /// <summary>
-    /// Z-компонента межпланетного магнитного поля
+    /// Z-component of the interplanetary magnetic field
     /// </summary>
     public float BzIMF { get; set; }
 
     /// <summary>
-    /// Координаты точек линии магнитного поля
+    /// Field line coordinates
     /// </summary>
     public List<(float X, float Y, float Z)> FieldLineCoordinates { get; set; } = [];
 }
