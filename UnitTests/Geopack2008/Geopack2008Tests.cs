@@ -24,7 +24,7 @@ public class Geopack2008
         // Act
         _geopack2008.RECALC_08(testData.DateTime, testData.VGSEX, testData.VGSEY, testData.VGSEZ);
 
-
+        // Assert
         data.Should().NotBeNull();
     }
 }
