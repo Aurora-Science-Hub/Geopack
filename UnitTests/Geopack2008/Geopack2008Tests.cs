@@ -6,24 +6,66 @@ namespace UnitTests.Geopack2008;
 
 public class Geopack2008
 {
+    private const float Deg2Rad = MathF.PI / 180.0f;
     private readonly Geopack08 _geopack2008 = new();
 
-    [Fact]
-    public void Test1()
+    [Fact(DisplayName = "Basic test: Trace_08 with T96 external model should construct correct magnetic field line")]
+    public void Trace08_Witht96ExternalModel_ShouldBeCorrect()
     {
         // Arrange
-        var data = TestDataParser.ReadDataFromFile("../../../Geopack2008/TestData/OriginalDataSet.dat");
-
-        var testData = TestDataParser.Parse(data);
-        TestDataParser.FillSolarWindVelocity(testData);
+        var rawData = TestDataParser.ReadBasicOriginalDataFromFile();
+        var testData = TestDataParser.ParseTestData(rawData);
+        testData.FillBasicOriginalDataSolarWindVelocity();
 
         // T96 test inputs
-        var parmod = new List<float> { testData.SolarWindPressure, testData.DstIndex, testData.ByIMF, testData.BzIMF };
+        float[] parmod = [testData.SolarWindPressure, testData.DstIndex, testData.ByIMF, testData.BzIMF];
+
+        // The line will be traced from a ground (Re = 1.0) footpoint
+        // with the following geographic coordinates
+        var geoLat = 75.0f;
+        var geoLon = 45.0f;
+        var re = 1.0f;
+
+        // TRACE inputs
+        var dsmax = 1.0f;
+        var err = 0.0001f;
+        var rlim = 60.0f;
+        var r0 = 1.0f;
+        var iopt = 0;
 
         // Act
+        // Calculate transformation matrix coefficients
         _geopack2008.RECALC_08(testData.DateTime, testData.VGSEX, testData.VGSEY, testData.VGSEZ);
 
+        // Convert Latitude to co-Latitude & Degrees to Radians
+        var coLat = (90.0f - geoLat) * Deg2Rad;
+        var xLon = geoLon * Deg2Rad;
+
+        // Convert spherical geographic coordinates to Cartesian
+        _geopack2008.SPHCAR_08(
+            re, coLat, xLon,
+            out var xgeo, out var ygeo, out var zgeo);
+
+        // Convert spherical coordinates to Cartesian
+        _geopack2008.GEOGSW_08(
+            xgeo, ygeo, zgeo,
+            out var xgsw, out var ygsw, out var zgsw);
+
+        // Trace the field line
+        _geopack2008.TRACE_NS_08(
+            xgsw, ygsw, zgsw, dsmax, err, rlim, r0, iopt,
+            parmod, "T96", "IGRF", 100, out var xx, out var yy, out var zz,
+            out var xf, out var yf, out var zf, out var l);
+
         // Assert
-        data.Should().NotBeNull();
+        // Extract the expected coordinates from FieldLineCoordinates
+        var expectedX = testData.FieldLineCoordinates.Select(coord => coord.X).ToArray();
+        var expectedY = testData.FieldLineCoordinates.Select(coord => coord.Y).ToArray();
+        var expectedZ = testData.FieldLineCoordinates.Select(coord => coord.Z).ToArray();
+
+        // Assert
+        xx.Should().AllBeEquivalentTo(expectedX, options => options.WithStrictOrdering());
+        yy.Should().AllBeEquivalentTo(expectedY, options => options.WithStrictOrdering());
+        zz.Should().AllBeEquivalentTo(expectedZ, options => options.WithStrictOrdering());
     }
 }
