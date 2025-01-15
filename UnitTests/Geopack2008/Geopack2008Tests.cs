@@ -1,24 +1,24 @@
-﻿using AuroraScienceHub.Geopack.Geopack08;
-using UnitTests.Geopack2008.TestData;
+﻿using AuroraScienceHub.Geopack.UnitTests.Utils;
 using FluentAssertions;
 
-namespace UnitTests.Geopack2008;
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
 public class Geopack2008
 {
+    private const string ResourceName = "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.OriginalDataSet.dat";
     private const float Deg2Rad = MathF.PI / 180.0f;
-    private readonly Geopack08 _geopack2008 = new();
+    private readonly Geopack08.Geopack08 _geopack2008 = new();
 
     [Fact(DisplayName = "Basic test: Trace_08 with T96 external model should construct correct magnetic field line")]
-    public void Trace08_Witht96ExternalModel_ShouldBeCorrect()
+    public async Task Trace08_WithT96ExternalModel_ShouldBeCorrect()
     {
         // Arrange
-        var rawData = TestDataParser.ReadBasicOriginalDataFromFile();
-        var testData = TestDataParser.ParseTestData(rawData);
-        testData.FillBasicOriginalDataSolarWindVelocity();
+        var rawData = await EmbeddedResourceReader.ReadTextAsync(ResourceName);
+        var approvedData = GeopackDataParser.Parse(rawData);
+        approvedData.FillBasicOriginalDataSolarWindVelocity();
 
         // T96 test inputs
-        float[] parmod = [testData.SolarWindPressure, testData.DstIndex, testData.ByIMF, testData.BzIMF];
+        float[] parmod = [approvedData.SolarWindPressure, approvedData.DstIndex, approvedData.ByIMF, approvedData.BzIMF];
 
         // The line will be traced from a ground (Re = 1.0) footpoint
         // with the following geographic coordinates
@@ -35,7 +35,7 @@ public class Geopack2008
 
         // Act
         // Calculate transformation matrix coefficients
-        _geopack2008.RECALC_08(testData.DateTime, testData.VGSEX, testData.VGSEY, testData.VGSEZ);
+        _geopack2008.RECALC_08(approvedData.DateTime, approvedData.VGSEX, approvedData.VGSEY, approvedData.VGSEZ);
 
         // Convert Latitude to co-Latitude & Degrees to Radians
         var coLat = (90.0f - geoLat) * Deg2Rad;
@@ -59,13 +59,15 @@ public class Geopack2008
 
         // Assert
         // Extract the expected coordinates from FieldLineCoordinates
-        var expectedX = testData.FieldLineCoordinates.Select(coord => coord.X).ToArray();
-        var expectedY = testData.FieldLineCoordinates.Select(coord => coord.Y).ToArray();
-        var expectedZ = testData.FieldLineCoordinates.Select(coord => coord.Z).ToArray();
+        var expectedX = approvedData.FieldLineCoordinates.Select(coord => coord.X).ToArray();
+        var expectedY = approvedData.FieldLineCoordinates.Select(coord => coord.Y).ToArray();
+        var expectedZ = approvedData.FieldLineCoordinates.Select(coord => coord.Z).ToArray();
 
         // Assert
         xx.Should().AllBeEquivalentTo(expectedX, options => options.WithStrictOrdering());
         yy.Should().AllBeEquivalentTo(expectedY, options => options.WithStrictOrdering());
         zz.Should().AllBeEquivalentTo(expectedZ, options => options.WithStrictOrdering());
     }
+
+    //TODO: Add more tests for smaller procedures
 }

@@ -1,6 +1,6 @@
-﻿namespace UnitTests.Geopack2008.TestData;
+﻿namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
 
-public sealed class TestData
+public sealed record ApprovedGeopackData
 {
     /// <summary>
     /// Date and Time
