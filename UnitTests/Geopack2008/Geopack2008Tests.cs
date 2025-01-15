@@ -3,7 +3,7 @@ using FluentAssertions;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
-public class Geopack2008
+public class Geopack2008Tests
 {
     private const string ResourceName = "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.OriginalDataSet.dat";
     private const float Deg2Rad = MathF.PI / 180.0f;
