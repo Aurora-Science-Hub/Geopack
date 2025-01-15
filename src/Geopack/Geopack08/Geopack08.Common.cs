@@ -2,6 +2,17 @@ namespace AuroraScienceHub.Geopack.Geopack08;
 
 public sealed partial class Geopack08
 {
+    // Elements of the rotation matrices and other parameters
+    public static float ST0, CT0, SL0, CL0, CTCL, STCL, CTSL, STSL, SFI, CFI;
+    public static float SPS, CPS, DS3, CGST, SGST, PSI;
+    public static float A11, A21, A31, A12, A22, A32, A13, A23, A33;
+    public static float E11, E21, E31, E12, E22, E32, E13, E23, E33;
+
+    // Arrays for coefficients
+    public static readonly float[] G = new float[105];
+    public static readonly float[] H = new float[105];
+    public static readonly float[] REC = new float[105];
+
     private static readonly float[] G65 = new float[105]
     {
         0f, -30334f, -2119f, -1662f, 2997f, 1594f, 1297f, -2038f, 1292f, 856f, 957f, 804f, 479f, -390f, 252f, -219f,
