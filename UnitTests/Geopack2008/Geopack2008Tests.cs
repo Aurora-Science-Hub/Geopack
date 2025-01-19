@@ -35,7 +35,7 @@ public class Geopack2008Tests
 
         // Act
         // Calculate transformation matrix coefficients
-        _geopack2008.RECALC_08(approvedData.DateTime, approvedData.VGSEX, approvedData.VGSEY, approvedData.VGSEZ);
+        var (common1, common2) =_geopack2008.RECALC_08(approvedData.DateTime, approvedData.VGSEX, approvedData.VGSEY, approvedData.VGSEZ);
 
         // Convert Latitude to co-Latitude & Degrees to Radians
         var coLat = (90.0f - geoLat) * Deg2Rad;
