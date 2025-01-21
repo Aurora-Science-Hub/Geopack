@@ -26,14 +26,14 @@ public sealed partial class Geopack08
         }
 
         // Calculate the REC array
-        for (var N = 1; N <= 15; N++)
+        for (int N = 1; N <= 14; N++)
         {
-            var N2 = 2 * N - 1;
-            N2 *= (N2 - 2);
-            for (var M = 1; M <= N-1; M++)
+            int N2 = 2 * N - 1;
+            N2 = N2 * (N2 - 2);
+            for (int M = 1; M <= N; M++)
             {
-                var MN = N * (N - 1) / 2 + M;
-                Common2.REC[MN] = (float)((N - M) * (N + M - 2)) / N2;
+                int MN = N * (N - 1) / 2 + M;
+                Common2.REC[MN - 1] = (float)((N - M) * (N + M - 2)) / N2;
             }
         }
 
