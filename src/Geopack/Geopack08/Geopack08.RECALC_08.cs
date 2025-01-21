@@ -223,7 +223,7 @@ public sealed partial class Geopack08
     {
         var F2 = (IY + (IDAY - 1) / 365.25f - year1) / 5;
         var F1 = 1 - F2;
-        for (var N = 1; N <= 105; N++)
+        for (var N = 0; N <= 104; N++)
         {
             Common2.G[N] = G1[N] * F1 + G2[N] * F2;
             Common2.H[N] = H1[N] * F1 + H2[N] * F2;
