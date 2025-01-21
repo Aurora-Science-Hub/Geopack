@@ -80,7 +80,7 @@ public sealed partial class Geopack08
 
         // Extrapolate beyond 2025
         var DT = IY + (IDAY - 1) / 365.25f - 2025;
-        for (var N = 1; N <= 105; N++)
+        for (var N = 0; N <= 104; N++)
         {
             Common2.G[N] = G25[N];
             Common2.H[N] = H25[N];
