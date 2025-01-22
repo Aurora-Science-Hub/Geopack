@@ -84,7 +84,7 @@ public sealed partial class Geopack08
         {
             Common2.G[N] = G25[N];
             Common2.H[N] = H25[N];
-            if (N <= 45)
+            if (N <= 44)
             {
                 Common2.G[N] += DG25[N] * DT;
                 Common2.H[N] += DH25[N] * DT;
@@ -97,16 +97,16 @@ public sealed partial class Geopack08
         {
             var MN = N * (N - 1) / 2 + 1;
             S *= (2 * N - 3) / (float)(N - 1);
-            Common2.G[MN] *= S;
-            Common2.H[MN] *= S;
+            Common2.G[MN-1] *= S;
+            Common2.H[MN-1] *= S;
             var P = S;
             for (var M = 2; M <= N; M++)
             {
                 float AA = (M == 2) ? 2 : 1;
                 P *= (float)Math.Sqrt(AA * (N - M + 1) / (N + M - 2));
                 var MNN = MN + M - 1;
-                Common2.G[MNN] *= P;
-                Common2.H[MNN] *= P;
+                Common2.G[MNN-1] *= P;
+                Common2.H[MNN-1] *= P;
             }
         }
 
@@ -180,31 +180,31 @@ public sealed partial class Geopack08
         var Z3 = X1 * Y2 - X2 * Y1;
 
         // Elements of the matrix GSE to GSW
-        var E11 = S1 * X1 + S2 * X2 + S3 * X3;
-        var E12 = S1 * Y1 + S2 * Y2 + S3 * Y3;
-        var E13 = S1 * Z1 + S2 * Z2 + S3 * Z3;
-        var E21 = DY1 * X1 + DY2 * X2 + DY3 * X3;
-        var E22 = DY1 * Y1 + DY2 * Y2 + DY3 * Y3;
-        var E23 = DY1 * Z1 + DY2 * Z2 + DY3 * Z3;
-        var E31 = DZ1 * X1 + DZ2 * X2 + DZ3 * X3;
-        var E32 = DZ1 * Y1 + DZ2 * Y2 + DZ3 * Y3;
-        var E33 = DZ1 * Z1 + DZ2 * Z2 + DZ3 * Z3;
+        Common1.E11 = S1 * X1 + S2 * X2 + S3 * X3;
+        Common1.E12 = S1 * Y1 + S2 * Y2 + S3 * Y3;
+        Common1.E13 = S1 * Z1 + S2 * Z2 + S3 * Z3;
+        Common1.E21 = DY1 * X1 + DY2 * X2 + DY3 * X3;
+        Common1.E22 = DY1 * Y1 + DY2 * Y2 + DY3 * Y3;
+        Common1.E23 = DY1 * Z1 + DY2 * Z2 + DY3 * Z3;
+        Common1.E31 = DZ1 * X1 + DZ2 * X2 + DZ3 * X3;
+        Common1.E32 = DZ1 * Y1 + DZ2 * Y2 + DZ3 * Y3;
+        Common1.E33 = DZ1 * Z1 + DZ2 * Z2 + DZ3 * Z3;
 
         // Geodipole tilt angle in the GSW system
-        var SPS = DIP1 * X1 + DIP2 * X2 + DIP3 * X3;
-        var CPS = (float)Math.Sqrt(1 - SPS * SPS);
-        var PSI = (float)Math.Asin(SPS);
+        Common1.SPS = DIP1 * X1 + DIP2 * X2 + DIP3 * X3;
+        Common1.CPS = (float)Math.Sqrt(1 - Common1.SPS * Common1.SPS);
+        Common1.PSI = (float)Math.Asin(Common1.SPS);
 
         // Elements of the matrix GEO to GSW
-        var A11 = X1 * Common1.CGST + X2 * Common1.SGST;
-        var A12 = -X1 * Common1.SGST + X2 * Common1.CGST;
-        var A13 = X3;
-        var A21 = Y1 * Common1.CGST + Y2 * Common1.SGST;
-        var A22 = -Y1 * Common1.SGST + Y2 * Common1.CGST;
-        var A23 = Y3;
-        var A31 = Z1 * Common1.CGST + Z2 * Common1.SGST;
-        var A32 = -Z1 * Common1.SGST + Z2 * Common1.CGST;
-        var A33 = Z3;
+        Common1.A11 = X1 * Common1.CGST + X2 * Common1.SGST;
+        Common1.A12 = -X1 * Common1.SGST + X2 * Common1.CGST;
+        Common1.A13 = X3;
+        Common1.A21 = Y1 * Common1.CGST + Y2 * Common1.SGST;
+        Common1.A22 = -Y1 * Common1.SGST + Y2 * Common1.CGST;
+        Common1.A23 = Y3;
+        Common1.A31 = Z1 * Common1.CGST + Z2 * Common1.SGST;
+        Common1.A32 = -Z1 * Common1.SGST + Z2 * Common1.CGST;
+        Common1.A33 = Z3;
 
         // Elements of the matrix MAG to SM
         var EXMAGX = Common1.CT0 * (Common1.CL0 * Common1.CGST - Common1.SL0 * Common1.SGST);
@@ -212,8 +212,8 @@ public sealed partial class Geopack08
         var EXMAGZ = -Common1.ST0;
         var EYMAGX = -(Common1.SL0 * Common1.CGST + Common1.CL0 * Common1.SGST);
         var EYMAGY = -(Common1.SL0 * Common1.SGST - Common1.CL0 * Common1.CGST);
-        var CFI = Y1 * EYMAGX + Y2 * EYMAGY;
-        var SFI = Y1 * EXMAGX + Y2 * EXMAGY + Y3 * EXMAGZ;
+        Common1.CFI = Y1 * EYMAGX + Y2 * EYMAGY;
+        Common1.SFI = Y1 * EXMAGX + Y2 * EXMAGY + Y3 * EXMAGZ;
 
         return (Common1, Common2);
     }

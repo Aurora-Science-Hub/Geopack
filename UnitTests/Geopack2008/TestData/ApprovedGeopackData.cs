@@ -43,7 +43,50 @@ public sealed record ApprovedGeopackData
     public float BzIMF { get; set; }
 
     /// <summary>
+    /// Common2 block coefficients
+    /// </summary>
+    public List<(float G, float H, float REC)>? Common2 { get; set; } = [];
+
+    /// <summary>
     /// Field line coordinates
     /// </summary>
-    public List<(float X, float Y, float Z)> FieldLineCoordinates { get; set; } = [];
+    public List<(float X, float Y, float Z)>? FieldLineCoordinates { get; set; } = [];
+
+    /// <summary>
+    /// Math conversion and matrix coefficients
+    /// </summary>
+    public float ST0 { get; set; }
+    public float CT0 { get; set; }
+    public float SL0 { get; set; }
+    public float CL0 { get; set; }
+    public float CTCL { get; set; }
+    public float STCL { get; set; }
+    public float CTSL { get; set; }
+    public float STSL { get; set; }
+    public float SFI { get; set; }
+    public float CFI { get; set; }
+    public float SPS { get; set; }
+    public float CPS { get; set; }
+    public float DS3 { get; set; }
+    public float CGST { get; set; }
+    public float SGST { get; set; }
+    public float PSI { get; set; }
+    public float A11 { get; set; }
+    public float A21 { get; set; }
+    public float A31 { get; set; }
+    public float A12  { get; set; }
+    public float A22 { get; set; }
+    public float A32 { get; set; }
+    public float A13 { get; set; }
+    public float A23 { get; set; }
+    public float A33 { get; set; }
+    public float E11 { get; set; }
+    public float E21 { get; set; }
+    public float E31 { get; set; }
+    public float E12 { get; set; }
+    public float E22 { get; set; }
+    public float E32 { get; set; }
+    public float E13 { get; set; }
+    public float E23 { get; set; }
+    public float E33 { get; set; }
 }

@@ -28,7 +28,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Geopack2008\TestData\OriginalDataSet.dat" />
+      <EmbeddedResource Include="Geopack2008\TestData\TraceDataSet.dat" />
+      <EmbeddedResource Include="Geopack2008\TestData\RecalcDataSet.dat" />
     </ItemGroup>
 
 </Project>

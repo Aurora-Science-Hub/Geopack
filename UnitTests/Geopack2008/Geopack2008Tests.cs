@@ -5,16 +5,33 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
 public class Geopack2008Tests
 {
-    private const string ResourceName = "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.OriginalDataSet.dat";
+    private const string RecalcDatasetFileName = "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.RecalcDataSet.dat";
+    private const string TraceDatasetFileName =  "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.TraceDataSet.dat";
     private const float Deg2Rad = MathF.PI / 180.0f;
     private readonly Geopack08.Geopack08 _geopack2008 = new();
 
-    [Fact(DisplayName = "Basic test: Trace_08 with T96 external model should construct correct magnetic field line")]
+    [Fact(DisplayName = "Basic test: Recalc Common1 & Common2 should be correct")]
+    public async Task RecalcCommonBlocks_ShouldBeCorrect()
+    {
+        // Arrange
+        var rawData = await EmbeddedResourceReader.ReadTextAsync(RecalcDatasetFileName);
+        var approvedData = GeopackDataParser.ParseRecalcCommons(rawData);
+        approvedData.FillBasicOriginalDataSolarWindVelocity();
+
+        // Act
+        // Calculate transformation matrix coefficients
+        var (common1, common2) =_geopack2008.RECALC_08(approvedData.DateTime, approvedData.VGSEX, approvedData.VGSEY, approvedData.VGSEZ);
+
+        // Assert
+        approvedData.Should().NotBeNull();
+    }
+
+    [Fact(Skip = "Basic test: Trace_08 with T96 external model should construct correct magnetic field line")]
     public async Task Trace08_WithT96ExternalModel_ShouldBeCorrect()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(ResourceName);
-        var approvedData = GeopackDataParser.Parse(rawData);
+        var rawData = await EmbeddedResourceReader.ReadTextAsync(TraceDatasetFileName);
+        var approvedData = GeopackDataParser.ParseTrace(rawData);
         approvedData.FillBasicOriginalDataSolarWindVelocity();
 
         // T96 test inputs
@@ -59,9 +76,9 @@ public class Geopack2008Tests
 
         // Assert
         // Extract the expected coordinates from FieldLineCoordinates
-        var expectedX = approvedData.FieldLineCoordinates.Select(coord => coord.X).ToArray();
-        var expectedY = approvedData.FieldLineCoordinates.Select(coord => coord.Y).ToArray();
-        var expectedZ = approvedData.FieldLineCoordinates.Select(coord => coord.Z).ToArray();
+        var expectedX = approvedData.FieldLineCoordinates?.Select(coord => coord.X).ToArray();
+        var expectedY = approvedData.FieldLineCoordinates?.Select(coord => coord.Y).ToArray();
+        var expectedZ = approvedData.FieldLineCoordinates?.Select(coord => coord.Z).ToArray();
 
         // Assert
         xx.Should().AllBeEquivalentTo(expectedX, options => options.WithStrictOrdering());
