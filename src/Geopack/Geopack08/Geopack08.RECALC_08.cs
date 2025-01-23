@@ -7,11 +7,11 @@ public sealed partial class Geopack08
 
     public (Common1, Common2) RECALC_08(DateTime dateTime, float vgsex, float vgsey, float vgsez)
     {
-        var IY = dateTime.Year;
-        var IDAY = dateTime.DayOfYear;
-        var IHOUR = dateTime.Hour;
-        var MIN = dateTime.Minute;
-        var ISEC = dateTime.Second;
+        int IY = dateTime.Year;
+        int IDAY = dateTime.DayOfYear;
+        int IHOUR = dateTime.Hour;
+        int MIN = dateTime.Minute;
+        int ISEC = dateTime.Second;
 
         if (IY < 1965)
         {
@@ -79,15 +79,18 @@ public sealed partial class Geopack08
         }
 
         // Extrapolate beyond 2025
-        var DT = IY + (IDAY - 1) / 365.25f - 2025;
-        for (var N = 0; N <= 104; N++)
+        if (IY >= 2025)
         {
-            Common2.G[N] = G25[N];
-            Common2.H[N] = H25[N];
-            if (N <= 44)
+            var DT = IY + (IDAY - 1) / 365.25f - 2025;
+            for (var N = 0; N <= 104; N++)
             {
-                Common2.G[N] += DG25[N] * DT;
-                Common2.H[N] += DH25[N] * DT;
+                Common2.G[N] = G25[N];
+                Common2.H[N] = H25[N];
+                if (N <= 44)
+                {
+                    Common2.G[N] += DG25[N] * DT;
+                    Common2.H[N] += DH25[N] * DT;
+                }
             }
         }
 
@@ -221,12 +224,12 @@ public sealed partial class Geopack08
     private void Interpolate(int year1, int year2, int IY, int IDAY, float[] G1, float[] G2, float[] H1,
         float[] H2)
     {
-        var F2 = (IY*1.0f + (IDAY*1.0f - 1f) / 365.25f - year1) / 5f;
-        // double F1 = 1.0f - F2;
-        for (var N = 0; N <= 104; N++)
+        float F2 = (IY + (IDAY - 1) / 365.25f - year1) / 5f;
+        float F1 = 1.0f - F2;
+        for (int N = 0; N <= 104; N++)
         {
-            // Common2.G[N] = G1[N] * F1 + G2[N] * F2;
-            // Common2.H[N] = H1[N] * F1 + H2[N] * F2;
+            Common2.G[N] = G1[N] * F1 + G2[N] * F2;
+            Common2.H[N] = H1[N] * F1 + H2[N] * F2;
         }
     }
 }

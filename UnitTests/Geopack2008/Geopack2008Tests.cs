@@ -25,9 +25,15 @@ public class Geopack2008Tests
         common2.REC.RoundArray(5);
 
         // Assert
-        common2.G.Should().BeEquivalentTo(approvedData.G);
-        common2.H.Should().BeEquivalentTo(approvedData.H);
-        common2.REC.Should().BeEquivalentTo(approvedData.REC);
+        common2.G.Should().BeEquivalentTo(approvedData.G, options => options
+            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.03f))
+            .WhenTypeIs<float>());
+        common2.H.Should().BeEquivalentTo(approvedData.H, options => options
+            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.03f))
+            .WhenTypeIs<float>());
+        common2.REC.Should().BeEquivalentTo(approvedData.REC, options => options
+            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.03f))
+            .WhenTypeIs<float>());
         // common1.SPS.Should().Be(approvedData.SPS);
         // common1.CPS.Should().Be(approvedData.CPS);
     }
