@@ -75,11 +75,9 @@ public static class GeopackDataParser
                 continue;
             }
 
-            var g = float.Parse(ghrec[0], NumberStyles.Float);
-            var h = float.Parse(ghrec[1], NumberStyles.Float);
-            var rec = float.Parse(ghrec[2], NumberStyles.Float);
-
-            result.Common2?.Add((g, h, rec));
+            result.G?.Add(MathF.Round(float.Parse(ghrec[0], NumberStyles.Float), 5));
+            result.H?.Add(MathF.Round(float.Parse(ghrec[1], NumberStyles.Float), 5));
+            result.REC?.Add(MathF.Round(float.Parse(ghrec[2], NumberStyles.Float), 5));
         }
 
         return result;

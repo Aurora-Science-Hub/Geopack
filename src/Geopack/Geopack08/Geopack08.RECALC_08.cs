@@ -221,12 +221,12 @@ public sealed partial class Geopack08
     private void Interpolate(int year1, int year2, int IY, int IDAY, float[] G1, float[] G2, float[] H1,
         float[] H2)
     {
-        var F2 = (IY + (IDAY - 1) / 365.25f - year1) / 5;
-        var F1 = 1 - F2;
+        var F2 = (IY*1.0f + (IDAY*1.0f - 1f) / 365.25f - year1) / 5f;
+        // double F1 = 1.0f - F2;
         for (var N = 0; N <= 104; N++)
         {
-            Common2.G[N] = G1[N] * F1 + G2[N] * F2;
-            Common2.H[N] = H1[N] * F1 + H2[N] * F2;
+            // Common2.G[N] = G1[N] * F1 + G2[N] * F2;
+            // Common2.H[N] = H1[N] * F1 + H2[N] * F2;
         }
     }
 }

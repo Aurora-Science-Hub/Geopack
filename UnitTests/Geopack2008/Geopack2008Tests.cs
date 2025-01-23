@@ -16,14 +16,20 @@ public class Geopack2008Tests
         // Arrange
         var rawData = await EmbeddedResourceReader.ReadTextAsync(RecalcDatasetFileName);
         var approvedData = GeopackDataParser.ParseRecalcCommons(rawData);
-        approvedData.FillBasicOriginalDataSolarWindVelocity();
 
         // Act
         // Calculate transformation matrix coefficients
         var (common1, common2) =_geopack2008.RECALC_08(approvedData.DateTime, approvedData.VGSEX, approvedData.VGSEY, approvedData.VGSEZ);
+        common2.G.RoundArray(5);
+        common2.H.RoundArray(5);
+        common2.REC.RoundArray(5);
 
         // Assert
-        approvedData.Should().NotBeNull();
+        common2.G.Should().BeEquivalentTo(approvedData.G);
+        common2.H.Should().BeEquivalentTo(approvedData.H);
+        common2.REC.Should().BeEquivalentTo(approvedData.REC);
+        // common1.SPS.Should().Be(approvedData.SPS);
+        // common1.CPS.Should().Be(approvedData.CPS);
     }
 
     [Fact(Skip = "Basic test: Trace_08 with T96 external model should construct correct magnetic field line")]

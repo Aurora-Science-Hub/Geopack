@@ -42,10 +42,9 @@ public sealed record ApprovedGeopackData
     /// </summary>
     public float BzIMF { get; set; }
 
-    /// <summary>
-    /// Common2 block coefficients
-    /// </summary>
-    public List<(float G, float H, float REC)>? Common2 { get; set; } = [];
+    public List<float>?  G { get; set; } = [];
+    public List<float>?  H { get; set; } = [];
+    public List<float>?  REC { get; set; } = [];
 
     /// <summary>
     /// Field line coordinates
