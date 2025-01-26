@@ -96,13 +96,13 @@ public sealed partial class Geopack08
 
         // Schmidt normalization factors
         float S = 1;
-        for (var N = 2; N <= 14; N++)
+        for (int N = 2; N <= 14; N++)
         {
-            var MN = N * (N - 1) / 2 + 1;
+            int MN = N * (N - 1) / 2 + 1;
             S *= (2 * N - 3) / (float)(N - 1);
             Common2.G[MN-1] *= S;
             Common2.H[MN-1] *= S;
-            var P = S;
+            float P = S;
             for (var M = 2; M <= N; M++)
             {
                 float AA = (M == 2) ? 2 : 1;
@@ -114,9 +114,9 @@ public sealed partial class Geopack08
         }
 
         // Calculate GEO components of the unit vector EzMAG
-        var G_10 = -Common2.G[2];
-        var G_11 = Common2.G[3];
-        var H_11 = Common2.H[3];
+        var G_10 = -Common2.G[1];
+        var G_11 = Common2.G[2];
+        var H_11 = Common2.H[2];
         var SQ = G_11 * G_11 + H_11 * H_11;
         var SQQ = (float)Math.Sqrt(SQ);
         var SQR = (float)Math.Sqrt(G_10 * G_10 + SQ);

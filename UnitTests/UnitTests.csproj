@@ -26,14 +26,9 @@
     <ItemGroup>
       <ProjectReference Include="..\src\Geopack\Geopack.csproj" />
     </ItemGroup>
-
+  
     <ItemGroup>
-      <EmbeddedResource Include="Geopack2008\TestData\RecalcDataSet.dat" />
-      <EmbeddedResource Include="Geopack2008\TestData\TraceDataSet.dat" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Geopack2008\TestData\RecalcDataSet.for" />
+      <EmbeddedResource Include="Geopack2008\TestData\*.dat" />
     </ItemGroup>
 
 </Project>

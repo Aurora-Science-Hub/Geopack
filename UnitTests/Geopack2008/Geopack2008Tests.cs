@@ -20,22 +20,51 @@ public class Geopack2008Tests
         // Act
         // Calculate transformation matrix coefficients
         var (common1, common2) =_geopack2008.RECALC_08(approvedData.DateTime, approvedData.VGSEX, approvedData.VGSEY, approvedData.VGSEZ);
-        common2.G.RoundArray(5);
-        common2.H.RoundArray(5);
-        common2.REC.RoundArray(5);
 
         // Assert
         common2.G.Should().BeEquivalentTo(approvedData.G, options => options
-            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.03f))
+            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.00013f))
             .WhenTypeIs<float>());
         common2.H.Should().BeEquivalentTo(approvedData.H, options => options
-            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.03f))
+            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.00013f))
             .WhenTypeIs<float>());
         common2.REC.Should().BeEquivalentTo(approvedData.REC, options => options
-            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.03f))
+            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.00005f))
             .WhenTypeIs<float>());
-        // common1.SPS.Should().Be(approvedData.SPS);
-        // common1.CPS.Should().Be(approvedData.CPS);
+        common1.ST0.Should().BeApproximately(approvedData.ST0, 0.0000001F);
+        common1.CT0.Should().BeApproximately(approvedData.CT0, 0.0000001F);
+        common1.SL0.Should().BeApproximately(approvedData.SL0, 0.0000001F);
+        common1.CL0.Should().BeApproximately(approvedData.CL0, 0.0000001F);
+        common1.CTCL.Should().BeApproximately(approvedData.CTCL, 0.0000001F);
+        common1.STCL.Should().BeApproximately(approvedData.STCL, 0.0000001F);
+        common1.CTSL.Should().BeApproximately(approvedData.CTSL, 0.0000001F);
+        common1.STSL.Should().BeApproximately(approvedData.STSL, 0.0000001F);
+        common1.SFI.Should().BeApproximately(approvedData.SFI, 0.00004F);
+        common1.CFI.Should().BeApproximately(approvedData.CFI, 0.00007F);
+        common1.SPS.Should().BeApproximately(approvedData.SPS, 0.000008F);
+        common1.CPS.Should().BeApproximately(approvedData.CPS, 0.000003F);
+        common1.DS3.Should().BeApproximately(approvedData.DS3, 0.0000001F);
+        common1.CGST.Should().BeApproximately(approvedData.CGST, 0.000006F);
+        common1.SGST.Should().BeApproximately(approvedData.SGST, 0.000007F);
+        common1.PSI.Should().BeApproximately(approvedData.PSI, 0.000009F);
+        common1.A11.Should().BeApproximately(approvedData.A11, 0.00005F);
+        common1.A21.Should().BeApproximately(approvedData.A21, 0.00005F);
+        common1.A31.Should().BeApproximately(approvedData.A31, 0.00003F);
+        common1.A12.Should().BeApproximately(approvedData.A12, 0.00005F);
+        common1.A22.Should().BeApproximately(approvedData.A22, 0.00005F);
+        common1.A32.Should().BeApproximately(approvedData.A32, 0.00005F);
+        common1.A13.Should().BeApproximately(approvedData.A13, 0.000004F);
+        common1.A23.Should().BeApproximately(approvedData.A23, 0.000006F);
+        common1.A33.Should().BeApproximately(approvedData.A33, 0.0000003F);
+        common1.E11.Should().BeApproximately(approvedData.E11, 0.000004F);
+        common1.E21.Should().BeApproximately(approvedData.E21, 0.00007F);
+        common1.E31.Should().BeApproximately(approvedData.E31, 0.0000001F);
+        common1.E12.Should().BeApproximately(approvedData.E12, 0.00007F);
+        common1.E22.Should().BeApproximately(approvedData.E22, 0.0000007F);
+        common1.E32.Should().BeApproximately(approvedData.E32, 0.00002F);
+        common1.E13.Should().BeApproximately(approvedData.E13, 0.000008F);
+        common1.E23.Should().BeApproximately(approvedData.E23, 0.00002F);
+        common1.E33.Should().BeApproximately(approvedData.E33, 0.000003F);
     }
 
     [Fact(Skip = "Basic test: Trace_08 with T96 external model should construct correct magnetic field line")]
