@@ -41,40 +41,40 @@ public sealed partial class Geopack08
         {
             // Interpolation and extrapolation logic
             case < 1970:
-                Interpolate(1965, 1970, IY, IDAY, G65, G70, H65, H70);
+                Interpolate(1965, IY, IDAY, G65, G70, H65, H70);
                 break;
             case < 1975:
-                Interpolate(1970, 1975, IY, IDAY, G70, G75, H70, H75);
+                Interpolate(1970, IY, IDAY, G70, G75, H70, H75);
                 break;
             case < 1980:
-                Interpolate(1975, 1980, IY, IDAY, G75, G80, H75, H80);
+                Interpolate(1975, IY, IDAY, G75, G80, H75, H80);
                 break;
             case < 1985:
-                Interpolate(1980, 1985, IY, IDAY, G80, G85, H80, H85);
+                Interpolate(1980, IY, IDAY, G80, G85, H80, H85);
                 break;
             case < 1990:
-                Interpolate(1985, 1990, IY, IDAY, G85, G90, H85, H90);
+                Interpolate(1985, IY, IDAY, G85, G90, H85, H90);
                 break;
             case < 1995:
-                Interpolate(1990, 1995, IY, IDAY, G90, G95, H90, H95);
+                Interpolate(1990, IY, IDAY, G90, G95, H90, H95);
                 break;
             case < 2000:
-                Interpolate(1995, 2000, IY, IDAY, G95, G00, H95, H00);
+                Interpolate(1995, IY, IDAY, G95, G00, H95, H00);
                 break;
             case < 2005:
-                Interpolate(2000, 2005, IY, IDAY, G00, G05, H00, H05);
+                Interpolate(2000, IY, IDAY, G00, G05, H00, H05);
                 break;
             case < 2010:
-                Interpolate(2005, 2010, IY, IDAY, G05, G10, H05, H10);
+                Interpolate(2005, IY, IDAY, G05, G10, H05, H10);
                 break;
             case < 2015:
-                Interpolate(2010, 2015, IY, IDAY, G10, G15, H10, H15);
+                Interpolate(2010, IY, IDAY, G10, G15, H10, H15);
                 break;
             case < 2020:
-                Interpolate(2015, 2020, IY, IDAY, G15, G20, H15, H20);
+                Interpolate(2015, IY, IDAY, G15, G20, H15, H20);
                 break;
             case < 2025:
-                Interpolate(2020, 2025, IY, IDAY, G20, G25, H20, H25);
+                Interpolate(2020, IY, IDAY, G20, G25, H20, H25);
                 break;
         }
 
@@ -221,7 +221,7 @@ public sealed partial class Geopack08
         return (Common1, Common2);
     }
 
-    private void Interpolate(int year1, int year2, int IY, int IDAY, float[] G1, float[] G2, float[] H1,
+    private void Interpolate(int year1, int IY, int IDAY, float[] G1, float[] G2, float[] H1,
         float[] H2)
     {
         float F2 = (IY + (IDAY - 1) / 365.25f - year1) / 5f;
