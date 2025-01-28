@@ -162,8 +162,8 @@ public sealed partial class Geopack08
         float X3 = DX1 * S3 + DX2 * DY3 + DX3 * DZ3;
 
         // Calculate GEI components of the unit vector DIP = EZ_SM = EZ_MAG
-        Common1.CGST = (float)Math.Cos(GST);
-        Common1.SGST = (float)Math.Sin(GST);
+        Common1.CGST = MathF.Cos(GST);
+        Common1.SGST = MathF.Sin(GST);
         float DIP1 = Common1.STCL * Common1.CGST - Common1.STSL * Common1.SGST;
         float DIP2 = Common1.STCL * Common1.SGST + Common1.STSL * Common1.CGST;
         float DIP3 = Common1.CT0;
