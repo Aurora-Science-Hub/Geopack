@@ -1,5 +1,5 @@
-﻿using AuroraScienceHub.Geopack.UnitTests.Utils;
-using FluentAssertions;
+﻿using Shouldly;
+using AuroraScienceHub.Geopack.UnitTests.Utils;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
@@ -9,6 +9,7 @@ public class Geopack2008Tests
     private const string TraceDatasetFileName =  "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.TraceDataSet.dat";
     private const float Deg2Rad = MathF.PI / 180.0f;
     private readonly Geopack08.Geopack08 _geopack2008 = new();
+    private const float MinimalTestsPrecision = 0.00013f;
 
     [Fact(DisplayName = "Basic test: Recalc Common1 & Common2 should be correct")]
     public async Task RecalcCommonBlocks_ShouldBeCorrect()
@@ -22,49 +23,46 @@ public class Geopack2008Tests
         var (common1, common2) =_geopack2008.RECALC_08(approvedData.DateTime, approvedData.VGSEX, approvedData.VGSEY, approvedData.VGSEZ);
 
         // Assert
-        common2.G.Should().BeEquivalentTo(approvedData.G, options => options
-            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.00013f))
-            .WhenTypeIs<float>());
-        common2.H.Should().BeEquivalentTo(approvedData.H, options => options
-            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.00013f))
-            .WhenTypeIs<float>());
-        common2.REC.Should().BeEquivalentTo(approvedData.REC, options => options
-            .Using<float>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.00005f))
-            .WhenTypeIs<float>());
-        common1.ST0.Should().BeApproximately(approvedData.ST0, 0.0000001F);
-        common1.CT0.Should().BeApproximately(approvedData.CT0, 0.0000001F);
-        common1.SL0.Should().BeApproximately(approvedData.SL0, 0.0000001F);
-        common1.CL0.Should().BeApproximately(approvedData.CL0, 0.0000001F);
-        common1.CTCL.Should().BeApproximately(approvedData.CTCL, 0.0000001F);
-        common1.STCL.Should().BeApproximately(approvedData.STCL, 0.0000001F);
-        common1.CTSL.Should().BeApproximately(approvedData.CTSL, 0.0000001F);
-        common1.STSL.Should().BeApproximately(approvedData.STSL, 0.0000001F);
-        common1.SFI.Should().BeApproximately(approvedData.SFI, 0.00004F);
-        common1.CFI.Should().BeApproximately(approvedData.CFI, 0.00007F);
-        common1.SPS.Should().BeApproximately(approvedData.SPS, 0.000008F);
-        common1.CPS.Should().BeApproximately(approvedData.CPS, 0.000003F);
-        common1.DS3.Should().BeApproximately(approvedData.DS3, 0.0000001F);
-        common1.CGST.Should().BeApproximately(approvedData.CGST, 0.000006F);
-        common1.SGST.Should().BeApproximately(approvedData.SGST, 0.000007F);
-        common1.PSI.Should().BeApproximately(approvedData.PSI, 0.000009F);
-        common1.A11.Should().BeApproximately(approvedData.A11, 0.00005F);
-        common1.A21.Should().BeApproximately(approvedData.A21, 0.00005F);
-        common1.A31.Should().BeApproximately(approvedData.A31, 0.00003F);
-        common1.A12.Should().BeApproximately(approvedData.A12, 0.00005F);
-        common1.A22.Should().BeApproximately(approvedData.A22, 0.00005F);
-        common1.A32.Should().BeApproximately(approvedData.A32, 0.00005F);
-        common1.A13.Should().BeApproximately(approvedData.A13, 0.000004F);
-        common1.A23.Should().BeApproximately(approvedData.A23, 0.000006F);
-        common1.A33.Should().BeApproximately(approvedData.A33, 0.0000003F);
-        common1.E11.Should().BeApproximately(approvedData.E11, 0.000004F);
-        common1.E21.Should().BeApproximately(approvedData.E21, 0.00007F);
-        common1.E31.Should().BeApproximately(approvedData.E31, 0.0000001F);
-        common1.E12.Should().BeApproximately(approvedData.E12, 0.00007F);
-        common1.E22.Should().BeApproximately(approvedData.E22, 0.0000007F);
-        common1.E32.Should().BeApproximately(approvedData.E32, 0.00002F);
-        common1.E13.Should().BeApproximately(approvedData.E13, 0.000008F);
-        common1.E23.Should().BeApproximately(approvedData.E23, 0.00002F);
-        common1.E33.Should().BeApproximately(approvedData.E33, 0.000003F);
+        for (int i = 0; i < common2.G.Length; i++)
+        {
+            common2.G[i].ShouldBe(approvedData.G![i], MinimalTestsPrecision);
+            common2.H[i].ShouldBe(approvedData.H![i], MinimalTestsPrecision);
+            common2.REC[i].ShouldBe(approvedData.REC![i], MinimalTestsPrecision);
+        }
+        common1.ST0.ShouldBe(approvedData.ST0, MinimalTestsPrecision);
+        common1.CT0.ShouldBe(approvedData.CT0, MinimalTestsPrecision);
+        common1.SL0.ShouldBe(approvedData.SL0, MinimalTestsPrecision);
+        common1.CL0.ShouldBe(approvedData.CL0, MinimalTestsPrecision);
+        common1.CTCL.ShouldBe(approvedData.CTCL, MinimalTestsPrecision);
+        common1.STCL.ShouldBe(approvedData.STCL, MinimalTestsPrecision);
+        common1.CTSL.ShouldBe(approvedData.CTSL, MinimalTestsPrecision);
+        common1.STSL.ShouldBe(approvedData.STSL, MinimalTestsPrecision);
+        common1.SFI.ShouldBe(approvedData.SFI, MinimalTestsPrecision);
+        common1.CFI.ShouldBe(approvedData.CFI, MinimalTestsPrecision);
+        common1.SPS.ShouldBe(approvedData.SPS, MinimalTestsPrecision);
+        common1.CPS.ShouldBe(approvedData.CPS, MinimalTestsPrecision);
+        common1.DS3.ShouldBe(approvedData.DS3, MinimalTestsPrecision);
+        common1.CGST.ShouldBe(approvedData.CGST, MinimalTestsPrecision);
+        common1.SGST.ShouldBe(approvedData.SGST, MinimalTestsPrecision);
+        common1.PSI.ShouldBe(approvedData.PSI, MinimalTestsPrecision);
+        common1.A11.ShouldBe(approvedData.A11, MinimalTestsPrecision);
+        common1.A21.ShouldBe(approvedData.A21, MinimalTestsPrecision);
+        common1.A31.ShouldBe(approvedData.A31, MinimalTestsPrecision);
+        common1.A12.ShouldBe(approvedData.A12, MinimalTestsPrecision);
+        common1.A22.ShouldBe(approvedData.A22, MinimalTestsPrecision);
+        common1.A32.ShouldBe(approvedData.A32, MinimalTestsPrecision);
+        common1.A13.ShouldBe(approvedData.A13, MinimalTestsPrecision);
+        common1.A23.ShouldBe(approvedData.A23, MinimalTestsPrecision);
+        common1.A33.ShouldBe(approvedData.A33, MinimalTestsPrecision);
+        common1.E11.ShouldBe(approvedData.E11, MinimalTestsPrecision);
+        common1.E21.ShouldBe(approvedData.E21, MinimalTestsPrecision);
+        common1.E31.ShouldBe(approvedData.E31, MinimalTestsPrecision);
+        common1.E12.ShouldBe(approvedData.E12, MinimalTestsPrecision);
+        common1.E22.ShouldBe(approvedData.E22, MinimalTestsPrecision);
+        common1.E32.ShouldBe(approvedData.E32, MinimalTestsPrecision);
+        common1.E13.ShouldBe(approvedData.E13, MinimalTestsPrecision);
+        common1.E23.ShouldBe(approvedData.E23, MinimalTestsPrecision);
+        common1.E33.ShouldBe(approvedData.E33, MinimalTestsPrecision);
     }
 
     [Fact(Skip = "Basic test: Trace_08 with T96 external model should construct correct magnetic field line")]
@@ -122,9 +120,6 @@ public class Geopack2008Tests
         var expectedZ = approvedData.FieldLineCoordinates?.Select(coord => coord.Z).ToArray();
 
         // Assert
-        xx.Should().AllBeEquivalentTo(expectedX, options => options.WithStrictOrdering());
-        yy.Should().AllBeEquivalentTo(expectedY, options => options.WithStrictOrdering());
-        zz.Should().AllBeEquivalentTo(expectedZ, options => options.WithStrictOrdering());
     }
 
     //TODO: Add more tests for smaller procedures

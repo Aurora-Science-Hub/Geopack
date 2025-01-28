@@ -29,7 +29,7 @@ public sealed partial class Geopack08
         for (int N = 1; N <= 14; N++)
         {
             int N2 = 2 * N - 1;
-            N2 = N2 * (N2 - 2);
+            N2 *= (N2 - 2);
             for (int M = 1; M <= N; M++)
             {
                 int MN = N * (N - 1) / 2 + M;
@@ -81,8 +81,8 @@ public sealed partial class Geopack08
         // Extrapolate beyond 2025
         if (IY >= 2025)
         {
-            var DT = IY + (IDAY - 1) / 365.25f - 2025;
-            for (var N = 0; N <= 104; N++)
+            float DT = IY + (IDAY - 1) / 365.25f - 2025;
+            for (int N = 0; N <= 104; N++)
             {
                 Common2.G[N] = G25[N];
                 Common2.H[N] = H25[N];
@@ -103,23 +103,23 @@ public sealed partial class Geopack08
             Common2.G[MN-1] *= S;
             Common2.H[MN-1] *= S;
             float P = S;
-            for (var M = 2; M <= N; M++)
+            for (int M = 2; M <= N; M++)
             {
                 float AA = (M == 2) ? 2 : 1;
-                P *= (float)Math.Sqrt(AA * (N - M + 1) / (N + M - 2));
-                var MNN = MN + M - 1;
+                P *= (float)MathF.Sqrt(AA * (N - M + 1) / (N + M - 2));
+                int MNN = MN + M - 1;
                 Common2.G[MNN-1] *= P;
                 Common2.H[MNN-1] *= P;
             }
         }
 
         // Calculate GEO components of the unit vector EzMAG
-        var G_10 = -Common2.G[1];
-        var G_11 = Common2.G[2];
-        var H_11 = Common2.H[2];
-        var SQ = G_11 * G_11 + H_11 * H_11;
-        var SQQ = (float)Math.Sqrt(SQ);
-        var SQR = (float)Math.Sqrt(G_10 * G_10 + SQ);
+        float G_10 = -Common2.G[1];
+        float G_11 = Common2.G[2];
+        float H_11 = Common2.H[2];
+        float SQ = G_11 * G_11 + H_11 * H_11;
+        float SQQ = MathF.Sqrt(SQ);
+        float SQR = MathF.Sqrt(G_10 * G_10 + SQ);
         Common1.SL0 = -H_11 / SQQ;
         Common1.CL0 = -G_11 / SQQ;
         Common1.ST0 = SQQ / SQR;
@@ -133,54 +133,54 @@ public sealed partial class Geopack08
         // Call to SUN_08 method is assumed to be implemented elsewhere
         float GST, SLONG, SRASN, SDEC;
         SUN_08(dateTime, out GST, out SLONG, out SRASN, out SDEC);
-        var S1 = (float)Math.Cos(SRASN) * (float)Math.Cos(SDEC);
-        var S2 = (float)Math.Sin(SRASN) * (float)Math.Cos(SDEC);
-        var S3 = (float)Math.Sin(SDEC);
+        float S1 = MathF.Cos(SRASN) * (float)Math.Cos(SDEC);
+        float S2 = MathF.Sin(SRASN) * (float)Math.Cos(SDEC);
+        float S3 = MathF.Sin(SDEC);
 
         // Calculate GEI components of the unit vector EZGSE
-        var DJ = 365 * (IY - 1900) + (IY - 1901) / 4 + IDAY - 0.5f + (IHOUR * 3600 + MIN * 60 + ISEC) / 86400f;
-        var T = DJ / 36525f;
-        var OBLIQ = (23.45229f - 0.0130125f * T) / 57.2957795f;
+        float DJ = 365 * (IY - 1900) + (IY - 1901) / 4 + IDAY - 0.5f + (IHOUR * 3600 + MIN * 60 + ISEC) / 86400f;
+        float T = DJ / 36525f;
+        float OBLIQ = (23.45229f - 0.0130125f * T) / 57.2957795f;
         float DZ1 = 0;
-        var DZ2 = -(float)Math.Sin(OBLIQ);
-        var DZ3 = (float)Math.Cos(OBLIQ);
+        float DZ2 = -MathF.Sin(OBLIQ);
+        float DZ3 = MathF.Cos(OBLIQ);
 
         // Obtain GEI components of the unit vector EYGSE
-        var DY1 = DZ2 * S3 - DZ3 * S2;
-        var DY2 = DZ3 * S1 - DZ1 * S3;
-        var DY3 = DZ1 * S2 - DZ2 * S1;
+        float DY1 = DZ2 * S3 - DZ3 * S2;
+        float DY2 = DZ3 * S1 - DZ1 * S3;
+        float DY3 = DZ1 * S2 - DZ2 * S1;
 
         // Calculate GEI components of the unit vector X = EXGSW
-        var V = (float)Math.Sqrt(vgsex * vgsex + vgsey * vgsey + vgsez * vgsez);
-        var DX1 = -vgsex / V;
-        var DX2 = -vgsey / V;
-        var DX3 = -vgsez / V;
+        float V = MathF.Sqrt(vgsex * vgsex + vgsey * vgsey + vgsez * vgsez);
+        float DX1 = -vgsex / V;
+        float DX2 = -vgsey / V;
+        float DX3 = -vgsez / V;
 
         // Then in GEI
-        var X1 = DX1 * S1 + DX2 * DY1 + DX3 * DZ1;
-        var X2 = DX1 * S2 + DX2 * DY2 + DX3 * DZ2;
-        var X3 = DX1 * S3 + DX2 * DY3 + DX3 * DZ3;
+        float X1 = DX1 * S1 + DX2 * DY1 + DX3 * DZ1;
+        float X2 = DX1 * S2 + DX2 * DY2 + DX3 * DZ2;
+        float X3 = DX1 * S3 + DX2 * DY3 + DX3 * DZ3;
 
         // Calculate GEI components of the unit vector DIP = EZ_SM = EZ_MAG
         Common1.CGST = (float)Math.Cos(GST);
         Common1.SGST = (float)Math.Sin(GST);
-        var DIP1 = Common1.STCL * Common1.CGST - Common1.STSL * Common1.SGST;
-        var DIP2 = Common1.STCL * Common1.SGST + Common1.STSL * Common1.CGST;
-        var DIP3 = Common1.CT0;
+        float DIP1 = Common1.STCL * Common1.CGST - Common1.STSL * Common1.SGST;
+        float DIP2 = Common1.STCL * Common1.SGST + Common1.STSL * Common1.CGST;
+        float DIP3 = Common1.CT0;
 
         // Calculate GEI components of the unit vector Y = EYGSW
-        var Y1 = DIP2 * X3 - DIP3 * X2;
-        var Y2 = DIP3 * X1 - DIP1 * X3;
-        var Y3 = DIP1 * X2 - DIP2 * X1;
-        var Y = (float)Math.Sqrt(Y1 * Y1 + Y2 * Y2 + Y3 * Y3);
+        float Y1 = DIP2 * X3 - DIP3 * X2;
+        float Y2 = DIP3 * X1 - DIP1 * X3;
+        float Y3 = DIP1 * X2 - DIP2 * X1;
+        float Y = MathF.Sqrt(Y1 * Y1 + Y2 * Y2 + Y3 * Y3);
         Y1 /= Y;
         Y2 /= Y;
         Y3 /= Y;
 
         // GEI components of the unit vector Z = EZGSW = EXGSW x EYGSW
-        var Z1 = X2 * Y3 - X3 * Y2;
-        var Z2 = X3 * Y1 - X1 * Y3;
-        var Z3 = X1 * Y2 - X2 * Y1;
+        float Z1 = X2 * Y3 - X3 * Y2;
+        float Z2 = X3 * Y1 - X1 * Y3;
+        float Z3 = X1 * Y2 - X2 * Y1;
 
         // Elements of the matrix GSE to GSW
         Common1.E11 = S1 * X1 + S2 * X2 + S3 * X3;
@@ -195,8 +195,8 @@ public sealed partial class Geopack08
 
         // Geodipole tilt angle in the GSW system
         Common1.SPS = DIP1 * X1 + DIP2 * X2 + DIP3 * X3;
-        Common1.CPS = (float)Math.Sqrt(1 - Common1.SPS * Common1.SPS);
-        Common1.PSI = (float)Math.Asin(Common1.SPS);
+        Common1.CPS = MathF.Sqrt(1 - Common1.SPS * Common1.SPS);
+        Common1.PSI = MathF.Asin(Common1.SPS);
 
         // Elements of the matrix GEO to GSW
         Common1.A11 = X1 * Common1.CGST + X2 * Common1.SGST;
@@ -210,11 +210,11 @@ public sealed partial class Geopack08
         Common1.A33 = Z3;
 
         // Elements of the matrix MAG to SM
-        var EXMAGX = Common1.CT0 * (Common1.CL0 * Common1.CGST - Common1.SL0 * Common1.SGST);
-        var EXMAGY = Common1.CT0 * (Common1.CL0 * Common1.SGST + Common1.SL0 * Common1.CGST);
-        var EXMAGZ = -Common1.ST0;
-        var EYMAGX = -(Common1.SL0 * Common1.CGST + Common1.CL0 * Common1.SGST);
-        var EYMAGY = -(Common1.SL0 * Common1.SGST - Common1.CL0 * Common1.CGST);
+        float EXMAGX = Common1.CT0 * (Common1.CL0 * Common1.CGST - Common1.SL0 * Common1.SGST);
+        float EXMAGY = Common1.CT0 * (Common1.CL0 * Common1.SGST + Common1.SL0 * Common1.CGST);
+        float EXMAGZ = -Common1.ST0;
+        float EYMAGX = -(Common1.SL0 * Common1.CGST + Common1.CL0 * Common1.SGST);
+        float EYMAGY = -(Common1.SL0 * Common1.SGST - Common1.CL0 * Common1.CGST);
         Common1.CFI = Y1 * EYMAGX + Y2 * EYMAGY;
         Common1.SFI = Y1 * EXMAGX + Y2 * EXMAGY + Y3 * EXMAGZ;
 
