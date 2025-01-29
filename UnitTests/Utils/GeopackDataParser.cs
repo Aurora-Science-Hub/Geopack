@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
+﻿using AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Utils;
 
@@ -25,46 +24,46 @@ public static class GeopackDataParser
 
         // Parse solar wind pressure
         var solarWindParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        result.VGSEX = float.Parse(solarWindParts[3], NumberStyles.Float);
-        result.VGSEY = float.Parse(solarWindParts[4], NumberStyles.Float);
-        result.VGSEZ = float.Parse(solarWindParts[5], NumberStyles.Float);
+        result.VGSEX = double.Parse(solarWindParts[3]);
+        result.VGSEY = double.Parse(solarWindParts[4]);
+        result.VGSEZ = double.Parse(solarWindParts[5]);
 
         // Parse Common1 coefficients
         var common1string = lines[lineIndex++].Split(new[] { ' ', '=' }, StringSplitOptions.RemoveEmptyEntries);
-        result.ST0 = float.Parse(common1string[2], NumberStyles.Float);
-        result.CT0 = float.Parse(common1string[3], NumberStyles.Float);
-        result.SL0 = float.Parse(common1string[4], NumberStyles.Float);
-        result.CL0 = float.Parse(common1string[5], NumberStyles.Float);
-        result.CTCL = float.Parse(common1string[6], NumberStyles.Float);
-        result.STCL = float.Parse(common1string[7], NumberStyles.Float);
-        result.CTSL = float.Parse(common1string[8], NumberStyles.Float);
-        result.STSL = float.Parse(common1string[9], NumberStyles.Float);
-        result.SFI = float.Parse(common1string[10], NumberStyles.Float);
-        result.CFI = float.Parse(common1string[11], NumberStyles.Float);
-        result.SPS = float.Parse(common1string[12], NumberStyles.Float);
-        result.CPS = float.Parse(common1string[13], NumberStyles.Float);
-        result.DS3 = float.Parse(common1string[14], NumberStyles.Float);
-        result.CGST = float.Parse(common1string[15], NumberStyles.Float);
-        result.SGST = float.Parse(common1string[16], NumberStyles.Float);
-        result.PSI = float.Parse(common1string[17], NumberStyles.Float);
-        result.A11 = float.Parse(common1string[18], NumberStyles.Float);
-        result.A21 = float.Parse(common1string[19], NumberStyles.Float);
-        result.A31 = float.Parse(common1string[20], NumberStyles.Float);
-        result.A12 = float.Parse(common1string[21], NumberStyles.Float);
-        result.A22 = float.Parse(common1string[22], NumberStyles.Float);
-        result.A32 = float.Parse(common1string[23], NumberStyles.Float);
-        result.A13 = float.Parse(common1string[24], NumberStyles.Float);
-        result.A23 = float.Parse(common1string[25], NumberStyles.Float);
-        result.A33 = float.Parse(common1string[26], NumberStyles.Float);
-        result.E11 = float.Parse(common1string[27], NumberStyles.Float);
-        result.E21 = float.Parse(common1string[28], NumberStyles.Float);
-        result.E31 = float.Parse(common1string[29], NumberStyles.Float);
-        result.E12 = float.Parse(common1string[30], NumberStyles.Float);
-        result.E22 = float.Parse(common1string[31], NumberStyles.Float);
-        result.E32 = float.Parse(common1string[32], NumberStyles.Float);
-        result.E13 = float.Parse(common1string[33], NumberStyles.Float);
-        result.E23 = float.Parse(common1string[34], NumberStyles.Float);
-        result.E33 = float.Parse(common1string[35], NumberStyles.Float);
+        result.ST0 = double.Parse(common1string[2]);
+        result.CT0 = double.Parse(common1string[3]);
+        result.SL0 = double.Parse(common1string[4]);
+        result.CL0 = double.Parse(common1string[5]);
+        result.CTCL = double.Parse(common1string[6]);
+        result.STCL = double.Parse(common1string[7]);
+        result.CTSL = double.Parse(common1string[8]);
+        result.STSL = double.Parse(common1string[9]);
+        result.SFI = double.Parse(common1string[10]);
+        result.CFI = double.Parse(common1string[11]);
+        result.SPS = double.Parse(common1string[12]);
+        result.CPS = double.Parse(common1string[13]);
+        result.DS3 = double.Parse(common1string[14]);
+        result.CGST = double.Parse(common1string[15]);
+        result.SGST = double.Parse(common1string[16]);
+        result.PSI = double.Parse(common1string[17]);
+        result.A11 = double.Parse(common1string[18]);
+        result.A21 = double.Parse(common1string[19]);
+        result.A31 = double.Parse(common1string[20]);
+        result.A12 = double.Parse(common1string[21]);
+        result.A22 = double.Parse(common1string[22]);
+        result.A32 = double.Parse(common1string[23]);
+        result.A13 = double.Parse(common1string[24]);
+        result.A23 = double.Parse(common1string[25]);
+        result.A33 = double.Parse(common1string[26]);
+        result.E11 = double.Parse(common1string[27]);
+        result.E21 = double.Parse(common1string[28]);
+        result.E31 = double.Parse(common1string[29]);
+        result.E12 = double.Parse(common1string[30]);
+        result.E22 = double.Parse(common1string[31]);
+        result.E32 = double.Parse(common1string[32]);
+        result.E13 = double.Parse(common1string[33]);
+        result.E23 = double.Parse(common1string[34]);
+        result.E33 = double.Parse(common1string[35]);
 
         // Parse coordinates
         while (lineIndex < lines.Length)
@@ -75,9 +74,9 @@ public static class GeopackDataParser
                 continue;
             }
 
-            result.G?.Add(float.Parse(ghrec[0], NumberStyles.Float));
-            result.H?.Add(float.Parse(ghrec[1], NumberStyles.Float));
-            result.REC?.Add(float.Parse(ghrec[2], NumberStyles.Float));
+            result.G?.Add(double.Parse(ghrec[0]));
+            result.H?.Add(double.Parse(ghrec[1]));
+            result.REC?.Add(double.Parse(ghrec[2]));
         }
 
         return result;
@@ -103,16 +102,16 @@ public static class GeopackDataParser
 
         // Parse solar wind pressure
         var solarWindParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        result.SolarWindPressure = float.Parse(solarWindParts[5], NumberStyles.Float);
+        result.SolarWindPressure = double.Parse(solarWindParts[5]);
 
         // Parse DST index
         var dstParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        result.DstIndex = float.Parse(dstParts[1], NumberStyles.Float);
+        result.DstIndex = double.Parse(dstParts[1]);
 
         // Parse IMF By and Bz
         var imfParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        result.ByIMF = float.Parse(imfParts[4], NumberStyles.Float);
-        result.BzIMF = float.Parse(imfParts[5], NumberStyles.Float);
+        result.ByIMF = double.Parse(imfParts[4]);
+        result.BzIMF = double.Parse(imfParts[5]);
 
         // Skip the line "THE LINE IN GSW COORDS:"
         lineIndex++;
@@ -126,26 +125,12 @@ public static class GeopackDataParser
                 continue;
             }
 
-            var x = float.Parse(coordParts[0], NumberStyles.Float);
-            var y = float.Parse(coordParts[1], NumberStyles.Float);
-            var z = float.Parse(coordParts[2], NumberStyles.Float);
+            var x = double.Parse(coordParts[0]);
+            var y = double.Parse(coordParts[1]);
+            var z = double.Parse(coordParts[2]);
             result.FieldLineCoordinates?.Add((x, y, z));
         }
 
         return result;
-    }
-
-    /// <summary>
-    /// Fill Solar Wind Parameters for original Tsyganenko's dataset
-    /// </summary>
-    /// <param name="testData"> Parsed from file dataset </param>
-    public static void FillBasicOriginalDataSolarWindVelocity(this AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.ApprovedGeopackData testData)
-    {
-        testData.VGSEX = -304.0f;
-
-        testData.VGSEY = -16.0f;
-        testData.VGSEY += 29.78f;
-
-        testData.VGSEZ = 4.0f;
     }
 }
