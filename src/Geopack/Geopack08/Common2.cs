@@ -2,7 +2,7 @@
 
 public sealed class Common2
 {
-    public float[] G = new float[105];
-    public float[] H = new float[105];
-    public float[] REC = new float[105];
+    public double[] G = new double[105];
+    public double[] H = new double[105];
+    public double[] REC = new double[105];
 }

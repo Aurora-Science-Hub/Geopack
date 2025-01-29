@@ -10,82 +10,97 @@ public sealed record ApprovedGeopackData
     /// <summary>
     /// X-component of the solar wind velocity
     /// </summary>
-    public float VGSEX { get; set; }
+    public double VGSEX { get; set; }
 
     /// <summary>
     /// Y-component of the solar wind velocity
     /// </summary>
-    public float VGSEY { get; set; }
+    public double VGSEY { get; set; }
 
     /// <summary>
     /// Z-component of the solar wind velocity
     /// </summary>
-    public float VGSEZ { get; set; }
+    public double VGSEZ { get; set; }
+
+    /// <summary>
+    /// Cartesian X-coordinate
+    /// </summary>
+    public double X { get; set; }
+
+    /// <summary>
+    /// Cartesian Y-coordinate
+    /// </summary>
+    public double Y { get; set; }
+
+    /// <summary>
+    /// Cartesian Z-coordinate
+    /// </summary>
+    public double Z { get; set; }
 
     /// <summary>
     /// Solar wind pressure
     /// </summary>
-    public float SolarWindPressure { get; set; }
+    public double SolarWindPressure { get; set; }
 
     /// <summary>
     /// Dst index
     /// </summary>
-    public float DstIndex { get; set; }
+    public double DstIndex { get; set; }
 
     /// <summary>
     /// Y-component of the interplanetary magnetic field
     /// </summary>
-    public float ByIMF { get; set; }
+    public double ByIMF { get; set; }
 
     /// <summary>
     /// Z-component of the interplanetary magnetic field
     /// </summary>
-    public float BzIMF { get; set; }
+    public double BzIMF { get; set; }
 
-    public List<float>?  G { get; set; } = [];
-    public List<float>?  H { get; set; } = [];
-    public List<float>?  REC { get; set; } = [];
+    public List<double>?  G { get; set; } = [];
+    public List<double>?  H { get; set; } = [];
+    public List<double>?  REC { get; set; } = [];
 
     /// <summary>
     /// Field line coordinates
     /// </summary>
-    public List<(float X, float Y, float Z)>? FieldLineCoordinates { get; set; } = [];
+    public List<(double x, double y, double z)>? FieldLineCoordinates { get; set; } = [];
 
     /// <summary>
     /// Math conversion and matrix coefficients
     /// </summary>
-    public float ST0 { get; set; }
-    public float CT0 { get; set; }
-    public float SL0 { get; set; }
-    public float CL0 { get; set; }
-    public float CTCL { get; set; }
-    public float STCL { get; set; }
-    public float CTSL { get; set; }
-    public float STSL { get; set; }
-    public float SFI { get; set; }
-    public float CFI { get; set; }
-    public float SPS { get; set; }
-    public float CPS { get; set; }
-    public float DS3 { get; set; }
-    public float CGST { get; set; }
-    public float SGST { get; set; }
-    public float PSI { get; set; }
-    public float A11 { get; set; }
-    public float A21 { get; set; }
-    public float A31 { get; set; }
-    public float A12  { get; set; }
-    public float A22 { get; set; }
-    public float A32 { get; set; }
-    public float A13 { get; set; }
-    public float A23 { get; set; }
-    public float A33 { get; set; }
-    public float E11 { get; set; }
-    public float E21 { get; set; }
-    public float E31 { get; set; }
-    public float E12 { get; set; }
-    public float E22 { get; set; }
-    public float E32 { get; set; }
-    public float E13 { get; set; }
-    public float E23 { get; set; }
-    public float E33 { get; set; }
+    public double ST0 { get; set; }
+    public double CT0 { get; set; }
+    public double SL0 { get; set; }
+    public double CL0 { get; set; }
+    public double CTCL { get; set; }
+    public double STCL { get; set; }
+    public double CTSL { get; set; }
+    public double STSL { get; set; }
+    public double SFI { get; set; }
+    public double CFI { get; set; }
+    public double SPS { get; set; }
+    public double CPS { get; set; }
+    public double DS3 { get; set; }
+    public double CGST { get; set; }
+    public double SGST { get; set; }
+    public double PSI { get; set; }
+    public double A11 { get; set; }
+    public double A21 { get; set; }
+    public double A31 { get; set; }
+    public double A12  { get; set; }
+    public double A22 { get; set; }
+    public double A32 { get; set; }
+    public double A13 { get; set; }
+    public double A23 { get; set; }
+    public double A33 { get; set; }
+    public double E11 { get; set; }
+    public double E21 { get; set; }
+    public double E31 { get; set; }
+    public double E12 { get; set; }
+    public double E22 { get; set; }
+    public double E32 { get; set; }
+    public double E13 { get; set; }
+    public double E23 { get; set; }
+    public double E33 { get; set; }
 }

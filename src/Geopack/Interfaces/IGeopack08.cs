@@ -80,7 +80,7 @@ public interface IGeopack08
     /// <param name="slong">Longitude along ecliptic</param>
     /// <param name="srasn">Right ascension of the sun (radians)</param>
     /// <param name="sdec">Declination of the sun (radians)</param>
-    void SUN_08(DateTime dateTime, out float gst, out float slong, out float srasn, out float sdec);
+    void SUN_08(DateTime dateTime, out double gst, out double slong, out double srasn, out double sdec);
 
     /// <summary>
     /// Converts spherical coordinates into Cartesian ones (theta and phi in radians).
@@ -157,7 +157,7 @@ public interface IGeopack08
     /// <param name="vgsex">GSE (geocentric solar-ecliptic) component of the observed solar wind flow velocity (in km/s)</param>
     /// <param name="vgsey">GSE (geocentric solar-ecliptic) component of the observed solar wind flow velocity (in km/s)</param>
     /// <param name="vgsez">GSE (geocentric solar-ecliptic) component of the observed solar wind flow velocity (in km/s)</param>
-    (Common1, Common2) RECALC_08(DateTime dateTime, float vgsex, float vgsey, float vgsez);
+    (Common1, Common2) RECALC_08(DateTime dateTime, double vgsex, double vgsey, double vgsez);
 
     /// <summary>
     /// Transforms components of geocentric solar-wind (GSW) system to GSE coordinate.
