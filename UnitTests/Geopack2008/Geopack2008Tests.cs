@@ -7,5 +7,5 @@ public partial class Geopack2008Tests
     private const string TraceDatasetFileName =  "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.TraceDataSet.dat";
     private const double Deg2Rad = MathF.PI / 180.0f;
     private readonly Geopack08.Geopack08 _geopack2008 = new();
-    private const double MinimalTestsPrecision = 0.000000000001d;
+    private const double MinimalTestsPrecision = 0.0000000000001d;
 }

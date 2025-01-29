@@ -133,18 +133,4 @@ public static class GeopackDataParser
 
         return result;
     }
-
-    /// <summary>
-    /// Fill Solar Wind Parameters for original Tsyganenko's dataset
-    /// </summary>
-    /// <param name="testData"> Parsed from file dataset </param>
-    public static void FillBasicOriginalDataSolarWindVelocity(this AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.ApprovedGeopackData testData)
-    {
-        testData.VGSEX = -304.0f;
-
-        testData.VGSEY = -16.0f;
-        testData.VGSEY += 29.78f;
-
-        testData.VGSEZ = 4.0f;
-    }
 }
