@@ -1,6 +1,6 @@
 ﻿namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
 
-public sealed record ApprovedGeopackData
+public sealed record GeopackCommons
 {
     /// <summary>
     /// Date and Time
