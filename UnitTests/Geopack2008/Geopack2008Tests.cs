@@ -13,6 +13,9 @@ public partial class Geopack2008Tests
     private const double MinimalTestsPrecision = 0.0000000000001d;
     private readonly TestDataFixture _fixture;
 
+    private const string SphCarDatasetFileName = "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.SPHCARDataSet.dat";
+    private const string TraceDatasetFileName =  "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.TraceDataSet.dat";
+
     public Geopack2008Tests(TestDataFixture fixture)
     {
         _fixture = fixture;
