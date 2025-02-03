@@ -1,22 +1,28 @@
-﻿using Shouldly;
+﻿using AuroraScienceHub.Geopack.UnitTests.Geopack2008.Fixtures;
+using Shouldly;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
 public partial class Geopack2008Tests
 {
+    public const string CommonsDataFileName = "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.CommonsDataSet.dat";
+
     [Fact(DisplayName = "Basic test: Recalc Common1 & Common2 should be correct")]
     public async Task RecalcCommonBlocks_ShouldBeCorrect()
     {
-        // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(RecalcDatasetFileName);
-        var approvedData = GeopackDataParser.ParseRecalcCommons(rawData);
-
         // Act
         // Calculate transformation matrix coefficients
-        var (common1, common2) =_geopack2008.RECALC_08(approvedData.DateTime, approvedData.VGSEX, approvedData.VGSEY, approvedData.VGSEZ);
+        var (common1, common2) =_geopack2008.RECALC_08(
+            _fixture.InputData.DateTime,
+            _fixture.InputData.VGSEX,
+            _fixture.InputData.VGSEY,
+            _fixture.InputData.VGSEZ);
 
         // Assert
+        var rawData = await EmbeddedResourceReader.ReadTextAsync(CommonsDataFileName);
+        var approvedData = GeopackDataParser.ParseRecalcCommons(rawData);
+
         for (int i = 0; i < common2.G.Length; i++)
         {
             common2.G[i].ShouldBe(approvedData.G![i], MinimalTestsPrecision);
