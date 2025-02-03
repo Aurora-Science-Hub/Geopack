@@ -3,26 +3,25 @@ namespace AuroraScienceHub.Geopack.Geopack08;
 public sealed partial class Geopack08
 {
     public void CARSPH_08(
-        float x, float y, float z,
-        out float r, out float theta, out float phi)
+        double x, double y, double z,
+        out double r, out double theta, out double phi)
     {
-        throw new NotImplementedException("CARSPH_08 is not implemented");
-        // float sq = x * x + y * y;
-        // r = MathF.Sqrt(sq + z * z);
-        // if (sq != 0.0f)
-        // {
-        //     sq = MathF.Sqrt(sq);
-        //     phi = MathF.Atan2(y, x);
-        //     theta = MathF.Atan2(sq, z);
-        //     if (phi < 0.0f)
-        //     {
-        //         phi += TWO_PI;
-        //     }
-        // }
-        // else
-        // {
-        //     phi = 0.0f;
-        //     theta = (z < 0.0f) ? PI : 0.0f;
-        // }
+        double sq = x * x + y * y;
+        r = Math.Sqrt(sq + z * z);
+        if (sq != 0.0d)
+        {
+            sq = Math.Sqrt(sq);
+            phi = Math.Atan2(y, x);
+            theta = Math.Atan2(sq, z);
+            if (phi < 0.0d)
+            {
+                phi += TwoPi;
+            }
+        }
+        else
+        {
+            phi = 0.0d;
+            theta = z < 0.0d ? Pi : 0.0d;
+        }
     }
 }
