@@ -1,4 +1,4 @@
-﻿namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
+﻿namespace AuroraScienceHub.Geopack.UnitTests.Models;
 
 public sealed record InputGeopackData
 {
