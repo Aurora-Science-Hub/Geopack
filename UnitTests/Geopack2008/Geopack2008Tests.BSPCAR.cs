@@ -15,13 +15,18 @@ public partial class Geopack2008Tests
         var bspcar = new SphCar()
         {
             Theta = line[1].ParseDouble(),
-
-
-        }
+            Phi = line[3].ParseDouble(),
+            Br = line[5].ParseDouble(),
+            Btheta = line[7].ParseDouble(),
+            Bphi = line[9].ParseDouble(),
+            Bx = line[11].ParseDouble(),
+            By = line[13].ParseDouble(),
+            Bz = line[15].ParseDouble()
+        };
 
         // Act
         _geopack2008.BSPCAR_08(
-            theta, phi, br, btheta, bphi,
+            bspcar.Theta, bspcar.Phi, bspcar.Br, bspcar.Btheta, bspcar.Bphi,
             out double bx, out double by, out double bz);
 
         // Assert
