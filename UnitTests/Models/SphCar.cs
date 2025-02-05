@@ -1,6 +1,6 @@
 namespace AuroraScienceHub.Geopack.UnitTests.Models;
 
-public class SphCar
+public sealed record SphCar
 {
     /// <summary>
     /// Radial distance (rad)
