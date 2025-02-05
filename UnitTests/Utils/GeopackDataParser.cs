@@ -1,4 +1,5 @@
-﻿using AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
+﻿using System.Globalization;
+using AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
 using AuroraScienceHub.Geopack.UnitTests.Models;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Utils;
@@ -18,17 +19,17 @@ public static class GeopackDataParser
 
         // Parse header
         var headerParts = lines[lineIndex++].Split(new[] { ' ', '=', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-        var year = int.Parse(headerParts[1]);
-        var doy = int.Parse(headerParts[3]);
-        var hour = int.Parse(headerParts[5]);
-        var minute = int.Parse(headerParts[7]);
+        var year = headerParts[1].ParseInt();
+        var doy = headerParts[3].ParseInt();
+        var hour = headerParts[5].ParseInt();
+        var minute = headerParts[7].ParseInt();
         result.DateTime = new DateTime(year, 1, 1, hour, minute, 0).AddDays(doy - 1);
 
         // Parse solar wind pressure
         var solarWindParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        result.VGSEX = double.Parse(solarWindParts[3]);
-        result.VGSEY = double.Parse(solarWindParts[4]);
-        result.VGSEZ = double.Parse(solarWindParts[5]);
+        result.VGSEX = solarWindParts[3].ParseDouble();
+        result.VGSEY = solarWindParts[4].ParseDouble();
+        result.VGSEZ = solarWindParts[5].ParseDouble();
 
         return result;
     }
@@ -45,40 +46,40 @@ public static class GeopackDataParser
 
         // Parse Common1 coefficients
         var common1string = lines[lineIndex++].Split(new[] { ' ', '=' }, StringSplitOptions.RemoveEmptyEntries);
-        result.ST0 = double.Parse(common1string[2]);
-        result.CT0 = double.Parse(common1string[3]);
-        result.SL0 = double.Parse(common1string[4]);
-        result.CL0 = double.Parse(common1string[5]);
-        result.CTCL = double.Parse(common1string[6]);
-        result.STCL = double.Parse(common1string[7]);
-        result.CTSL = double.Parse(common1string[8]);
-        result.STSL = double.Parse(common1string[9]);
-        result.SFI = double.Parse(common1string[10]);
-        result.CFI = double.Parse(common1string[11]);
-        result.SPS = double.Parse(common1string[12]);
-        result.CPS = double.Parse(common1string[13]);
-        result.DS3 = double.Parse(common1string[14]);
-        result.CGST = double.Parse(common1string[15]);
-        result.SGST = double.Parse(common1string[16]);
-        result.PSI = double.Parse(common1string[17]);
-        result.A11 = double.Parse(common1string[18]);
-        result.A21 = double.Parse(common1string[19]);
-        result.A31 = double.Parse(common1string[20]);
-        result.A12 = double.Parse(common1string[21]);
-        result.A22 = double.Parse(common1string[22]);
-        result.A32 = double.Parse(common1string[23]);
-        result.A13 = double.Parse(common1string[24]);
-        result.A23 = double.Parse(common1string[25]);
-        result.A33 = double.Parse(common1string[26]);
-        result.E11 = double.Parse(common1string[27]);
-        result.E21 = double.Parse(common1string[28]);
-        result.E31 = double.Parse(common1string[29]);
-        result.E12 = double.Parse(common1string[30]);
-        result.E22 = double.Parse(common1string[31]);
-        result.E32 = double.Parse(common1string[32]);
-        result.E13 = double.Parse(common1string[33]);
-        result.E23 = double.Parse(common1string[34]);
-        result.E33 = double.Parse(common1string[35]);
+        result.ST0 = common1string[2].ParseDouble();
+        result.CT0 = common1string[3].ParseDouble();
+        result.SL0 = common1string[4].ParseDouble();
+        result.CL0 = common1string[5].ParseDouble();
+        result.CTCL = common1string[6].ParseDouble();
+        result.STCL = common1string[7].ParseDouble();
+        result.CTSL = common1string[8].ParseDouble();
+        result.STSL = common1string[9].ParseDouble();
+        result.SFI = common1string[10].ParseDouble();
+        result.CFI = common1string[11].ParseDouble();
+        result.SPS = common1string[12].ParseDouble();
+        result.CPS = common1string[13].ParseDouble();
+        result.DS3 = common1string[14].ParseDouble();
+        result.CGST = common1string[15].ParseDouble();
+        result.SGST = common1string[16].ParseDouble();
+        result.PSI = common1string[17].ParseDouble();
+        result.A11 = common1string[18].ParseDouble();
+        result.A21 = common1string[19].ParseDouble();
+        result.A31 = common1string[20].ParseDouble();
+        result.A12 = common1string[21].ParseDouble();
+        result.A22 = common1string[22].ParseDouble();
+        result.A32 = common1string[23].ParseDouble();
+        result.A13 = common1string[24].ParseDouble();
+        result.A23 = common1string[25].ParseDouble();
+        result.A33 = common1string[26].ParseDouble();
+        result.E11 = common1string[27].ParseDouble();
+        result.E21 = common1string[28].ParseDouble();
+        result.E31 = common1string[29].ParseDouble();
+        result.E12 = common1string[30].ParseDouble();
+        result.E22 = common1string[31].ParseDouble();
+        result.E32 = common1string[32].ParseDouble();
+        result.E13 = common1string[33].ParseDouble();
+        result.E23 = common1string[34].ParseDouble();
+        result.E33 = common1string[35].ParseDouble();
 
         // Parse coordinates
         while (lineIndex < lines.Length)
@@ -89,9 +90,9 @@ public static class GeopackDataParser
                 continue;
             }
 
-            result.G?.Add(double.Parse(ghrec[0]));
-            result.H?.Add(double.Parse(ghrec[1]));
-            result.REC?.Add(double.Parse(ghrec[2]));
+            result.G?.Add(ghrec[0].ParseDouble());
+            result.H?.Add(ghrec[1].ParseDouble());
+            result.REC?.Add(ghrec[2].ParseDouble());
         }
 
         return result;
@@ -109,24 +110,24 @@ public static class GeopackDataParser
 
         // Parse header
         var headerParts = lines[lineIndex++].Split(new[] { ' ', '=', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-        var year = int.Parse(headerParts[1]);
-        var doy = int.Parse(headerParts[3]);
-        var hour = int.Parse(headerParts[5]);
-        var minute = int.Parse(headerParts[7]);
+        var year = headerParts[1].ParseInt();
+        var doy = headerParts[3].ParseInt();
+        var hour = headerParts[5].ParseInt();
+        var minute = headerParts[7].ParseInt();
         result.DateTime = new DateTime(year, 1, 1, hour, minute, 0).AddDays(doy - 1);
 
         // Parse solar wind pressure
         var solarWindParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        result.SolarWindPressure = double.Parse(solarWindParts[5]);
+        result.SolarWindPressure = solarWindParts[5].ParseDouble();
 
         // Parse DST index
         var dstParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        result.DstIndex = double.Parse(dstParts[1]);
+        result.DstIndex = dstParts[1].ParseDouble();
 
         // Parse IMF By and Bz
         var imfParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        result.ByIMF = double.Parse(imfParts[4]);
-        result.BzIMF = double.Parse(imfParts[5]);
+        result.ByIMF = imfParts[4].ParseDouble();
+        result.BzIMF = imfParts[5].ParseDouble();
 
         // Skip the line "THE LINE IN GSW COORDS:"
         lineIndex++;
@@ -140,14 +141,26 @@ public static class GeopackDataParser
                 continue;
             }
 
-            var x = double.Parse(coordParts[0]);
-            var y = double.Parse(coordParts[1]);
-            var z = double.Parse(coordParts[2]);
+            var x = coordParts[0].ParseDouble();
+            var y = coordParts[1].ParseDouble();
+            var z = coordParts[2].ParseDouble();
             result.FieldLineCoordinates?.Add((x, y, z));
         }
 
         return result;
     }
+
+    /// <summary>
+    /// Just a helper for readiness of the code
+    /// </summary>
+    /// <param name="value"></param>
+    internal static double ParseDouble(this string value) => double.Parse(value, CultureInfo.InvariantCulture);
+
+    /// <summary>
+    /// Just a helper for readiness of the code
+    /// </summary>
+    /// <param name="value"></param>
+    internal static int ParseInt(this string value) => int.Parse(value);
 
     /// <summary>
     /// Splits line with parameters,
