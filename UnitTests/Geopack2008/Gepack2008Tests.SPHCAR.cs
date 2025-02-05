@@ -1,5 +1,3 @@
-using System.Globalization;
-using AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
 using AuroraScienceHub.Geopack.UnitTests.Models;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
@@ -15,12 +13,12 @@ public partial class Geopack2008Tests
         var rawData = await EmbeddedResourceReader.ReadTextAsync(SphCarDatasetFileName);
         var line = rawData.Split(new[] { ' ', '=', '\t' }, StringSplitOptions.RemoveEmptyEntries);
         var approvedData = new SphCar();
-        approvedData.R = double.Parse(line[1], CultureInfo.InvariantCulture);
-        approvedData.Theta = double.Parse(line[3], CultureInfo.InvariantCulture);
-        approvedData.Phi = double.Parse(line[5], CultureInfo.InvariantCulture);
-        approvedData.X = double.Parse(line[7], CultureInfo.InvariantCulture);
-        approvedData.Y = double.Parse(line[9], CultureInfo.InvariantCulture);
-        approvedData.Z = double.Parse(line[11], CultureInfo.InvariantCulture);
+        approvedData.R = line[1].ParseDouble();
+        approvedData.Theta = line[3].ParseDouble();
+        approvedData.Phi = line[5].ParseDouble();
+        approvedData.X = line[7].ParseDouble();
+        approvedData.Y = line[9].ParseDouble();
+        approvedData.Z = line[11].ParseDouble();
 
         // Act
         // Calculate transformation matrix coefficients
