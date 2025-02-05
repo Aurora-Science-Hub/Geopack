@@ -1,0 +1,92 @@
+using AuroraScienceHub.Geopack.UnitTests.Models;
+using AuroraScienceHub.Geopack.UnitTests.Utils;
+using Shouldly;
+
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
+
+public partial class Geopack2008Tests
+{
+    [Fact(DisplayName = "BSPCAR_08: Compare with FORTRAN calculation")]
+    public async Task BSPCAR_08_ShouldBeCorrect()
+    {
+        // Arrange
+        var rawData = await EmbeddedResourceReader.ReadTextAsync(BSpCarDatasetFileName);
+        var line = rawData.SplitParametersLine();
+        var bspcar = new SphCar()
+        {
+            Theta = line[1].ParseDouble(),
+
+
+        }
+
+        // Act
+        _geopack2008.BSPCAR_08(
+            theta, phi, br, btheta, bphi,
+            out double bx, out double by, out double bz);
+
+        // Assert
+        bx.ShouldBe(0.0, Tolerance);
+        by.ShouldBe(1.0, Tolerance);
+        bz.ShouldBe(0.0, Tolerance);
+    }
+
+    [Fact(DisplayName = "BSPCAR_08: Zero angles B-field coordinates conversion")]
+    public void BSPCAR_08_ZeroAngles_ReturnsExpectedValues()
+    {
+        _geopack2008.BSPCAR_08(
+            0.0, 0.0, 1.0, 1.0, 1.0,
+            out double bx, out double by, out double bz);
+
+        bx.ShouldBe(1.0, Tolerance);
+        by.ShouldBe(1.0, Tolerance);
+        bz.ShouldBe(1.0, Tolerance);
+    }
+
+    [Fact(DisplayName = "BSPCAR_08: Positive angles B-field coordinates conversion")]
+    public void BSPCAR_08_PositiveAngles_ReturnsExpectedValues()
+    {
+        _geopack2008.BSPCAR_08(
+            Math.PI / 4, Math.PI / 4, 1.0, 1.0, 1.0,
+            out double bx, out double by, out double bz);
+
+        bx.ShouldBe(0.70710678118, Tolerance);
+        by.ShouldBe(1.70710678118, Tolerance);
+        bz.ShouldBe(0.0, Tolerance);
+    }
+
+    [Fact(DisplayName = "BSPCAR_08: Negative angles B-field coordinates conversion")]
+    public void BSPCAR_08_NegativeAngles_ReturnsExpectedValues()
+    {
+        _geopack2008.BSPCAR_08(
+            -Math.PI / 4, -Math.PI / 4, 1.0, 1.0, 1.0,
+            out double bx, out double by, out double bz);
+
+        bx.ShouldBe(1.70710678118, Tolerance);
+        by.ShouldBe(0.70710678118, Tolerance);
+        bz.ShouldBe(0.0, Tolerance);
+    }
+
+    [Fact(DisplayName = "BSPCAR_08: Large angles B-field coordinates conversion")]
+    public void BSPCAR_08_LargeAngles_ReturnsExpectedValues()
+    {
+        _geopack2008.BSPCAR_08(
+            2 * Math.PI, 2 * Math.PI, 1.0, 1.0, 1.0,
+            out double bx, out double by, out double bz);
+
+        bx.ShouldBe(1.0, Tolerance);
+        by.ShouldBe(1.0, Tolerance);
+        bz.ShouldBe(1.0, Tolerance);
+    }
+
+    [Fact(DisplayName = "BSPCAR_08: Small angles B-field coordinates conversion")]
+    public void BSPCAR_08_SmallAngles_ReturnsExpectedValues()
+    {
+        _geopack2008.BSPCAR_08(
+            1e-10, 1e-10, 1.0, 1.0, 1.0,
+            out double bx, out double by, out double bz);
+
+        bx.ShouldBe(1.0, Tolerance);
+        by.ShouldBe(1.0, Tolerance);
+        bz.ShouldBe(1.0, Tolerance);
+    }
+}
