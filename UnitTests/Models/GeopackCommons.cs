@@ -1,4 +1,4 @@
-﻿namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
 
 public sealed record GeopackCommons
 {
@@ -57,9 +57,9 @@ public sealed record GeopackCommons
     /// </summary>
     public double BzIMF { get; set; }
 
-    public List<double>?  G { get; set; } = [];
-    public List<double>?  H { get; set; } = [];
-    public List<double>?  REC { get; set; } = [];
+    public List<double>? G { get; set; } = [];
+    public List<double>? H { get; set; } = [];
+    public List<double>? REC { get; set; } = [];
 
     /// <summary>
     /// Field line coordinates
@@ -88,7 +88,7 @@ public sealed record GeopackCommons
     public double A11 { get; set; }
     public double A21 { get; set; }
     public double A31 { get; set; }
-    public double A12  { get; set; }
+    public double A12 { get; set; }
     public double A22 { get; set; }
     public double A32 { get; set; }
     public double A13 { get; set; }

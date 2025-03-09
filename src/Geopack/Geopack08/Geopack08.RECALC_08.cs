@@ -2,8 +2,8 @@ namespace AuroraScienceHub.Geopack.Geopack08;
 
 public sealed partial class Geopack08
 {
-    private Common1 Common1 { get; set; } = new ();
-    private Common2 Common2 { get; set; } = new ();
+    private Common1 Common1 { get; set; } = new();
+    private Common2 Common2 { get; set; } = new();
 
     public (Common1, Common2) RECALC_08(DateTime dateTime, double vgsex, double vgsey, double vgsez)
     {
@@ -100,16 +100,16 @@ public sealed partial class Geopack08
         {
             int MN = N * (N - 1) / 2 + 1;
             S *= (2 * N - 3) / (double)(N - 1);
-            Common2.G[MN-1] *= S;
-            Common2.H[MN-1] *= S;
+            Common2.G[MN - 1] *= S;
+            Common2.H[MN - 1] *= S;
             double P = S;
             for (int M = 2; M <= N; M++)
             {
                 double AA = (M == 2) ? 2 : 1;
                 P *= (double)Math.Sqrt(AA * (N - M + 1) / (N + M - 2));
                 int MNN = MN + M - 1;
-                Common2.G[MNN-1] *= P;
-                Common2.H[MNN-1] *= P;
+                Common2.G[MNN - 1] *= P;
+                Common2.H[MNN - 1] *= P;
             }
         }
 
