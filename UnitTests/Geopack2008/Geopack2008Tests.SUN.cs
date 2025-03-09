@@ -1,4 +1,4 @@
-﻿using Shouldly;
+using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 

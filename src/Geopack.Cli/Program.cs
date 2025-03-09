@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using AuroraScienceHub.Geopack;
 
 // More info about the System.CommandLine library:
