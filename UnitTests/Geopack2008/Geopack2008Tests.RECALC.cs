@@ -1,6 +1,6 @@
-﻿using AuroraScienceHub.Geopack.UnitTests.Geopack2008.Fixtures;
-using Shouldly;
+using AuroraScienceHub.Geopack.UnitTests.Geopack2008.Fixtures;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
+using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
@@ -13,7 +13,7 @@ public partial class Geopack2008Tests
     {
         // Act
         // Calculate transformation matrix coefficients
-        var (common1, common2) =_geopack2008.RECALC_08(
+        var (common1, common2) = _geopack2008.RECALC_08(
             _fixture.InputData.DateTime,
             _fixture.InputData.VGSEX,
             _fixture.InputData.VGSEY,

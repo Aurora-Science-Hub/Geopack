@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
 using AuroraScienceHub.Geopack.UnitTests.Models;
 
