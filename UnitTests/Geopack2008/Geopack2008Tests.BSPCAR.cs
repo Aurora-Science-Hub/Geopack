@@ -12,7 +12,7 @@ public partial class Geopack2008Tests
         // Arrange
         var rawData = await EmbeddedResourceReader.ReadTextAsync(BSpCarDatasetFileName);
         var line = rawData.SplitParametersLine();
-        var bspcar = new SphCar()
+        var bspcar = new SphCar
         {
             Theta = line[1].ParseDouble(),
             Phi = line[3].ParseDouble(),
