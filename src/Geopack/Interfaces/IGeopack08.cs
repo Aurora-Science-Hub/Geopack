@@ -80,7 +80,7 @@ public interface IGeopack08
     /// <param name="slong">Longitude along ecliptic</param>
     /// <param name="srasn">Right ascension of the sun (radians)</param>
     /// <param name="sdec">Declination of the sun (radians)</param>
-    Sun Sun(DateTime dateTime);
+    Sun Sun_08(DateTime dateTime);
 
     /// <summary>
     /// Converts spherical coordinates into Cartesian ones (theta and phi in radians).

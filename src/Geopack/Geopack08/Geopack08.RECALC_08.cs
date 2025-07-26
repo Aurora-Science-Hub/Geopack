@@ -131,7 +131,7 @@ public sealed partial class Geopack08
 
         // Calculate GEI components of the unit vector S = EX_GSE
         // Call to SUN_08 method is assumed to be implemented elsewhere
-        var sun = Sun(dateTime);
+        var sun = Sun_08(dateTime);
         double S1 = Math.Cos(sun.Srasn) * Math.Cos(sun.Sdec);
         double S2 = Math.Sin(sun.Srasn) * Math.Cos(sun.Sdec);
         double S3 = Math.Sin(sun.Sdec);

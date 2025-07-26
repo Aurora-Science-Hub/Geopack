@@ -2,7 +2,7 @@ namespace AuroraScienceHub.Geopack.Geopack08;
 
 public sealed partial class Geopack08
 {
-    public Sun Sun(DateTime dateTime)
+    public Sun Sun_08(DateTime dateTime)
     {
         if (dateTime.Year is < 1901 or > 2099)
         {

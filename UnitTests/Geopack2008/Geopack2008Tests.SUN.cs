@@ -8,7 +8,7 @@ public partial class Geopack2008Tests
     public void SUN_08_YearOutOfRange_ReturnsZeroValues()
     {
         // Act
-        var sun = _geopack2008.Sun(new DateTime(1800, 1, 1));
+        var sun = _geopack2008.Sun_08(new DateTime(1800, 1, 1));
 
         // Assert
         sun.Gst.ShouldBe(0);
@@ -21,7 +21,7 @@ public partial class Geopack2008Tests
     public void SUN_08_ValidDate_ReturnsExpectedValues()
     {
         // Act
-        var sun = _geopack2008.Sun(new DateTime(2000, 1, 1, 12, 0, 0));
+        var sun = _geopack2008.Sun_08(new DateTime(2000, 1, 1, 12, 0, 0));
 
         // Assert
         sun.Gst.ShouldBe(4.894961212735792, Tolerance);
@@ -34,7 +34,7 @@ public partial class Geopack2008Tests
     public void SUN_08_LeapYear_ReturnsExpectedValues()
     {
         // Act
-        var sun = _geopack2008.Sun(new DateTime(2004, 2, 29, 0, 0, 0));
+        var sun = _geopack2008.Sun_08(new DateTime(2004, 2, 29, 0, 0, 0));
 
         // Assert
         sun.Gst.ShouldBe(1.752831, Tolerance);
@@ -47,7 +47,7 @@ public partial class Geopack2008Tests
     public void SUN_08_EndOfYear_ReturnsExpectedValues()
     {
         // Act
-        var sun = _geopack2008.Sun(new DateTime(1999, 12, 31, 23, 59, 59));
+        var sun = _geopack2008.Sun_08(new DateTime(1999, 12, 31, 23, 59, 59));
 
         sun.Gst.ShouldBe(6.283185307, Tolerance);
         sun.Slong.ShouldBe(6.283185307, Tolerance);
