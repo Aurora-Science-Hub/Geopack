@@ -123,8 +123,8 @@ public interface IGeopack08
     /// <param name="by">Cartesian component of the field (y)</param>
     /// <param name="bz">Cartesian component of the field (z)</param>
     void BSPCAR_08(
-        float theta, float phi, float br, float btheta, float bphi,
-        out float bx, out float by, out float bz);
+        double theta, double phi, double br, double btheta, double bphi,
+        out double bx, out double by, out double bz);
 
     /// <summary>
     /// Calculates local spherical field components from those in Cartesian system.

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AssemblyName>AuroraScienceHub.Geopack.Benchmarks</AssemblyName>
-    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <!-- Disable entry point generation as this project has it's own entry point -->

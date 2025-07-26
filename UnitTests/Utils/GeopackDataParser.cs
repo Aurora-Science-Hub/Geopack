@@ -161,4 +161,11 @@ public static class GeopackDataParser
     /// </summary>
     /// <param name="value"></param>
     internal static int ParseInt(this string value) => int.Parse(value);
+
+    /// <summary>
+    /// Splits line with parameters,
+    /// when parameters are separated by space, equal sign or tab
+    /// </summary>
+    internal static string[] SplitParametersLine(this string line)
+        => line.Split([' ', '=', '\t'], StringSplitOptions.RemoveEmptyEntries);
 }

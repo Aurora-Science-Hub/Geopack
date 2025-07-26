@@ -1,4 +1,3 @@
-using AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
 using AuroraScienceHub.Geopack.UnitTests.Models;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 
