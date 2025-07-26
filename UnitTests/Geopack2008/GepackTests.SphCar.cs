@@ -1,10 +1,10 @@
-using AuroraScienceHub.Geopack.UnitTests.Models;
+using AuroraScienceHub.Geopack.Contracts;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
-public partial class Geopack2008Tests
+public partial class GeopackTests
 {
     [Fact(DisplayName = "Spherical to cartesian coordinates conversion")]
     public async Task SphCar_ShouldReturnCorrectValues()
@@ -12,13 +12,13 @@ public partial class Geopack2008Tests
         // Arrange
         var rawData = await EmbeddedResourceReader.ReadTextAsync(SphCarDatasetFileName);
         var line = rawData.Split([' ', '=', '\t'], StringSplitOptions.RemoveEmptyEntries);
-        var approvedData = new SphCar();
-        approvedData.R = line[1].ParseDouble();
-        approvedData.Theta = line[3].ParseDouble();
-        approvedData.Phi = line[5].ParseDouble();
-        approvedData.X = line[7].ParseDouble();
-        approvedData.Y = line[9].ParseDouble();
-        approvedData.Z = line[11].ParseDouble();
+        var approvedData = new Point(
+            line[7].ParseDouble(),
+            line[9].ParseDouble(),
+            line[11].ParseDouble(),
+            line[1].ParseDouble(),
+            line[3].ParseDouble(),
+            line[5].ParseDouble());
 
         // Act
         var point = _geopack2008.SphCar(approvedData.R, approvedData.Theta, approvedData.Phi);

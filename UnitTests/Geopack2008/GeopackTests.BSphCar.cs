@@ -4,7 +4,7 @@ using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
-public partial class Geopack2008Tests
+public partial class GeopackTests
 {
     [Fact(DisplayName = "BSphCar: Compare with FORTRAN calculation")]
     public async Task BSphCar_ReturnsCorrectValues()

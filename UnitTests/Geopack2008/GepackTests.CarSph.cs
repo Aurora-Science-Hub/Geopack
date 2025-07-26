@@ -1,10 +1,11 @@
+using AuroraScienceHub.Geopack.Contracts;
 using AuroraScienceHub.Geopack.UnitTests.Models;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
-public partial class Geopack2008Tests
+public partial class GeopackTests
 {
     [Fact(DisplayName = "Cartesian to spherical coordinates conversion: Compare with approved data")]
     public async Task CarSph_ShouldReturnCorrectValues()
@@ -12,15 +13,13 @@ public partial class Geopack2008Tests
         // Arrange
         var rawData = await EmbeddedResourceReader.ReadTextAsync(CarSphDatasetFileName);
         var line = rawData.Split([' ', '=', '\t'], StringSplitOptions.RemoveEmptyEntries);
-        var approvedData = new SphCar
-        {
-            R = line[1].ParseDouble(),
-            Theta = line[3].ParseDouble(),
-            Phi = line[5].ParseDouble(),
-            X = line[7].ParseDouble(),
-            Y = line[9].ParseDouble(),
-            Z = line[11].ParseDouble()
-        };
+        var approvedData = new Point(
+            line[7].ParseDouble(),
+            line[9].ParseDouble(),
+            line[11].ParseDouble(),
+            line[1].ParseDouble(),
+            line[3].ParseDouble(),
+            line[5].ParseDouble());
 
         // Act
         var point = _geopack2008.CarSph(approvedData.X, approvedData.Y, approvedData.Z);

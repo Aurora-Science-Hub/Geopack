@@ -6,7 +6,7 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 public class TestDataCollection : ICollectionFixture<TestDataFixture>;
 
 [Collection("Geopack2008")]
-public partial class Geopack2008Tests(TestDataFixture fixture)
+public partial class GeopackTests(TestDataFixture fixture)
 {
     private const string CommonsDataFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.CommonsDataSet.dat";

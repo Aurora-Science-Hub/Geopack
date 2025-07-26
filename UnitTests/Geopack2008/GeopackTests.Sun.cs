@@ -2,7 +2,7 @@ using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
-public partial class Geopack2008Tests
+public partial class GeopackTests
 {
     [Fact(DisplayName = "SUN_08: Year out of range should return zero values")]
     public void SUN_08_YearOutOfRange_ReturnsZeroValues()

@@ -3,7 +3,7 @@ using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 
-public partial class Geopack2008Tests
+public partial class GeopackTests
 {
     [Fact(DisplayName = "Basic test: Recalc Common1 & Common2 should be correct")]
     public async Task RecalcCommonBlocks_ShouldBeCorrect()

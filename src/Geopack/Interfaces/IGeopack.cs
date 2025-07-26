@@ -5,7 +5,7 @@ namespace AuroraScienceHub.Geopack.Interfaces;
 /// <summary>
 /// Geopack-2008 Double Precision contracts
 /// </summary>
-public interface IGeopack08
+public interface IGeopack
 {
     /// <summary>
     /// Calculates components of the main (internal) geomagnetic field in the geocentric solar-wind

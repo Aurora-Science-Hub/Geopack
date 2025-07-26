@@ -6,7 +6,7 @@ namespace AuroraScienceHub.Geopack.Geopack;
 /// <summary>
 /// Double precision original Geopack-2008
 /// </summary>
-public sealed partial class Geopack : IGeopack08
+public sealed partial class Geopack : IGeopack
 {
     private Common1 Common1 { get; set; } = new();
 
