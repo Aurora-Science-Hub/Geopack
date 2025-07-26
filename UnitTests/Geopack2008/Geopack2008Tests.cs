@@ -27,4 +27,6 @@ public partial class Geopack2008Tests(TestDataFixture _fixture)
     private readonly Geopack08.Geopack08 _geopack2008 = new();
     private const double MinimalTestsPrecision = 0.0000000000001d;
     private const double Tolerance = 13;
+
+    private static readonly DateTime s_someDate = new(1999, 08, 18, 19, 43, 13);
 }

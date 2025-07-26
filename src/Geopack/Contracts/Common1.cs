@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.Geopack.Geopack08;
+namespace AuroraScienceHub.Geopack.Contracts;
 
 public sealed class Common1
 {

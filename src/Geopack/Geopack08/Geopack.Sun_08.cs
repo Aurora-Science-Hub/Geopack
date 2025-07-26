@@ -1,3 +1,5 @@
+using AuroraScienceHub.Geopack.Contracts;
+
 namespace AuroraScienceHub.Geopack.Geopack08;
 
 public sealed partial class Geopack08
@@ -6,7 +8,7 @@ public sealed partial class Geopack08
     {
         if (dateTime.Year is < 1901 or > 2099)
         {
-            return new Sun();
+            return new Sun(dateTime);
         }
 
         double fday = (dateTime.Hour * 3600 + dateTime.Minute * 60 + dateTime.Second) / 86400.0D;
@@ -36,6 +38,6 @@ public sealed partial class Geopack08
         double sdec = Math.Atan2(sind, cosd);
         double srasn = Pi - Math.Atan2(Math.Cos(obliq) / sob * sc, -Math.Cos(slp) / cosd);
 
-        return new Sun(gst, slong, srasn, sdec);
+        return new Sun(dateTime, gst, slong, srasn, sdec);
     }
 }
