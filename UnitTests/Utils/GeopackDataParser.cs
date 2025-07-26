@@ -1,5 +1,4 @@
 using System.Globalization;
-using AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData;
 using AuroraScienceHub.Geopack.UnitTests.Models;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Utils;
@@ -105,7 +104,7 @@ public static class GeopackDataParser
     public static GeopackCommons ParseTrace(string data)
     {
         var lines = data.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        var result = new AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.GeopackCommons();
+        var result = new GeopackCommons();
         var lineIndex = 0;
 
         // Parse header

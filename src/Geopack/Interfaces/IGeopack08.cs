@@ -150,7 +150,7 @@ public interface IGeopack08
     /// <param name="vgsex">GSE (geocentric solar-ecliptic) component of the observed solar wind flow velocity (in km/s)</param>
     /// <param name="vgsey">GSE (geocentric solar-ecliptic) component of the observed solar wind flow velocity (in km/s)</param>
     /// <param name="vgsez">GSE (geocentric solar-ecliptic) component of the observed solar wind flow velocity (in km/s)</param>
-    (Common1, Common2) RECALC_08(DateTime dateTime, double vgsex, double vgsey, double vgsez);
+    (Common1, Common2) Recalc(DateTime dateTime, double vgsex, double vgsey, double vgsez);
 
     /// <summary>
     /// Transforms components of geocentric solar-wind (GSW) system to GSE coordinate.
