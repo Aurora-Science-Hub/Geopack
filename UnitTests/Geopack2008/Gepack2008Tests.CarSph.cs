@@ -23,7 +23,7 @@ public partial class Geopack2008Tests
         };
 
         // Act
-        var point = _geopack2008.CarSph_08(approvedData.X, approvedData.Y, approvedData.Z);
+        var point = _geopack2008.CarSph(approvedData.X, approvedData.Y, approvedData.Z);
 
         // Assert
         point.X.ShouldBe(approvedData.X);
@@ -38,7 +38,7 @@ public partial class Geopack2008Tests
     public void ConvertCoordinates_ZeroCoordinates_ReturnsZeroValues()
     {
         // Act
-        var point = _geopack2008.CarSph_08(0.0, 0.0, 0.0);
+        var point = _geopack2008.CarSph(0.0, 0.0, 0.0);
 
         // Assert
         point.R.ShouldBe(0.0D);
@@ -50,7 +50,7 @@ public partial class Geopack2008Tests
     public void ConvertCoordinates_PositiveZ_ReturnsExpectedValues()
     {
         // Act
-        var point = _geopack2008.CarSph_08(1.0, 1.0, 1.0);
+        var point = _geopack2008.CarSph(1.0, 1.0, 1.0);
 
         // Assert
         point.R.ShouldBe(Math.Sqrt(3), Tolerance);
@@ -62,7 +62,7 @@ public partial class Geopack2008Tests
     public void ConvertCoordinates_NegativeZ_ReturnsExpectedValues()
     {
         // Act
-        var point = _geopack2008.CarSph_08(1.0, 1.0, -1.0);
+        var point = _geopack2008.CarSph(1.0, 1.0, -1.0);
 
         // Assert
         point.R.ShouldBe(Math.Sqrt(3), Tolerance);
@@ -74,7 +74,7 @@ public partial class Geopack2008Tests
     public void ConvertCoordinates_PhiLessThanZero_AdjustsPhi()
     {
         // Act
-        var point = _geopack2008.CarSph_08(-1.0, -1.0, 1.0);
+        var point = _geopack2008.CarSph(-1.0, -1.0, 1.0);
 
         // Assert
         point.R.ShouldBe(Math.Sqrt(3), Tolerance);

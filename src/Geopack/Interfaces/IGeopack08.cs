@@ -1,12 +1,10 @@
 using AuroraScienceHub.Geopack.Contracts;
-using AuroraScienceHub.Geopack.Geopack08;
 
 namespace AuroraScienceHub.Geopack.Interfaces;
 
 /// <summary>
-/// Geopack-2008 Single Precision contracts
+/// Geopack-2008 Double Precision contracts
 /// </summary>
-/// <remarks>Here we use original author's comments and </remarks>
 public interface IGeopack08
 {
     /// <summary>
@@ -80,20 +78,15 @@ public interface IGeopack08
     /// <remarks>
     /// Original: SUN_08
     /// </remarks>
-    Sun Sun_08(DateTime dateTime);
+    Sun Sun(DateTime dateTime);
 
     /// <summary>
-    /// Converts spherical coordinates into Cartesian ones (theta and phi in radians).
+    /// Converts spherical coordinates into Cartesian ones.
     /// </summary>
-    /// <param name="r">Radial distance (for spherical input)</param>
-    /// <param name="theta">Colatitude theta in radians (for spherical input)</param>
-    /// <param name="phi">Longitude phi in radians (for spherical input)</param>
-    /// <param name="x">x-coordinate (for Cartesian output)</param>
-    /// <param name="y">y-coordinate (for Cartesian output)</param>
-    /// <param name="z">z-coordinate (for Cartesian output)</param>
-    void SPHCAR_08(
-        double r, double theta, double phi,
-        out double x, out double y, out double z);
+    /// <param name="r">Radial distance (Earth radii, Re)</param>
+    /// <param name="theta">Co-latitude theta in radians</param>
+    /// <param name="phi">Longitude phi in radians</param>
+    Point SphCar(double r, double theta, double phi);
 
     /// <summary>
     /// Converts Cartesian into spherical coordinates.
@@ -105,7 +98,7 @@ public interface IGeopack08
     /// Theta and Phi in radians, R in Earth radii.
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
     /// </remarks>
-    Point CarSph_08(double x, double y, double z);
+    Point CarSph(double x, double y, double z);
 
     /// <summary>
     /// Calculates Cartesian field components from local spherical ones.

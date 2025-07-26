@@ -21,13 +21,14 @@ public partial class Geopack2008Tests
         approvedData.Z = line[11].ParseDouble();
 
         // Act
-        _geopack2008.SPHCAR_08(
-            approvedData.R, approvedData.Theta, approvedData.Phi,
-            out var x, out var y, out var z);
+        var point = _geopack2008.SphCar(approvedData.R, approvedData.Theta, approvedData.Phi);
 
         // Assert
-        x.ShouldBe(approvedData.X, MinimalTestsPrecision);
-        y.ShouldBe(approvedData.Y, MinimalTestsPrecision);
-        z.ShouldBe(approvedData.Z, MinimalTestsPrecision);
+        point.R.ShouldBe(approvedData.R);
+        point.Theta.ShouldBe(approvedData.Theta);
+        point.Phi.ShouldBe(approvedData.Phi);
+        point.X.ShouldBe(approvedData.X, MinimalTestsPrecision);
+        point.Y.ShouldBe(approvedData.Y, MinimalTestsPrecision);
+        point.Z.ShouldBe(approvedData.Z, MinimalTestsPrecision);
     }
 }

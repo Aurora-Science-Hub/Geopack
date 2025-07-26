@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack.Geopack08;
 
 public sealed partial class Geopack08
 {
-    public Point CarSph_08(double x, double y, double z)
+    public Point CarSph(double x, double y, double z)
     {
         double phi;
         double theta;
