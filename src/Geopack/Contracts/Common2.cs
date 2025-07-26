@@ -1,5 +1,8 @@
 namespace AuroraScienceHub.Geopack.Contracts;
 
+/// <summary>
+/// Coefficients used in the calculation of the main geomagnetic field (IGRF model)
+/// </summary>
 public sealed class Common2
 {
     public double[] G = new double[105];

@@ -1,34 +1,54 @@
 namespace AuroraScienceHub.Geopack.Contracts;
 
+/// <summary>
+/// Location (point) coordinates (cartesian, spherical etc.)
+/// </summary>
 public sealed class Point
 {
     /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="x">Cartesian X-coordinate</param>
+    /// <param name="y">Cartesian Y-coordinate</param>
+    /// <param name="z">Cartesian Z-coordinate</param>
+    /// <param name="r">Spherical coordinate: radial distance in Earth radius (Re)</param>
+    /// <param name="theta">Co-latitude theta in radians</param>
+    /// <param name="phi">Longitude phi in radians</param>
+    public Point(
+        double x, double y, double z,
+        double r, double theta, double phi)
+    {
+        X = x; Y = y; Z = z;
+        R = r; Theta = theta; Phi = phi;
+    }
+
+    /// <summary>
     /// Cartesian X-coordinate
     /// </summary>
-    public double? X { get; private set; }
+    public double X { get; }
 
     /// <summary>
     /// Cartesian Y-coordinate
     /// </summary>
-    public double? Y { get; private set; }
+    public double Y { get; }
 
     /// <summary>
     /// Cartesian Z-coordinate
     /// </summary>
-    public double? Z { get ; private set; }
+    public double Z { get; }
 
     /// <summary>
     /// Spherical coordinate: radial distance in Earth radius (Re)
     /// </summary>
-    public double? R { get; private set; }
+    public double R { get; }
 
     /// <summary>
-    /// Spherical coordinate: theta angle
+    /// Co-latitude theta in radians
     /// </summary>
-    public double? Theta { get; private set; }
+    public double Theta { get; }
 
     /// <summary>
-    ///
+    /// Longitude phi in radians
     /// </summary>
-    public double Phi { get; private set; }
+    public double Phi { get; }
 }

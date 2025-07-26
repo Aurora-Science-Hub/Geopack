@@ -96,20 +96,16 @@ public interface IGeopack08
         out double x, out double y, out double z);
 
     /// <summary>
-    /// Converts Cartesian into spherical coordinates ones (theta and phi in radians).
+    /// Converts Cartesian into spherical coordinates.
     /// </summary>
-    /// <param name="x">x-coordinate (for Cartesian input)</param>
-    /// <param name="y">y-coordinate (for Cartesian input)</param>
-    /// <param name="z">z-coordinate (for Cartesian input)</param>
-    /// <param name="r">Radial distance (for spherical output)</param>
-    /// <param name="theta">Colatitude theta in radians (for spherical output)</param>
-    /// <param name="phi">Longitude phi in radians (for spherical output)</param>
+    /// <param name="x">Cartesian x-coordinate</param>
+    /// <param name="y">Cartesian y-coordinate</param>
+    /// <param name="z">Cartesian z-coordinate</param>
     /// <remarks>
+    /// Theta and Phi in radians, R in Earth radii.
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
     /// </remarks>
-    void CARSPH_08(
-        double x, double y, double z,
-        out double r, out double theta, out double phi);
+    Point CarSph_08(double x, double y, double z);
 
     /// <summary>
     /// Calculates Cartesian field components from local spherical ones.
