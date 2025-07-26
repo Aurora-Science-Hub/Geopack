@@ -7,7 +7,7 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
 public partial class Geopack2008Tests
 {
     [Fact(DisplayName = "Spherical to cartesian coordinates conversion")]
-    public async Task SphCar_ShouldBeCorrect()
+    public async Task SphCar_ShouldReturnCorrectValues()
     {
         // Arrange
         var rawData = await EmbeddedResourceReader.ReadTextAsync(SphCarDatasetFileName);
@@ -21,7 +21,6 @@ public partial class Geopack2008Tests
         approvedData.Z = line[11].ParseDouble();
 
         // Act
-        // Calculate transformation matrix coefficients
         _geopack2008.SPHCAR_08(
             approvedData.R, approvedData.Theta, approvedData.Phi,
             out var x, out var y, out var z);

@@ -76,11 +76,10 @@ public interface IGeopack08
     /// which depend on sun position (and, hence, on universal time and season)
     /// </summary>
     /// <param name="dateTime">Year, day, and universal time in hours, minutes, and seconds</param>
-    /// <param name="gst">Greenwich mean sidereal time</param>
-    /// <param name="slong">Longitude along ecliptic</param>
-    /// <param name="srasn">Right ascension of the sun (radians)</param>
-    /// <param name="sdec">Declination of the sun (radians)</param>
-    void SUN_08(DateTime dateTime, out double gst, out double slong, out double srasn, out double sdec);
+    /// <remarks>
+    /// Original: SUN_08
+    /// </remarks>
+    Sun Sun_08(DateTime dateTime);
 
     /// <summary>
     /// Converts spherical coordinates into Cartesian ones (theta and phi in radians).

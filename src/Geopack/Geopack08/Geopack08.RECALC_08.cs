@@ -131,11 +131,10 @@ public sealed partial class Geopack08
 
         // Calculate GEI components of the unit vector S = EX_GSE
         // Call to SUN_08 method is assumed to be implemented elsewhere
-        double GST, SLONG, SRASN, SDEC;
-        SUN_08(dateTime, out GST, out SLONG, out SRASN, out SDEC);
-        double S1 = Math.Cos(SRASN) * Math.Cos(SDEC);
-        double S2 = Math.Sin(SRASN) * Math.Cos(SDEC);
-        double S3 = Math.Sin(SDEC);
+        var sun = Sun_08(dateTime);
+        double S1 = Math.Cos(sun.Srasn) * Math.Cos(sun.Sdec);
+        double S2 = Math.Sin(sun.Srasn) * Math.Cos(sun.Sdec);
+        double S3 = Math.Sin(sun.Sdec);
 
         // Calculate GEI components of the unit vector EZGSE
         double DJ = 365d * (IY - 1900) + (IY - 1901) / 4d + IDAY - 0.5d + (IHOUR * 3600 + MIN * 60 + ISEC) / 86400d;
@@ -162,8 +161,8 @@ public sealed partial class Geopack08
         double X3 = DX1 * S3 + DX2 * DY3 + DX3 * DZ3;
 
         // Calculate GEI components of the unit vector DIP = EZ_SM = EZ_MAG
-        Common1.CGST = Math.Cos(GST);
-        Common1.SGST = Math.Sin(GST);
+        Common1.CGST = Math.Cos(sun.Gst);
+        Common1.SGST = Math.Sin(sun.Gst);
         double DIP1 = Common1.STCL * Common1.CGST - Common1.STSL * Common1.SGST;
         double DIP2 = Common1.STCL * Common1.SGST + Common1.STSL * Common1.CGST;
         double DIP3 = Common1.CT0;
