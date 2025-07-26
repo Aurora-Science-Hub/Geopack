@@ -115,9 +115,9 @@ public interface IGeopack08
     /// <param name="bx">Cartesian component of the field (x)</param>
     /// <param name="by">Cartesian component of the field (y)</param>
     /// <param name="bz">Cartesian component of the field (z)</param>
-    void BSPCAR_08(
-        double theta, double phi, double br, double btheta, double bphi,
-        out double bx, out double by, out double bz);
+    MagneticFieldVector BSphCar(
+        double theta, double phi,
+        double br, double btheta, double bphi);
 
     /// <summary>
     /// Calculates local spherical field components from those in Cartesian system.
