@@ -86,6 +86,10 @@ public interface IGeopack08
     /// <param name="r">Radial distance (Earth radii, Re)</param>
     /// <param name="theta">Co-latitude theta in radians</param>
     /// <param name="phi">Longitude phi in radians</param>
+    /// <remarks>
+    /// Theta and Phi in radians, R in Earth radii.
+    /// At the poles (x=0 and y=0), phi is assumed to be 0.
+    /// </remarks>
     Point SphCar(double r, double theta, double phi);
 
     /// <summary>

@@ -14,10 +14,10 @@ public partial class Geopack2008Tests
         // Act
         // Calculate transformation matrix coefficients
         var (common1, common2) = _geopack2008.RECALC_08(
-            _fixture.InputData.DateTime,
-            _fixture.InputData.VGSEX,
-            _fixture.InputData.VGSEY,
-            _fixture.InputData.VGSEZ);
+            fixture.InputData.DateTime,
+            fixture.InputData.VGSEX,
+            fixture.InputData.VGSEY,
+            fixture.InputData.VGSEZ);
 
         // Assert
         var rawData = await EmbeddedResourceReader.ReadTextAsync(CommonsDataFileName);

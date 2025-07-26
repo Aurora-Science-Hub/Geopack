@@ -11,7 +11,7 @@ public partial class Geopack2008Tests
     {
         // Arrange
         var rawData = await EmbeddedResourceReader.ReadTextAsync(CarSphDatasetFileName);
-        var line = rawData.Split(new[] { ' ', '=', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+        var line = rawData.Split([' ', '=', '\t'], StringSplitOptions.RemoveEmptyEntries);
         var approvedData = new SphCar
         {
             R = line[1].ParseDouble(),
