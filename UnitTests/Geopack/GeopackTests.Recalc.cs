@@ -1,7 +1,7 @@
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
-namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 public partial class GeopackTests
 {
@@ -9,7 +9,7 @@ public partial class GeopackTests
     public async Task RecalcCommonBlocks_ShouldBeCorrect()
     {
         // Act
-        var (common1, common2) = _geopack2008.Recalc(
+        var (common1, common2) = _geopack.Recalc(
             fixture.InputData.DateTime,
             fixture.InputData.VGSEX,
             fixture.InputData.VGSEY,
