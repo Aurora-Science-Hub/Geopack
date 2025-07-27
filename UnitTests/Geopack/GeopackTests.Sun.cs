@@ -1,6 +1,6 @@
 using Shouldly;
 
-namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 public partial class GeopackTests
 {
@@ -8,7 +8,7 @@ public partial class GeopackTests
     public void SUN_08_YearOutOfRange_ReturnsZeroValues()
     {
         // Act
-        var sun = _geopack2008.Sun(new DateTime(1800, 1, 1));
+        var sun = _geopack.Sun(new DateTime(1800, 1, 1));
 
         // Assert
         sun.DateTime.ShouldBe(new DateTime(1800, 1, 1));
@@ -22,7 +22,7 @@ public partial class GeopackTests
     public void SUN_08_ValidDate_ReturnsExpectedValues()
     {
         // Act
-        var sun = _geopack2008.Sun(new DateTime(2000, 1, 1, 12, 0, 0));
+        var sun = _geopack.Sun(new DateTime(2000, 1, 1, 12, 0, 0));
 
         // Assert
         sun.DateTime.ShouldBe(new DateTime(2000, 1, 1, 12, 0, 0));
@@ -36,7 +36,7 @@ public partial class GeopackTests
     public void SUN_08_LeapYear_ReturnsExpectedValues()
     {
         // Act
-        var sun = _geopack2008.Sun(new DateTime(2004, 2, 29, 0, 0, 0));
+        var sun = _geopack.Sun(new DateTime(2004, 2, 29, 0, 0, 0));
 
         // Assert
         sun.DateTime.ShouldBe(new DateTime(2004, 2, 29, 0, 0, 0));
@@ -50,7 +50,7 @@ public partial class GeopackTests
     public void SUN_08_EndOfYear_ReturnsExpectedValues()
     {
         // Act
-        var sun = _geopack2008.Sun(new DateTime(1999, 12, 31, 23, 59, 59));
+        var sun = _geopack.Sun(new DateTime(1999, 12, 31, 23, 59, 59));
 
         // Assert
         sun.DateTime.ShouldBe(new DateTime(1999, 12, 31, 23, 59, 59));
