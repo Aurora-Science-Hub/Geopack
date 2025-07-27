@@ -21,7 +21,7 @@ public partial class GeopackTests
             line[5].ParseDouble());
 
         // Act
-        var point = _geopack2008.SphCar(approvedData.R, approvedData.Theta, approvedData.Phi);
+        var point = _geopack.SphCar(approvedData.R, approvedData.Theta, approvedData.Phi);
 
         // Assert
         point.R.ShouldBe(approvedData.R);
@@ -46,7 +46,7 @@ public partial class GeopackTests
     public void SphCar_Variances_ReturnCorrectValues(double r, double theta, double phi, double x, double y, double z)
     {
         // Act
-        var point = _geopack2008.SphCar(r, theta, phi);
+        var point = _geopack.SphCar(r, theta, phi);
 
         // Assert
         point.X.ShouldBe(x);

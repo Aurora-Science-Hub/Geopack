@@ -21,7 +21,7 @@ public partial class GeopackTests
             line[5].ParseDouble());
 
         // Act
-        var point = _geopack2008.CarSph(approvedData.X, approvedData.Y, approvedData.Z);
+        var point = _geopack.CarSph(approvedData.X, approvedData.Y, approvedData.Z);
 
         // Assert
         point.X.ShouldBe(approvedData.X);
@@ -45,7 +45,7 @@ public partial class GeopackTests
     public void CarSph_ZeroesAndOnes_ReturnsCorrectValues(double x, double y, double z, double r, double theta, double phi)
     {
         // Act
-        var point = _geopack2008.CarSph(x, y, z);
+        var point = _geopack.CarSph(x, y, z);
 
         // Assert
         point.R.ShouldBe(r);

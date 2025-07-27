@@ -20,7 +20,7 @@ public partial class GeopackTests(TestDataFixture fixture)
     private const string BSpCarDatasetFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.BSpCarDataSet.dat";
 
-    private readonly AuroraScienceHub.Geopack.Geopack.Geopack _geopack2008 = new();
+    private readonly AuroraScienceHub.Geopack.Geopack.Geopack _geopack = new();
     private const double MinimalTestsPrecision = 0.0000000000001d;
     private const double Tolerance = 13;
 }

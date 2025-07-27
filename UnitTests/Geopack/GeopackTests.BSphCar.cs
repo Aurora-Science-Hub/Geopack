@@ -24,7 +24,7 @@ public partial class GeopackTests
             line[9].ParseDouble());
 
         // Act
-        var fieldVector = _geopack2008.BSphCar(
+        var fieldVector = _geopack.BSphCar(
             theta, phi,
             approvedFieldVector.Br, approvedFieldVector.Btheta, approvedFieldVector.Bphi);
 
@@ -41,7 +41,7 @@ public partial class GeopackTests
     public void BSphCar_ZeroAngles_ReturnsExpectedValues()
     {
         // Act
-        var fieldVector = _geopack2008.BSphCar(0.0, 0.0, 1.0, 1.0, 1.0);
+        var fieldVector = _geopack.BSphCar(0.0, 0.0, 1.0, 1.0, 1.0);
 
         // Assert
         fieldVector.Br.ShouldBe(1.0);
@@ -56,7 +56,7 @@ public partial class GeopackTests
     public void BSphCar_NegativeAngles_ReturnsExpectedValues()
     {
         // Act
-        var fieldVector = _geopack2008.BSphCar(-Math.PI / 4, -Math.PI / 4, 1.0, 1.0, 1.0);
+        var fieldVector = _geopack.BSphCar(-Math.PI / 4, -Math.PI / 4, 1.0, 1.0, 1.0);
 
         // Assert
         fieldVector.Br.ShouldBe(1.0);
@@ -71,7 +71,7 @@ public partial class GeopackTests
     public void BSphCar_LargeAngles_ReturnsExpectedValues()
     {
         // Act
-        var fieldVector = _geopack2008.BSphCar(2 * Math.PI, 2 * Math.PI, 1.0, 1.0, 1.0);
+        var fieldVector = _geopack.BSphCar(2 * Math.PI, 2 * Math.PI, 1.0, 1.0, 1.0);
 
         // Assert
         fieldVector.Br.ShouldBe(1.0);
@@ -86,7 +86,7 @@ public partial class GeopackTests
     public void BSphCar_SmallAngles_ReturnsExpectedValues()
     {
         // Act
-        var fieldVector = _geopack2008.BSphCar(1e-10, 1e-10, 1.0, 1.0, 1.0);
+        var fieldVector = _geopack.BSphCar(1e-10, 1e-10, 1.0, 1.0, 1.0);
 
         // Assert
         fieldVector.Br.ShouldBe(1.0);
