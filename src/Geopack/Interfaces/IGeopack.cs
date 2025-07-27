@@ -89,6 +89,7 @@ public interface IGeopack
     /// <remarks>
     /// Theta and Phi in radians, R in Earth radii.
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
+    /// Original Geopack-2008 method: SPHCAR_08
     /// </remarks>
     Point SphCar(double r, double theta, double phi);
 
@@ -101,6 +102,7 @@ public interface IGeopack
     /// <remarks>
     /// Theta and Phi in radians, R in Earth radii.
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
+    /// Original Geopack-2008 method: SPHCAR_08
     /// </remarks>
     Point CarSph(double x, double y, double z);
 
@@ -112,9 +114,9 @@ public interface IGeopack
     /// <param name="br">Local spherical component of the field (radial)</param>
     /// <param name="btheta">Local spherical component of the field (co-latitude)</param>
     /// <param name="bphi">Local spherical component of the field (longitude)</param>
-    /// <param name="bx">Cartesian component of the field (x)</param>
-    /// <param name="by">Cartesian component of the field (y)</param>
-    /// <param name="bz">Cartesian component of the field (z)</param>
+    /// <remarks>
+    /// Original Geopack-2008 method: BSPCAR_08
+    /// </remarks>
     MagneticFieldVector BSphCar(
         double theta, double phi,
         double br, double btheta, double bphi);
@@ -128,6 +130,9 @@ public interface IGeopack
     /// <param name="bx">Cartesian component of the field vector (bx)</param>
     /// <param name="by">Cartesian component of the field vector (by)</param>
     /// <param name="bz">Cartesian component of the field vector (bz)</param>
+    /// <remarks>
+    /// Original Geopack-2008 method: BCARSP_08
+    /// </remarks>
     MagneticFieldVector BCarSph(
         double x, double y, double z,
         double bx, double by, double bz);
@@ -136,16 +141,17 @@ public interface IGeopack
     /// Prepares elements of rotation matrices for transformations of vectors between several coordinate systems,
     /// most frequently used in space physics. Also prepares coefficients used in the calculation of the main geomagnetic field (IGRF model).
     /// </summary>
-    /// <remarks>
-    /// This subroutine should be invoked before using the following subroutines:
-    /// IGRF_GEO_08, IGRF_GSW_08, DIP_08, GEOMAG_08, GEOGSW_08, MAGSW_08, SMGSW_08, GSWGSE_08,
-    /// GEIGEO_08, TRACE_08, STEP_08, RHAND_08.
-    /// There is no need to repeatedly invoke RECALC_08 if multiple calculations are made for the same date/time and solar wind flow direction.
-    /// </remarks>
     /// <param name="dateTime">Date and time in UTC</param>
     /// <param name="vgsex">GSE (geocentric solar-ecliptic) component of the observed solar wind flow velocity (in km/s)</param>
     /// <param name="vgsey">GSE (geocentric solar-ecliptic) component of the observed solar wind flow velocity (in km/s)</param>
     /// <param name="vgsez">GSE (geocentric solar-ecliptic) component of the observed solar wind flow velocity (in km/s)</param>
+    /// <remarks>
+    /// Original Geopack-2008 method: RECALC_08.
+    /// This subroutine should be invoked before using the following subroutines:
+    /// IGRF_GEO_08, IGRF_GSW_08, DIP_08, GEOMAG_08, GEOGSW_08, MAGSW_08,
+    /// SMGSW_08, GSWGSE_08, GEIGEO_08, TRACE_08, STEP_08, RHAND_08.
+    /// There is no need to repeatedly invoke RECALC_08 if multiple calculations are made for the same date/time and solar wind flow direction.
+    /// </remarks>
     (Common1, Common2) Recalc(DateTime dateTime, double vgsex, double vgsey, double vgsez);
 
     /// <summary>

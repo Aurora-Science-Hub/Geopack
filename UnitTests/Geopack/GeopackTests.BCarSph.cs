@@ -5,7 +5,15 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 public partial class GeopackTests
 {
     [Theory(DisplayName = "BCarSph: Compare with FORTRAN calculation")]
-    [InlineData(1, 1, 1, 1, 1, 1, 0, 0, 0)]
+    [InlineData(-1.2, 1, 1.5, 1, 11, -21, -10.020128994909539344, 19.492502934797215630, -9.090618475235615392)]
+    [InlineData(1, 0, 0, 1, 1, 1, 1, -1, 1)]
+    [InlineData(0, 1, 0, 1, 1, 1, 1, -1, -1)]
+    [InlineData(0, 0, 1, 1, 1, 1, 1, 1, 1)]
+    [InlineData(1, 1, 1, 1, 1, 1, 1.7320508075688776, 0, 0)]
+    [InlineData(1, 1, 1, 1, 0, 0, 0.577350269189625842, 0.408248290463863017, -0.707106781186547462)]
+    [InlineData(1, 1, 1, 0, 1, 0, 0.577350269189625842, 0.408248290463863017,  0.707106781186547462)]
+    [InlineData(1, 1, 1, 0, 0, 1, 0.577350269189625842, -0.816496580927726145,  0)]
+    [InlineData(1, 1, 1, 0, 0, 0, 0, 0,  0)]
     public void BCarSph_ShouldReturnsCorrectValues(
         double x, double y, double z,
         double bx, double by, double bz,
@@ -18,38 +26,20 @@ public partial class GeopackTests
         fieldVector.Bx.ShouldBe(bx);
         fieldVector.By.ShouldBe(by);
         fieldVector.Bz.ShouldBe(bz);
-        fieldVector.Br.ShouldBe(br);
-        fieldVector.Btheta.ShouldBe(btheta);
-        fieldVector.Bphi.ShouldBe(bphi);
+        fieldVector.Br.ShouldBe(br, MinimalTestsPrecision);
+        fieldVector.Btheta.ShouldBe(btheta, MinimalTestsPrecision);
+        fieldVector.Bphi.ShouldBe(bphi, MinimalTestsPrecision);
     }
 
-    // [Fact(DisplayName = "BSphCar: Large angles B-field coordinates conversion")]
-    // public void BSphCar_LargeAngles_ReturnsExpectedValues()
-    // {
-    //     // Act
-    //     var fieldVector = _geopack2008.BSphCar(2 * Math.PI, 2 * Math.PI, 1.0, 1.0, 1.0);
-    //
-    //     // Assert
-    //     fieldVector.Br.ShouldBe(1.0);
-    //     fieldVector.Btheta.ShouldBe(1.0);
-    //     fieldVector.Bphi.ShouldBe(1.0);
-    //     fieldVector.Bx.ShouldBe(1.0, MinimalTestsPrecision);
-    //     fieldVector.By.ShouldBe(1.0, MinimalTestsPrecision);
-    //     fieldVector.Bz.ShouldBe(1.0, MinimalTestsPrecision);
-    // }
-    //
-    // [Fact(DisplayName = "BSphCar: Small angles B-field coordinates conversion")]
-    // public void BSphCar_SmallAngles_ReturnsExpectedValues()
-    // {
-    //     // Act
-    //     var fieldVector = _geopack2008.BSphCar(1e-10, 1e-10, 1.0, 1.0, 1.0);
-    //
-    //     // Assert
-    //     fieldVector.Br.ShouldBe(1.0);
-    //     fieldVector.Btheta.ShouldBe(1.0);
-    //     fieldVector.Bphi.ShouldBe(1.0);
-    //     fieldVector.Bx.ShouldBe(1.0, MinimalTestsPrecision);
-    //     fieldVector.By.ShouldBe(1.0000000001, MinimalTestsPrecision);
-    //     fieldVector.Bz.ShouldBe(0.99999999989999999, MinimalTestsPrecision);
-    // }
+    [Fact(DisplayName = "BCarSph: NaNd check (identical to original Geopack-2008 behavior")]
+    public void BCarSph_ShouldReturnNaND_IfDivideByZero()
+    {
+        // Act
+        var fieldVector = _geopack.BCarSph(0, 0, 0, 1, 1, 1);
+
+        // Assert
+        fieldVector.Br.ShouldBe(double.NaN);
+        fieldVector.Btheta.ShouldBe(double.NaN);
+        fieldVector.Bphi.ShouldBe(1);
+    }
 }
