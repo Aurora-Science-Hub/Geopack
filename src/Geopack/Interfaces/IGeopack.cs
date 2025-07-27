@@ -128,13 +128,9 @@ public interface IGeopack
     /// <param name="bx">Cartesian component of the field vector (bx)</param>
     /// <param name="by">Cartesian component of the field vector (by)</param>
     /// <param name="bz">Cartesian component of the field vector (bz)</param>
-    /// <param name="br">Local spherical component of the field vector (radial)</param>
-    /// <param name="btheta">Local spherical component of the field vector (co-latitude)</param>
-    /// <param name="bphi">Local spherical component of the field vector (longitude)</param>
-    void BCARSP_08(
-        float x, float y, float z,
-        float bx, float by, float bz,
-        out float br, out float btheta, out float bphi);
+    MagneticFieldVector BCarSph(
+        double x, double y, double z,
+        double bx, double by, double bz);
 
     /// <summary>
     /// Prepares elements of rotation matrices for transformations of vectors between several coordinate systems,
