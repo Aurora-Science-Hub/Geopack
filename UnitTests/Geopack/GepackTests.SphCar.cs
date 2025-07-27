@@ -31,4 +31,26 @@ public partial class GeopackTests
         point.Y.ShouldBe(approvedData.Y, MinimalTestsPrecision);
         point.Z.ShouldBe(approvedData.Z, MinimalTestsPrecision);
     }
+
+    [Theory(DisplayName = "Spherical to cartesian coordinates: zeroes and ones")]
+    [InlineData(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)]
+    [InlineData(1.0, 0.0, 0.0, 0.0, 0.0, 1.0)]
+    [InlineData(0.0, 1.0, 0.0, 0.0, 0.0, 0.0)]
+    [InlineData(0.0, 0.0, 1.0, 0.0, 0.0, 0.0)]
+    [InlineData(1.0, 1.0, 1.0, 0.45464871341284091, 0.70807341827357118, 0.54030230586813977)]
+    [InlineData(-1.0, 0.0, 0.0, 0.0, 0.0, -1.0)]
+    [InlineData(0.0, -1.0, 0.0, 0.0, 0.0, 0.0)]
+    [InlineData(0.0, 0.0, -1.0, 0.0, 0.0, 0.0)]
+    [InlineData(-1.0, -1.0, -1.0, 0.45464871341284091, -0.70807341827357118, -0.54030230586813977)]
+
+    public void SphCar_Variances_ReturnCorrectValues(double r, double theta, double phi, double x, double y, double z)
+    {
+        // Act
+        var point = _geopack2008.SphCar(r, theta, phi);
+
+        // Assert
+        point.X.ShouldBe(x);
+        point.Y.ShouldBe(y);
+        point.Z.ShouldBe(z);
+    }
 }

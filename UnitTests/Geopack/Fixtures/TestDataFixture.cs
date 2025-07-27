@@ -5,7 +5,7 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack.Fixtures;
 
 public class TestDataFixture
 {
-    private const string InputDataFileName = "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.InputData.dat";
+    private const string InputDataFileName = "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.InputData.dat";
 
     public InputGeopackData InputData { get; private set; }
 
