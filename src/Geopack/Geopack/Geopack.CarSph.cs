@@ -27,6 +27,6 @@ public sealed partial class Geopack
             theta = z < 0.0d ? Pi : 0.0d;
         }
 
-        return new Point(x, y, x, r, theta, phi);
+        return new Point(x, y, z, r, theta, phi);
     }
 }
