@@ -1,6 +1,6 @@
 using Shouldly;
 
-namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 public partial class GeopackTests
 {
@@ -12,7 +12,7 @@ public partial class GeopackTests
         double br, double btheta, double bphi)
     {
         // Act
-        var fieldVector = _geopack2008.BCarSph(x, y, z, bx, by, bz);
+        var fieldVector = _geopack.BCarSph(x, y, z, bx, by, bz);
 
         // Assert
         fieldVector.Bx.ShouldBe(bx);
