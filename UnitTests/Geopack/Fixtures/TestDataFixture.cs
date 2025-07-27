@@ -1,7 +1,7 @@
 using AuroraScienceHub.Geopack.UnitTests.Models;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 
-namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008.Fixtures;
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack.Fixtures;
 
 public class TestDataFixture
 {

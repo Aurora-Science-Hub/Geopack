@@ -1,6 +1,6 @@
-using AuroraScienceHub.Geopack.UnitTests.Geopack2008.Fixtures;
+using AuroraScienceHub.Geopack.UnitTests.Geopack.Fixtures;
 
-namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 [CollectionDefinition("Geopack2008")]
 public class TestDataCollection : ICollectionFixture<TestDataFixture>;
@@ -20,7 +20,7 @@ public partial class GeopackTests(TestDataFixture fixture)
     private const string BSpCarDatasetFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack2008.TestData.BSpCarDataSet.dat";
 
-    private readonly Geopack.Geopack _geopack2008 = new();
+    private readonly AuroraScienceHub.Geopack.Geopack.Geopack _geopack2008 = new();
     private const double MinimalTestsPrecision = 0.0000000000001d;
     private const double Tolerance = 13;
 }

@@ -1,6 +1,6 @@
 using Shouldly;
 
-namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 public partial class GeopackTests
 {

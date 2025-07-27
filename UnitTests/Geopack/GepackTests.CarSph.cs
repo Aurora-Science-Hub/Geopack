@@ -1,9 +1,8 @@
 using AuroraScienceHub.Geopack.Contracts;
-using AuroraScienceHub.Geopack.UnitTests.Models;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
-namespace AuroraScienceHub.Geopack.UnitTests.Geopack2008;
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 public partial class GeopackTests
 {
