@@ -31,7 +31,7 @@ public partial class GeopackTests
         fieldVector.Bphi.ShouldBe(bphi, MinimalTestsPrecision);
     }
 
-    [Fact(DisplayName = "BCarSph: NaNd check (identical to original Geopack-2008 behavior")]
+    [Fact(DisplayName = "BCarSph: NaN check (identical to original Geopack-2008 behavior)")]
     public void BCarSph_ShouldReturnNaND_IfDivideByZero()
     {
         // Act

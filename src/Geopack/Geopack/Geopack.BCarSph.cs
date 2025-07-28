@@ -16,7 +16,7 @@ public sealed partial class Geopack
         double cphi;
         double sphi;
 
-        if (rho is not 0)
+        if (rho > 0.0D)
         {
             cphi = x / rho;
             sphi = y / rho;
