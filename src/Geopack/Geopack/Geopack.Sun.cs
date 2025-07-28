@@ -12,7 +12,8 @@ public sealed partial class Geopack
         }
 
         double fday = (dateTime.Hour * 3600 + dateTime.Minute * 60 + dateTime.Second) / 86400.0D;
-        double dj = 365 * (dateTime.Year - 1900) + (dateTime.Year - 1901) / 4.0D + dateTime.DayOfYear - 0.5D + fday;
+        //TODO Ask Tsyganenko if there 4 is really not 4.0D. Here we lose fraction
+        double dj = 365 * (dateTime.Year - 1900) + (dateTime.Year - 1901) / 4 + dateTime.DayOfYear - 0.5D + fday;
         double t = dj / 36525.0D;
         double vl = (279.696678D + 0.9856473354D * dj) % 360.0D;
         double gst = (279.690983D + 0.9856473354D * dj + 360.0D * fday + 180.0D) % 360.0D / Rad;

@@ -22,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{FCE92E85-C5E0-46B0-8AB7-E7259BC5A047}"
 	ProjectSection(SolutionItems) = preProject
 		docs\NuGetPackages.md = docs\NuGetPackages.md
+		docs\Geopack_2008dp_Questions.md = docs\Geopack_2008dp_Questions.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{5629D2C8-588F-490D-9A47-0C424916DA0B}"
