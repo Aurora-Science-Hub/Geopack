@@ -3,7 +3,7 @@ namespace AuroraScienceHub.Geopack.Contracts;
 /// <summary>
 /// Location (point) coordinates (cartesian, spherical etc.)
 /// </summary>
-public sealed class Point
+public sealed class Location
 {
     /// <summary>
     /// ctor
@@ -14,7 +14,7 @@ public sealed class Point
     /// <param name="r">Spherical coordinate: radial distance in Earth radius (Re)</param>
     /// <param name="theta">Co-latitude theta in radians</param>
     /// <param name="phi">Longitude phi in radians</param>
-    public Point(
+    public Location(
         double x, double y, double z,
         double r, double theta, double phi)
     {

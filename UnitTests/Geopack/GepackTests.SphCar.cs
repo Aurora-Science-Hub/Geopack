@@ -12,7 +12,7 @@ public partial class GeopackTests
         // Arrange
         var rawData = await EmbeddedResourceReader.ReadTextAsync(SphCarDatasetFileName);
         var line = rawData.Split([' ', '=', '\t'], StringSplitOptions.RemoveEmptyEntries);
-        var approvedData = new Point(
+        var approvedData = new Location(
             line[7].ParseDouble(),
             line[9].ParseDouble(),
             line[11].ParseDouble(),

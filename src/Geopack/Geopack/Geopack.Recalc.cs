@@ -6,11 +6,11 @@ public sealed partial class Geopack
 {
     public (Common1, Common2) Recalc(DateTime dateTime, double vgsex, double vgsey, double vgsez)
     {
-        int IY = dateTime.Year;
-        int IDAY = dateTime.DayOfYear;
-        int IHOUR = dateTime.Hour;
-        int MIN = dateTime.Minute;
-        int ISEC = dateTime.Second;
+        var IY = dateTime.Year;
+        var IDAY = dateTime.DayOfYear;
+        var IHOUR = dateTime.Hour;
+        var MIN = dateTime.Minute;
+        var ISEC = dateTime.Second;
 
         if (IY < 1965)
         {

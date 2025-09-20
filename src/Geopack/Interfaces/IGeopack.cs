@@ -42,12 +42,12 @@ public interface IGeopack
     /// <param name="r">Spherical geographic (geocentric) coordinates: radial distance r in units re=6371.2 km</param>
     /// <param name="theta">Colatitude theta in radians</param>
     /// <param name="phi">Longitude phi in radians</param>
-    /// <param name="br">Spherical components of the main geomagnetic field in nanotesla (positive br outward)</param>
-    /// <param name="btheta">Spherical components of the main geomagnetic field in nanotesla (btheta southward)</param>
-    /// <param name="bphi">Spherical components of the main geomagnetic field in nanotesla (bphi eastward)</param>
-    void IGRF_GEO_08(
-        float r, float theta, float phi,
-        out float br, out float btheta, out float bphi);
+    /// <returns>
+    /// - br - Spherical components of the main geomagnetic field in nanotesla (positive br outward)
+    /// - btheta - Spherical components of the main geomagnetic field in nanotesla (btheta southward)
+    /// - bphi - Spherical components of the main geomagnetic field in nanotesla (bphi eastward)
+    /// </returns>
+    MagneticFieldVector IgrfGeo(float r, float theta, float phi);
 
     /// <summary>
     /// Calculates GSW (geocentric solar-wind) components of geodipole field with the dipole moment
@@ -91,7 +91,7 @@ public interface IGeopack
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
     /// Original Geopack-2008 method: SPHCAR_08
     /// </remarks>
-    Point SphCar(double r, double theta, double phi);
+    Location SphCar(double r, double theta, double phi);
 
     /// <summary>
     /// Converts Cartesian into spherical coordinates.
@@ -104,7 +104,7 @@ public interface IGeopack
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
     /// Original Geopack-2008 method: SPHCAR_08
     /// </remarks>
-    Point CarSph(double x, double y, double z);
+    Location CarSph(double x, double y, double z);
 
     /// <summary>
     /// Calculates Cartesian field components from local spherical ones.

@@ -29,30 +29,30 @@ public sealed class MagneticFieldVector
     /// <summary>
     /// Cartesian magnetic field x-component
     /// </summary>
-    public double Bx { get; }
+    public double? Bx { get; }
 
     /// <summary>
     /// Cartesian magnetic field y-component
     /// </summary>
-    public double By { get; }
+    public double? By { get; }
 
     /// <summary>
     /// Cartesian magnetic field z-component
     /// </summary>
-    public double Bz { get; }
+    public double? Bz { get; }
 
     /// <summary>
     /// Spherical magnetic field radial component
     /// </summary>
-    public double Br { get; }
+    public double? Br { get; }
 
     /// <summary>
     /// Spherical magnetic field theta-component
     /// </summary>
-    public double Btheta { get; }
+    public double? Btheta { get; }
 
     /// <summary>
     /// Spherical magnetic field phi-component
     /// </summary>
-    public double Bphi { get; }
+    public double? Bphi { get; }
 }
