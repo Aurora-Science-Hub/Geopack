@@ -118,6 +118,6 @@ public sealed partial class Geopack
             bphi = bbf / s;
         }
 
-        return new MagneticFieldVector(br: br, btheta: btheta, bphi: bphi);
+        return BSphCar(theta, phi, br, btheta, bphi);
     }
 }

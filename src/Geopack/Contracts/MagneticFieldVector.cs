@@ -15,8 +15,8 @@ public sealed class MagneticFieldVector
     /// <param name="btheta">Spherical magnetic field theta-component</param>
     /// <param name="bphi">Spherical magnetic field phi-component</param>
     public MagneticFieldVector(
-        double? bx = null, double? by = null, double? bz = null,
-        double? br = null, double? btheta = null, double? bphi = null)
+        double bx, double by, double bz,
+        double br, double btheta, double bphi)
     {
         Bx = bx;
         By = by;
@@ -29,30 +29,30 @@ public sealed class MagneticFieldVector
     /// <summary>
     /// Cartesian magnetic field x-component
     /// </summary>
-    public double? Bx { get; }
+    public double Bx { get; }
 
     /// <summary>
     /// Cartesian magnetic field y-component
     /// </summary>
-    public double? By { get; }
+    public double By { get; }
 
     /// <summary>
     /// Cartesian magnetic field z-component
     /// </summary>
-    public double? Bz { get; }
+    public double Bz { get; }
 
     /// <summary>
     /// Spherical magnetic field radial component
     /// </summary>
-    public double? Br { get; }
+    public double Br { get; }
 
     /// <summary>
     /// Spherical magnetic field theta-component
     /// </summary>
-    public double? Btheta { get; }
+    public double Btheta { get; }
 
     /// <summary>
     /// Spherical magnetic field phi-component
     /// </summary>
-    public double? Bphi { get; }
+    public double Bphi { get; }
 }
