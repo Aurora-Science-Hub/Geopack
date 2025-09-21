@@ -47,7 +47,7 @@ public interface IGeopack
     /// - btheta - Spherical components of the main geomagnetic field in nanotesla (btheta southward)
     /// - bphi - Spherical components of the main geomagnetic field in nanotesla (bphi eastward)
     /// </returns>
-    MagneticFieldVector IgrfGeo(float r, float theta, float phi);
+    MagneticFieldVector IgrfGeo(double r, double theta, double phi);
 
     /// <summary>
     /// Calculates GSW (geocentric solar-wind) components of geodipole field with the dipole moment

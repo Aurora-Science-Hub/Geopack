@@ -15,8 +15,8 @@ public sealed class MagneticFieldVector
     /// <param name="btheta">Spherical magnetic field theta-component</param>
     /// <param name="bphi">Spherical magnetic field phi-component</param>
     public MagneticFieldVector(
-        double bx, double by, double bz,
-        double br, double btheta, double bphi)
+        double? bx = null, double? by = null, double? bz = null,
+        double? br = null, double? btheta = null, double? bphi = null)
     {
         Bx = bx;
         By = by;
