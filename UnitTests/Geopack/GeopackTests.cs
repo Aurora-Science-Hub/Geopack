@@ -10,6 +10,8 @@ public partial class GeopackTests(TestDataFixture fixture)
 {
     private readonly AuroraScienceHub.Geopack.Geopack.Geopack _geopack = new();
 
+    private const double DegRad = 0.01745329D;
+
     private const double MinimalTestsPrecision = 0.0000000000001d;
 
     private const string CommonsDataFileName =

@@ -26,14 +26,14 @@ public sealed partial class Geopack
         }
 
         var k = nm + 1;
-        var a = new double[k + 1]; // ?????
-        var b = new double[k + 1]; // ?????
+        var a = new double[k];
+        var b = new double[k];
 
         for (var n = 1; n <= k; n++)
         {
             p *= pp;
-            a[n] = p;
-            b[n] = p * n;
+            a[n-1] = p;
+            b[n-1] = p * n;
         }
 
         p = 1.0;
@@ -67,14 +67,14 @@ public sealed partial class Geopack
 
             for (var n = m; n <= k; n++)
             {
-                var an = a[n];
+                var an = a[n-1];
                 var mn = n * (n - 1) / 2 + m;
-                var e = Common2.G[mn];
-                var hh = Common2.H[mn];
-                var xk = Common2.REC[mn];
+                var e = Common2.G[mn-1];
+                var hh = Common2.H[mn-1];
+                var xk = Common2.REC[mn-1];
 
                 var w = e * y + hh * x;
-                bbr += b[n] * w * q;
+                bbr += b[n-1] * w * q;
                 bbt -= an * w * z;
 
                 if (m is not 1)
