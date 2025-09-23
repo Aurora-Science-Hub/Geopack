@@ -23,9 +23,6 @@ public partial class GeopackTests
         var fieldVector = _geopack.BCarSph(x, y, z, bx, by, bz);
 
         // Assert
-        fieldVector.Bx.ShouldBe(bx);
-        fieldVector.By.ShouldBe(by);
-        fieldVector.Bz.ShouldBe(bz);
         fieldVector.Br.ShouldBe(br, MinimalTestsPrecision);
         fieldVector.Btheta.ShouldBe(btheta, MinimalTestsPrecision);
         fieldVector.Bphi.ShouldBe(bphi, MinimalTestsPrecision);

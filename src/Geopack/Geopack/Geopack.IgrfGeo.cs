@@ -4,10 +4,10 @@ namespace AuroraScienceHub.Geopack.Geopack;
 
 public sealed partial class Geopack
 {
-    public MagneticFieldVector IgrfGeo(double r, double theta, double phi)
+    public SphericalFieldVector IgrfGeo(double r, double coLatitude, double phi)
     {
-        var c = Math.Cos(theta);
-        var s = Math.Sin(theta);
+        var c = Math.Cos(coLatitude);
+        var s = Math.Sin(coLatitude);
         var cf = Math.Cos(phi);
         var sf = Math.Sin(phi);
 
@@ -118,6 +118,6 @@ public sealed partial class Geopack
             bphi = bbf / s;
         }
 
-        return BSphCar(theta, phi, br, btheta, bphi);
+        return new SphericalFieldVector(br, btheta, bphi, null);
     }
 }

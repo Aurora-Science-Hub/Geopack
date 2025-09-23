@@ -15,26 +15,27 @@ public partial class GeopackTests
 
         var theta = line[1].ParseDouble();
         var phi = line[3].ParseDouble();
-        var approvedFieldVector = new MagneticFieldVector(
+        var approvedSphericalFieldVector = new SphericalFieldVector(
+            line[5].ParseDouble(),
+            line[7].ParseDouble(),
+            line[9].ParseDouble(),
+            null);
+
+        var expectedVector = new CartesianFieldVector(
             line[11].ParseDouble(),
             line[13].ParseDouble(),
             line[15].ParseDouble(),
-            line[5].ParseDouble(),
-            line[7].ParseDouble(),
-            line[9].ParseDouble());
+            null);
 
         // Act
         var fieldVector = _geopack.BSphCar(
             theta, phi,
-            approvedFieldVector.Br, approvedFieldVector.Btheta, approvedFieldVector.Bphi);
+            approvedSphericalFieldVector.Br, approvedSphericalFieldVector.Btheta, approvedSphericalFieldVector.Bphi);
 
         // Assert
-        fieldVector.Bx.ShouldBe(approvedFieldVector.Bx, MinimalTestsPrecision);
-        fieldVector.By.ShouldBe(approvedFieldVector.By, MinimalTestsPrecision);
-        fieldVector.Bz.ShouldBe(approvedFieldVector.Bz, MinimalTestsPrecision);
-        fieldVector.Br.ShouldBe(approvedFieldVector.Br, MinimalTestsPrecision);
-        fieldVector.Btheta.ShouldBe(approvedFieldVector.Btheta, MinimalTestsPrecision);
-        fieldVector.Bphi.ShouldBe(approvedFieldVector.Bphi, MinimalTestsPrecision);
+        fieldVector.Bx.ShouldBe(expectedVector.Bx, MinimalTestsPrecision);
+        fieldVector.By.ShouldBe(expectedVector.By, MinimalTestsPrecision);
+        fieldVector.Bz.ShouldBe(expectedVector.Bz, MinimalTestsPrecision);
     }
 
     [Fact(DisplayName = "BSphCar: Zero angles B-field coordinates conversion")]
@@ -44,9 +45,6 @@ public partial class GeopackTests
         var fieldVector = _geopack.BSphCar(0.0, 0.0, 1.0, 1.0, 1.0);
 
         // Assert
-        fieldVector.Br.ShouldBe(1.0);
-        fieldVector.Btheta.ShouldBe(1.0);
-        fieldVector.Bphi.ShouldBe(1.0);
         fieldVector.Bx.ShouldBe(1.0, MinimalTestsPrecision);
         fieldVector.By.ShouldBe(1.0, MinimalTestsPrecision);
         fieldVector.Bz.ShouldBe(1.0, MinimalTestsPrecision);
@@ -59,9 +57,6 @@ public partial class GeopackTests
         var fieldVector = _geopack.BSphCar(-Math.PI / 4, -Math.PI / 4, 1.0, 1.0, 1.0);
 
         // Assert
-        fieldVector.Br.ShouldBe(1.0);
-        fieldVector.Btheta.ShouldBe(1.0);
-        fieldVector.Bphi.ShouldBe(1.0);
         fieldVector.Bx.ShouldBe(0.70710678118654757, MinimalTestsPrecision);
         fieldVector.By.ShouldBe(0.70710678118654746, MinimalTestsPrecision);
         fieldVector.Bz.ShouldBe(1.4142135623730949, MinimalTestsPrecision);
@@ -74,9 +69,6 @@ public partial class GeopackTests
         var fieldVector = _geopack.BSphCar(2 * Math.PI, 2 * Math.PI, 1.0, 1.0, 1.0);
 
         // Assert
-        fieldVector.Br.ShouldBe(1.0);
-        fieldVector.Btheta.ShouldBe(1.0);
-        fieldVector.Bphi.ShouldBe(1.0);
         fieldVector.Bx.ShouldBe(1.0, MinimalTestsPrecision);
         fieldVector.By.ShouldBe(1.0, MinimalTestsPrecision);
         fieldVector.Bz.ShouldBe(1.0, MinimalTestsPrecision);
@@ -89,9 +81,6 @@ public partial class GeopackTests
         var fieldVector = _geopack.BSphCar(1e-10, 1e-10, 1.0, 1.0, 1.0);
 
         // Assert
-        fieldVector.Br.ShouldBe(1.0);
-        fieldVector.Btheta.ShouldBe(1.0);
-        fieldVector.Bphi.ShouldBe(1.0);
         fieldVector.Bx.ShouldBe(1.0, MinimalTestsPrecision);
         fieldVector.By.ShouldBe(1.0000000001, MinimalTestsPrecision);
         fieldVector.Bz.ShouldBe(0.99999999989999999, MinimalTestsPrecision);

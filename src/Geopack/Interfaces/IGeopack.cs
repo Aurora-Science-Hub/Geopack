@@ -47,7 +47,7 @@ public interface IGeopack
     /// - btheta - Spherical components of the main geomagnetic field in nanotesla (btheta southward)
     /// - bphi - Spherical components of the main geomagnetic field in nanotesla (bphi eastward)
     /// </returns>
-    MagneticFieldVector IgrfGeo(double r, double theta, double phi);
+    SphericalFieldVector IgrfGeo(double r, double theta, double phi);
 
     /// <summary>
     /// Calculates GSW (geocentric solar-wind) components of geodipole field with the dipole moment
@@ -117,7 +117,7 @@ public interface IGeopack
     /// <remarks>
     /// Original Geopack-2008 method: BSPCAR_08
     /// </remarks>
-    MagneticFieldVector BSphCar(
+    CartesianFieldVector BSphCar(
         double theta, double phi,
         double br, double btheta, double bphi);
 
@@ -133,8 +133,7 @@ public interface IGeopack
     /// <remarks>
     /// Original Geopack-2008 method: BCARSP_08
     /// </remarks>
-    MagneticFieldVector BCarSph(
-        double x, double y, double z,
+    SphericalFieldVector BCarSph(double x, double y, double z,
         double bx, double by, double bz);
 
     /// <summary>
