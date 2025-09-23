@@ -118,6 +118,6 @@ public sealed partial class Geopack
             bphi = bbf / s;
         }
 
-        return new SphericalFieldVector(br, btheta, bphi, null);
+        return new SphericalFieldVector(br, btheta, bphi, CoordinateSystem.GEO);
     }
 }
