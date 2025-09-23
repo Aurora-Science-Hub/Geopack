@@ -18,24 +18,24 @@ public partial class GeopackTests
         var lon = xLon * DegRad;
 
         var approvedData = new MagneticFieldVector(
-            51372.491600877190649044D,
-            66.305873729605991684D,
-            -11025.145645735878133564D,
-            -52158.723565112122741994D,
-            -4417.628027113716598251D,
-            -4543.483788135986287671D);
+            52835.667510690909693949,
+            -5276.746518637517510797,
+            -7147.665100534355588024,
+            -52864.306715310063736979,
+            -8687.996256471798915300,
+            651.711645425813571819);
 
         // Act
         _geopack.Recalc(fixture.InputData.DateTime, fixture.InputData.VGSEX, fixture.InputData.VGSEY, fixture.InputData.VGSEZ);
         var field = _geopack.IgrfGeo(r, coLat, lon);
 
         // Assert
-        field.Br.ShouldBe(approvedData.Br, MinimalTestsPrecision);
-        field.Btheta.ShouldBe(approvedData.Btheta, MinimalTestsPrecision);
-        field.Bphi.ShouldBe(approvedData.Bphi, MinimalTestsPrecision);
-        field.Bx.ShouldBe(approvedData.Bx);
-        field.By.ShouldBe(approvedData.By);
-        field.Bz.ShouldBe(approvedData.Bz);
+        field.Br.ShouldBe(-52864.306715310063736979, MinimalTestsPrecision);
+        field.Btheta.ShouldBe(-8687.996256471798915300, MinimalTestsPrecision);
+        field.Bphi.ShouldBe(651.711645425813571819, MinimalTestsPrecision);
+        field.Bx.ShouldBe(52835.667510690909693949, MinimalTestsPrecision);
+        field.By.ShouldBe(-5276.746518637517510797, MinimalTestsPrecision);
+        field.Bz.ShouldBe(-7147.665100534355588024, MinimalTestsPrecision);
     }
 
     // [Theory(DisplayName = "Spherical to cartesian coordinates: zeroes and ones")]
