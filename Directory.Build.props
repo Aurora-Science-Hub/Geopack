@@ -9,6 +9,7 @@
     <WarningLevel>9999</WarningLevel>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <NoWarn>$(NoWarn);</NoWarn>
+<!--    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1900;</WarningsNotAsErrors>-->
 
     <!-- Pack everything with embedded .pdb -->
     <EmbedAllSources>true</EmbedAllSources>

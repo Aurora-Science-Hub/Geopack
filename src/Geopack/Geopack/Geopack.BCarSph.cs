@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack.Geopack;
 
 public sealed partial class Geopack
 {
-    public MagneticFieldVector BCarSph(
+    public SphericalFieldVector BCarSph(
         double x, double y, double z,
         double bx, double by, double bz)
     {
@@ -34,6 +34,6 @@ public sealed partial class Geopack
         var btheta = (bx * cphi + by * sphi) * ct - bz * st;
         var bphi = by * cphi - bx * sphi;
 
-        return new MagneticFieldVector(bx, by, bz, br, btheta, bphi);
+        return new SphericalFieldVector(br, btheta, bphi, null);
     }
 }
