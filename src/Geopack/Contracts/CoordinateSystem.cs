@@ -6,5 +6,8 @@ namespace AuroraScienceHub.Geopack.Contracts;
 public enum CoordinateSystem
 {
     /// <summary> Geographic coordinate system </summary>
-    GEO
+    GEO,
+
+    /// <summary> Geocentric Solar Wind system </summary>
+    GSW
 }
