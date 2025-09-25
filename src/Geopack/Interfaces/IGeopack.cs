@@ -63,7 +63,7 @@ public interface IGeopack
     /// <param name="xgsw">GSW coordinates in re (1 re = 6371.2 km)</param>
     /// <param name="ygsw">GSW coordinates in re (1 re = 6371.2 km)</param>
     /// <param name="zgsw">GSW coordinates in re (1 re = 6371.2 km)</param>
-    CartesianFieldVector Dip(float xgsw, float ygsw, float zgsw);
+    CartesianFieldVector Dip(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Calculates four quantities necessary for coordinate transformations
