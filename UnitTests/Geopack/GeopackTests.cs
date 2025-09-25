@@ -10,7 +10,6 @@ public partial class GeopackTests(TestDataFixture fixture)
 {
     private readonly AuroraScienceHub.Geopack.Geopack.Geopack _geopack = new();
 
-    private const double DegRad = 0.01745329D;
     private const double Pi = 3.141592654D;
     private const double TwoPi = 6.283185307D;
     private const double Rad = 57.295779513D;
