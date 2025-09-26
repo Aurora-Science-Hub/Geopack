@@ -18,14 +18,14 @@ public sealed partial class Geopack
         // HARMONIC EXPANSION) IS NOT USER-PRESCRIBED, BUT CALCULATED INSIDE THE SUBROUTINE, BASED
         // ON THE VALUE OF THE RADIAL DISTANCE R:
 
-        var irp3 = (int)r + 2;
-        var nm = 3 + 30 / irp3;
+        int irp3 = (int)r + 2;
+        int nm = 3 + 30 / irp3;
         if (nm > 13)
         {
             nm = 13;
         }
 
-        var k = nm + 1;
+        int k = nm + 1;
         var a = new double[k];
         var b = new double[k];
 
@@ -44,16 +44,16 @@ public sealed partial class Geopack
 
         double x = 0.0D, y = 0.0D;
 
-        for (var m = 1; m <= k; m++)
+        for (int m = 1; m <= k; m++)
         {
             if (m is 1)
             {
-                x = 0.0;
-                y = 1.0;
+                x = 0.0D;
+                y = 1.0D;
             }
             else
             {
-                var mm = m - 1;
+                int mm = m - 1;
                 double w = x;
                 x = w * cf + y * sf;
                 y = y * cf - w * sf;
@@ -65,10 +65,10 @@ public sealed partial class Geopack
             double p2 = 0.0D;
             double d2 = 0.0D;
 
-            for (var n = m; n <= k; n++)
+            for (int n = m; n <= k; n++)
             {
                 double an = a[n-1];
-                var mn = n * (n - 1) / 2 + m;
+                int mn = n * (n - 1) / 2 + m;
                 double e = Common2.G[mn-1];
                 double hh = Common2.H[mn-1];
                 double xk = Common2.REC[mn-1];
