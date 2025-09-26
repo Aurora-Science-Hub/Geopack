@@ -34,4 +34,17 @@ public partial class GeopackTests
         resultField.Btheta.ShouldBe(expectedBtheta, MinimalTestsPrecision);
         resultField.Bphi.ShouldBe(expectedBphi, MinimalTestsPrecision);
     }
+
+    [Fact(DisplayName = "IGRF_GEO_08 is NaN if Zero coordinates")]
+    public void IgrfGeo_ShouldReturnNaNValues_IfZeroCoordinates()
+    {
+        // Act
+        _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
+        var resultField = _geopack.IgrfGeo(0.0D, 0.0D, 0.0D);
+
+        // Assert
+        resultField.Br.ShouldBe(double.NaN);
+        resultField.Btheta.ShouldBe(double.NaN);
+        resultField.Bphi.ShouldBe(double.NaN);
+    }
 }
