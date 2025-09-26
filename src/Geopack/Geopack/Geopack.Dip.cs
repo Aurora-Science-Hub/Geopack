@@ -13,7 +13,7 @@ public sealed partial class Geopack
         double v = 3.0D * zgsw * xgsw;
         double t = Math.Pow(ygsw, 2);
 
-        double q = dipmom / Math.Pow(Math.Sqrt(p + t + u), 5);
+        double q = dipmom / Math.Pow(p + t + u, 2.5);
 
         double bxgsw = q * ((t + u - 2.0D * p) * Common1.SPS - v * Common1.CPS);
         double bygsw = -3.0D * ygsw * q * (xgsw * Common1.SPS + zgsw * Common1.CPS);

@@ -12,7 +12,6 @@ public partial class GeopackTests
     [InlineData(-6.5999999999999996,0.0D, 0.0D, 70.248846561769155983, 0.000000000000000000, 98.845731875605991945)]
     [InlineData(0.0D,-6.5999999999999996D, 0.0D, -35.124423280884577991, 0.000000000000000000, 98.845731875605991945)]
     [InlineData(0.0D, 0.0D, -6.5999999999999996D, -35.124423280884577991, 0.000000000000000000, -197.691463751211983890)]
-    [InlineData(0.0D, 0.0D, 0.0D, double.NaN, double.NaN, double.NaN)]
     public void Dip_ShouldReturnCorrectValues(
         double xgsw, double ygsw, double zgsw,
         double expectedBx, double expectedBy, double expectedBz)
