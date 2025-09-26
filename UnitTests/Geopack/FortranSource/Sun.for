@@ -1,0 +1,16 @@
+      PROGRAM SUN_08_TESTS
+
+      IMPLICIT REAL*8 (A-H,O-Z)
+
+      IY=2004
+      IDAY=60
+      IHOUR=0
+      MIN=0
+      ISEC=0
+
+      CALL SUN_08 (IY,IDAY,IHOUR,MIN,ISEC,GST,SLONG,SRASN,SDEC)
+
+      write(*, 10) GST,SLONG,SRASN,SDEC
+10    FORMAT(4F23.18)
+
+      END
