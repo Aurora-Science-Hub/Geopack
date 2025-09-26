@@ -6,7 +6,7 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 public partial class GeopackTests
 {
-    [Fact(DisplayName = "BSphCar: Compare with FORTRAN calculation")]
+    [Fact(DisplayName = "Iterate BSPCAR_08 setups and verify result")]
     public async Task BSphCar_ReturnsCorrectValues()
     {
         // Arrange

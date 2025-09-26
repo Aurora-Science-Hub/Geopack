@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 public partial class GeopackTests
 {
-    [Theory(DisplayName = "BCarSph: Compare with FORTRAN calculation")]
+    [Theory(DisplayName = "Iterate BCARSP_08 setups and verify result")]
     [InlineData(-1.2, 1, 1.5, 1, 11, -21, -10.020128994909539344, 19.492502934797215630, -9.090618475235615392)]
     [InlineData(1, 0, 0, 1, 1, 1, 1, -1, 1)]
     [InlineData(0, 1, 0, 1, 1, 1, 1, -1, -1)]

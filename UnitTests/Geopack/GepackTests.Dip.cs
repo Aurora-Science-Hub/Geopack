@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 public partial class GeopackTests
 {
-    [Theory(DisplayName = "Iterate IGRF setups and verify result")]
+    [Theory(DisplayName = "Iterate DIP_08 setups and verify result")]
     [InlineData(73.0D, 175.0D, 1.02D, -52864.305642992534558289, -8687.997645029174236697, 651.714296303753599204)]
     [InlineData(90.0, 0.0, 1.02, -53078.710753819832461886, -1566.578021744054694864, -997.428703425218827761)]
     [InlineData(90.0, 45.0, 1.02, -53078.710753819832461886, -1813.026542374652080980, 402.449342492993991982)]
@@ -17,7 +17,7 @@ public partial class GeopackTests
     [InlineData(50.0, -90.0, 1.02, -53752.810795780664193444, -12788.775549677107846946, -495.322683045213238984)]
     [InlineData(89.9, 0.0, 1.02, -53063.222394293967226986, -1617.228827444984290196, -998.914807598020502155)]
     [InlineData(-89.9999, 0.0, 1.02, 50101.815124357046443038, -13178.076581014527619118, 4176496199.650153636932373047)]
-    public void IgrfGeo_ShouldReturnCorrectValues(
+    public void Dip_ShouldReturnCorrectValues(
         double xLat, double xLon, double r,
         double expectedBr, double expectedBtheta, double expectedBphi)
     {
