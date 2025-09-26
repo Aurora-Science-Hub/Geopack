@@ -6,13 +6,13 @@ public sealed partial class Geopack
 {
     public SphericalFieldVector IgrfGeo(double r, double coLatitude, double phi)
     {
-        var c = Math.Cos(coLatitude);
-        var s = Math.Sin(coLatitude);
-        var cf = Math.Cos(phi);
-        var sf = Math.Sin(phi);
+        double c = Math.Cos(coLatitude);
+        double s = Math.Sin(coLatitude);
+        double cf = Math.Cos(phi);
+        double sf = Math.Sin(phi);
 
-        var pp = 1.0 / r;
-        var p = pp;
+        double pp = 1.0D / r;
+        double p = pp;
 
         // IN THIS NEW VERSION, THE OPTIMAL VALUE OF THE PARAMETER NM (MAXIMAL ORDER OF THE SPHERICAL
         // HARMONIC EXPANSION) IS NOT USER-PRESCRIBED, BUT CALCULATED INSIDE THE SUBROUTINE, BASED
@@ -36,13 +36,13 @@ public sealed partial class Geopack
             b[n-1] = p * n;
         }
 
-        p = 1.0;
-        var d = 0.0;
-        var bbr = 0.0;
-        var bbt = 0.0;
-        var bbf = 0.0;
+        p = 1.0D;
+        double d = 0.0D;
+        double bbr = 0.0D;
+        double bbt = 0.0D;
+        double bbf = 0.0D;
 
-        double x = 0.0, y = 0.0;
+        double x = 0.0D, y = 0.0D;
 
         for (var m = 1; m <= k; m++)
         {
@@ -54,38 +54,38 @@ public sealed partial class Geopack
             else
             {
                 var mm = m - 1;
-                var w = x;
+                double w = x;
                 x = w * cf + y * sf;
                 y = y * cf - w * sf;
             }
 
-            var q = p;
-            var z = d;
-            var bi = 0.0;
-            var p2 = 0.0;
-            var d2 = 0.0;
+            double q = p;
+            double z = d;
+            double bi = 0.0D;
+            double p2 = 0.0D;
+            double d2 = 0.0D;
 
             for (var n = m; n <= k; n++)
             {
-                var an = a[n-1];
+                double an = a[n-1];
                 var mn = n * (n - 1) / 2 + m;
-                var e = Common2.G[mn-1];
-                var hh = Common2.H[mn-1];
-                var xk = Common2.REC[mn-1];
+                double e = Common2.G[mn-1];
+                double hh = Common2.H[mn-1];
+                double xk = Common2.REC[mn-1];
 
-                var w = e * y + hh * x;
+                double w = e * y + hh * x;
                 bbr += b[n-1] * w * q;
                 bbt -= an * w * z;
 
                 if (m is not 1)
                 {
-                    var qq = q;
+                    double qq = q;
                     if (s < 1e-5) qq = z;
                     bi += an * (e * x - hh * y) * qq;
                 }
 
-                var dp = c * z - s * q - xk * d2;
-                var pm = c * q - xk * p2;
+                double dp = c * z - s * q - xk * d2;
+                double pm = c * q - xk * p2;
                 d2 = z;
                 p2 = q;
                 z = dp;
@@ -104,8 +104,8 @@ public sealed partial class Geopack
             bbf += bi;
         }
 
-        var br = bbr;
-        var btheta = bbt;
+        double br = bbr;
+        double btheta = bbt;
         double bphi;
 
         if (s < 1e-10)
