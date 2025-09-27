@@ -12,12 +12,9 @@ public partial class GeopackTests
         var approvedData = new SphericalLocation(1.7320508075689, 0.9553166181245, 0.7853981633974);
 
         // Act
-        var point = _geopack.CarSph(approvedData.X, approvedData.Y, approvedData.Z);
+        var point = _geopack.CarSph(1.0D, 1.0D, 1.0D);
 
         // Assert
-        point.X.ShouldBe(approvedData.X);
-        point.Y.ShouldBe(approvedData.Y);
-        point.Z.ShouldBe(approvedData.Z);
         point.R.ShouldBe(approvedData.R, MinimalTestsPrecision);
         point.Theta.ShouldBe(approvedData.Theta, MinimalTestsPrecision);
         point.Phi.ShouldBe(approvedData.Phi, MinimalTestsPrecision);

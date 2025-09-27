@@ -7,26 +7,15 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 public partial class GeopackTests
 {
     [Fact(DisplayName = "Spherical to cartesian coordinates conversion")]
-    public async Task SphCar_ShouldReturnCorrectValues()
+    public void SphCar_ShouldReturnCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(SphCarDatasetFileName);
-        var line = rawData.Split([' ', '=', '\t'], StringSplitOptions.RemoveEmptyEntries);
-        var approvedData = new Location(
-            line[7].ParseDouble(),
-            line[9].ParseDouble(),
-            line[11].ParseDouble(),
-            line[1].ParseDouble(),
-            line[3].ParseDouble(),
-            line[5].ParseDouble());
+        var approvedData = new CartesianLocation(0.4637416876811D, 0.7222348866390D, 0.5511083519855D);
 
         // Act
-        var point = _geopack.SphCar(approvedData.R, approvedData.Theta, approvedData.Phi);
+        var point = _geopack.SphCar(1.02D, 1.0D, 1.0D);
 
         // Assert
-        point.R.ShouldBe(approvedData.R);
-        point.Theta.ShouldBe(approvedData.Theta);
-        point.Phi.ShouldBe(approvedData.Phi);
         point.X.ShouldBe(approvedData.X, MinimalTestsPrecision);
         point.Y.ShouldBe(approvedData.Y, MinimalTestsPrecision);
         point.Z.ShouldBe(approvedData.Z, MinimalTestsPrecision);

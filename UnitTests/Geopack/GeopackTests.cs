@@ -19,9 +19,6 @@ public partial class GeopackTests(TestDataFixture fixture)
     private const string CommonsDataFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.CommonsDataSet.dat";
 
-    private const string SphCarDatasetFileName =
-        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.SphCarDataSet.dat";
-
     private const string BSpCarDatasetFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.BSpCarDataSet.dat";
 }
