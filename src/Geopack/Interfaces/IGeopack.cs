@@ -86,7 +86,7 @@ public interface IGeopack
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
     /// Original Geopack-2008 method: SPHCAR_08
     /// </remarks>
-    Location SphCar(double r, double theta, double phi);
+    CartesianLocation SphCar(double r, double theta, double phi);
 
     /// <summary>
     /// Converts Cartesian into spherical coordinates.
@@ -99,7 +99,7 @@ public interface IGeopack
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
     /// Original Geopack-2008 method: SPHCAR_08
     /// </remarks>
-    Location CarSph(double x, double y, double z);
+    SphericalLocation CarSph(double x, double y, double z);
 
     /// <summary>
     /// Calculates Cartesian field components from local spherical ones.
@@ -160,7 +160,7 @@ public interface IGeopack
     /// <param name="xgsw">GSW x-coordinate</param>
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
-    CartesianLocation GswGse(float xgsw, float ygsw, float zgsw);
+    CartesianLocation GswGse(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Transforms GSE coordinate components to geocentric solar-wind (GSW) ones.

@@ -9,7 +9,7 @@ public partial class GeopackTests
     public void CarSph_ShouldReturnCorrectValues()
     {
         // Arrange
-        var approvedData = new Location(1, 1, 1, 1.7320508075689, 0.9553166181245, 0.7853981633974);
+        var approvedData = new SphericalLocation(1.7320508075689, 0.9553166181245, 0.7853981633974);
 
         // Act
         var point = _geopack.CarSph(approvedData.X, approvedData.Y, approvedData.Z);

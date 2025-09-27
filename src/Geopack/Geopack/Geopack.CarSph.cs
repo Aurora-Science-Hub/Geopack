@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack.Geopack;
 
 public sealed partial class Geopack
 {
-    public Location CarSph(double x, double y, double z)
+    public SphericalLocation CarSph(double x, double y, double z)
     {
         double phi;
         double theta;
@@ -27,6 +27,6 @@ public sealed partial class Geopack
             theta = z < 0.0d ? Pi : 0.0d;
         }
 
-        return new Location(x, y, z, r, theta, phi);
+        return new SphericalLocation(r, theta, phi);
     }
 }
