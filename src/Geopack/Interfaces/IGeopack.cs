@@ -160,12 +160,7 @@ public interface IGeopack
     /// <param name="xgsw">GSW x-coordinate</param>
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
-    /// <param name="xgse">GSE x-coordinate</param>
-    /// <param name="ygse">GSE y-coordinate</param>
-    /// <param name="zgse">GSE z-coordinate</param>
-    void GSWGSE_08(
-        float xgsw, float ygsw, float zgsw,
-        out float xgse, out float ygse, out float zgse);
+    CartesianLocation GswGse(float xgsw, float ygsw, float zgsw);
 
     /// <summary>
     /// Transforms GSE coordinate components to geocentric solar-wind (GSW) ones.
