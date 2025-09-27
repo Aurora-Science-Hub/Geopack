@@ -177,9 +177,7 @@ public interface IGeopack
     /// <param name="xgsw">GSW x-coordinate</param>
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
-    void GSEGSW_08(
-         float xgse, float ygse, float zgse,
-         out float xgsw, out float ygsw, out float zgsw);
+    CartesianLocation GseGsw(double xgse, double ygse, double zgse);
 
     /// <summary>
     /// Converts geographic (GEO) to dipole (MAG) coordinates.

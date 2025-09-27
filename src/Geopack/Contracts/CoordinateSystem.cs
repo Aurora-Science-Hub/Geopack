@@ -9,5 +9,8 @@ public enum CoordinateSystem
     GEO,
 
     /// <summary> Geocentric Solar Wind system </summary>
-    GSW
+    GSW,
+
+    /// <summary> Geocentric Solar Equatorial system </summary>
+    GSE
 }
