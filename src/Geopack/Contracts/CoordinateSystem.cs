@@ -12,5 +12,8 @@ public enum CoordinateSystem
     GSW,
 
     /// <summary> Geocentric Solar Equatorial system </summary>
-    GSE
+    GSE,
+
+    /// <summary> Dipole Magnetic coordinate system </summary>
+    MAG
 }

@@ -142,11 +142,11 @@ public interface IGeopack
     /// <remarks>
     /// Original Geopack-2008 method: RECALC_08.
     /// This subroutine should be invoked before using the following subroutines:
-    /// IGRF_GEO_08, IGRF_GSW_08, DIP_08, GEOMAG_08, GEOGSW_08, MAGSW_08,
-    /// SMGSW_08, GSWGSE_08, GEIGEO_08, TRACE_08, STEP_08, RHAND_08.
+    /// IgrfGeo, IgrfGsw, Dip, GeoMag, GeoGsw, MAGSW_08,
+    /// SMGSW_08, GswGse, GEIGEO_08, TRACE_08, STEP_08, RHAND_08.
     /// There is no need to repeatedly invoke RECALC_08 if multiple calculations are made for the same date/time and solar wind flow direction.
     /// </remarks>
-    (Common1, Common2) Recalc(DateTime dateTime, double vgsex, double vgsey, double vgsez);
+    (Common1, Common2) Recalc(DateTime dateTime, double vgsex=-400.0D, double vgsey=0.0D, double vgsez=0.0D);
 
     /// <summary>
     /// Transforms components of geocentric solar-wind (GSW) system to GSE coordinate.
@@ -174,9 +174,6 @@ public interface IGeopack
     /// <param name="xgse">GSE x-coordinate</param>
     /// <param name="ygse">GSE y-coordinate</param>
     /// <param name="zgse">GSE z-coordinate</param>
-    /// <param name="xgsw">GSW x-coordinate</param>
-    /// <param name="ygsw">GSW y-coordinate</param>
-    /// <param name="zgsw">GSW z-coordinate</param>
     CartesianLocation GseGsw(double xgse, double ygse, double zgse);
 
     /// <summary>
@@ -191,12 +188,7 @@ public interface IGeopack
     /// <param name="xgeo">GEO x-coordinate</param>
     /// <param name="ygeo">GEO y-coordinate</param>
     /// <param name="zgeo">GEO z-coordinate</param>
-    /// <param name="xmag">MAG x-coordinate</param>
-    /// <param name="ymag">MAG y-coordinate</param>
-    /// <param name="zmag">MAG z-coordinate</param>
-    void GEOMAG_08(
-        float xgeo, float ygeo, float zgeo,
-        out float xmag, out float ymag, out float zmag);
+    CartesianLocation GeoMag(double xgeo, double ygeo, double zgeo);
 
     /// <summary>
     /// Converts dipole (MAG) coordinates to geographic (GEO).
@@ -210,12 +202,7 @@ public interface IGeopack
     /// <param name="xmag">MAG x-coordinate</param>
     /// <param name="ymag">MAG y-coordinate</param>
     /// <param name="zmag">MAG z-coordinate</param>
-    /// <param name="xgeo">GEO x-coordinate</param>
-    /// <param name="ygeo">GEO y-coordinate</param>
-    /// <param name="zgeo">GEO z-coordinate</param>
-    void MAGGEO_08(
-        float xmag, float ymag, float zmag,
-        out float xgeo, out float ygeo, out float zgeo);
+    CartesianLocation MagGeo(double xmag, double ymag, double zmag);
 
     /// <summary>
     /// Converts equatorial inertial (GEI) to geographical (GEO) coordinates.
