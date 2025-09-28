@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Contracts;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -20,6 +21,7 @@ public partial class GeopackTests
         location.X.ShouldBe(xgse, MinimalTestsPrecision);
         location.Y.ShouldBe(ygse, MinimalTestsPrecision);
         location.Z.ShouldBe(zgse, MinimalTestsPrecision);
+        location.CoordinateSystem.ShouldBe(CoordinateSystem.GSE);
     }
 
     [Theory(DisplayName = "GseGsw: convert to correct values")]
@@ -38,5 +40,6 @@ public partial class GeopackTests
         location.X.ShouldBe(xgsw, MinimalTestsPrecision);
         location.Y.ShouldBe(ygsw, MinimalTestsPrecision);
         location.Z.ShouldBe(zgsw, MinimalTestsPrecision);
+        location.CoordinateSystem.ShouldBe(CoordinateSystem.GSW);
     }
 }

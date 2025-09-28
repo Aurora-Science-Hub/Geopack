@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Contracts;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -33,6 +34,7 @@ public partial class GeopackTests
         resultField.Br.ShouldBe(expectedBr, MinimalTestsPrecision);
         resultField.Btheta.ShouldBe(expectedBtheta, MinimalTestsPrecision);
         resultField.Bphi.ShouldBe(expectedBphi, MinimalTestsPrecision);
+        resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GEO);
     }
 
     [Fact(DisplayName = "IGRF_GEO_08 is NaN if Zero coordinates")]
@@ -46,5 +48,6 @@ public partial class GeopackTests
         resultField.Br.ShouldBe(double.NaN);
         resultField.Btheta.ShouldBe(double.NaN);
         resultField.Bphi.ShouldBe(double.NaN);
+        resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GEO);
     }
 }
