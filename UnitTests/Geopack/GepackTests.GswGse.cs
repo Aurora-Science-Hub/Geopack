@@ -9,6 +9,7 @@ public partial class GeopackTests
     [InlineData(1, 1, 1, 1.058072250173702544, 1.071148866358210050, 0.856226149857503227)]
     [InlineData(-1, -1, -1, -1.058072250173702544, -1.071148866358210050, -0.856226149857503227)]
     [InlineData(4.5678, 4.5678, 4.5678, 4.833062424343439467, 4.892793791751032018, 3.911069807319103475)]
+    [InlineData(0, 0, 0, 0, 0, 0)]
     public void GswGse_ReturnsCorrectValues(double xgsw, double ygsw, double zgsw, double xgse, double ygse, double zgse)
     {
         // Act
@@ -26,6 +27,7 @@ public partial class GeopackTests
     [InlineData(1, 1, 1, 0.943135426752761630, 0.909404539846109805, 1.132907299790544497)]
     [InlineData(-1, -1, -1, -0.943135426752761630, -0.909404539846109805, -1.132907299790544497)]
     [InlineData(4.5678, 4.5678, 4.5678, 4.308054002321264342, 4.153978057109060984, 5.174893963983248746)]
+    [InlineData(0, 0, 0, 0, 0, 0)]
     public void GseGsw_ReturnsCorrectValues(double xgse, double ygse, double zgse, double xgsw, double ygsw, double zgsw)
     {
         // Act
