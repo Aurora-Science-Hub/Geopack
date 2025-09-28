@@ -167,4 +167,10 @@ public static class GeopackDataParser
     /// </summary>
     internal static string[] SplitParametersLine(this string line)
         => line.Split([' ', '=', '\t'], StringSplitOptions.RemoveEmptyEntries);
+
+    /// <summary>
+    /// Splits raw data onto lines
+    /// </summary>
+    internal static string[] SplitLines(this string raw)
+        => raw.Split(['\n'], StringSplitOptions.RemoveEmptyEntries);
 }
