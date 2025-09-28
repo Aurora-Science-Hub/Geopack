@@ -10,7 +10,7 @@ public sealed partial class Geopack
         double ymag = ygeo * Common1.CL0 - xgeo * Common1.SL0;
         double zmag = xgeo * Common1.STCL + ygeo * Common1.STSL + zgeo * Common1.CT0;
 
-        return new CartesianLocation(xmag, ymag, zmag, CoordinateSystem.GEO);
+        return new CartesianLocation(xmag, ymag, zmag, CoordinateSystem.MAG);
     }
 
     public CartesianLocation MagGeo(double xmag, double ymag, double zmag)
@@ -19,6 +19,6 @@ public sealed partial class Geopack
         double ygeo = xmag * Common1.CTSL + ymag * Common1.CL0 + zmag * Common1.STSL;
         double zgeo = zmag * Common1.CT0 - xmag * Common1.ST0;
 
-        return new CartesianLocation(xgeo, ygeo, zgeo);
+        return new CartesianLocation(xgeo, ygeo, zgeo, CoordinateSystem.GEO);
     }
 }
