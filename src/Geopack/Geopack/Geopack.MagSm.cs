@@ -17,6 +17,6 @@ public sealed partial class Geopack
         double xMag = xSm * Common1.CFI + ySm * Common1.SFI;
         double yMag = ySm * Common1.CFI - xSm * Common1.SFI;
         double zMag = zSm;
-        return new CartesianLocation(xMag, yMag, zMag, CoordinateSystem.GEO);
+        return new CartesianLocation(xMag, yMag, zMag, CoordinateSystem.MAG);
     }
 }
