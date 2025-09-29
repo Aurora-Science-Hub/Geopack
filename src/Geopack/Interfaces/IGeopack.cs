@@ -146,7 +146,7 @@ public interface IGeopack
     /// SMGSW_08, GswGse, GEIGEO_08, TRACE_08, STEP_08, RHAND_08.
     /// There is no need to repeatedly invoke RECALC_08 if multiple calculations are made for the same date/time and solar wind flow direction.
     /// </remarks>
-    (Common1, Common2) Recalc(DateTime dateTime, double vgsex=-400.0D, double vgsey=0.0D, double vgsez=0.0D);
+    (Common1, Common2) Recalc(DateTime dateTime, double vgsex=-400.0, double vgsey=0.0, double vgsez=0.0);
 
     /// <summary>
     /// Transforms components of geocentric solar-wind (GSW) system to GSE coordinate.
