@@ -30,7 +30,7 @@ C    Specify transformation direction (J > 0 - direct, J < 0 - vice versa)
       J=-1
 
 C    Specify output file name
-      OPEN(UNIT=1,FILE='SmMag.dat')
+      OPEN(UNIT=1,FILE='GswSm.dat')
 
       DO 20 N=1,6
       DO 30 M=1,6
@@ -38,11 +38,11 @@ C    Specify output file name
 
       IF (J .GT. 0) THEN
 C     Specify procedure for direct coordinates transformation
-      CALL MAGSM_08 (X(N),Y(M),Z(K),XR,YR,ZR,J)
+      CALL SMGSW_08 (X(N),Y(M),Z(K),XR,YR,ZR,J)
       ENDIF
       IF (J .LT. 0) THEN
 C     Specify procedure for vice versa coordinates transformation
-      CALL MAGSM_08 (XR,YR,ZR,X(N),Y(M),Z(K),J)
+      CALL SMGSW_08 (XR,YR,ZR,X(N),Y(M),Z(K),J)
       ENDIF
 
       write(1, 10) X(N),Y(M),Z(K),XR, YR, ZR
