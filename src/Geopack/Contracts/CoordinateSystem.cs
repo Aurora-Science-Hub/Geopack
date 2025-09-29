@@ -17,6 +17,9 @@ public enum CoordinateSystem
     /// <summary> Dipole Magnetic coordinate system </summary>
     MAG,
 
+    /// <summary> Solar Magnetic coordinate system </summary>
+    SM,
+
     /// <summary> Equatorial Inertial (GEI) coordinate system </summary>
     GEI
 }

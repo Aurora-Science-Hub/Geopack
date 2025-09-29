@@ -236,7 +236,7 @@ public interface IGeopack
     /// Converts dipole (MAG) to solar magnetic (SM) coordinates.
     /// </summary>
     /// <remarks>
-    /// Before calling MAGSM_08, be sure to invoke the subroutine RECALC_08 in three cases:
+    /// Before calling MagSm, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have changed.
     /// 3. If the values of components of the solar wind flow velocity have changed.
@@ -248,18 +248,13 @@ public interface IGeopack
     /// <param name="xmag">MAG x-coordinate</param>
     /// <param name="ymag">MAG y-coordinate</param>
     /// <param name="zmag">MAG z-coordinate</param>
-    /// <param name="xsm">SM x-coordinate</param>
-    /// <param name="ysm">SM y-coordinate</param>
-    /// <param name="zsm">SM z-coordinate</param>
-    void MAGSM_08(
-        float xmag, float ymag, float zmag,
-        out float xsm, out float ysm, out float zsm);
+    CartesianLocation MagSm(double xmag, double ymag, double zmag);
 
     /// <summary>
     /// Converts solar magnetic (SM) to dipole (MAG) coordinates.
     /// </summary>
     /// <remarks>
-    /// Before calling SMMAG_08, be sure to invoke the subroutine RECALC_08 in three cases:
+    /// Before calling SmMag, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have changed.
     /// 3. If the values of components of the solar wind flow velocity have changed.
@@ -271,12 +266,7 @@ public interface IGeopack
     /// <param name="xsm">SM x-coordinate</param>
     /// <param name="ysm">SM y-coordinate</param>
     /// <param name="zsm">SM z-coordinate</param>
-    /// <param name="xmag">MAG x-coordinate</param>
-    /// <param name="ymag">MAG y-coordinate</param>
-    /// <param name="zmag">MAG z-coordinate</param>
-    void SMMAG_08(
-        float xsm, float ysm, float zsm,
-        out float xmag, out float ymag, out float zmag);
+    CartesianLocation SmMag(double xsm, double ysm, double zsm);
 
     /// <summary>
     /// Converts solar magnetic (SM) to geocentric solar-wind (GSW) coordinates.
