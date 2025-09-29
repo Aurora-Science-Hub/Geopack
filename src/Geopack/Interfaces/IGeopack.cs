@@ -208,7 +208,7 @@ public interface IGeopack
     /// Converts equatorial inertial (GEI) to geographical (GEO) coordinates.
     /// </summary>
     /// <remarks>
-    /// Before calling GEIGEO_08, be sure to invoke the subroutine RECALC_08 in two cases:
+    /// Before calling GeiGeo, be sure to invoke the subroutine RECALC_08 in two cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the current values date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in RECALC_08.
@@ -216,18 +216,13 @@ public interface IGeopack
     /// <param name="xgei">GEI x-coordinate</param>
     /// <param name="ygei">GEI y-coordinate</param>
     /// <param name="zgei">GEI z-coordinate</param>
-    /// <param name="xgeo">GEO x-coordinate</param>
-    /// <param name="ygeo">GEO y-coordinate</param>
-    /// <param name="zgeo">GEO z-coordinate</param>
-    void GEIGEO_08(
-        float xgei, float ygei, float zgei,
-        out float xgeo, out float ygeo, out float zgeo);
+    CartesianLocation GeiGeo(double xgei, double ygei, double zgei);
 
     /// <summary>
     /// Converts geographical (GEO) coordinates to equatorial inertial (GEI).
     /// </summary>
     /// <remarks>
-    /// Before calling GEOGEI_08, be sure to invoke the subroutine RECALC_08 in two cases:
+    /// Before calling GeoGei, be sure to invoke the subroutine RECALC_08 in two cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the current values date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in RECALC_08.
@@ -235,12 +230,7 @@ public interface IGeopack
     /// <param name="xgeo">GEO x-coordinate</param>
     /// <param name="ygeo">GEO y-coordinate</param>
     /// <param name="zgeo">GEO z-coordinate</param>
-    /// <param name="xgei">GEI x-coordinate</param>
-    /// <param name="ygei">GEI y-coordinate</param>
-    /// <param name="zgei">GEI z-coordinate</param>
-    void GEOGEI_08(
-        float xgeo, float ygeo, float zgeo,
-        out float xgei, out float ygei, out float zgei);
+    CartesianLocation GeoGei(double xgeo, double ygeo, double zgeo);
 
     /// <summary>
     /// Converts dipole (MAG) to solar magnetic (SM) coordinates.

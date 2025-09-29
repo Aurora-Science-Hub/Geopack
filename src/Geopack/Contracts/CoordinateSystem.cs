@@ -15,5 +15,8 @@ public enum CoordinateSystem
     GSE,
 
     /// <summary> Dipole Magnetic coordinate system </summary>
-    MAG
+    MAG,
+
+    /// <summary> Equatorial Inertial (GEI) coordinate system </summary>
+    GEI
 }

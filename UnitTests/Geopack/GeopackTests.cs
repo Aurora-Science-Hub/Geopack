@@ -31,4 +31,10 @@ public partial class GeopackTests(TestDataFixture fixture)
 
     private const string GseGswDatasetFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GseGsw.dat";
+
+    private const string GeiGeoDatasetFileName =
+        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GeiGeo.dat";
+
+    private const string GeoGeiDatasetFileName =
+        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GeoGei.dat";
 }
