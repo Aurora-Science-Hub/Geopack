@@ -26,8 +26,10 @@
 
       CALL RECALC_08 (IYEAR,IDAY,IHOUR,MIN,ISEC,VGSEX,VGSEY,VGSEZ)
 
-C    Specify transformation direction (DIR > 0 - direct, < 0 - vice versa)
+C    Specify transformation direction (J > 0 - direct, J < 0 - vice versa)
       J=-1
+
+C    Specify output file name
       OPEN(UNIT=1,FILE='MagGeo.dat')
 
       DO 20 N=1,6
@@ -35,9 +37,11 @@ C    Specify transformation direction (DIR > 0 - direct, < 0 - vice versa)
       DO 40 K=1,6
 
       IF (J .GT. 0) THEN
+C     Specify procedure for direct coordinates transformation
       CALL GEOMAG_08 (X(N),Y(M),Z(K),XR,YR,ZR,J)
       ENDIF
       IF (J .LT. 0) THEN
+C     Specify procedure for vice versa coordinates transformation
       CALL GEOMAG_08 (XR,YR,ZR,X(N),Y(M),Z(K),J)
       ENDIF
 
