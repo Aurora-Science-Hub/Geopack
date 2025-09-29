@@ -348,7 +348,7 @@ public interface IGeopack
     /// </remarks>
     /// <param name="h">Altitude (km) for geodetic input or geocentric radius (km) for geocentric input</param>
     /// <param name="xmu">Geodetic latitude (radians) for geodetic input or co-latitude (radians) for geocentric input</param>
-    void GeodGeo(double h, double xmu);
+    GeodeticGeocentricCoordinates GeodGeo(double h, double xmu);
 
     /// <summary>
     /// Converts geocentric coordinates R and THETA into vertical local height (altitude) H and geodetic latitude XMU.
@@ -360,7 +360,7 @@ public interface IGeopack
     /// </remarks>
     /// <param name="r">Geocentric radius (km) for geocentric output or altitude (km) for geodetic output</param>
     /// <param name="theta">Co-latitude (radians) for geocentric output or geodetic latitude (radians) for geodetic output</param>
-    void GeoGeod(double r, double theta);
+    GeodeticGeocentricCoordinates GeoGeod(double r, double theta);
 
     /// <summary>
     /// Calculates the components of the right-hand side vector in the geomagnetic field line equation.
