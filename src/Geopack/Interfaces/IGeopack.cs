@@ -272,7 +272,7 @@ public interface IGeopack
     /// Converts solar magnetic (SM) to geocentric solar-wind (GSW) coordinates.
     /// </summary>
     /// <remarks>
-    /// Before calling SMGSW_08, be sure to invoke the subroutine RECALC_08 in three cases:
+    /// Before calling SmGsw, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have been changed.
     /// 3. If the values of components of the solar wind flow velocity have changed.
@@ -284,18 +284,13 @@ public interface IGeopack
     /// <param name="xsm">SM x-coordinate</param>
     /// <param name="ysm">SM y-coordinate</param>
     /// <param name="zsm">SM z-coordinate</param>
-    /// <param name="xgsw">GSW x-coordinate</param>
-    /// <param name="ygsw">GSW y-coordinate</param>
-    /// <param name="zgsw">GSW z-coordinate</param>
-    void SMGSW_08(
-        float xsm, float ysm, float zsm,
-        out float xgsw, out float ygsw, out float zgsw);
+    CartesianLocation SmGsw(double xsm, double ysm, double zsm);
 
     /// <summary>
     /// Converts geocentric solar-wind (GSW) to solar magnetic (SM) coordinates.
     /// </summary>
     /// <remarks>
-    /// Before calling GSWSM_08, be sure to invoke the subroutine RECALC_08 in three cases:
+    /// Before calling GswSm, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have been changed.
     /// 3. If the values of components of the solar wind flow velocity have changed.
@@ -307,18 +302,13 @@ public interface IGeopack
     /// <param name="xgsw">GSW x-coordinate</param>
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
-    /// <param name="xsm">SM x-coordinate</param>
-    /// <param name="ysm">SM y-coordinate</param>
-    /// <param name="zsm">SM z-coordinate</param>
-    void GSWSM_08(
-        float xgsw, float ygsw, float zgsw,
-        out float xsm, out float ysm, out float zsm);
+    CartesianLocation GswSm(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Converts geographic (GEO) to geocentric solar-wind (GSW) coordinates.
     /// </summary>
     /// <remarks>
-    /// Before calling GEOGSW_08, be sure to invoke the subroutine RECALC_08 in three cases:
+    /// Before calling GeoGsw, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have changed.
     /// 3. If the values of components of the solar wind flow velocity have changed.
@@ -329,12 +319,7 @@ public interface IGeopack
     /// <param name="xgeo">GEO x-coordinate</param>
     /// <param name="ygeo">GEO y-coordinate</param>
     /// <param name="zgeo">GEO z-coordinate</param>
-    /// <param name="xgsw">GSW x-coordinate</param>
-    /// <param name="ygsw">GSW y-coordinate</param>
-    /// <param name="zgsw">GSW z-coordinate</param>
-    void GEOGSW_08(
-        float xgeo, float ygeo, float zgeo,
-        out float xgsw, out float ygsw, out float zgsw);
+    CartesianLocation GeoGsw(double xgeo, double ygeo, double zgeo);
 
     /// <summary>
     /// Converts geocentric solar-wind (GSW) to geographic (GEO) coordinates.
@@ -351,12 +336,7 @@ public interface IGeopack
     /// <param name="xgsw">GSW x-coordinate</param>
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
-    /// <param name="xgeo">GEO x-coordinate</param>
-    /// <param name="ygeo">GEO y-coordinate</param>
-    /// <param name="zgeo">GEO z-coordinate</param>
-    void GSWGEO_08(
-        float xgsw, float ygsw, float zgsw,
-        out float xgeo, out float ygeo, out float zgeo);
+    CartesianLocation GswGeo(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Converts vertical local height (altitude) H and geodetic latitude XMU into geocentric coordinates R and THETA.
