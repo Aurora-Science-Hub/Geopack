@@ -17,18 +17,22 @@ public partial class GeopackTests
 
         foreach (var line in lines)
         {
-            var pars = line.SplitParametersLine();
-            var xgeo = pars[1].ParseDouble();
-            var ygeo = pars[3].ParseDouble();
-            var zgeo = pars[5].ParseDouble();
+            var coordinatesString = line.SplitParametersLine();
+            var xgeo = coordinatesString[1].ParseDouble();
+            var ygeo = coordinatesString[3].ParseDouble();
+            var zgeo = coordinatesString[5].ParseDouble();
+
+            var xmag = coordinatesString[7].ParseDouble();
+            var ymag = coordinatesString[9].ParseDouble();
+            var zmag = coordinatesString[11].ParseDouble();
 
             // Act
             var location = _geopack.GeoMag(xgeo, ygeo, zgeo);
 
             // Assert
-            location.X.ShouldBe(pars[7].ParseDouble(), MinimalTestsPrecision);
-            location.Y.ShouldBe(pars[9].ParseDouble(), MinimalTestsPrecision);
-            location.Z.ShouldBe(pars[11].ParseDouble(), MinimalTestsPrecision);
+            location.X.ShouldBe(xmag, MinimalTestsPrecision);
+            location.Y.ShouldBe(ymag, MinimalTestsPrecision);
+            location.Z.ShouldBe(zmag, MinimalTestsPrecision);
             location.CoordinateSystem.ShouldBe(CoordinateSystem.MAG);
         }
     }
@@ -44,18 +48,22 @@ public partial class GeopackTests
 
         foreach (var line in lines)
         {
-            var pars = line.SplitParametersLine();
-            var xmag = pars[1].ParseDouble();
-            var ymag = pars[3].ParseDouble();
-            var zmag = pars[5].ParseDouble();
+            var coordinatesString = line.SplitParametersLine();
+            var xmag = coordinatesString[1].ParseDouble();
+            var ymag = coordinatesString[3].ParseDouble();
+            var zmag = coordinatesString[5].ParseDouble();
+
+            var xgeo = coordinatesString[7].ParseDouble();
+            var ygeo = coordinatesString[9].ParseDouble();
+            var zgeo = coordinatesString[11].ParseDouble();
 
             // Act
             var location = _geopack.MagGeo(xmag, ymag, zmag);
 
             // Assert
-            location.X.ShouldBe(pars[7].ParseDouble(), MinimalTestsPrecision);
-            location.Y.ShouldBe(pars[9].ParseDouble(), MinimalTestsPrecision);
-            location.Z.ShouldBe(pars[11].ParseDouble(), MinimalTestsPrecision);
+            location.X.ShouldBe(xgeo, MinimalTestsPrecision);
+            location.Y.ShouldBe(ygeo, MinimalTestsPrecision);
+            location.Z.ShouldBe(zgeo, MinimalTestsPrecision);
             location.CoordinateSystem.ShouldBe(CoordinateSystem.GEO);
         }
     }
