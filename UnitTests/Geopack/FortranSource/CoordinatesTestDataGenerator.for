@@ -1,0 +1,59 @@
+      PROGRAM CoordinatesTestDataGenerator
+
+      IMPLICIT REAL*8 (A-H,O-Z)
+      DATA RAD/57.295779513D0/
+
+      DIMENSION X(7),Y(7),Z(7)
+
+      DATA X/6.5999999999999996D0,-6.5999999999999996D0,
+     *1.D0,-1.D0,4.5678D0,-4.5678D0,0.D0/
+
+      DATA Y/6.5999999999999996D0,-6.5999999999999996D0,
+     *1.D0,-1.D0,4.5678D0,-4.5678D0,0.D0/
+
+      DATA Z/6.5999999999999996D0,-6.5999999999999996D0,
+     *1.D0,-1.D0,4.5678D0,-4.5678D0,0.D0/
+
+      IYEAR=1997
+      IDAY=350
+      IHOUR=21
+      MIN=0
+      ISEC=0
+
+      VGSEX=-304.D0
+      VGSEY= 13.D0
+      VGSEZ= 4.D0
+
+      CALL RECALC_08 (IYEAR,IDAY,IHOUR,MIN,ISEC,VGSEX,VGSEY,VGSEZ)
+
+C    Specify transformation direction (J > 0 - direct, J < 0 - vice versa)
+      J=-1
+
+C    Specify output file name
+      OPEN(UNIT=1,FILE='GseGsw.dat')
+
+      DO 20 N=1,6
+      DO 30 M=1,6
+      DO 40 K=1,6
+
+      IF (J .GT. 0) THEN
+C     Specify procedure for direct coordinates transformation
+      CALL GSWGSE_08 (X(N),Y(M),Z(K),XR,YR,ZR,J)
+      ENDIF
+      IF (J .LT. 0) THEN
+C     Specify procedure for vice versa coordinates transformation
+      CALL GSWGSE_08 (XR,YR,ZR,X(N),Y(M),Z(K),J)
+      ENDIF
+
+      write(1, 10) X(N),Y(M),Z(K),XR, YR, ZR
+
+40    CONTINUE
+30    CONTINUE
+20    CONTINUE
+
+      CLOSE(UNIT=1)
+
+10    FORMAT (' X=',F23.18,' Y=',F23.18,' Z=',F23.18,
+     *' XR=',F23.18,' YR=',F23.18,' ZR=',F23.18)
+
+      END
