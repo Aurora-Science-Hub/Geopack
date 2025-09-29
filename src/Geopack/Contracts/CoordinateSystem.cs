@@ -19,4 +19,7 @@ public enum CoordinateSystem
 
     /// <summary> Solar Magnetic coordinate system </summary>
     SM,
+
+    /// <summary> Equatorial Inertial (GEI) coordinate system </summary>
+    GEI
 }
