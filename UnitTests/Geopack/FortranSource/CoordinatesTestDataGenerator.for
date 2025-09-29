@@ -1,4 +1,4 @@
-      PROGRAM GSWGSE_08_TESTS
+      PROGRAM CoordinatesTestDataGenerator
 
       IMPLICIT REAL*8 (A-H,O-Z)
       DATA RAD/57.295779513D0/
