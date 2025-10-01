@@ -6,7 +6,6 @@ public sealed partial class Geopack
 {
     public CartesianFieldVector IgrfGsw(double xgsw, double ygsw, double zgsw)
     {
-
         var geoLocation = GswGeo(xgsw, ygsw, zgsw);
         double xgeo = geoLocation.X;
         double ygeo = geoLocation.Y;
@@ -30,7 +29,7 @@ public sealed partial class Geopack
             sf = ygeo / rho;
         }
 
-        double pp = 1.0 / r;
+        double pp = 1.0D / r;
         double p = pp;
 
         // Calculate optimal expansion order
@@ -44,29 +43,28 @@ public sealed partial class Geopack
 
         for (int n = 1; n <= k; n++)
         {
-            p = p * pp;
-            a[n] = p;
-            b[n] = p * n;
+            p *= pp;
+            a[n-1] = p;
+            b[n-1] = p * n;
         }
 
-        p = 1.0;
-        double d = 0.0;
-        double bbr = 0.0;
-        double bbt = 0.0;
-        double bbf = 0.0;
+        p = 1.0D;
+        double d = 0.0D;
+        double bbr = 0.0D;
+        double bbt = 0.0D;
+        double bbf = 0.0D;
 
-        double x = 0.0, y = 0.0;
+        double x = 0.0D, y = 0.0D;
 
         for (int m = 1; m <= k; m++)
         {
             if (m == 1)
             {
-                x = 0.0;
-                y = 1.0;
+                x = 0.0D;
+                y = 1.0D;
             }
             else
             {
-                int mm = m - 1;
                 double w = x;
                 x = w * cf + y * sf;
                 y = y * cf - w * sf;
@@ -74,18 +72,18 @@ public sealed partial class Geopack
 
             double q = p;
             double z = d;
-            double bi = 0.0;
-            double p2 = 0.0;
-            double d2 = 0.0;
+            double bi = 0.0D;
+            double p2 = 0.0D;
+            double d2 = 0.0D;
 
             for (int n = m; n <= k; n++)
             {
-                double an = a[n];
+                double an = a[n-1];
                 int mn = n * (n - 1) / 2 + m;
-                double e = Common2.G[mn];
-                double hh = Common2.H[mn];
+                double e = Common2.G[mn-1];
+                double hh = Common2.H[mn-1];
                 double w_val = e * y + hh * x;
-                bbr += b[n] * w_val * q;
+                bbr += b[n-1] * w_val * q;
                 bbt -= an * w_val * z;
 
                 if (m != 1)
@@ -95,7 +93,7 @@ public sealed partial class Geopack
                     bi += an * (e * x - hh * y) * qq;
                 }
 
-                double xk = Common2.REC[mn];
+                double xk = Common2.REC[mn-1];
                 double dp = c * z - s * q - xk * d2;
                 double pm = c * q - xk * p2;
                 d2 = z;
