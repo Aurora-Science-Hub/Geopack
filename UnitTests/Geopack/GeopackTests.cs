@@ -12,7 +12,7 @@ public partial class GeopackTests(TestDataFixture fixture)
 
     private const double Rad = 57.295779513D;
 
-    private const double MinimalTestsPrecision = 0.00000000001d;
+    private const double MinimalTestsPrecision = 0.000000000008d;
 
     private const string CommonsDataFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.CommonsDataSet.dat";
@@ -55,4 +55,10 @@ public partial class GeopackTests(TestDataFixture fixture)
 
     private const string GswGeoDatasetFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GswGeo.dat";
+
+    private const string GeodGeoDatasetFileName =
+        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GeodGeo.dat";
+
+    private const string GeoGeodDatasetFileName =
+        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GeoGeod.dat";
 }
