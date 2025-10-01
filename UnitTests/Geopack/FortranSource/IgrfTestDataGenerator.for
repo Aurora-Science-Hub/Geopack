@@ -15,9 +15,9 @@
 
 c     FOR IGRF_GSW_08
 
-      XGSW=1.D0
-      YGSW=1.D0
-      ZGSW=1.D0
+      XGSW=0.D0
+      YGSW=0.0D0
+      ZGSW=-6.6D0
 
 c       FOR IGRF_GEO_08
 c
