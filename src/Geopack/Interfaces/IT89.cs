@@ -23,9 +23,9 @@ public interface IT89
     /// <param name="x">GSM x-coordinate in Earth radii</param>
     /// <param name="y">GSM y-coordinate in Earth radii</param>
     /// <param name="z">GSM z-coordinate in Earth radii</param>
-    CartesianFieldVector T89D_SP(
+    CartesianFieldVector Calculate(
         int iopt,
-        float[] parmod,
-        float ps,
-        float x, float y, float z);
+        double[] parmod,
+        double ps,
+        double x, double y, double z);
 }

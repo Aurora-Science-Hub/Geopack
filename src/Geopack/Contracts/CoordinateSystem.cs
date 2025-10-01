@@ -21,5 +21,8 @@ public enum CoordinateSystem
     SM,
 
     /// <summary> Equatorial Inertial (GEI) coordinate system </summary>
-    GEI
+    GEI,
+
+    /// <summary> Geocentric Solar Magnetospheric system </summary>
+    GSM
 }
