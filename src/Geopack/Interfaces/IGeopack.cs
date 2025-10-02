@@ -551,7 +551,7 @@ public interface IGeopack
     /// Position flag: ID=+1 (-1) means that the observation point
     /// lies inside (outside) of the model magnetopause, respectively.
     /// </param>
-    void SHUETAL_MGNP_08(
+    void ShuMgnp(
         float xn_pd, float vel, float bzimf,
         float xgsw, float ygsw, float zgsw,
         out float xmsnp, out float ymsnp, out float zmsnp,
