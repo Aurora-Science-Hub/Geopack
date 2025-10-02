@@ -23,12 +23,7 @@ public interface IGeopack
     /// <param name="xgsw">Cartesian geocentric solar-wind x-coordinate (in units re=6371.2 km)</param>
     /// <param name="ygsw">Cartesian geocentric solar-wind y-coordinate (in units re=6371.2 km)</param>
     /// <param name="zgsw">Cartesian geocentric solar-wind z-coordinate (in units re=6371.2 km)</param>
-    /// <param name="hxgsw">Cartesian geocentric solar-wind hx-component of the main geomagnetic field [nT]</param>
-    /// <param name="hygsw">Cartesian geocentric solar-wind hy-component of the main geomagnetic field [nT]</param>
-    /// <param name="hzgsw">Cartesian geocentric solar-wind hz-component of the main geomagnetic field [nT]</param>
-    void IGRF_GSW_08(
-        float xgsw, float ygsw, float zgsw,
-        out float hxgsw, out float hygsw, out float hzgsw);
+    CartesianFieldVector IgrfGsw(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Calculates components of the main (internal) geomagnetic field in the spherical geographic
