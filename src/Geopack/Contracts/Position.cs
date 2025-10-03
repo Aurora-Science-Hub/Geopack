@@ -3,7 +3,7 @@ namespace AuroraScienceHub.Geopack.Contracts;
 /// <summary>
 /// Object location relative magnetopause
 /// </summary>
-public enum Position
+public enum MagnetopausePosition
 {
     /// <summary>
     /// Location inside magnetosphere
