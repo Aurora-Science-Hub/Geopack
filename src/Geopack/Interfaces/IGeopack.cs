@@ -586,9 +586,7 @@ public interface IGeopack
     /// Position flag: ID=+1 (-1) means that the point (XGSW, YGSW, ZGSW)
     /// lies inside (outside) the model magnetopause, respectively.
     /// </param>
-    void T96_MGNP_08(
-        float xn_pd, float vel,
-        float xgsw, float ygsw, float zgsw,
-        out float xmsnp, out float ymsnp, out float zmsnp,
-        out float dist, out int id);
+    Magnetopause T96Mgnp(double xn_pd,
+        double vel,
+        double xgsw, double ygsw, double zgsw);
 }
