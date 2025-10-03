@@ -578,14 +578,6 @@ public interface IGeopack
     /// <param name="xgsw">Coordinates of the observation point in Earth radii</param>
     /// <param name="ygsw">Coordinates of the observation point in Earth radii</param>
     /// <param name="zgsw">Coordinates of the observation point in Earth radii</param>
-    /// <param name="xmsnp">GSW position of the boundary point, having the same value of tau-coordinate as the observation point</param>
-    /// <param name="ymsnp">GSW position of the boundary point, having the same value of tau-coordinate as the observation point</param>
-    /// <param name="zmsnp">GSW position of the boundary point, having the same value of tau-coordinate as the observation point</param>
-    /// <param name="dist">The distance between the two points, in RE</param>
-    /// <param name="id">
-    /// Position flag: ID=+1 (-1) means that the point (XGSW, YGSW, ZGSW)
-    /// lies inside (outside) the model magnetopause, respectively.
-    /// </param>
     Magnetopause T96Mgnp(double xn_pd,
         double vel,
         double xgsw, double ygsw, double zgsw);
