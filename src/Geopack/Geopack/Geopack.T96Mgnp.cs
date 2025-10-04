@@ -18,13 +18,13 @@ public sealed partial class Geopack
             pd = 1.94e-6 * xnPd * vel * vel;
         }
 
-        double rat = pd / 2.0;
+        double rat = pd / 2.0D;
         double rat16 = Math.Pow(rat, 0.14);
 
         // Magnetopause parameters for PD = 2 nPa
-        double a0 = 70.0;
-        double s00 = 1.08;
-        double x00 = 5.48;
+        double a0 = 70.0D;
+        double s00 = 1.08D;
+        double x00 = 5.48D;
 
         // Scaled parameters for actual pressure
         double a = a0 / rat16;
@@ -33,21 +33,21 @@ public sealed partial class Geopack
         double xm = x0 - a;
 
         double phi;
-        if (ygsw != 0.0 || zgsw != 0.0)
+        if (ygsw is not 0.0 || zgsw is not 0.0)
         {
             phi = Math.Atan2(ygsw, zgsw);
         }
         else
         {
-            phi = 0.0;
+            phi = 0.0D;
         }
 
-        double rho = Math.Sqrt(ygsw * ygsw + zgsw * zgsw);
+        double rho = Math.Sqrt(Math.Pow(ygsw, 2) + Math.Pow(zgsw, 2));
 
         if (xgsw < xm)
         {
             double xMgnp = xgsw;
-            double rhomGnp = a * Math.Sqrt(s0 * s0 - 1.0);
+            double rhomGnp = a * Math.Sqrt(Math.Pow(s0, 2) - 1.0D);
             double yMgnp = rhomGnp * Math.Sin(phi);
             double zMgnp = rhomGnp * Math.Cos(phi);
             double dist = Math.Sqrt(
@@ -55,21 +55,28 @@ public sealed partial class Geopack
                 (ygsw - yMgnp) * (ygsw - yMgnp) +
                 (zgsw - zMgnp) * (zgsw - zMgnp));
 
-            int id = (rhomGnp > rho) ? +1 : -1;
-            return new Magnetopause(xMgnp, yMgnp, zMgnp, dist, id);
+            var position = rhomGnp > rho
+                ? MagnetopausePosition.Inside
+                : MagnetopausePosition.Outside;
+
+            return new Magnetopause(xMgnp, yMgnp, zMgnp, dist, position);
         }
 
-        double xksi = (xgsw - x0) / a + 1.0;
+        double xksi = (xgsw - x0) / a + 1.0D;
         double xdzt = rho / a;
-        double sq1 = Math.Sqrt((1.0 + xksi) * (1.0 + xksi) + xdzt * xdzt);
-        double sq2 = Math.Sqrt((1.0 - xksi) * (1.0 - xksi) + xdzt * xdzt);
-        double sigma = 0.5 * (sq1 + sq2);
-        double tau = 0.5 * (sq1 - sq2);
+        double sq1 = Math.Sqrt((1.0D + xksi) * (1.0D + xksi) + xdzt * xdzt);
+        double sq2 = Math.Sqrt((1.0D - xksi) * (1.0D - xksi) + xdzt * xdzt);
+        double sigma = 0.5D * (sq1 + sq2);
+        double tau = 0.5D * (sq1 - sq2);
 
         // Calculate closest point at magnetopause
-        double xMgnpOut = x0 - a * (1.0 - s0 * tau);
-        double arg = (s0 * s0 - 1.0) * (1.0 - tau * tau);
-        if (arg < 0.0) arg = 0.0;
+        double xMgnpOut = x0 - a * (1.0D - s0 * tau);
+        double arg = (s0 * s0 - 1.0D) * (1.0D - tau * tau);
+        if (arg < 0.0)
+        {
+            arg = 0.0D;
+        }
+
         double rhomGnpOut = a * Math.Sqrt(arg);
         double yMgnpOut = rhomGnpOut * Math.Sin(phi);
         double zMgnpOut = rhomGnpOut * Math.Cos(phi);
@@ -79,7 +86,9 @@ public sealed partial class Geopack
             (ygsw - yMgnpOut) * (ygsw - yMgnpOut) +
             (zgsw - zMgnpOut) * (zgsw - zMgnpOut));
 
-        int idOut = (sigma > s0) ? -1 : +1;
+        var idOut = sigma > s0
+            ? MagnetopausePosition.Outside
+            : MagnetopausePosition.Inside;
 
         return new Magnetopause(xMgnpOut, yMgnpOut, zMgnpOut, distOut, idOut);
     }

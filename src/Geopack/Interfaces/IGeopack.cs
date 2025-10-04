@@ -566,9 +566,8 @@ public interface IGeopack
     /// This is not the shortest distance D_MIN to the boundary, but DIST asymptotically tends to D_MIN,
     /// as the observation point gets closer to the magnetopause.
     /// </remarks>
-    /// <param name="xn_pd">
-    /// Either solar wind proton number density (per c.c.) (if VEL > 0)
-    /// or the solar wind ram pressure in nanopascals (if VEL < 0)
+    /// <param name="xnPd"> Either solar wind proton number density (per c.c.) (if velocity greater than zero)
+    /// or the solar wind ram pressure in nanopascals (if velocity lower than zero)
     /// </param>
     /// <param name="vel">
     /// Either solar wind velocity (km/sec)
@@ -578,7 +577,7 @@ public interface IGeopack
     /// <param name="xgsw">Coordinates of the observation point in Earth radii</param>
     /// <param name="ygsw">Coordinates of the observation point in Earth radii</param>
     /// <param name="zgsw">Coordinates of the observation point in Earth radii</param>
-    Magnetopause T96Mgnp(double xn_pd,
+    Magnetopause T96Mgnp(double xnPd,
         double vel,
         double xgsw, double ygsw, double zgsw);
 }
