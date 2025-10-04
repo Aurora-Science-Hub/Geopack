@@ -55,11 +55,12 @@ public sealed partial class Geopack
                 (ygsw - yMgnp) * (ygsw - yMgnp) +
                 (zgsw - zMgnp) * (zgsw - zMgnp));
 
-            var position = rhomGnp > rho
-                ? MagnetopausePosition.Inside
-                : MagnetopausePosition.Outside;
+            var position = rhomGnp is double.NaN ? MagnetopausePosition.NotDefined
+                : rhomGnp > rho
+                    ? MagnetopausePosition.Inside
+                    : MagnetopausePosition.Outside;
 
-            return new Magnetopause(xMgnp, yMgnp, zMgnp, dist, position);
+            return new Magnetopause(xMgnp, yMgnp, zMgnp, dist, position, CoordinateSystem.GSW);
         }
 
         double xksi = (xgsw - x0) / a + 1.0D;
@@ -86,10 +87,12 @@ public sealed partial class Geopack
             (ygsw - yMgnpOut) * (ygsw - yMgnpOut) +
             (zgsw - zMgnpOut) * (zgsw - zMgnpOut));
 
-        var idOut = sigma > s0
-            ? MagnetopausePosition.Outside
-            : MagnetopausePosition.Inside;
+        var idOut = sigma is double.NaN
+            ? MagnetopausePosition.NotDefined
+            : sigma > s0
+                ? MagnetopausePosition.Outside
+                : MagnetopausePosition.Inside;
 
-        return new Magnetopause(xMgnpOut, yMgnpOut, zMgnpOut, distOut, idOut);
+        return new Magnetopause(xMgnpOut, yMgnpOut, zMgnpOut, distOut, idOut, CoordinateSystem.GSW);
     }
 }

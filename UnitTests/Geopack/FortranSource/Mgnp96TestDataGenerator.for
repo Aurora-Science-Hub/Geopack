@@ -1,39 +1,19 @@
-      PROGRAM IGRF_GEN
+      PROGRAM Mgnp96_GEN
 
       IMPLICIT REAL*8 (A-H,O-Z)
       DATA RAD/57.295779513D0/
 
-      IYEAR=1997
-      IDAY=350
-      IHOUR=21
-      MIN=0
-      ISEC=0
-
-      VGSEX=-304.D0
-      VGSEY= 13.D0
-      VGSEZ= 4.D0
-
-c     FOR IGRF_GSW_08
+      XN_PD=5.D0
+      VEL=350.D0
 
       XGSW=0.D0
-      YGSW=0.0D0
-      ZGSW=-6.6D0
+      YGSW=0.D0
+      ZGSW=0.D0
 
-c       FOR IGRF_GEO_08
-c
-c       XLAT=89.9D0
-c       XLON=0.D0
-c       R=1.02D0
-c       COLAT=(90.-XLAT) / RAD
-c       PHI=XLON / RAD
+      CALL T96_MGNP_08(XN_PD,VEL,XGSW,YGSW,ZGSW,XMGNP,YMGNP,ZMGNP,
+     * DIST,ID)
 
-      CALL RECALC_08 (IYEAR,IDAY,IHOUR,MIN,ISEC,VGSEX,VGSEY,VGSEZ)
-
-      CALL IGRF_GSW_08(XGSW,YGSW,ZGSW,HXGSW,HYGSW,HZGSW)
-c       CALL IGRF_GEO_08 (R,COLAT,PHI,BR,BTHETA,BPHI)
-
-      write(*, 10) HXGSW,HYGSW,HZGSW
-c       write(*, 10) BR, BTHETA, BPHI
-10    FORMAT(3F32.18)
+      write(*, 10) XMGNP,YMGNP,ZMGNP,DIST,ID
+10    FORMAT(4F32.18, I4)
 
       END

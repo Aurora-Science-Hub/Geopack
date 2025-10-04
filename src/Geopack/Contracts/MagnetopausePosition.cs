@@ -5,6 +5,11 @@ namespace AuroraScienceHub.Geopack.Contracts;
 public enum MagnetopausePosition
 {
     /// <summary>
+    /// Not defined magnetopause
+    /// </summary>
+    NotDefined,
+
+    /// <summary>
     /// Location inside magnetosphere
     /// </summary>
     Inside,
