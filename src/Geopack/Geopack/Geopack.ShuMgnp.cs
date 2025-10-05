@@ -37,18 +37,13 @@ public sealed partial class Geopack
         double r = Math.Sqrt(xgsw * xgsw + ygsw * ygsw + zgsw * zgsw);
         double rm = r0 * Math.Pow(2.0D / (1.0D + xgsw / r), alpha);
 
-        if (rm is not double.NaN
-            && rm is not double.NegativeInfinity
-            && rm is not double.PositiveInfinity
-            && r <= rm)
+        if (double.IsFinite(rm))
         {
-            id = MagnetopausePosition.Inside;
-        } else if (rm is not double.NaN
-                   && rm is not double.NegativeInfinity
-                   && rm is not double.PositiveInfinity
-                   && r > rm)
+            id = r <= rm ? MagnetopausePosition.Inside : MagnetopausePosition.Outside;
+        }
+        else
         {
-            id = MagnetopausePosition.Outside;
+            id = MagnetopausePosition.NotDefined;
         }
 
         // Get T96 magnetopause as starting approximation
