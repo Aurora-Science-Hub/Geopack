@@ -566,9 +566,8 @@ public interface IGeopack
     /// This is not the shortest distance D_MIN to the boundary, but DIST asymptotically tends to D_MIN,
     /// as the observation point gets closer to the magnetopause.
     /// </remarks>
-    /// <param name="xn_pd">
-    /// Either solar wind proton number density (per c.c.) (if VEL > 0)
-    /// or the solar wind ram pressure in nanopascals (if VEL < 0)
+    /// <param name="xnPd"> Either solar wind proton number density (per c.c.) (if velocity greater than zero)
+    /// or the solar wind ram pressure in nanopascals (if velocity lower than zero)
     /// </param>
     /// <param name="vel">
     /// Either solar wind velocity (km/sec)
@@ -578,17 +577,7 @@ public interface IGeopack
     /// <param name="xgsw">Coordinates of the observation point in Earth radii</param>
     /// <param name="ygsw">Coordinates of the observation point in Earth radii</param>
     /// <param name="zgsw">Coordinates of the observation point in Earth radii</param>
-    /// <param name="xmsnp">GSW position of the boundary point, having the same value of tau-coordinate as the observation point</param>
-    /// <param name="ymsnp">GSW position of the boundary point, having the same value of tau-coordinate as the observation point</param>
-    /// <param name="zmsnp">GSW position of the boundary point, having the same value of tau-coordinate as the observation point</param>
-    /// <param name="dist">The distance between the two points, in RE</param>
-    /// <param name="id">
-    /// Position flag: ID=+1 (-1) means that the point (XGSW, YGSW, ZGSW)
-    /// lies inside (outside) the model magnetopause, respectively.
-    /// </param>
-    void T96_MGNP_08(
-        float xn_pd, float vel,
-        float xgsw, float ygsw, float zgsw,
-        out float xmsnp, out float ymsnp, out float zmsnp,
-        out float dist, out int id);
+    Magnetopause T96Mgnp(double xnPd,
+        double vel,
+        double xgsw, double ygsw, double zgsw);
 }
