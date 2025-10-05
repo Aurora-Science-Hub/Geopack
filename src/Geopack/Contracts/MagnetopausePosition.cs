@@ -1,4 +1,5 @@
 namespace AuroraScienceHub.Geopack.Contracts;
+
 /// <summary>
 /// Object location relative magnetopause
 /// </summary>
