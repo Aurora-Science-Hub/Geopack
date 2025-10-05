@@ -17,33 +17,33 @@ public sealed class T89 : IT89
     public CartesianFieldVector Calculate(int IOPT, double[] PARMOD, double PS, double X, double Y, double Z)
     {
         double[,] PARAM = {
-            {-116.53, -10719, 42.375, 59.753, -11363, 1.7844, 30.268, -0.0035372, -0.066832, 0.016456,
-             -1.3024, 0.0016529, 0.0020293, 20.289, -0.025203, 224.91, -9234.8, 22.788, 7.8813, 1.8362,
-             -0.27228, 8.8184, 2.8714, 14.468, 32.177, 0.01, 0.0, 7.0459, 4.0, 20.0},
-            {-55.553, -13198, 60.647, 61.072, -16064, 2.2534, 34.407, -0.038887, -0.094571, 0.027154,
-             -1.3901, 0.001346, 0.0013238, 23.005, -0.030565, 55.047, -3875.7, 20.178, 7.9693, 1.4575,
-             0.89471, 9.4039, 3.5215, 14.474, 36.555, 0.01, 0.0, 7.0787, 4.0, 20.0},
-            {-101.34, -13480, 111.35, 12.386, -24699, 2.6459, 38.948, -0.03408, -0.12404, 0.029702,
-             -1.4052, 0.0012103, 0.0016381, 24.49, -0.037705, -298.32, 4400.9, 18.692, 7.9064, 1.3047,
-             2.4541, 9.7012, 7.1624, 14.288, 33.822, 0.01, 0.0, 6.7442, 4.0, 20.0},
-            {-181.69, -12320, 173.79, -96.664, -39051, 3.2633, 44.968, -0.046377, -0.16686, 0.048298,
-             -1.5473, 0.0010277, 0.0031632, 27.341, -0.050655, -514.10, 12482, 16.257, 8.5834, 1.0194,
-             3.6148, 8.6042, 5.5057, 13.778, 32.373, 0.01, 0.0, 7.3195, 4.0, 20.0},
-            {-436.54, -9001.0, 323.66, -410.08, -50340, 3.9932, 58.524, -0.038519, -0.26822, 0.074528,
-             -1.4268, -0.0010985, 0.0096613, 27.557, -0.056522, -867.03, 20652, 14.101, 8.3501, 0.72996,
-             3.8149, 9.2908, 6.4674, 13.729, 28.353, 0.01, 0.0, 7.4237, 4.0, 20.0},
-            {-707.77, -4471.9, 432.81, -435.51, -60400, 4.6229, 68.178, -0.088245, -0.21002, 0.11846,
-             -2.6711, 0.0022305, 0.001091, 27.547, -0.05408, -424.23, 1100.2, 13.954, 7.5337, 0.89714,
-             3.7813, 8.2945, 5.174, 14.213, 25.237, 0.01, 0.0, 7.0037, 4.0, 20.0},
-            {-1190.4, 2749.9, 742.56, -1110.3, -77193, 7.6727, 102.05, -0.096015, -0.74507, 0.11214,
-             -1.3614, 0.0015157, 0.0022283, 23.164, -0.074146, -2219.1, 48253, 12.714, 7.6777, 0.57138,
-             2.9633, 9.3909, 9.7263, 11.123, 21.558, 0.01, 0.0, 4.4518, 4.0, 20.0}
+            {-116.53D, -10719D, 42.375D, 59.753D, -11363D, 1.7844D, 30.268D, -0.0035372D, -0.066832D, 0.016456D,
+             -1.3024D, 0.0016529D, 0.0020293D, 20.289D, -0.025203D, 224.91D, -9234.8D, 22.788D, 7.8813D, 1.8362D,
+             -0.27228D, 8.8184D, 2.8714D, 14.468D, 32.177D, 0.01D, 0.0D, 7.0459D, 4.0D, 20.0D},
+            {-55.553D, -13198D, 60.647D, 61.072D, -16064D, 2.2534D, 34.407D, -0.038887D, -0.094571D, 0.027154D,
+             -1.3901D, 0.001346D, 0.0013238D, 23.005D, -0.030565D, 55.047D, -3875.7D, 20.178D, 7.9693D, 1.4575D,
+             0.89471D, 9.4039D, 3.5215D, 14.474D, 36.555D, 0.01D, 0.0D, 7.0787D, 4.0D, 20.0D},
+            {-101.34D, -13480D, 111.35D, 12.386D, -24699D, 2.6459D, 38.948D, -0.03408D, -0.12404D, 0.029702D,
+             -1.4052D, 0.0012103D, 0.0016381D, 24.49D, -0.037705D, -298.32D, 4400.9D, 18.692D, 7.9064D, 1.3047D,
+             2.4541D, 9.7012D, 7.1624D, 14.288D, 33.822D, 0.01D, 0.0D, 6.7442D, 4.0D, 20.0D},
+            {-181.69D, -12320D, 173.79D, -96.664D, -39051D, 3.2633D, 44.968D, -0.046377D, -0.16686D, 0.048298D,
+             -1.5473D, 0.0010277D, 0.0031632D, 27.341D, -0.050655D, -514.10D, 12482D, 16.257D, 8.5834D, 1.0194D,
+             3.6148D, 8.6042D, 5.5057, 13.778D, 32.373D, 0.01D, 0.0D, 7.3195D, 4.0D, 20.0D},
+            {-436.54D, -9001.0D, 323.66D, -410.08D, -50340D, 3.9932D, 58.524D, -0.038519D, -0.26822D, 0.074528D,
+             -1.4268D, -0.0010985D, 0.0096613D, 27.557D, -0.056522D, -867.03D, 20652D, 14.101D, 8.3501D, 0.72996D,
+             3.8149D, 9.2908D, 6.4674D, 13.729D, 28.353D, 0.01D, 0.0D, 7.4237D, 4.0D, 20.0D},
+            {-707.77D, -4471.9D, 432.81D, -435.51D, -60400D, 4.6229D, 68.178D, -0.088245D, -0.21002D, 0.11846D,
+             -2.6711D, 0.0022305D, 0.001091D, 27.547D, -0.05408D, -424.23D, 1100.2D, 13.954D, 7.5337D, 0.89714D,
+             3.7813D, 8.2945D, 5.174D, 14.213D, 25.237D, 0.01D, 0.0D, 7.0037D, 4.0D, 20.0D},
+            {-1190.4D, 2749.9D, 742.56D, -1110.3D, -77193D, 7.6727D, 102.05D, -0.096015D, -0.74507D, 0.11214D,
+             -1.3614D, 0.0015157D, 0.0022283D, 23.164D, -0.074146D, -2219.1D, 48253D, 12.714D, 7.6777D, 0.57138D,
+             2.9633D, 9.3909D, 9.7263D, 11.123D, 21.558D, 0.01D, 0.0D, 4.4518D, 4.0D, 20.0D}
         };
 
-        double A02 = 25, XLW2 = 170, YN = 30, RPI = 0.31830989, RT = 30;
-        double XD = 0, XLD2 = 40;
-        double SXC = 4, XLWC2 = 50;
-        double DXL = 20;
+        double A02 = 25D, XLW2 = 170D, YN = 30D, RPI = 0.31830989D, RT = 30D;
+        double XD = 0D, XLD2 = 40D;
+        double SXC = 4D, XLWC2 = 50D;
+        double DXL = 20D;
 
         if (IOP != IOPT)
         {
@@ -54,14 +54,14 @@ public sealed class T89 : IT89
             DYC = A[29];
             DYC2 = DYC * DYC;
             DX = A[17];
-            HA02 = 0.5 * A02;
-            RDX2M = -1.0 / (DX * DX);
+            HA02 = 0.5D * A02;
+            RDX2M = -1.0D / (DX * DX);
             RDX2 = -RDX2M;
-            RDYC2 = 1.0 / DYC2;
-            HLWC2M = -0.5 * XLWC2;
-            DRDYC2 = -2.0 * RDYC2;
-            DRDYC3 = 2.0 * RDYC2 * Math.Sqrt(RDYC2);
-            HXLW2M = -0.5 * XLW2;
+            RDYC2 = 1.0D / DYC2;
+            HLWC2M = -0.5D * XLWC2;
+            DRDYC2 = -2.0D * RDYC2;
+            DRDYC3 = 2.0D * RDYC2 * Math.Sqrt(RDYC2);
+            HXLW2M = -0.5D * XLW2;
             ADR = A[18];
             D0 = A[19];
             DD = A[20];
@@ -74,19 +74,19 @@ public sealed class T89 : IT89
             Q = A[26];
             SX = A[27];
             GAM = A[28];
-            HXLD2M = -0.5 * XLD2;
-            ADSL = 0.0;
-            XGHS = 0.0;
-            H = 0.0;
-            HS = 0.0;
-            GAMH = 0.0;
-            W1 = -0.5 / DX;
-            DBLDEL = 2.0 * DEL;
-            W2 = W1 * 2.0;
-            W4 = -1.0 / 3.0;
+            HXLD2M = -0.5D * XLD2;
+            ADSL = 0.0D;
+            XGHS = 0.0D;
+            H = 0.0D;
+            HS = 0.0D;
+            GAMH = 0.0D;
+            W1 = -0.5D / DX;
+            DBLDEL = 2.0D * DEL;
+            W2 = W1 * 2.0D;
+            W4 = -1.0D / 3.0D;
             W3 = W4 / DX;
-            W5 = -0.5;
-            W6 = -3.0;
+            W5 = -0.5D;
+            W6 = -3.0D;
             AK1 = A[0];
             AK2 = A[1];
             AK3 = A[2];
@@ -104,19 +104,19 @@ public sealed class T89 : IT89
             AK15 = A[14];
             AK16 = A[15];
             AK17 = A[16];
-            SXA = 0.0;
-            SYA = 0.0;
-            SZA = 0.0;
+            SXA = 0.0D;
+            SYA = 0.0D;
+            SZA = 0.0D;
             AK610 = AK6 * W1 + AK10 * W5;
             AK711 = AK7 * W2 - AK11;
             AK812 = AK8 * W2 + AK12 * W6;
             AK913 = AK9 * W3 + AK13 * W4;
-            RDXL = 1.0 / DXL;
-            HRDXL = 0.5 * RDXL;
-            A6H = AK6 * 0.5;
-            A9T = AK9 / 3.0;
-            YNP = RPI / YN * 0.5;
-            YND = 2.0 * YN;
+            RDXL = 1.0D / DXL;
+            HRDXL = 0.5D * RDXL;
+            A6H = AK6 * 0.5D;
+            A9T = AK9 / 3.0D;
+            YNP = RPI / YN * 0.5D;
+            YND = 2.0D * YN;
         }
 
         double SPS = Math.Sin(PS);
@@ -126,46 +126,46 @@ public sealed class T89 : IT89
         double Y2 = Y * Y;
         double Z2 = Z * Z;
         double TPS = SPS / CPS;
-        double HTP = TPS * 0.5;
+        double HTP = TPS * 0.5D;
         double GSP = G * SPS;
         double XSM = X * CPS - Z * SPS;
         double ZSM = X * SPS + Z * CPS;
 
         double XRC = XSM + RC;
-        double XRC16 = XRC * XRC + 16.0;
+        double XRC16 = XRC * XRC + 16.0D;
         double SXRC = Math.Sqrt(XRC16);
         double Y4 = Y2 * Y2;
-        double Y410 = Y4 + 10000.0;
+        double Y410 = Y4 + 10000.0D;
         double SY4 = SPS / Y410;
         double GSY4 = G * SY4;
         double ZS1 = HTP * (XRC - SXRC);
         double DZSX = -ZS1 / SXRC;
         double ZS = ZS1 - GSY4 * Y4;
-        double D2ZSGY = -SY4 / Y410 * 40000.0 * Y2 * Y;
+        double D2ZSGY = -SY4 / Y410 * 40000.0D * Y2 * Y;
         double DZSY = G * D2ZSGY;
 
         double XSM2 = XSM * XSM;
         double DSQT = Math.Sqrt(XSM2 + A02);
-        double FA0 = 0.5 * (1.0 + XSM / DSQT);
+        double FA0 = 0.5D * (1.0D + XSM / DSQT);
         double DDR = D0 + DD * FA0;
         double DFA0 = HA02 / (DSQT * DSQT * DSQT);
         double ZR = ZSM - ZS;
         double TR = Math.Sqrt(ZR * ZR + DDR * DDR);
-        double RTR = 1.0 / TR;
+        double RTR = 1.0D / TR;
         double RO2 = XSM2 + Y2;
         double ADRT = ADR + TR;
         double ADRT2 = ADRT * ADRT;
-        double FK = 1.0 / (ADRT2 + RO2);
+        double FK = 1.0D / (ADRT2 + RO2);
         double DSFC = Math.Sqrt(FK);
         double FC = FK * FK * DSFC;
-        double FACXY = 3.0 * ADRT * FC * RTR;
+        double FACXY = 3.0D * ADRT * FC * RTR;
         double XZR = XSM * ZR;
         double YZR = Y * ZR;
         double DBXDP = FACXY * XZR;
         double DER25 = FACXY * YZR;
         double XZYZ = XSM * DZSX + Y * DZSY;
         double FAQ = ZR * XZYZ - DDR * DD * DFA0 * XSM;
-        double DBZDP = FC * (2.0 * ADRT2 - RO2) + FACXY * FAQ;
+        double DBZDP = FC * (2.0D * ADRT2 - RO2) + FACXY * FAQ;
         double DER15 = DBXDP * CPS + DBZDP * SPS;
         double DER35 = DBZDP * CPS - DBXDP * SPS;
 
@@ -173,17 +173,17 @@ public sealed class T89 : IT89
         double D = DT + DELY2;
         if (Math.Abs(GAM) < 1e-6)
         {
-            H = 0.0;
-            HS = 0.0;
-            GAMH = 0.0;
-            ADSL = 0.0;
+            H = 0.0D;
+            HS = 0.0D;
+            GAMH = 0.0D;
+            ADSL = 0.0D;
         }
         else
         {
             double XXD = XSM - XD;
-            double RQD = 1.0 / (XXD * XXD + XLD2);
+            double RQD = 1.0D / (XXD * XXD + XLD2);
             double RQDS = Math.Sqrt(RQD);
-            H = 0.5 * (1.0 + XXD * RQDS);
+            H = 0.5D * (1.0D + XXD * RQDS);
             HS = -HXLD2M * RQD * RQDS;
             GAMH = GAM * H;
             D += GAMH;
@@ -193,18 +193,18 @@ public sealed class T89 : IT89
         double D2 = D * D;
         double T = Math.Sqrt(ZR * ZR + D2);
         double XSMX = XSM - SX;
-        double RDSQ2 = 1.0 / (XSMX * XSMX + XLW2);
+        double RDSQ2 = 1.0D / (XSMX * XSMX + XLW2);
         double RDSQ = Math.Sqrt(RDSQ2);
-        double V = 0.5 * (1.0 - XSMX * RDSQ);
+        double V = 0.5D * (1.0D - XSMX * RDSQ);
         double DVX = HXLW2M * RDSQ * RDSQ2;
-        double OM = Math.Sqrt(Math.Sqrt(XSM2 + 16.0) - XSM);
-        double OMS = -OM / (OM * OM + XSM) * 0.5;
-        double RDY = 1.0 / (P + Q * OM);
+        double OM = Math.Sqrt(Math.Sqrt(XSM2 + 16.0D) - XSM);
+        double OMS = -OM / (OM * OM + XSM) * 0.5D;
+        double RDY = 1.0D / (P + Q * OM);
         double OMSV = OMS * V;
         double RDY2 = RDY * RDY;
-        double FY = 1.0 / (1.0 + Y2 * RDY2);
+        double FY = 1.0D / (1.0D + Y2 * RDY2);
         double W = V * FY;
-        double YFY1 = 2.0 * FY * Y2 * RDY2;
+        double YFY1 = 2.0D * FY * Y2 * RDY2;
         double FYPR = YFY1 * RDY;
         double FYDY = FYPR * FY;
         double DWX = DVX * FY + FYDY * Q * OMSV;
@@ -212,14 +212,14 @@ public sealed class T89 : IT89
         double DDY = DBLDEL * Y;
         double ATT = AT + T;
         double S1 = Math.Sqrt(ATT * ATT + RO2);
-        double F5 = 1.0 / S1;
-        double F7 = 1.0 / (S1 + ATT);
+        double F5 = 1.0D / S1;
+        double F7 = 1.0D / (S1 + ATT);
         double F1 = F5 * F7;
         double F3 = F5 * F5 * F5;
         double F9 = ATT * F3;
         double FS = ZR * XZYZ - D * Y * DDY + ADSL;
         double XDWX = XSM * DWX + YDWY;
-        double RTT = 1.0 / T;
+        double RTT = 1.0D / T;
         double WT = W * RTT;
         double BRRZ1 = WT * F1;
         double BRRZ2 = WT * F3;
@@ -250,14 +250,14 @@ public sealed class T89 : IT89
         double SPL = Math.Sqrt(ZPL * ZPL + ROGSM2);
         double SMN = Math.Sqrt(ZMN * ZMN + ROGSM2);
         double XSXC = X - SXC;
-        double RQC2 = 1.0 / (XSXC * XSXC + XLWC2);
+        double RQC2 = 1.0D / (XSXC * XSXC + XLWC2);
         double RQC = Math.Sqrt(RQC2);
-        double FYC = 1.0 / (1.0 + Y2 * RDYC2);
-        double WC = 0.5 * (1.0 - XSXC * RQC) * FYC;
+        double FYC = 1.0D / (1.0D + Y2 * RDYC2);
+        double WC = 0.5D * (1.0D - XSXC * RQC) * FYC;
         double DWCX = HLWC2M * RQC2 * RQC * FYC;
         double DWCY = DRDYC2 * WC * FYC * Y;
-        double SZRP = 1.0 / (SPL + ZPL);
-        double SZRM = 1.0 / (SMN - ZMN);
+        double SZRP = 1.0D / (SPL + ZPL);
+        double SZRM = 1.0D / (SMN - ZMN);
         double XYWC = X * DWCX + Y * DWCY;
         double WCSP = WC / SPL;
         double WCSM = WC / SMN;
