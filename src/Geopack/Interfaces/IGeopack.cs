@@ -532,7 +532,7 @@ public interface IGeopack
     /// </summary>
     /// <param name="xnPd">
     /// Either solar wind proton number density (per c.c.) (if vel greater than 0)
-    /// or the solar wind ram pressure in nanopascals (if vel lower than zero)
+    /// or the solar wind ram pressure in nanopascals (if vel less than 0)
     /// </param>
     /// <param name="vel">
     /// Either solar wind velocity (km/sec)
