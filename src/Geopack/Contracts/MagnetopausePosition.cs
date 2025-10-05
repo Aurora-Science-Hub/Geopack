@@ -1,6 +1,6 @@
 namespace AuroraScienceHub.Geopack.Contracts;
 /// <summary>
-/// Object location relative magnetopause
+/// Object location relative to magnetopause
 /// </summary>
 public enum MagnetopausePosition
 {
