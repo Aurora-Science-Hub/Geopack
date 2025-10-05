@@ -87,7 +87,7 @@ public sealed partial class Geopack
             (ygsw - yMgnpOut) * (ygsw - yMgnpOut) +
             (zgsw - zMgnpOut) * (zgsw - zMgnpOut));
 
-        var idOut = sigma is double.NaN
+        var idOut = double.IsNaN(sigma)
             ? MagnetopausePosition.NotDefined
             : sigma > s0
                 ? MagnetopausePosition.Outside
