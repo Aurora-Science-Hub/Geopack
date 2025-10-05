@@ -55,7 +55,7 @@ public sealed partial class Geopack
                 (ygsw - yMgnp) * (ygsw - yMgnp) +
                 (zgsw - zMgnp) * (zgsw - zMgnp));
 
-            var position = rhomGnp is double.NaN ? MagnetopausePosition.NotDefined
+            var position = double.IsNaN(rhomGnp) ? MagnetopausePosition.NotDefined
                 : rhomGnp > rho
                     ? MagnetopausePosition.Inside
                     : MagnetopausePosition.Outside;
