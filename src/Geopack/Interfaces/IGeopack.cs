@@ -530,32 +530,24 @@ public interface IGeopack
     ///    magnetopause and asymptotically tending to the nearest boundary point with
     ///    respect to the observation point {XGSW, YGSW, ZGSW}, as it approaches the magnetopause.
     /// </summary>
-    /// <param name="xn_pd">
-    /// Either solar wind proton number density (per c.c.) (if VEL > 0)
-    /// or the solar wind ram pressure in nanopascals (if VEL < 0)
+    /// <param name="xnPd">
+    /// Either solar wind proton number density (per c.c.) (if vel greater than 0)
+    /// or the solar wind ram pressure in nanopascals (if vel less than 0)
     /// </param>
     /// <param name="vel">
     /// Either solar wind velocity (km/sec)
-    /// or any negative number, which indicates that XN_PD stands
+    /// or any negative number, which indicates that xnPd stands
     /// for the solar wind pressure, rather than for the density
     /// </param>
-    /// <param name="bzimf">IMF BZ in nanoteslas</param>
+    /// <param name="bzImf">IMF BZ in nanoteslas</param>
     /// <param name="xgsw">GSW x-coordinate of the observation point in Earth radii</param>
     /// <param name="ygsw">GSW y-coordinate of the observation point in Earth radii</param>
     /// <param name="zgsw">GSW z-coordinate of the observation point in Earth radii</param>
-    /// <param name="xmsnp">GSW x-coordinate of the boundary point</param>
-    /// <param name="ymsnp">GSW y-coordinate of the boundary point</param>
-    /// <param name="zmsnp">GSW z-coordinate of the boundary point</param>
-    /// <param name="dist">Distance (in RE) between the observation point (XGSW, YGSW, ZGSW) and the model magnetopause</param>
-    /// <param name="id">
-    /// Position flag: ID=+1 (-1) means that the observation point
-    /// lies inside (outside) of the model magnetopause, respectively.
-    /// </param>
-    void SHUETAL_MGNP_08(
-        float xn_pd, float vel, float bzimf,
-        float xgsw, float ygsw, float zgsw,
-        out float xmsnp, out float ymsnp, out float zmsnp,
-        out float dist, out int id);
+    Magnetopause ShuMgnp(
+        double xnPd,
+        double vel,
+        double bzImf,
+        double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// For any point in space with given coordinates (XGSW, YGSW, ZGSW), this subroutine defines
@@ -577,7 +569,8 @@ public interface IGeopack
     /// <param name="xgsw">Coordinates of the observation point in Earth radii</param>
     /// <param name="ygsw">Coordinates of the observation point in Earth radii</param>
     /// <param name="zgsw">Coordinates of the observation point in Earth radii</param>
-    Magnetopause T96Mgnp(double xnPd,
+    Magnetopause T96Mgnp(
+        double xnPd,
         double vel,
         double xgsw, double ygsw, double zgsw);
 }
