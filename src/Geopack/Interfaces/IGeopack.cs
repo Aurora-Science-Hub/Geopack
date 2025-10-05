@@ -536,7 +536,7 @@ public interface IGeopack
     /// </param>
     /// <param name="vel">
     /// Either solar wind velocity (km/sec)
-    /// or any negative number, which indicates that XN_PD stands
+    /// or any negative number, which indicates that xnPd stands
     /// for the solar wind pressure, rather than for the density
     /// </param>
     /// <param name="bzImf">IMF BZ in nanoteslas</param>
