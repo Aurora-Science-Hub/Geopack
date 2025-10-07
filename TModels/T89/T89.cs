@@ -63,7 +63,7 @@ public sealed class T89 : IT89
         {
             IOP = IOPT;
             for (int i = 0; i < 30; i++)
-                A[i] = PARAM[i, IOPT - 1];
+                A[i] = PARAM[IOPT - 1, i];
 
             DYC = A[29];
             DYC2 = DYC * DYC;

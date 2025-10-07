@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\Geopack\Geopack.csproj" />
+    <ProjectReference Include="..\TModels\TModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
