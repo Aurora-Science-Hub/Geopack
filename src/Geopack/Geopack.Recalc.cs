@@ -1,3 +1,5 @@
+using Common.Contracts;
+
 namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
@@ -23,11 +25,11 @@ public sealed partial class Geopack
             Console.WriteLine($"Warning: Year {dateTime.Year} is out of range. Using {IY} instead.");
         }
 
-        for (var N = 1; N <= 14; N++)
+        for (int N = 1; N <= 14; N++)
         {
             int N2 = 2 * N - 1;
             N2 *= (N2 - 2);
-            for (var M = 1; M <= N; M++)
+            for (int M = 1; M <= N; M++)
             {
                 int MN = N * (N - 1) / 2 + M;
                 Common2.REC[MN - 1] = (double)((N - M) * (N + M - 2)) / N2;
@@ -78,7 +80,7 @@ public sealed partial class Geopack
         if (IY >= 2025)
         {
             double DT = IY + (IDAY - 1) / 365.25d - 2025;
-            for (var N = 0; N <= 104; N++)
+            for (int N = 0; N <= 104; N++)
             {
                 Common2.G[N] = G25[N];
                 Common2.H[N] = H25[N];
@@ -92,14 +94,14 @@ public sealed partial class Geopack
 
         // Schmidt normalization factors
         double S = 1;
-        for (var N = 2; N <= 14; N++)
+        for (int N = 2; N <= 14; N++)
         {
             int MN = N * (N - 1) / 2 + 1;
             S *= (2 * N - 3) / (double)(N - 1);
             Common2.G[MN - 1] *= S;
             Common2.H[MN - 1] *= S;
             double P = S;
-            for (var M = 2; M <= N; M++)
+            for (int M = 2; M <= N; M++)
             {
                 double AA = (M == 2) ? 2 : 1;
                 P *= Math.Sqrt(AA * (N - M + 1) / (N + M - 2));
@@ -125,7 +127,7 @@ public sealed partial class Geopack
         Common1.CTSL = Common1.CT0 * Common1.SL0;
         Common1.CTCL = Common1.CT0 * Common1.CL0;
 
-        var sun = Sun(dateTime);
+        Sun sun = Sun(dateTime);
         double S1 = Math.Cos(sun.Srasn) * Math.Cos(sun.Sdec);
         double S2 = Math.Sin(sun.Srasn) * Math.Cos(sun.Sdec);
         double S3 = Math.Sin(sun.Sdec);
@@ -219,7 +221,7 @@ public sealed partial class Geopack
     {
         double F2 = (IY + (IDAY - 1) / 365.25d - year1) / 5d;
         double F1 = 1.0d - F2;
-        for (var N = 0; N <= 104; N++)
+        for (int N = 0; N <= 104; N++)
         {
             Common2.G[N] = G1[N] * F1 + G2[N] * F2;
             Common2.H[N] = H1[N] * F1 + H2[N] * F2;

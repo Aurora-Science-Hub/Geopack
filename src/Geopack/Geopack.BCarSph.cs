@@ -8,10 +8,10 @@ public sealed partial class Geopack
         double x, double y, double z,
         double bx, double by, double bz)
     {
-        var rho2 = Math.Pow(x, 2.0D) +  Math.Pow(y, 2.0D);
-        var rho = Math.Sqrt(rho2);
+        double rho2 = Math.Pow(x, 2.0D) +  Math.Pow(y, 2.0D);
+        double rho = Math.Sqrt(rho2);
 
-        var r = Math.Sqrt(rho2 + Math.Pow(z, 2.0D));
+        double r = Math.Sqrt(rho2 + Math.Pow(z, 2.0D));
 
         double cphi;
         double sphi;
@@ -27,12 +27,12 @@ public sealed partial class Geopack
             sphi = 0.0D;
         }
 
-        var ct = z / r;
-        var st = rho / r;
+        double ct = z / r;
+        double st = rho / r;
 
-        var br = (x * bx + y * by + z * bz) / r;
-        var btheta = (bx * cphi + by * sphi) * ct - bz * st;
-        var bphi = by * cphi - bx * sphi;
+        double br = (x * bx + y * by + z * bz) / r;
+        double btheta = (bx * cphi + by * sphi) * ct - bz * st;
+        double bphi = by * cphi - bx * sphi;
 
         return new SphericalFieldVector(br, btheta, bphi, null);
     }

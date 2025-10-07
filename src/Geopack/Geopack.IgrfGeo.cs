@@ -26,10 +26,10 @@ public sealed partial class Geopack
         }
 
         int k = nm + 1;
-        var a = new double[k];
-        var b = new double[k];
+        double[] a = new double[k];
+        double[] b = new double[k];
 
-        for (var n = 1; n <= k; n++)
+        for (int n = 1; n <= k; n++)
         {
             p *= pp;
             a[n-1] = p;
