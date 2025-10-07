@@ -6,13 +6,14 @@ c    See GEOPACK-2008.doc for a sample field line tracing program.
 c
       implicit real*8 (a-h,o-z)
       dimension parmod(10)
-  1    print *, '  enter x,y,z,ps,iopt'
+1     print *, '  enter x,y,z,ps,iopt'
       read*, x,y,z,ps,iopt
       call T89D_DP (iopt,parmod,ps,x,y,z,bx,by,bz)
       print *, bx,by,bz
       goto 1
       end
-
+c
+c
 
 C=======================================================================
 C
@@ -116,8 +117,10 @@ C
      * 1100.2D0,13.954D0,7.5337D0,0.89714D0,3.7813D0,8.2945D0,5.174D0,
      * 14.213D0,25.237D0,0.01D0,0.0D0,7.0037D0,4.0D0,20.0D0,-1190.4D0,
      * 2749.9D0,742.56D0,-1110.3D0,-77193.D0,7.6727D0,102.05D0,
-     *-0.96015D-01,-0.74507,0.11214,-1.3614,0.15157D-02,0.22283D-01,
-     *23.164,-0.74146D-01,-2219.1D0,48253.D0,12.714D0,7.6777D0,.57138D0,
+     *-0.96015D-01,-0.74507D0,0.11214D0,-1.3614D0,0.15157D-02,
+     * 0.22283D-01,
+     * 23.164D0,-0.74146D-01,-2219.1D0,48253.D0,12.714D0,7.6777D0,
+     * .57138D0,
      * 2.9633D0,9.3909D0,9.7263D0,11.123D0,21.558D0,0.01D0,0.0D0,
      * 4.4518D0,4.0D0,20.0D0/
 
@@ -373,6 +376,9 @@ C  FINALLY, CALCULATE NET EXTERNAL MAGNETIC FIELD COMPONENTS,
 C    BUT FIRST OF ALL THOSE FOR C.-F. FIELD:
 C
        SX1=AK6*ECZ+AK7*ES+AK8*ESY*Y+AK9*ESZ*Z
+
+       print *, AK6, ECZ, AK7, ES, AK8, ESY, Y, AK9, ESZ, Z
+
        SY1=AK10*ECZ*Y+AK11*ESY+AK12*ESY*Y2+AK13*ESY*Z2
        SZ1=AK14*EC+AK15*EC*Y2+AK610*ECZ2+AK711*ESZ+AK812
      * *ESZY2+AK913*ESZZ2
