@@ -13,11 +13,11 @@ public static class EmbeddedResourceReader
     /// </summary>
     public static async Task<string> ReadTextAsync(string resourceFilePath)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        await using var stream = assembly.GetManifestResourceStream(resourceFilePath)
-                                 ?? throw new FileNotFoundException($"Embedded resource '{resourceFilePath}' not found.");
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        await using Stream stream = assembly.GetManifestResourceStream(resourceFilePath)
+                                    ?? throw new FileNotFoundException($"Embedded resource '{resourceFilePath}' not found.");
 
-        using var reader = new StreamReader(stream);
+        using StreamReader reader = new StreamReader(stream);
         return await reader.ReadToEndAsync();
     }
 
@@ -26,11 +26,11 @@ public static class EmbeddedResourceReader
     /// </summary>
     public static async Task<byte[]> ReadBinaryAsync(string resourceFilePath)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        await using var stream = assembly.GetManifestResourceStream(resourceFilePath)
-                                 ?? throw new FileNotFoundException($"Embedded resource '{resourceFilePath}' not found.");
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        await using Stream stream = assembly.GetManifestResourceStream(resourceFilePath)
+                                    ?? throw new FileNotFoundException($"Embedded resource '{resourceFilePath}' not found.");
 
-        using var memoryStream = new MemoryStream();
+        using MemoryStream memoryStream = new MemoryStream();
         await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
         return memoryStream.ToArray();
     }
@@ -40,12 +40,12 @@ public static class EmbeddedResourceReader
     /// </summary>
     public static async Task<T> ReadJsonAsync<T>(string resourceFilePath, JsonSerializerOptions? options = null)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        await using var stream = assembly.GetManifestResourceStream(resourceFilePath)
-                                 ?? throw new FileNotFoundException($"Embedded resource '{resourceFilePath}' not found.");
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        await using Stream stream = assembly.GetManifestResourceStream(resourceFilePath)
+                                    ?? throw new FileNotFoundException($"Embedded resource '{resourceFilePath}' not found.");
 
-        using var reader = new StreamReader(stream);
-        var json = await reader.ReadToEndAsync().ConfigureAwait(false);
+        using StreamReader reader = new StreamReader(stream);
+        string json = await reader.ReadToEndAsync().ConfigureAwait(false);
         return JsonSerializer.Deserialize<T>(json, options)
                ?? throw new InvalidOperationException("Could not deserialize JSON.");
     }

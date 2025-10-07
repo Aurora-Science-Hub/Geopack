@@ -7,3 +7,5 @@ Possible issues in original Geopack-2008dp. Should be addressed to N. A. Tsygane
 **Original line**: DJ=365*(IYEAR-1900)+(IYEAR-1901)/`4`+IDAY-0.5D0+FDAY (==`36525`)
 
 **Expected line**: DJ=365*(IYEAR-1900)+(IYEAR-1901)/`4.D0`+IDAY-0.5D0+FDAY (==`36525.75`)
+
+2. Missing D0 notations in T89DP model: line 121 and 122 of original T89DP

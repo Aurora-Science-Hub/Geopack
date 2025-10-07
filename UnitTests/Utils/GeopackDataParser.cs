@@ -12,20 +12,20 @@ public static class GeopackDataParser
     /// <returns></returns>
     public static InputGeopackData ParseInputData(this string rawData)
     {
-        var lines = rawData.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
-        var result = new InputGeopackData();
-        var lineIndex = 0;
+        string[] lines = rawData.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
+        InputGeopackData result = new InputGeopackData();
+        int lineIndex = 0;
 
         // Parse header
-        var headerParts = lines[lineIndex++].Split(new[] { ' ', '=', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-        var year = headerParts[1].ParseInt();
-        var doy = headerParts[3].ParseInt();
-        var hour = headerParts[5].ParseInt();
-        var minute = headerParts[7].ParseInt();
+        string[] headerParts = lines[lineIndex++].Split(new[] { ' ', '=', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+        int year = headerParts[1].ParseInt();
+        int doy = headerParts[3].ParseInt();
+        int hour = headerParts[5].ParseInt();
+        int minute = headerParts[7].ParseInt();
         result.DateTime = new DateTime(year, 1, 1, hour, minute, 0).AddDays(doy - 1);
 
         // Parse solar wind pressure
-        var solarWindParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] solarWindParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
         result.VGSEX = solarWindParts[3].ParseDouble();
         result.VGSEY = solarWindParts[4].ParseDouble();
         result.VGSEZ = solarWindParts[5].ParseDouble();
@@ -39,12 +39,12 @@ public static class GeopackDataParser
     /// <param name="data"> Test data </param>
     public static GeopackCommons ParseRecalcCommons(string data)
     {
-        var lines = data.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        var result = new GeopackCommons();
-        var lineIndex = 0;
+        string[] lines = data.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        GeopackCommons result = new GeopackCommons();
+        int lineIndex = 0;
 
         // Parse Common1 coefficients
-        var common1string = lines[lineIndex++].Split(new[] { ' ', '=' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] common1string = lines[lineIndex++].Split(new[] { ' ', '=' }, StringSplitOptions.RemoveEmptyEntries);
         result.ST0 = common1string[2].ParseDouble();
         result.CT0 = common1string[3].ParseDouble();
         result.SL0 = common1string[4].ParseDouble();
@@ -83,7 +83,7 @@ public static class GeopackDataParser
         // Parse coordinates
         while (lineIndex < lines.Length)
         {
-            var ghrec = lines[lineIndex++].Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] ghrec = lines[lineIndex++].Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             if (ghrec.Length != 3)
             {
                 continue;
@@ -103,28 +103,28 @@ public static class GeopackDataParser
     /// <param name="data"> Test data </param>
     public static GeopackCommons ParseTrace(string data)
     {
-        var lines = data.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        var result = new GeopackCommons();
-        var lineIndex = 0;
+        string[] lines = data.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        GeopackCommons result = new GeopackCommons();
+        int lineIndex = 0;
 
         // Parse header
-        var headerParts = lines[lineIndex++].Split(new[] { ' ', '=', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-        var year = headerParts[1].ParseInt();
-        var doy = headerParts[3].ParseInt();
-        var hour = headerParts[5].ParseInt();
-        var minute = headerParts[7].ParseInt();
+        string[] headerParts = lines[lineIndex++].Split(new[] { ' ', '=', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+        int year = headerParts[1].ParseInt();
+        int doy = headerParts[3].ParseInt();
+        int hour = headerParts[5].ParseInt();
+        int minute = headerParts[7].ParseInt();
         result.DateTime = new DateTime(year, 1, 1, hour, minute, 0).AddDays(doy - 1);
 
         // Parse solar wind pressure
-        var solarWindParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] solarWindParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
         result.SolarWindPressure = solarWindParts[5].ParseDouble();
 
         // Parse DST index
-        var dstParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] dstParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
         result.DstIndex = dstParts[1].ParseDouble();
 
         // Parse IMF By and Bz
-        var imfParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] imfParts = lines[lineIndex++].Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
         result.ByIMF = imfParts[4].ParseDouble();
         result.BzIMF = imfParts[5].ParseDouble();
 
@@ -134,15 +134,15 @@ public static class GeopackDataParser
         // Parse coordinates
         while (lineIndex < lines.Length)
         {
-            var coordParts = lines[lineIndex++].Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] coordParts = lines[lineIndex++].Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             if (coordParts.Length != 3)
             {
                 continue;
             }
 
-            var x = coordParts[0].ParseDouble();
-            var y = coordParts[1].ParseDouble();
-            var z = coordParts[2].ParseDouble();
+            double x = coordParts[0].ParseDouble();
+            double y = coordParts[1].ParseDouble();
+            double z = coordParts[2].ParseDouble();
             result.FieldLineCoordinates?.Add((x, y, z));
         }
 

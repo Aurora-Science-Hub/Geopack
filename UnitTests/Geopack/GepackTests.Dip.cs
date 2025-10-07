@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Common;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -18,7 +19,7 @@ public partial class GeopackTests
     {
         // Act
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-        var resultField = _geopack.Dip(xgsw, ygsw, zgsw);
+        CartesianFieldVector resultField = _geopack.Dip(xgsw, ygsw, zgsw);
 
         // Assert
         resultField.Bx.ShouldBe(expectedBx, MinimalTestsPrecision);
@@ -31,7 +32,7 @@ public partial class GeopackTests
     {
         // Act
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-        var resultField = _geopack.Dip(0.0D, 0.0D, 0.0D);
+        CartesianFieldVector resultField = _geopack.Dip(0.0D, 0.0D, 0.0D);
 
         // Assert
         resultField.Bx.ShouldBe(double.NaN);

@@ -1,4 +1,4 @@
-using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Common;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -10,24 +10,24 @@ public partial class GeopackTests
     public async Task SmGsw_ReturnsCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(SmGswDatasetFileName);
-        var lines = rawData.SplitLines();
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(SmGswDatasetFileName);
+        string[] lines = rawData.SplitLines();
 
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
-            var coordinatesString = line.SplitParametersLine();
-            var xsm = coordinatesString[1].ParseDouble();
-            var ysm = coordinatesString[3].ParseDouble();
-            var zsm = coordinatesString[5].ParseDouble();
+            string[] coordinatesString = line.SplitParametersLine();
+            double xsm = coordinatesString[1].ParseDouble();
+            double ysm = coordinatesString[3].ParseDouble();
+            double zsm = coordinatesString[5].ParseDouble();
 
-            var xgsw = coordinatesString[7].ParseDouble();
-            var ygsw = coordinatesString[9].ParseDouble();
-            var zgsw = coordinatesString[11].ParseDouble();
+            double xgsw = coordinatesString[7].ParseDouble();
+            double ygsw = coordinatesString[9].ParseDouble();
+            double zgsw = coordinatesString[11].ParseDouble();
 
             // Act
-            var location = _geopack.SmGsw(xsm, ysm, zsm);
+            CartesianLocation location = _geopack.SmGsw(xsm, ysm, zsm);
 
             // Assert
             location.X.ShouldBe(xgsw, MinimalTestsPrecision);
@@ -41,24 +41,24 @@ public partial class GeopackTests
     public async Task GswSm_ReturnsCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(GswSmDatasetFileName);
-        var lines = rawData.SplitLines();
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(GswSmDatasetFileName);
+        string[] lines = rawData.SplitLines();
 
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
-            var coordinatesString = line.SplitParametersLine();
-            var xgsw = coordinatesString[1].ParseDouble();
-            var ygsw = coordinatesString[3].ParseDouble();
-            var zgsw = coordinatesString[5].ParseDouble();
+            string[] coordinatesString = line.SplitParametersLine();
+            double xgsw = coordinatesString[1].ParseDouble();
+            double ygsw = coordinatesString[3].ParseDouble();
+            double zgsw = coordinatesString[5].ParseDouble();
 
-            var xsm = coordinatesString[7].ParseDouble();
-            var ysm = coordinatesString[9].ParseDouble();
-            var zsm = coordinatesString[11].ParseDouble();
+            double xsm = coordinatesString[7].ParseDouble();
+            double ysm = coordinatesString[9].ParseDouble();
+            double zsm = coordinatesString[11].ParseDouble();
 
             // Act
-            var location = _geopack.GswSm(xgsw, ygsw, zgsw);
+            CartesianLocation location = _geopack.GswSm(xgsw, ygsw, zgsw);
 
             // Assert
             location.X.ShouldBe(xsm, MinimalTestsPrecision);

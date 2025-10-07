@@ -1,4 +1,4 @@
-using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Common;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -18,7 +18,7 @@ public partial class GeopackTests
         double dist, MagnetopausePosition position)
     {
         // Act
-        var resultField = _geopack.T96Mgnp(xnPd, vel, x, y, z);
+        Magnetopause resultField = _geopack.T96Mgnp(xnPd, vel, x, y, z);
 
         // Assert
         resultField.X.ShouldBe(xmgnp, MinimalTestsPrecision);
@@ -37,7 +37,7 @@ public partial class GeopackTests
         double x, double y, double z)
     {
         // Act
-        var resultField = _geopack.T96Mgnp(xnPd, vel, x, y, z);
+        Magnetopause resultField = _geopack.T96Mgnp(xnPd, vel, x, y, z);
 
         // Assert
         resultField.X.ShouldBe(double.NaN);

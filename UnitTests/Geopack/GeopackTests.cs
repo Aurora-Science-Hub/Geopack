@@ -8,7 +8,7 @@ public class TestDataCollection : ICollectionFixture<TestDataFixture>;
 [Collection("Geopack")]
 public partial class GeopackTests(TestDataFixture fixture)
 {
-    private readonly AuroraScienceHub.Geopack.Geopack.Geopack _geopack = new();
+    private readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
 
     private const double Rad = 57.295779513D;
 

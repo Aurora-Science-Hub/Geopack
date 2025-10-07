@@ -1,4 +1,4 @@
-using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Common;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -23,12 +23,12 @@ public partial class GeopackTests
         double expectedBr, double expectedBtheta, double expectedBphi)
     {
         // Arrange
-        var coLat = (90.0 - xLat) / Rad;
-        var lon = xLon / Rad;
+        double coLat = (90.0 - xLat) / Rad;
+        double lon = xLon / Rad;
 
         // Act
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-        var resultField = _geopack.IgrfGeo(r, coLat, lon);
+        SphericalFieldVector resultField = _geopack.IgrfGeo(r, coLat, lon);
 
         // Assert
         resultField.Br.ShouldBe(expectedBr, MinimalTestsPrecision);
@@ -42,7 +42,7 @@ public partial class GeopackTests
     {
         // Act
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-        var resultField = _geopack.IgrfGeo(0.0D, 0.0D, 0.0D);
+        SphericalFieldVector resultField = _geopack.IgrfGeo(0.0D, 0.0D, 0.0D);
 
         // Assert
         resultField.Br.ShouldBe(double.NaN);

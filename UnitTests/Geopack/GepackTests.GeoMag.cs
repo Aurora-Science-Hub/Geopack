@@ -1,4 +1,4 @@
-using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Common;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -10,24 +10,24 @@ public partial class GeopackTests
     public async Task GeoMag_ReturnsCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(GeoMagDatasetFileName);
-        var lines = rawData.SplitLines();
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(GeoMagDatasetFileName);
+        string[] lines = rawData.SplitLines();
 
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
-            var coordinatesString = line.SplitParametersLine();
-            var xgeo = coordinatesString[1].ParseDouble();
-            var ygeo = coordinatesString[3].ParseDouble();
-            var zgeo = coordinatesString[5].ParseDouble();
+            string[] coordinatesString = line.SplitParametersLine();
+            double xgeo = coordinatesString[1].ParseDouble();
+            double ygeo = coordinatesString[3].ParseDouble();
+            double zgeo = coordinatesString[5].ParseDouble();
 
-            var xmag = coordinatesString[7].ParseDouble();
-            var ymag = coordinatesString[9].ParseDouble();
-            var zmag = coordinatesString[11].ParseDouble();
+            double xmag = coordinatesString[7].ParseDouble();
+            double ymag = coordinatesString[9].ParseDouble();
+            double zmag = coordinatesString[11].ParseDouble();
 
             // Act
-            var location = _geopack.GeoMag(xgeo, ygeo, zgeo);
+            CartesianLocation location = _geopack.GeoMag(xgeo, ygeo, zgeo);
 
             // Assert
             location.X.ShouldBe(xmag, MinimalTestsPrecision);
@@ -41,24 +41,24 @@ public partial class GeopackTests
     public async Task MagGeo_ReturnsCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(MagGeoDatasetFileName);
-        var lines = rawData.SplitLines();
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(MagGeoDatasetFileName);
+        string[] lines = rawData.SplitLines();
 
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
-            var coordinatesString = line.SplitParametersLine();
-            var xmag = coordinatesString[1].ParseDouble();
-            var ymag = coordinatesString[3].ParseDouble();
-            var zmag = coordinatesString[5].ParseDouble();
+            string[] coordinatesString = line.SplitParametersLine();
+            double xmag = coordinatesString[1].ParseDouble();
+            double ymag = coordinatesString[3].ParseDouble();
+            double zmag = coordinatesString[5].ParseDouble();
 
-            var xgeo = coordinatesString[7].ParseDouble();
-            var ygeo = coordinatesString[9].ParseDouble();
-            var zgeo = coordinatesString[11].ParseDouble();
+            double xgeo = coordinatesString[7].ParseDouble();
+            double ygeo = coordinatesString[9].ParseDouble();
+            double zgeo = coordinatesString[11].ParseDouble();
 
             // Act
-            var location = _geopack.MagGeo(xmag, ymag, zmag);
+            CartesianLocation location = _geopack.MagGeo(xmag, ymag, zmag);
 
             // Assert
             location.X.ShouldBe(xgeo, MinimalTestsPrecision);
