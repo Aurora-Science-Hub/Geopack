@@ -27,23 +27,4 @@ public partial class TModelsTests
         resultField.By.ShouldBe(expectedBy, MinimalTestsPrecision);
         resultField.Bz.ShouldBe(expectedBz, MinimalTestsPrecision);
     }
-
-    // [Theory(DisplayName = "Iterate T89 setups for NaNs")]
-    // [InlineData(0.0D, 0.0D, 9.0D, 0.0D, 0.0D)]
-    // [InlineData(0.0D, 99999999.0D, 9.0D, 0.0D, 0.0D)]
-    // [InlineData(99999999.0D, 0.0D, 9.0D, 0.0D, 0.0D)]
-    // public void T89Mgnp_ShouldNaN(
-    //     double xnPd, double vel,
-    //     double x, double y, double z)
-    // {
-    //     // Act
-    //     var resultField = _geopack.T96Mgnp(xnPd, vel, x, y, z);
-    //
-    //     // Assert
-    //     resultField.X.ShouldBe(double.NaN);
-    //     resultField.Y.ShouldBe(double.NaN);
-    //     resultField.Z.ShouldBe(double.NaN);
-    //     resultField.Dist.ShouldBe(double.NaN);
-    //     resultField.Position.ShouldBe(MagnetopausePosition.NotDefined);
-    // }
 }
