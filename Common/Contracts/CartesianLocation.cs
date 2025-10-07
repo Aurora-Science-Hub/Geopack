@@ -1,4 +1,4 @@
-namespace Common.Contracts;
+namespace AuroraScienceHub.Geopack.Common.Contracts;
 
 /// <summary>
 /// Position in Cartesian coordinates

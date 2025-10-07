@@ -1,4 +1,4 @@
-namespace Common.Contracts;
+namespace AuroraScienceHub.Geopack.Common.Contracts;
 
 /// <summary>
 /// Represents geodetic and geocentric coordinates of a point on Earth.

@@ -20,7 +20,7 @@ public partial class GeopackTests
         double br, double btheta, double bphi)
     {
         // Act
-        var fieldVector = _geopack.BCarSph(x, y, z, bx, by, bz);
+        SphericalFieldVector fieldVector = _geopack.BCarSph(x, y, z, bx, by, bz);
 
         // Assert
         fieldVector.Br.ShouldBe(br, MinimalTestsPrecision);

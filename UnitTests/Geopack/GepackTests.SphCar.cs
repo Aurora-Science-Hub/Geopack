@@ -1,5 +1,4 @@
 using AuroraScienceHub.Geopack.UnitTests.Utils;
-using Common.Contracts;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -10,10 +9,10 @@ public partial class GeopackTests
     public void SphCar_ShouldReturnCorrectValues()
     {
         // Arrange
-        var approvedData = new CartesianLocation(0.4637416876811D, 0.7222348866390D, 0.5511083519855D);
+        CartesianLocation approvedData = new CartesianLocation(0.4637416876811D, 0.7222348866390D, 0.5511083519855D);
 
         // Act
-        var point = _geopack.SphCar(1.02D, 1.0D, 1.0D);
+        CartesianLocation point = _geopack.SphCar(1.02D, 1.0D, 1.0D);
 
         // Assert
         point.X.ShouldBe(approvedData.X, MinimalTestsPrecision);
@@ -35,7 +34,7 @@ public partial class GeopackTests
     public void SphCar_Variances_ReturnCorrectValues(double r, double theta, double phi, double x, double y, double z)
     {
         // Act
-        var point = _geopack.SphCar(r, theta, phi);
+        CartesianLocation point = _geopack.SphCar(r, theta, phi);
 
         // Assert
         point.X.ShouldBe(x);

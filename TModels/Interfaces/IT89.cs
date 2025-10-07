@@ -1,4 +1,4 @@
-using Common.Contracts;
+using AuroraScienceHub.Geopack.Common.Contracts;
 
 namespace AuroraScienceHub.TModels.Interfaces;
 
