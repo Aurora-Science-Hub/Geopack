@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TModels", "TModels\TModels.csproj", "{D47E2899-4EC5-4C59-ABDF-37086FBFCE31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{3B500C9F-E74F-4F8D-AFFC-30003DC24786}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{3B500C9F-E74F-4F8D-AFFC-30003DC24786}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

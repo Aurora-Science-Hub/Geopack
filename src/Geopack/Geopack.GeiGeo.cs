@@ -1,4 +1,4 @@
-using AuroraScienceHub.Geopack.Common.Contracts;
+using AuroraScienceHub.Geopack.Common;
 
 namespace AuroraScienceHub.Geopack;
 

@@ -1,4 +1,4 @@
- namespace AuroraScienceHub.Geopack.Common.Contracts;
+ namespace AuroraScienceHub.Geopack.Common;
 
 /// <summary>
 /// Magnetopause location relative to any point in space

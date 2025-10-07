@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.Geopack.Common.Contracts;
+namespace AuroraScienceHub.Geopack.Common;
 
 /// <summary>
 /// Available in Geopack-2008 coordinate systems
