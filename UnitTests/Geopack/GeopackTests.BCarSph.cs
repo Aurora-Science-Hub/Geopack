@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Common.Contracts;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -32,7 +33,7 @@ public partial class GeopackTests
     public void BCarSph_ShouldReturnNaND_IfDivideByZero()
     {
         // Act
-        var fieldVector = _geopack.BCarSph(0, 0, 0, 1, 1, 1);
+        SphericalFieldVector fieldVector = _geopack.BCarSph(0, 0, 0, 1, 1, 1);
 
         // Assert
         fieldVector.Br.ShouldBe(double.NaN);

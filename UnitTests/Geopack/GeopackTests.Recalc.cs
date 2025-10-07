@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.UnitTests.Models;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -9,15 +10,15 @@ public partial class GeopackTests
     public async Task RecalcCommonBlocks_ShouldBeCorrect()
     {
         // Act
-        var (common1, common2) = _geopack.Recalc(
+        (Common1 common1, Common2 common2) = _geopack.Recalc(
             fixture.InputData.DateTime,
             fixture.InputData.VGSEX,
             fixture.InputData.VGSEY,
             fixture.InputData.VGSEZ);
 
         // Assert
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(CommonsDataFileName);
-        var approvedData = GeopackDataParser.ParseRecalcCommons(rawData);
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(CommonsDataFileName);
+        GeopackCommons approvedData = GeopackDataParser.ParseRecalcCommons(rawData);
 
         for (int i = 0; i < common2.G.Length; i++)
         {

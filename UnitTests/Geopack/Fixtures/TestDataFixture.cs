@@ -11,7 +11,7 @@ public class TestDataFixture
 
     public TestDataFixture()
     {
-        var rawData = ReadTextAsync(InputDataFileName).Result;
+        string rawData = ReadTextAsync(InputDataFileName).Result;
         InputData = rawData.ParseInputData();
     }
 

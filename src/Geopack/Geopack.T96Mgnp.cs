@@ -55,7 +55,7 @@ public sealed partial class Geopack
                 (ygsw - yMgnp) * (ygsw - yMgnp) +
                 (zgsw - zMgnp) * (zgsw - zMgnp));
 
-            var position = double.IsNaN(rhomGnp) ? MagnetopausePosition.NotDefined
+            MagnetopausePosition position = double.IsNaN(rhomGnp) ? MagnetopausePosition.NotDefined
                 : rhomGnp > rho
                     ? MagnetopausePosition.Inside
                     : MagnetopausePosition.Outside;
@@ -87,7 +87,7 @@ public sealed partial class Geopack
             (ygsw - yMgnpOut) * (ygsw - yMgnpOut) +
             (zgsw - zMgnpOut) * (zgsw - zMgnpOut));
 
-        var idOut = double.IsNaN(sigma)
+        MagnetopausePosition idOut = double.IsNaN(sigma)
             ? MagnetopausePosition.NotDefined
             : sigma > s0
                 ? MagnetopausePosition.Outside

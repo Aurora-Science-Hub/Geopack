@@ -8,8 +8,8 @@ public sealed partial class Geopack
     {
         double phi;
         double theta;
-        var sq = x * x + y * y;
-        var r = Math.Sqrt(sq + z * z);
+        double sq = x * x + y * y;
+        double r = Math.Sqrt(sq + z * z);
 
         if (sq != 0.0d)
         {

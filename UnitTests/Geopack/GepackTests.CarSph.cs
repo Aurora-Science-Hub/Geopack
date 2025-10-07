@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Common.Contracts;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -8,10 +9,10 @@ public partial class GeopackTests
     public void CarSph_ShouldReturnCorrectValues()
     {
         // Arrange
-        var approvedData = new SphericalLocation(1.7320508075689, 0.9553166181245, 0.7853981633974);
+        SphericalLocation approvedData = new SphericalLocation(1.7320508075689, 0.9553166181245, 0.7853981633974);
 
         // Act
-        var point = _geopack.CarSph(1.0D, 1.0D, 1.0D);
+        SphericalLocation point = _geopack.CarSph(1.0D, 1.0D, 1.0D);
 
         // Assert
         point.R.ShouldBe(approvedData.R, MinimalTestsPrecision);
@@ -32,7 +33,7 @@ public partial class GeopackTests
     public void CarSph_ZeroesAndOnes_ReturnsCorrectValues(double x, double y, double z, double r, double theta, double phi)
     {
         // Act
-        var point = _geopack.CarSph(x, y, z);
+        SphericalLocation point = _geopack.CarSph(x, y, z);
 
         // Assert
         point.R.ShouldBe(r);

@@ -8,14 +8,14 @@ public sealed partial class Geopack
         double theta, double phi,
         double br, double btheta, double bphi)
     {
-        var s = Math.Sin(theta);
-        var c = Math.Cos(theta);
-        var sf = Math.Sin(phi);
-        var cf = Math.Cos(phi);
-        var be = br * s + btheta * c;
-        var bx = be * cf - bphi * sf;
-        var by = be * sf + bphi * cf;
-        var bz = br * c - btheta * s;
+        double s = Math.Sin(theta);
+        double c = Math.Cos(theta);
+        double sf = Math.Sin(phi);
+        double cf = Math.Cos(phi);
+        double be = br * s + btheta * c;
+        double bx = be * cf - bphi * sf;
+        double by = be * sf + bphi * cf;
+        double bz = br * c - btheta * s;
 
         return new CartesianFieldVector(bx, by, bz, null);
     }

@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Common.Contracts;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -9,24 +10,24 @@ public partial class GeopackTests
     public async Task GeiGeo_ReturnsCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(GeiGeoDatasetFileName);
-        var lines = rawData.SplitLines();
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(GeiGeoDatasetFileName);
+        string[] lines = rawData.SplitLines();
 
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
-            var coordinatesString = line.SplitParametersLine();
-            var xgei = coordinatesString[1].ParseDouble();
-            var ygei = coordinatesString[3].ParseDouble();
-            var zgei = coordinatesString[5].ParseDouble();
+            string[] coordinatesString = line.SplitParametersLine();
+            double xgei = coordinatesString[1].ParseDouble();
+            double ygei = coordinatesString[3].ParseDouble();
+            double zgei = coordinatesString[5].ParseDouble();
 
-            var xgeo = coordinatesString[7].ParseDouble();
-            var ygeo = coordinatesString[9].ParseDouble();
-            var zgeo = coordinatesString[11].ParseDouble();
+            double xgeo = coordinatesString[7].ParseDouble();
+            double ygeo = coordinatesString[9].ParseDouble();
+            double zgeo = coordinatesString[11].ParseDouble();
 
             // Act
-            var location = _geopack.GeiGeo(xgei, ygei, zgei);
+            CartesianLocation location = _geopack.GeiGeo(xgei, ygei, zgei);
 
             // Assert
             location.X.ShouldBe(xgeo, MinimalTestsPrecision);
@@ -40,24 +41,24 @@ public partial class GeopackTests
     public async Task GeoGei_ReturnsCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(GeoGeiDatasetFileName);
-        var lines = rawData.SplitLines();
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(GeoGeiDatasetFileName);
+        string[] lines = rawData.SplitLines();
 
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
-            var coordinatesString = line.SplitParametersLine();
-            var xgeo = coordinatesString[1].ParseDouble();
-            var ygeo = coordinatesString[3].ParseDouble();
-            var zgeo = coordinatesString[5].ParseDouble();
+            string[] coordinatesString = line.SplitParametersLine();
+            double xgeo = coordinatesString[1].ParseDouble();
+            double ygeo = coordinatesString[3].ParseDouble();
+            double zgeo = coordinatesString[5].ParseDouble();
 
-            var xgei = coordinatesString[7].ParseDouble();
-            var ygei = coordinatesString[9].ParseDouble();
-            var zgei = coordinatesString[11].ParseDouble();
+            double xgei = coordinatesString[7].ParseDouble();
+            double ygei = coordinatesString[9].ParseDouble();
+            double zgei = coordinatesString[11].ParseDouble();
 
             // Act
-            var location = _geopack.GeoGei(xgeo, ygeo, zgeo);
+            CartesianLocation location = _geopack.GeoGei(xgeo, ygeo, zgeo);
 
             // Assert
             location.X.ShouldBe(xgei, MinimalTestsPrecision);

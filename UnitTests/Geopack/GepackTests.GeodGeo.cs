@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Common.Contracts;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -9,22 +10,22 @@ public partial class GeopackTests
     public async Task GeodGeo_ReturnsCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(GeodGeoDatasetFileName);
-        var lines = rawData.SplitLines();
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(GeodGeoDatasetFileName);
+        string[] lines = rawData.SplitLines();
 
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
-            var coordinatesString = line.SplitParametersLine();
-            var h = coordinatesString[1].ParseDouble();
-            var xmu = coordinatesString[3].ParseDouble();
+            string[] coordinatesString = line.SplitParametersLine();
+            double h = coordinatesString[1].ParseDouble();
+            double xmu = coordinatesString[3].ParseDouble();
 
-            var r = coordinatesString[5].ParseDouble();
-            var theta = coordinatesString[7].ParseDouble();
+            double r = coordinatesString[5].ParseDouble();
+            double theta = coordinatesString[7].ParseDouble();
 
             // Act
-            var location = _geopack.GeodGeo(h, xmu);
+            GeodeticGeocentricCoordinates location = _geopack.GeodGeo(h, xmu);
 
             // Assert
             location.H.ShouldBe(h, MinimalTestsPrecision);
@@ -38,22 +39,22 @@ public partial class GeopackTests
     public async Task GeoGeod_ReturnsCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(GeoGeodDatasetFileName);
-        var lines = rawData.SplitLines();
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(GeoGeodDatasetFileName);
+        string[] lines = rawData.SplitLines();
 
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
-            var coordinatesString = line.SplitParametersLine();
-            var r = coordinatesString[1].ParseDouble();
-            var theta = coordinatesString[3].ParseDouble();
+            string[] coordinatesString = line.SplitParametersLine();
+            double r = coordinatesString[1].ParseDouble();
+            double theta = coordinatesString[3].ParseDouble();
 
-            var h = coordinatesString[5].ParseDouble();
-            var xmu = coordinatesString[7].ParseDouble();
+            double h = coordinatesString[5].ParseDouble();
+            double xmu = coordinatesString[7].ParseDouble();
 
             // Act
-            var location = _geopack.GeoGeod(r, theta);
+            GeodeticGeocentricCoordinates location = _geopack.GeoGeod(r, theta);
 
             // Assert
             location.H.ShouldBe(h, MinimalTestsPrecision);

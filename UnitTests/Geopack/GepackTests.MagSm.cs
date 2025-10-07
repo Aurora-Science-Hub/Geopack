@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Common.Contracts;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -9,24 +10,24 @@ public partial class GeopackTests
     public async Task MagSm_ReturnsCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(MagSmDatasetFileName);
-        var lines = rawData.SplitLines();
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(MagSmDatasetFileName);
+        string[] lines = rawData.SplitLines();
 
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
-            var coordinatesString = line.SplitParametersLine();
-            var xmag = coordinatesString[1].ParseDouble();
-            var ymag = coordinatesString[3].ParseDouble();
-            var zmag = coordinatesString[5].ParseDouble();
+            string[] coordinatesString = line.SplitParametersLine();
+            double xmag = coordinatesString[1].ParseDouble();
+            double ymag = coordinatesString[3].ParseDouble();
+            double zmag = coordinatesString[5].ParseDouble();
 
-            var xsm = coordinatesString[7].ParseDouble();
-            var ysm = coordinatesString[9].ParseDouble();
-            var zsm = coordinatesString[11].ParseDouble();
+            double xsm = coordinatesString[7].ParseDouble();
+            double ysm = coordinatesString[9].ParseDouble();
+            double zsm = coordinatesString[11].ParseDouble();
 
             // Act
-            var location = _geopack.MagSm(xmag, ymag, zmag);
+            CartesianLocation location = _geopack.MagSm(xmag, ymag, zmag);
 
             // Assert
             location.X.ShouldBe(xsm, MinimalTestsPrecision);
@@ -40,24 +41,24 @@ public partial class GeopackTests
     public async Task SmMag_ReturnsCorrectValues()
     {
         // Arrange
-        var rawData = await EmbeddedResourceReader.ReadTextAsync(SmMagDatasetFileName);
-        var lines = rawData.SplitLines();
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(SmMagDatasetFileName);
+        string[] lines = rawData.SplitLines();
 
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
-            var coordinatesString = line.SplitParametersLine();
-            var xsm = coordinatesString[1].ParseDouble();
-            var ysm = coordinatesString[3].ParseDouble();
-            var zsm = coordinatesString[5].ParseDouble();
+            string[] coordinatesString = line.SplitParametersLine();
+            double xsm = coordinatesString[1].ParseDouble();
+            double ysm = coordinatesString[3].ParseDouble();
+            double zsm = coordinatesString[5].ParseDouble();
 
-            var xmag = coordinatesString[7].ParseDouble();
-            var ymag = coordinatesString[9].ParseDouble();
-            var zmag = coordinatesString[11].ParseDouble();
+            double xmag = coordinatesString[7].ParseDouble();
+            double ymag = coordinatesString[9].ParseDouble();
+            double zmag = coordinatesString[11].ParseDouble();
 
             // Act
-            var location = _geopack.SmMag(xsm, ysm, zsm);
+            CartesianLocation location = _geopack.SmMag(xsm, ysm, zsm);
 
             // Assert
             location.X.ShouldBe(xmag, MinimalTestsPrecision);

@@ -31,7 +31,7 @@ public sealed partial class Geopack
             phi = 0.0D;
         }
 
-        var id = MagnetopausePosition.NotDefined;
+        MagnetopausePosition id;
         double r0 = (10.22D + 1.29D * Math.Tanh(0.184D * (bzImf + 8.14D))) * Math.Pow(p, -0.15151515D);
         double alpha = (0.58D - 0.007D * bzImf) * (1.0D + 0.024D * Math.Log(p));
         double r = Math.Sqrt(xgsw * xgsw + ygsw * ygsw + zgsw * zgsw);
@@ -47,7 +47,7 @@ public sealed partial class Geopack
         }
 
         // Get T96 magnetopause as starting approximation
-        var t96Result = T96Mgnp(p, -1.0D, xgsw, ygsw, zgsw);
+        Magnetopause t96Result = T96Mgnp(p, -1.0D, xgsw, ygsw, zgsw);
         double xmt96 = t96Result.X;
         double ymt96 = t96Result.Y;
         double zmt96 = t96Result.Z;
