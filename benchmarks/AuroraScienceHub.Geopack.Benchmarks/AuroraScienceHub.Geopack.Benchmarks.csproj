@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>AuroraScienceHub.Geopack.Benchmarks</AssemblyName>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <AssemblyName>AuroraScienceHub.Geopack.Benchmarks</AssemblyName>
     <OutputType>Exe</OutputType>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <!-- Disable entry point generation as this project has it's own entry point -->
@@ -11,10 +11,6 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Geopack\Geopack.csproj" />
   </ItemGroup>
 
 </Project>
