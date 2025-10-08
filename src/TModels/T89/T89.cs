@@ -1,5 +1,4 @@
-using System;
-using AuroraScienceHub.Geopack.Common;
+using AuroraScienceHub.Geopack.Contracts.Models;
 using AuroraScienceHub.TModels.Interfaces;
 
 namespace AuroraScienceHub.TModels.T89;

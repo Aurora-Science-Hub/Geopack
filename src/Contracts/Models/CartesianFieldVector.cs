@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.Geopack.Common;
+namespace AuroraScienceHub.Geopack.Contracts.Models;
 
 /// <summary>
 /// Cartesian field vector

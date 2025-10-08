@@ -1657,10 +1657,17 @@ C
       BX=BXGSW+HXGSW
       BY=BYGSW+HYGSW
       BZ=BZGSW+HZGSW
+
+      DS=0.5D0*1.0
+      DS3=-DS/3.D0
+
       B=DS3/DSQRT(BX**2+BY**2+BZ**2)
       R1=BX*B
       R2=BY*B
       R3=BZ*B
+
+      print *, R1, R2, R3
+
       RETURN
       END
 C

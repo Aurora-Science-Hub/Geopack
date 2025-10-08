@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <AssemblyName>AuroraScienceHub.Geopack.Common</AssemblyName>
+    <AssemblyName>AuroraScienceHub.Geopack.Contracts</AssemblyName>
     <IsPackable>True</IsPackable>
     <IsAotCompatible>true</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>

@@ -1,6 +1,4 @@
-using System;
-
-namespace AuroraScienceHub.Geopack.Common;
+namespace AuroraScienceHub.Geopack.Contracts.Models;
 
 /// <summary>
 /// Sun position parameters
