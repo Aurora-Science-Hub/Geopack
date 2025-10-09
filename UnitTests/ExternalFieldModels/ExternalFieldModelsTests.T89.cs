@@ -1,7 +1,7 @@
 using AuroraScienceHub.Geopack.Contracts.Models;
 using Shouldly;
 
-namespace AuroraScienceHub.Geopack.UnitTests.TModels;
+namespace AuroraScienceHub.Geopack.UnitTests.ExternalFieldModels;
 
 public partial class TModelsTests
 {

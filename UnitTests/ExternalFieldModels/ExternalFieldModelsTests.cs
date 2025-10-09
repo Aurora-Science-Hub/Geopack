@@ -1,14 +1,14 @@
 using AuroraScienceHub.Geopack.UnitTests.Geopack.Fixtures;
 
-namespace AuroraScienceHub.Geopack.UnitTests.TModels;
+namespace AuroraScienceHub.Geopack.UnitTests.ExternalFieldModels;
 
-[CollectionDefinition("TModels")]
+[CollectionDefinition("ExternalFieldModels")]
 public class TestDataCollection : ICollectionFixture<TestDataFixture>;
 
-[Collection("TModels")]
+[Collection("ExternalFieldModels")]
 public partial class TModelsTests
 {
-    private readonly AuroraScienceHub.TModels.T89.T89 _t89 = new();
+    private readonly AuroraScienceHub.ExternalFieldModels.T89.T89 _t89 = new();
 
     private const double MinimalTestsPrecision = 0.0000000000001d;
 }

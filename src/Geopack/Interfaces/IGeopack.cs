@@ -419,7 +419,7 @@ public interface IGeopack
         double dsMax, double err, double rLim, double r0,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
-        IInternalFieldModel inName,
+        InternalFieldModel inName,
         int lMax);
 
     /// <summary>

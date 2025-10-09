@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuroraScienceHub.Geopack.Be
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{6BF865FD-B792-4F7E-BDC9-B5335E69971A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TModels", "src\TModels\TModels.csproj", "{D47E2899-4EC5-4C59-ABDF-37086FBFCE31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalFieldModels", "src\ExternalFieldModels\ExternalFieldModels.csproj", "{D47E2899-4EC5-4C59-ABDF-37086FBFCE31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\Contracts\Contracts.csproj", "{3B500C9F-E74F-4F8D-AFFC-30003DC24786}"
 EndProject

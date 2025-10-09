@@ -17,10 +17,10 @@ public sealed partial class Geopack
         double dsMax, double err, double rLim, double r0,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
-        IInternalFieldModel inName,
+        InternalFieldModel inName,
         int lMax)
     {
-        List<CartesianFieldVector> points = new List<CartesianFieldVector>();
+        List<CartesianFieldVector> points = new();
         double direction = (double)dir;
 
         int l = 0;
@@ -110,10 +110,10 @@ public sealed partial class Geopack
         double x, double y, double z,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
-        IInternalFieldModel inName)
+        InternalFieldModel inName)
     {
         CartesianFieldVector externalField = exName.Calculate(iopt, parmod, Common1.PSI, x, y, z);
-        CartesianFieldVector internalField = inName.Calculate(x, y, z);
+        CartesianFieldVector internalField = inName(x, y, z);
 
         double bx = externalField.Bx + internalField.Bx;
         double by = externalField.By + internalField.By;
@@ -133,7 +133,7 @@ public sealed partial class Geopack
         double ds, double dsMax, double errIn,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
-        IInternalFieldModel inName)
+        InternalFieldModel inName)
     {
         double currentDs = ds;
 
