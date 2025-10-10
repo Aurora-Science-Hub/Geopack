@@ -1833,6 +1833,9 @@ C
       COMMON /GEOPACK1/ AA(12),DD,BB(21)
       EXTERNAL EXNAME,INNAME
 C
+c       print *, XI,YI,ZI,DIR,DSMAX,ERR,RLIM,R0,IOPT,PARMOD,
+c      *LMAX
+
       L=0
       NREV=0
       DD=DIR
