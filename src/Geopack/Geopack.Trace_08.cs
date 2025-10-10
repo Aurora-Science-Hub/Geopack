@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Contracts;
 using AuroraScienceHub.Geopack.Contracts.Interfaces;
 using AuroraScienceHub.Geopack.Contracts.Models;
 
@@ -5,12 +6,6 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public enum TraceDirection
-    {
-        AntiParallel = 1, // From Northern to Southern conjugate point
-        Parallel = -1 // Opposite direction
-    }
-
     public FieldLine Trace_08(
         double xi, double yi, double zi,
         TraceDirection dir,
@@ -20,7 +15,7 @@ public sealed partial class Geopack
         InternalFieldModel inName,
         int lMax)
     {
-        List<CartesianFieldVector> points = new();
+        List<CartesianLocation> points = new();
         double direction = (double)dir;
 
         int l = 0;
@@ -41,7 +36,7 @@ public sealed partial class Geopack
         while (l < lMax)
         {
             l++;
-            points.Add(new CartesianFieldVector(x, y, z, CoordinateSystem.GSW));
+            points.Add(new CartesianLocation(x, y, z, CoordinateSystem.GSW));
 
             double ryz = y * y + z * z;
             double r2 = x * x + ryz;
@@ -101,7 +96,7 @@ public sealed partial class Geopack
 
         return new FieldLine(
             points,
-            new CartesianFieldVector(x, y, z, CoordinateSystem.GSW),
+            new CartesianLocation(x, y, z, CoordinateSystem.GSW),
             l,
             l >= lMax ? "Maximum points exceeded" : "Boundary reached");
     }

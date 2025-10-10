@@ -1,5 +1,7 @@
+using AuroraScienceHub.Geopack.Contracts;
 using AuroraScienceHub.Geopack.Contracts.Interfaces;
 using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -7,18 +9,15 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 public partial class GeopackTests
 {
     [Fact(DisplayName = "Trace field line from geostationary orbit")]
-    public void TraceFieldLineFromGeostationaryOrbit()
+    public async Task TraceFieldLineFromGeostationaryOrbit()
     {
         // Arrange
         InternalFieldModel internalField = _geopack.IgrfGsw;
 
-        double GeoLat = 75.0D;
-        double GeoLon = 45.0D;
-        double Re = 1.0D;
-        double CoLat= (90.0D-GeoLat) * 0.01745329D;
-        double XLon = GeoLon * 0.01745329D;
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(TraceResultFileName);
+        string[] lines = rawData.SplitLines();
 
-        AuroraScienceHub.Geopack.Geopack.TraceDirection dir = AuroraScienceHub.Geopack.Geopack.TraceDirection.AntiParallel;
+        TraceDirection dir = TraceDirection.AntiParallel;
         double dsmax = 1.0D;
         double err = 0.0001D;
         double rlim = 60.0D;
@@ -29,11 +28,12 @@ public partial class GeopackTests
 
         // Act
         _geopack.Recalc(fixture.InputData.DateTime, -304.0D, -16.0D, 4.0D+29.78D);
-        CartesianLocation geoLoc = _geopack.SphCar(Re, CoLat, XLon);
-        CartesianLocation gswLoc = _geopack.GeoGsw(geoLoc.X, geoLoc.Y, geoLoc.Z);
+        double XGSW = -1.02D;
+        double YGSW = 0.8D;
+        double ZGSW = 0.9D;
 
         FieldLine fieldLine = _geopack.Trace_08(
-            gswLoc.X, gswLoc.Y, gswLoc.Z,
+            XGSW, YGSW, ZGSW,
             dir, dsmax, err, rlim, r0,
             iopt, parmod,
             _t89, internalField,

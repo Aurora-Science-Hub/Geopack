@@ -65,4 +65,7 @@ public partial class GeopackTests(TestDataFixture fixture)
 
     private const string GeoGeodDatasetFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GeoGeod.dat";
+
+    private const string TraceResultFileName =
+        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.TraceResult.dat";
 }

@@ -5,17 +5,17 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 /// </summary>
 public class FieldLine
 {
-    public List<CartesianFieldVector> Points { get; set; }
+    public List<CartesianLocation> Points { get; set; }
 
-    public CartesianFieldVector EndPoint { get; set; }
+    public CartesianLocation EndPoint { get; set; }
 
     public int ActualPointCount { get; set; }
 
     public string TerminationReason { get; set; }
 
     public FieldLine(
-        List<CartesianFieldVector> points,
-        CartesianFieldVector endPoint,
+        List<CartesianLocation> points,
+        CartesianLocation endPoint,
         int actualPointCount,
         string terminationReason)
     {

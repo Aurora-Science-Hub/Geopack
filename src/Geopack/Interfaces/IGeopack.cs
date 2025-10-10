@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Contracts;
 using AuroraScienceHub.Geopack.Contracts.Interfaces;
 using AuroraScienceHub.Geopack.Contracts.Models;
 
@@ -415,7 +416,7 @@ public interface IGeopack
     /// <remarks> Trace from Norther to Southern Hemisphere (antiparallel to Earth's magnetic field vector).</remarks>
     FieldLine Trace_08(
         double xi, double yi, double zi,
-        Geopack.TraceDirection dir,
+        TraceDirection dir,
         double dsMax, double err, double rLim, double r0,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
