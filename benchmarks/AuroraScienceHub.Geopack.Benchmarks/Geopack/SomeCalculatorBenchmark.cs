@@ -7,8 +7,8 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 /// Benchmarks for ...
 /// </summary>
 [MemoryDiagnoser(false)]
-//[SimpleJob(RuntimeMoniker.Net80)]
-//[SimpleJob(RuntimeMoniker.NativeAot80)]
+[SimpleJob(RuntimeMoniker.Net80)]
+[SimpleJob(RuntimeMoniker.NativeAot80)]
 [SimpleJob(RuntimeMoniker.Net90)]
 [SimpleJob(RuntimeMoniker.NativeAot90)]
 public class SomeCalculatorBenchmark
