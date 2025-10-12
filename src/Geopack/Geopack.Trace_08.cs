@@ -27,10 +27,8 @@ public sealed partial class Geopack
     double y = yi;
     double z = zi;
 
-    // Сохраняем предыдущую точку для интерполяции
-    double xPrev = x, yPrev = y, zPrev = z;
+    double xr = x, yr = y, zr = z;
 
-    // Determine initial tracing direction
     FieldLineRhsVector initialRhs = Rhand_08(x, y, z, iopt, parmod, exName, inName);
     double ad = 0.01D;
     if (x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3 < 0.0D)
@@ -39,15 +37,11 @@ public sealed partial class Geopack
     }
 
     double rr = Math.Sqrt(x * x + y * y + z * z) + ad;
+    bool maxPointsExceeded = false;
 
     while (l <= lMax)
     {
         l++;
-
-        // Сохраняем предыдущую точку перед шагом
-        xPrev = x;
-        yPrev = y;
-        zPrev = z;
 
         points.Add(new CartesianLocation(x, y, z, CoordinateSystem.GSW));
 
@@ -55,28 +49,24 @@ public sealed partial class Geopack
         double r2 = x * x + ryz;
         double r = Math.Sqrt(r2);
 
-        // Check outer boundary conditions (метка 8 в FORTRAN)
-        if (r > rLim
-            || ryz > 1600.0D
-            || x > 20.0D)
+        // Check outer boundary conditions
+        if (r > rLim || ryz > 1600.0D || x > 20.0D)
         {
             break;
         }
 
-        // Check inner boundary crossing from outside (метка 6 в FORTRAN)
+        // Check inner boundary crossing from outside
         if (r < r0 && rr > r)
         {
-            // ИНТЕРПОЛЯЦИЯ как в FORTRAN метка 6
             double r1 = (r0 - r) / (rr - r);
-            x -= (x - xPrev) * r1;
-            y -= (y - yPrev) * r1;
-            z -= (z - zPrev) * r1;
+            x -= (x - xr) * r1;
+            y -= (y - yr) * r1;
+            z -= (z - zr) * r1;
             break;
         }
 
-        // Adaptive step size near Earth (условие исправлено)
-        // В FORTRAN: IF (R.GE.RR.OR.R.GE.3.D0) GOTO 4
-        if (!(r >= rr || r >= 3.0D)) // Если НЕ движемся наружу И R < 3Re
+        // Adaptive step size near Earth
+        if (!(r >= rr || r >= 3.0D))
         {
             double fc = 0.2D;
             if (r - r0 < 0.05D) fc = 0.05D;
@@ -84,13 +74,12 @@ public sealed partial class Geopack
             ds = direction * al;
         }
 
-        // Сохраняем координаты для возможной интерполяции (метка 4 в FORTRAN)
-        double xr = x;
-        double yr = y;
-        double zr = z;
+        xr = x;
+        yr = y;
+        zr = z;
 
-        double drp = r - rr;  // Изменение радиуса на предыдущем шаге
-        rr = r;               // Сохраняем текущий радиус как предыдущий
+        double drp = r - rr;
+        rr = r;
 
         // Make step
         StepResult stepResult = Step_08(x, y, z, ds, dsMax, err, iopt, parmod, exName, inName);
@@ -101,33 +90,45 @@ public sealed partial class Geopack
 
         // Check for radial direction reversals
         r = Math.Sqrt(x * x + y * y + z * z);
-        double dr = r - rr;  // Изменение радиуса на текущем шаге
+        double dr = r - rr;
 
-        // Если направление изменения радиуса поменялось
-        if (drp * dr < 0.0D) nrev++;
+        if (drp * dr < 0.0D)
+        {
+            nrev++;
+        }
 
-        if (nrev > 4) break;
+        if (nrev > 4)
+        {
+            break;
+        }
     }
 
-    // Обработка превышения максимального количества точек (метка 7 в FORTRAN)
-    if (l >= lMax)
+    if (l > lMax)
     {
         Console.WriteLine(
             "**** COMPUTATIONS IN THE SUBROUTINE TRACE_08 ARE TERMINATED: THE NUMBER OF POINTS EXCEEDED LMAX ****");
-        l = lMax;
+        maxPointsExceeded = true;
 
-        // Заменяем последнюю точку на текущее положение как в FORTRAN
-        if (points.Count > 0)
+        if (points.Count > lMax)
         {
-            points[points.Count - 1] = new CartesianLocation(x, y, z, CoordinateSystem.GSW);
+            points.RemoveAt(points.Count - 1);
         }
+    }
+
+    if (points.Count > 0)
+    {
+        points[^1] = new CartesianLocation(x, y, z, CoordinateSystem.GSW);
+    }
+    else
+    {
+        points.Add(new CartesianLocation(x, y, z, CoordinateSystem.GSW));
     }
 
     return new FieldLine(
         points,
         new CartesianLocation(x, y, z, CoordinateSystem.GSW),
-        l,
-        l >= lMax ? "Maximum points exceeded" : "Boundary reached");
+        points.Count,
+        maxPointsExceeded ? "Maximum points exceeded" : "Boundary reached");
 }
 
     private FieldLineRhsVector Rhand_08(
