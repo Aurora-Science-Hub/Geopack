@@ -4,6 +4,7 @@
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <AssemblyName>AuroraScienceHub.Geopack</AssemblyName>
     <IsPackable>True</IsPackable>
+    <PublishAot>true</PublishAot>
     <IsAotCompatible>true</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>The .NET implementation of Geopack 2008 Single Precision (Tsyganenko N. A.)</Description>

@@ -4,6 +4,7 @@
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <AssemblyName>AuroraScienceHub.TModels</AssemblyName>
     <IsPackable>True</IsPackable>
+    <PublishAot>true</PublishAot>
     <IsAotCompatible>true</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>The .NET implementation of T## Tsyganenko N. A. models (T89, T96 etc.)</Description>

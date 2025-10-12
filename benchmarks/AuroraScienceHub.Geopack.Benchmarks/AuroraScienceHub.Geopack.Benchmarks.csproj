@@ -13,4 +13,8 @@
     <PackageReference Include="BenchmarkDotNet" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Geopack\Geopack.csproj" />
+  </ItemGroup>
+
 </Project>
