@@ -18,7 +18,7 @@ public partial class GeopackTests
         string[] lines = rawData.SplitLines();
 
         TraceDirection dir = TraceDirection.AntiParallel;
-        double dsmax = 1.0D;
+        double dsmax = 0.1D;
         double err = 0.0001D;
         double rlim = 60.0D;
         double r0 = 1.0D;
@@ -27,7 +27,7 @@ public partial class GeopackTests
         int lmax = 500;
 
         // Act
-        _geopack.Recalc(fixture.InputData.DateTime, -304.0D, -16.0D, 4.0D+29.78D);
+        _geopack.Recalc(fixture.InputData.DateTime, -304.0D, -16.0D+29.78D, 4.0D);
         double XGSW = -1.02D;
         double YGSW = 0.8D;
         double ZGSW = 0.9D;
@@ -40,6 +40,14 @@ public partial class GeopackTests
             lmax);
 
         // Assert
-        fieldLine.ActualPointCount.ShouldBePositive();
+        fieldLine.ActualPointCount.ShouldBe(lines.Length);
+
+        for(int i=0; i < lines.Length ; i++)
+        {
+            string[] pars = lines[i].SplitParametersLine();
+            fieldLine.Points[i].X.ShouldBe(pars[0].ParseDouble(), MinimalTestsPrecision);
+            fieldLine.Points[i].Y.ShouldBe(pars[1].ParseDouble(), MinimalTestsPrecision);
+            fieldLine.Points[i].Z.ShouldBe(pars[2].ParseDouble(), MinimalTestsPrecision);
+        }
     }
 }
