@@ -1,11 +1,11 @@
-using AuroraScienceHub.Geopack.Common;
+using AuroraScienceHub.Geopack.Contracts.Models;
 
 namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
     public (Common1, Common2) Recalc(DateTime dateTime,
-        double vgsex=-400.0, double vgsey=0.0, double vgsez=0.0)
+        double vgsex=-400.0D, double vgsey=0.0D, double vgsez=0.0D)
     {
         int IY = dateTime.Year;
         int IDAY = dateTime.DayOfYear;
