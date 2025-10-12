@@ -1,3 +1,5 @@
+using AuroraScienceHub.ExternalFieldModels.T89;
+using AuroraScienceHub.Geopack.Contracts.Interfaces;
 using AuroraScienceHub.Geopack.UnitTests.Geopack.Fixtures;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -9,6 +11,8 @@ public class TestDataCollection : ICollectionFixture<TestDataFixture>;
 public partial class GeopackTests(TestDataFixture fixture)
 {
     private readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
+
+    private readonly IExternalFieldModel _t89 = new T89();
 
     private const double Rad = 57.295779513D;
 
@@ -61,4 +65,10 @@ public partial class GeopackTests(TestDataFixture fixture)
 
     private const string GeoGeodDatasetFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GeoGeod.dat";
+
+    private const string TraceNSResultFileName =
+        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.TraceNSResult.dat";
+
+    private const string TraceSNResultFileName =
+        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.TraceSNResult.dat";
 }
