@@ -10,7 +10,7 @@ public partial class GeopackTests
     public async Task RecalcCommonBlocks_ShouldBeCorrect()
     {
         // Act
-        (Common1 common1, Common2 common2) = _geopack.Recalc(
+        (Common1 common1, Common2 common2) = _geopack.Recalc_08(
             fixture.InputData.DateTime,
             fixture.InputData.VGSEX,
             fixture.InputData.VGSEY,

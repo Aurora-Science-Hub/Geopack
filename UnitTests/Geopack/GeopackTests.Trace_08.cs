@@ -12,7 +12,7 @@ public partial class GeopackTests
     public async Task TraceFieldLineFromNorthToSouth()
     {
         // Arrange
-        InternalFieldModel internalField = _geopack.IgrfGsw;
+        InternalFieldModel internalField = _geopack.IgrfGsw_08;
 
         string rawData = await EmbeddedResourceReader.ReadTextAsync(TraceNSResultFileName);
         string[] lines = rawData.SplitLines();
@@ -27,7 +27,7 @@ public partial class GeopackTests
         int lmax = 500;
 
         // Act
-        _geopack.Recalc(fixture.InputData.DateTime, -304.0D, -16.0D+29.78D, 4.0D);
+        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, -16.0D+29.78D, 4.0D);
         double XGSW = -1.02D;
         double YGSW = 0.8D;
         double ZGSW = 0.9D;
@@ -55,7 +55,7 @@ public partial class GeopackTests
     public async Task TraceFieldLineFromSouthToNorth()
     {
         // Arrange
-        InternalFieldModel internalField = _geopack.IgrfGsw;
+        InternalFieldModel internalField = _geopack.IgrfGsw_08;
 
         string rawData = await EmbeddedResourceReader.ReadTextAsync(TraceSNResultFileName);
         string[] lines = rawData.SplitLines();
@@ -70,7 +70,7 @@ public partial class GeopackTests
         int lmax = 500;
 
         // Act
-        _geopack.Recalc(fixture.InputData.DateTime);
+        _geopack.Recalc_08(fixture.InputData.DateTime);
         double XGSW = -1.02D;
         double YGSW = 0.8D;
         double ZGSW = -0.9D;

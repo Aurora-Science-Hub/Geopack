@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public (Common1, Common2) Recalc(DateTime dateTime,
+    public (Common1, Common2) Recalc_08(DateTime dateTime,
         double vgsex=-400.0D, double vgsey=0.0D, double vgsez=0.0D)
     {
         int IY = dateTime.Year;
@@ -127,7 +127,7 @@ public sealed partial class Geopack
         Common1.CTSL = Common1.CT0 * Common1.SL0;
         Common1.CTCL = Common1.CT0 * Common1.CL0;
 
-        Sun sun = Sun(dateTime);
+        Sun sun = Sun_08(dateTime);
         double S1 = Math.Cos(sun.Srasn) * Math.Cos(sun.Sdec);
         double S2 = Math.Sin(sun.Srasn) * Math.Cos(sun.Sdec);
         double S3 = Math.Sin(sun.Sdec);

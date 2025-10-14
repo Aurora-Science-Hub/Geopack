@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianFieldVector BSphCar(
+    public CartesianFieldVector BSphCar_08(
         double theta, double phi,
         double br, double btheta, double bphi)
     {

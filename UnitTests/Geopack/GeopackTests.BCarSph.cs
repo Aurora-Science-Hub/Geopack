@@ -21,7 +21,7 @@ public partial class GeopackTests
         double br, double btheta, double bphi)
     {
         // Act
-        SphericalFieldVector fieldVector = _geopack.BCarSph(x, y, z, bx, by, bz);
+        SphericalFieldVector fieldVector = _geopack.BCarSph_08(x, y, z, bx, by, bz);
 
         // Assert
         fieldVector.Br.ShouldBe(br, MinimalTestsPrecision);
@@ -33,7 +33,7 @@ public partial class GeopackTests
     public void BCarSph_ShouldReturnNaND_IfDivideByZero()
     {
         // Act
-        SphericalFieldVector fieldVector = _geopack.BCarSph(0, 0, 0, 1, 1, 1);
+        SphericalFieldVector fieldVector = _geopack.BCarSph_08(0, 0, 0, 1, 1, 1);
 
         // Assert
         fieldVector.Br.ShouldBe(double.NaN);

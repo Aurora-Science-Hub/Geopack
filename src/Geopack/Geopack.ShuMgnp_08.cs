@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public Magnetopause ShuMgnp(
+    public Magnetopause ShuMgnp_08(
         double xnPd,
         double vel,
         double bzImf,
@@ -47,7 +47,7 @@ public sealed partial class Geopack
         }
 
         // Get T96 magnetopause as starting approximation
-        Magnetopause t96Result = T96Mgnp(p, -1.0D, xgsw, ygsw, zgsw);
+        Magnetopause t96Result = T96Mgnp_08(p, -1.0D, xgsw, ygsw, zgsw);
         double xmt96 = t96Result.X;
         double ymt96 = t96Result.Y;
         double zmt96 = t96Result.Z;

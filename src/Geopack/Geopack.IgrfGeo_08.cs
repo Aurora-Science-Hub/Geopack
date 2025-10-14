@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public SphericalFieldVector IgrfGeo(double r, double coLatitude, double phi)
+    public SphericalFieldVector IgrfGeo_08(double r, double coLatitude, double phi)
     {
         double c = Math.Cos(coLatitude);
         double s = Math.Sin(coLatitude);

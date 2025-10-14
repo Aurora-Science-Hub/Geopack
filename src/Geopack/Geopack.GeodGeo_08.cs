@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public GeodeticGeocentricCoordinates GeodGeo(double h, double xmu)
+    public GeodeticGeocentricCoordinates GeodGeo_08(double h, double xmu)
     {
         const double r_eq = 6378.137D;
         const double beta = 6.73949674228e-3;
@@ -23,7 +23,7 @@ public sealed partial class Geopack
         return new GeodeticGeocentricCoordinates(h, xmu, r, theta);
     }
 
-    public GeodeticGeocentricCoordinates GeoGeod(double r, double theta)
+    public GeodeticGeocentricCoordinates GeoGeod_08(double r, double theta)
     {
         const double r_eq = 6378.137D;
         const double beta = 6.73949674228e-3;

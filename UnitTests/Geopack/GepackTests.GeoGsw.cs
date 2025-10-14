@@ -13,7 +13,7 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeoGswDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
+        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
         foreach (string line in lines)
         {
@@ -27,7 +27,7 @@ public partial class GeopackTests
             double zgsw = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.GeoGsw(xgeo, ygeo, zgeo);
+            CartesianLocation location = _geopack.GeoGsw_08(xgeo, ygeo, zgeo);
 
             // Assert
             location.X.ShouldBe(xgsw, MinimalTestsPrecision);
@@ -44,7 +44,7 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GswGeoDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
+        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
         foreach (string line in lines)
         {
@@ -58,7 +58,7 @@ public partial class GeopackTests
             double zgeo = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.GswGeo(xgsw, ygsw, zgsw);
+            CartesianLocation location = _geopack.GswGeo_08(xgsw, ygsw, zgsw);
 
             // Assert
             location.X.ShouldBe(xgeo, MinimalTestsPrecision);

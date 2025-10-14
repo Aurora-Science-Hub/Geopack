@@ -18,8 +18,8 @@ public partial class GeopackTests
         double expectedBx, double expectedBy, double expectedBz)
     {
         // Act
-        _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-        CartesianFieldVector resultField = _geopack.IgrfGsw(x, y, z);
+        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
+        CartesianFieldVector resultField = _geopack.IgrfGsw_08(x, y, z);
 
         // Assert
         resultField.Bx.ShouldBe(expectedBx, MinimalTestsPrecision);
@@ -32,8 +32,8 @@ public partial class GeopackTests
     public void IgrfGsw_ShouldReturnNaNValues_IfZeroCoordinates()
     {
         // Act
-        _geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-        CartesianFieldVector resultField = _geopack.IgrfGsw(0.0D, 0.0D, 0.0D);
+        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
+        CartesianFieldVector resultField = _geopack.IgrfGsw_08(0.0D, 0.0D, 0.0D);
 
         // Assert
         resultField.Bx.ShouldBe(double.NaN);

@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianFieldVector Dip(double xgsw, double ygsw, double zgsw)
+    public CartesianFieldVector Dip_08(double xgsw, double ygsw, double zgsw)
     {
         double dipmom = Math.Sqrt(Math.Pow(Common2.G[1], 2) + Math.Pow(Common2.G[2], 2) + Math.Pow(Common2.H[2], 2));
 

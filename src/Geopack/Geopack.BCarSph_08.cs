@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public SphericalFieldVector BCarSph(
+    public SphericalFieldVector BCarSph_08(
         double x, double y, double z,
         double bx, double by, double bz)
     {

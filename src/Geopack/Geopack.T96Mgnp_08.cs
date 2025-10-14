@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public Magnetopause T96Mgnp(
+    public Magnetopause T96Mgnp_08(
         double xnPd, double vel,
         double xgsw, double ygsw, double zgsw)
     {

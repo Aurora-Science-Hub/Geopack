@@ -4,7 +4,17 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public SphericalLocation CarSph(double x, double y, double z)
+    public CartesianLocation SphCar_08(double r, double theta, double phi)
+    {
+        double sq = r * Math.Sin(theta);
+        double x = sq * Math.Cos(phi);
+        double y = sq * Math.Sin(phi);
+        double z = r * Math.Cos(theta);
+
+        return new CartesianLocation(x, y, z);
+    }
+
+    public SphericalLocation CarSph_08(double x, double y, double z)
     {
         double phi;
         double theta;

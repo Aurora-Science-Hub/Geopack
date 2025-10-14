@@ -25,7 +25,7 @@ public interface IGeopack
     /// <param name="xgsw">Cartesian geocentric solar-wind x-coordinate (in units re=6371.2 km)</param>
     /// <param name="ygsw">Cartesian geocentric solar-wind y-coordinate (in units re=6371.2 km)</param>
     /// <param name="zgsw">Cartesian geocentric solar-wind z-coordinate (in units re=6371.2 km)</param>
-    CartesianFieldVector IgrfGsw(double xgsw, double ygsw, double zgsw);
+    CartesianFieldVector IgrfGsw_08(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Calculates components of the main (internal) geomagnetic field in the spherical geographic
@@ -44,7 +44,7 @@ public interface IGeopack
     /// - btheta - Spherical components of the main geomagnetic field in nanotesla (btheta southward)
     /// - bphi - Spherical components of the main geomagnetic field in nanotesla (bphi eastward)
     /// </returns>
-    SphericalFieldVector IgrfGeo(double r, double theta, double phi);
+    SphericalFieldVector IgrfGeo_08(double r, double theta, double phi);
 
     /// <summary>
     /// Calculates GSW (geocentric solar-wind) components of geodipole field with the dipole moment
@@ -60,7 +60,7 @@ public interface IGeopack
     /// <param name="xgsw">GSW coordinates in re (1 re = 6371.2 km)</param>
     /// <param name="ygsw">GSW coordinates in re (1 re = 6371.2 km)</param>
     /// <param name="zgsw">GSW coordinates in re (1 re = 6371.2 km)</param>
-    CartesianFieldVector Dip(double xgsw, double ygsw, double zgsw);
+    CartesianFieldVector Dip_08(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Calculates four quantities necessary for coordinate transformations
@@ -70,7 +70,7 @@ public interface IGeopack
     /// <remarks>
     /// Original: SUN_08
     /// </remarks>
-    Sun Sun(DateTime dateTime);
+    Sun Sun_08(DateTime dateTime);
 
     /// <summary>
     /// Converts spherical coordinates into Cartesian ones.
@@ -83,7 +83,7 @@ public interface IGeopack
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
     /// Original Geopack-2008 method: SPHCAR_08
     /// </remarks>
-    CartesianLocation SphCar(double r, double theta, double phi);
+    CartesianLocation SphCar_08(double r, double theta, double phi);
 
     /// <summary>
     /// Converts Cartesian into spherical coordinates.
@@ -96,7 +96,7 @@ public interface IGeopack
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
     /// Original Geopack-2008 method: SPHCAR_08
     /// </remarks>
-    SphericalLocation CarSph(double x, double y, double z);
+    SphericalLocation CarSph_08(double x, double y, double z);
 
     /// <summary>
     /// Calculates Cartesian field components from local spherical ones.
@@ -109,7 +109,7 @@ public interface IGeopack
     /// <remarks>
     /// Original Geopack-2008 method: BSPCAR_08
     /// </remarks>
-    CartesianFieldVector BSphCar(
+    CartesianFieldVector BSphCar_08(
         double theta, double phi,
         double br, double btheta, double bphi);
 
@@ -125,7 +125,7 @@ public interface IGeopack
     /// <remarks>
     /// Original Geopack-2008 method: BCARSP_08
     /// </remarks>
-    SphericalFieldVector BCarSph(double x, double y, double z,
+    SphericalFieldVector BCarSph_08(double x, double y, double z,
         double bx, double by, double bz);
 
     /// <summary>
@@ -139,11 +139,11 @@ public interface IGeopack
     /// <remarks>
     /// Original Geopack-2008 method: RECALC_08.
     /// This subroutine should be invoked before using the following subroutines:
-    /// IgrfGeo, IgrfGsw, Dip, GeoMag, GeoGsw, MAGSW_08,
-    /// SMGSW_08, GswGse, GEIGEO_08, TRACE_08, STEP_08, RHAND_08.
+    /// IgrfGeo_08, IgrfGsw_08, Dip_08, GeoMag_08, GeoGsw_08, MagSm_08,
+    /// SmGsw_08, GswGse, GeiGeo_08, Trace_08.
     /// There is no need to repeatedly invoke RECALC_08 if multiple calculations are made for the same date/time and solar wind flow direction.
     /// </remarks>
-    (Common1, Common2) Recalc(DateTime dateTime, double vgsex=-400.0, double vgsey=0.0, double vgsez=0.0);
+    (Common1, Common2) Recalc_08(DateTime dateTime, double vgsex=-400.0, double vgsey=0.0, double vgsez=0.0);
 
     /// <summary>
     /// Transforms components of geocentric solar-wind (GSW) system to GSE coordinate.
@@ -157,7 +157,7 @@ public interface IGeopack
     /// <param name="xgsw">GSW x-coordinate</param>
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
-    CartesianLocation GswGse(double xgsw, double ygsw, double zgsw);
+    CartesianLocation GswGse_08(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Transforms GSE coordinate components to geocentric solar-wind (GSW) ones.
@@ -166,12 +166,12 @@ public interface IGeopack
     /// In the GSW system, the X axis is antiparallel to the observed direction of the solar wind flow.
     /// The Y and Z axes are defined similarly to the standard GSM system.
     /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
-    /// Before calling GSEGSW_08, be sure to invoke the subroutine RECALC_08 to define all necessary elements of transformation matrices.
+    /// Before calling GseGsw_08, be sure to invoke the subroutine RECALC_08 to define all necessary elements of transformation matrices.
     /// </remarks>
     /// <param name="xgse">GSE x-coordinate</param>
     /// <param name="ygse">GSE y-coordinate</param>
     /// <param name="zgse">GSE z-coordinate</param>
-    CartesianLocation GseGsw(double xgse, double ygse, double zgse);
+    CartesianLocation GseGsw_08(double xgse, double ygse, double zgse);
 
     /// <summary>
     /// Converts geographic (GEO) to dipole (MAG) coordinates.
@@ -185,7 +185,7 @@ public interface IGeopack
     /// <param name="xgeo">GEO x-coordinate</param>
     /// <param name="ygeo">GEO y-coordinate</param>
     /// <param name="zgeo">GEO z-coordinate</param>
-    CartesianLocation GeoMag(double xgeo, double ygeo, double zgeo);
+    CartesianLocation GeoMag_08(double xgeo, double ygeo, double zgeo);
 
     /// <summary>
     /// Converts dipole (MAG) coordinates to geographic (GEO).
@@ -199,7 +199,7 @@ public interface IGeopack
     /// <param name="xmag">MAG x-coordinate</param>
     /// <param name="ymag">MAG y-coordinate</param>
     /// <param name="zmag">MAG z-coordinate</param>
-    CartesianLocation MagGeo(double xmag, double ymag, double zmag);
+    CartesianLocation MagGeo_08(double xmag, double ymag, double zmag);
 
     /// <summary>
     /// Converts equatorial inertial (GEI) to geographical (GEO) coordinates.
@@ -213,7 +213,7 @@ public interface IGeopack
     /// <param name="xgei">GEI x-coordinate</param>
     /// <param name="ygei">GEI y-coordinate</param>
     /// <param name="zgei">GEI z-coordinate</param>
-    CartesianLocation GeiGeo(double xgei, double ygei, double zgei);
+    CartesianLocation GeiGeo_08(double xgei, double ygei, double zgei);
 
     /// <summary>
     /// Converts geographical (GEO) coordinates to equatorial inertial (GEI).
@@ -227,7 +227,7 @@ public interface IGeopack
     /// <param name="xgeo">GEO x-coordinate</param>
     /// <param name="ygeo">GEO y-coordinate</param>
     /// <param name="zgeo">GEO z-coordinate</param>
-    CartesianLocation GeoGei(double xgeo, double ygeo, double zgeo);
+    CartesianLocation GeoGei_08(double xgeo, double ygeo, double zgeo);
 
     /// <summary>
     /// Converts dipole (MAG) to solar magnetic (SM) coordinates.
@@ -245,7 +245,7 @@ public interface IGeopack
     /// <param name="xmag">MAG x-coordinate</param>
     /// <param name="ymag">MAG y-coordinate</param>
     /// <param name="zmag">MAG z-coordinate</param>
-    CartesianLocation MagSm(double xmag, double ymag, double zmag);
+    CartesianLocation MagSm_08(double xmag, double ymag, double zmag);
 
     /// <summary>
     /// Converts solar magnetic (SM) to dipole (MAG) coordinates.
@@ -263,7 +263,7 @@ public interface IGeopack
     /// <param name="xsm">SM x-coordinate</param>
     /// <param name="ysm">SM y-coordinate</param>
     /// <param name="zsm">SM z-coordinate</param>
-    CartesianLocation SmMag(double xsm, double ysm, double zsm);
+    CartesianLocation SmMag_08(double xsm, double ysm, double zsm);
 
     /// <summary>
     /// Converts solar magnetic (SM) to geocentric solar-wind (GSW) coordinates.
@@ -281,7 +281,7 @@ public interface IGeopack
     /// <param name="xsm">SM x-coordinate</param>
     /// <param name="ysm">SM y-coordinate</param>
     /// <param name="zsm">SM z-coordinate</param>
-    CartesianLocation SmGsw(double xsm, double ysm, double zsm);
+    CartesianLocation SmGsw_08(double xsm, double ysm, double zsm);
 
     /// <summary>
     /// Converts geocentric solar-wind (GSW) to solar magnetic (SM) coordinates.
@@ -299,7 +299,7 @@ public interface IGeopack
     /// <param name="xgsw">GSW x-coordinate</param>
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
-    CartesianLocation GswSm(double xgsw, double ygsw, double zgsw);
+    CartesianLocation GswSm_08(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Converts geographic (GEO) to geocentric solar-wind (GSW) coordinates.
@@ -316,7 +316,7 @@ public interface IGeopack
     /// <param name="xgeo">GEO x-coordinate</param>
     /// <param name="ygeo">GEO y-coordinate</param>
     /// <param name="zgeo">GEO z-coordinate</param>
-    CartesianLocation GeoGsw(double xgeo, double ygeo, double zgeo);
+    CartesianLocation GeoGsw_08(double xgeo, double ygeo, double zgeo);
 
     /// <summary>
     /// Converts geocentric solar-wind (GSW) to geographic (GEO) coordinates.
@@ -333,7 +333,7 @@ public interface IGeopack
     /// <param name="xgsw">GSW x-coordinate</param>
     /// <param name="ygsw">GSW y-coordinate</param>
     /// <param name="zgsw">GSW z-coordinate</param>
-    CartesianLocation GswGeo(double xgsw, double ygsw, double zgsw);
+    CartesianLocation GswGeo_08(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Converts vertical local height (altitude) H and geodetic latitude XMU into geocentric coordinates R and THETA.
@@ -345,7 +345,7 @@ public interface IGeopack
     /// </remarks>
     /// <param name="h">Altitude (km) for geodetic input or geocentric radius (km) for geocentric input</param>
     /// <param name="xmu">Geodetic latitude (radians) for geodetic input or co-latitude (radians) for geocentric input</param>
-    GeodeticGeocentricCoordinates GeodGeo(double h, double xmu);
+    GeodeticGeocentricCoordinates GeodGeo_08(double h, double xmu);
 
     /// <summary>
     /// Converts geocentric coordinates R and THETA into vertical local height (altitude) H and geodetic latitude XMU.
@@ -357,7 +357,7 @@ public interface IGeopack
     /// </remarks>
     /// <param name="r">Geocentric radius (km) for geocentric output or altitude (km) for geodetic output</param>
     /// <param name="theta">Co-latitude (radians) for geocentric output or geodetic latitude (radians) for geodetic output</param>
-    GeodeticGeocentricCoordinates GeoGeod(double r, double theta);
+    GeodeticGeocentricCoordinates GeoGeod_08(double r, double theta);
 
     /// <summary>
     /// Traces a field line from an arbitrary point in space to the Earth's surface or to a model limiting boundary.
@@ -439,7 +439,7 @@ public interface IGeopack
     /// <param name="xgsw">GSW x-coordinate of the observation point in Earth radii</param>
     /// <param name="ygsw">GSW y-coordinate of the observation point in Earth radii</param>
     /// <param name="zgsw">GSW z-coordinate of the observation point in Earth radii</param>
-    Magnetopause ShuMgnp(
+    Magnetopause ShuMgnp_08(
         double xnPd,
         double vel,
         double bzImf,
@@ -465,7 +465,7 @@ public interface IGeopack
     /// <param name="xgsw">Coordinates of the observation point in Earth radii</param>
     /// <param name="ygsw">Coordinates of the observation point in Earth radii</param>
     /// <param name="zgsw">Coordinates of the observation point in Earth radii</param>
-    Magnetopause T96Mgnp(
+    Magnetopause T96Mgnp_08(
         double xnPd,
         double vel,
         double xgsw, double ygsw, double zgsw);
