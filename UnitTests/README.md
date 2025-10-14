@@ -1,6 +1,5 @@
-# Geopack-2008 test data
-## Sources
-Find the single precision version of GEOPACK-2008 [here](https://geo.phys.spbu.ru/~tsyganenko/Geopack-2008.html).
+# Geopack-2008dp (double-precision) how to
+
 ## Install Intel Fortran compiler (Linux, Debian-based)
 ```shell
 sudo apt install -y gpg-agent wget
@@ -23,11 +22,10 @@ source /opt/intel/oneapi/setvars.sh
 ```
 ## Compile, build binary, generate data (Linux)
 To compile and build binary (executable), follow these steps:
-- cd /path/to/Geopack-2008 and T96 sources;
-- Get the author's example code [here](https://geo.phys.spbu.ru/~tsyganenko/models/Examples_1_2.for);
+- cd /path/to/Geopack-2008
 - execute in shell:
 ```shell
-ifX -O3 Geopack-2008.for T96.for <Example_code.for> -o gen_data && ./gen_data
+ifX Geopack-2008.for <test_data_generation_code.for> -o gen_data && ./gen_data
 ```
 
 # Fortran Test Examples for Geopack
@@ -37,10 +35,10 @@ Each source file tests a specific Geopack routine by calculating its expected ou
 
 ## Usage
 
-Follow these steps to generate test data:
+Follow steps below to generate test data for specified Geopack-2008dp procedure.
 
-### 1. Set Input Parameters
-Open the desired source file (e.g., `DIP_08.for`) and modify the input parameters directly in the code:
+### 1. Coordinates transformation (GeiGeo/GeoGei, GeoGsw/GswGeo, GeoMag/MagGeo, GswGse/GseGsw, MagSm/SmMag, SmGsw/GswSm)
+Open `UnitTests/Geopack/FortranSource/CoordinatesTestDataGenerator.for` sourceFile and modify the input parameters directly in the code:
 
 ```fortran
       IYEAR=1997
