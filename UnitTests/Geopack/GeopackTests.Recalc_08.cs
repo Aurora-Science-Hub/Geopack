@@ -1,4 +1,4 @@
-using AuroraScienceHub.Geopack.UnitTests.Models;
+using AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.Models;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 

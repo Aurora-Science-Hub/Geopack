@@ -37,9 +37,28 @@ Each source file tests a specific Geopack routine by calculating its expected ou
 
 Follow steps below to generate test data for specified Geopack-2008dp procedure.
 
-### 1. Coordinates transformation (GeiGeo/GeoGei, GeoGsw/GswGeo, GeoMag/MagGeo, GswGse/GseGsw, MagSm/SmMag, SmGsw/GswSm)
+### 1. Coordinates transformation
+- GeiGeo / GeoGei
+- GeoGsw / GswGeo
+- GeoMag / MagGeo
+- GswGse / GseGsw
+- MagSm / SmMag
+- SmGsw / GswSm*
+
 Open `UnitTests/Geopack/FortranSource/CoordinatesTestDataGenerator.for` sourceFile and modify the input parameters directly in the code:
 
+#### Setup location test coordinates
+```fortran
+DATA X/6.5999999999999996D0,-6.5999999999999996D0,
+     *1.D0,-1.D0,4.5678D0,-4.5678D0,0.D0/
+
+DATA Y/6.5999999999999996D0,-6.5999999999999996D0,
+*1.D0,-1.D0,4.5678D0,-4.5678D0,0.D0/
+
+DATA Z/6.5999999999999996D0,-6.5999999999999996D0,
+ *1.D0,-1.D0,4.5678D0,-4.5678D0,0.D0/
+```
+#### Setup date/time and solar wind direction
 ```fortran
       IYEAR=1997
       IDAY=350
@@ -51,31 +70,35 @@ Open `UnitTests/Geopack/FortranSource/CoordinatesTestDataGenerator.for` sourceFi
       VGSEY= 13.D0
       VGSEZ= 4.D0
 ```
+#### Setup transformation direction
+```fortran
+J=-1
+```
+#### Specify output test data file name
+```fortran
+OPEN(UNIT=1,FILE='GswGeo.dat')
+```
+#### Specify testing procedure in the cycle
+```fortran
+CALL GEOGSW_08 (X(N),Y(M),Z(K),XR,YR,ZR,J)
+    ...
+CALL GEOGSW_08 (XR,YR,ZR,X(N),Y(M),Z(K),J)
+```
 
 ### 2. Compile and execute
 
-Compile the double-precision Geopack library with the test source file. We use Intel Fortran compiler:
-
-> ifx Geopack_2008dp.for <test_source_file>.for -o <executable_name> && ./<executable_name>
-
-*Example:*
+Compile the double-precision Geopack library with the test source file.
+`GEOGSW_08` as example:
 
 ```bash
-ifx Geopack_2008dp.for DIP_08.for -o dip08 && ./dip08
+ifx Geopack_2008dp.for CoordinatesTestDataGenerator.for -o gen_data && ./gen_data && rm gen_data && mv GswGeo.dat ../TestData/
 ```
 
-### 4. Test Integration
-
-Copy the output values from the terminal into the corresponding unit test.
-
-### 5. Synchronization
+### 3. Synchronization
 
 Ensure the input parameters in these test generators remain synchronized with the actual unit tests.
-
-### File Structure
-```text
-├── Geopack_2008dp.for    # Double-precision Geopack library
-├── DIP_08.for  # Example test generator for DIP routine
-├── TRACE_08.for # Test generator for TRACE routine
-└── ...
+Do not forget that test data file name should be synchronized with corresponding variable in test fixture, e.g.:
+```
+private const string GeoGswDatasetFileName =
+        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GeoGsw.dat";
 ```
