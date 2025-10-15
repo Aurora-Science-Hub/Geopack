@@ -6,6 +6,7 @@
 3. [Project Structure](#Project-Structure)
 4. [Test Data Generators](#Test-Data-Generators)
    *  [BCARSPH_08](#BACARSPH_08)
+   *  [Coordinate transformations](#Coordinate-transformations)
    *  [TRACE_08](#TRACE_08)
 5. [Usage Examples](#usage-examples)
 6. [Synchronization Guide](#synchronization-guide)
@@ -141,11 +142,9 @@ Compile and execute:
 ifx Geopack_2008dp.for CoordinateTransformations.for -o gen_data && ./gen_data && rm gen_data && mv GswGeo.dat ../TestData/
 ```
 
-### 3. Synchronization
-
 Ensure the input parameters in these test generators remain synchronized with the actual unit tests.
 Do not forget that test data file name should be synchronized with corresponding variable in test fixture, e.g.:
-```
+```text
 private const string GswGseDatasetFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GswGse.dat";
 ```
