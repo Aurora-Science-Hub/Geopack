@@ -5,9 +5,16 @@
 2. [Prerequisites](#Prerequisites)
 3. [Project Structure](#Project-Structure)
 4. [Test Data Generators](#Test-Data-Generators)
-   *  [BCARSPH_08](#BACARSPH_08)
-   *  [Coordinate transformations](#Coordinate-transformations)
-   *  [TRACE_08](#TRACE_08)
+   * [BCARSPH_08](#BACARSPH_08)
+   * [Coordinate transformations](#Coordinate-transformations)
+   * [DIP_08](#DIP_08)
+   * [GEODGEO_08](#GEODGEO_08)
+   * [IGRF_08](#IGRF_08)
+   * [SHUETAL_MGNP_08](#SHUETAL_MGNP_08)
+   * [SPHCAR_08](#SPHCAR_08)
+   * [SUN_08](#SUN_08)
+   * [T96_MGNP_08](#T96_MGNP_08)
+   * [TRACE_08](#TRACE_08)
 5. [Usage Examples](#usage-examples)
 6. [Synchronization Guide](#synchronization-guide)
 7. [Troubleshooting](#troubleshooting)
@@ -148,6 +155,39 @@ Do not forget that test data file name should be synchronized with corresponding
 private const string GswGseDatasetFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GswGse.dat";
 ```
+
+### DIP_08
+Use the file `UnitTests/Geopack/FortranSource/DIP_08.for`.
+
+Specify location:
+```fortran
+XGSW=0.D0
+YGSW=0.D0
+ZGSW=0.D0
+```
+
+Execute in terminal:
+```bash
+ifx Geopack_2008dp.for DIP_08.for -o dip && ./dip && rm dip
+```
+
+Copy and paste input and output from terminal to the `GeopackTests.Dip_08` test as new `InlineData`.
+The first three values correspond to your Fortran location setup, the last three to the `DIP_08.for` output:
+```
+[InlineData(1.0D,1.0D, 1.0D, -5468.999024571849076892, -3525.612769882045540726, 1943.386254689803536166)]
+```
+
+### GEODGEO_08
+
+### IGRF_08
+
+### SHUETAL_MGNP_08
+
+### SPHCAR_08
+
+### SUN_08
+
+### T96_MGNP_08
 
 ### TRACE_08
 Copy and paste the whole `SUBROUTINE T89D_DP` from [here](https://geo.phys.spbu.ru/~tsyganenko/models/t89/T89d_dp.for) below the example code `TRACE_08.for`.
