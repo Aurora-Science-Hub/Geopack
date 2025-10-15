@@ -155,6 +155,7 @@ Do not forget that test data file name should be synchronized with corresponding
 private const string GswGseDatasetFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GswGse.dat";
 ```
+Launch `UnitTests/Geopack/GeopackTests.GswGeo_08` unit tests.
 
 ### DIP_08
 Use the file `UnitTests/Geopack/FortranSource/DIP_08.for`.
@@ -172,12 +173,47 @@ ifx Geopack_2008dp.for DIP_08.for -o dip && ./dip && rm dip
 ```
 
 Copy and paste input and output from terminal to the `GeopackTests.Dip_08` test as new `InlineData`.
-The first three values correspond to your Fortran location setup, the last three to the `DIP_08.for` output:
+The first three values correspond to your Fortran location setup, the last three to the `DIP_08.for` output, e.g.:
 ```
 [InlineData(1.0D,1.0D, 1.0D, -5468.999024571849076892, -3525.612769882045540726, 1943.386254689803536166)]
 ```
 
 ### GEODGEO_08
+Use the file `UnitTests/Geopack/FortranSource/GEODGEO_08.for`.
+
+Setup test parameters:
+* For `GEOD -> GEO` transformation:
+```fortran
+DATA H/0.D0,100.D0,400.D0,1000.D0,35786.D0/
+DATA XMU/0.D0,0.5236D0,1.0472D0,1.5708D0,0.7854D0/
+```
+* Vice versa `GEO -> GEOD` transformation:
+```fortran
+DATA R/6378.137D0,6478.137D0,6767.810D0,7375.337557D0,42164.137D0/
+DATA THETA/1.5708D0,1.3090D0,0.9273D0,0.D0,1.3090D0/
+```
+
+Specify transformation direction (DIR > 0 - direct, < 0 - vice versa)
+```frotran
+J=-1
+```
+
+Specify test data filename:
+* GEOD -> GEO
+```fortran
+OPEN(UNIT=1,FILE='GeodGeo.dat')
+```
+* GEO -> GEOD
+```fortran
+OPEN(UNIT=1,FILE='GeoGeod.dat')
+```
+
+Execute in terminal (ex. for `Geod -> Geo`):
+```bash
+ifx Geopack_2008dp.for GEODGEO.for -o geodgeo && ./geodgeo && rm geodgeo && mv GeodGeo.dat ../TestData/
+```
+
+Launch `UnitTests/Geopack/GeopackTests.GeodGeo_08` unit tests.
 
 ### IGRF_08
 
