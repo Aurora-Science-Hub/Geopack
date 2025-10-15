@@ -35,6 +35,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalFieldModels", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\Contracts\Contracts.csproj", "{3B500C9F-E74F-4F8D-AFFC-30003DC24786}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{07DA459C-1325-4B6B-879D-4EB270A33E0C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{B1F3CAF4-F660-4B27-833C-6865DAF601F6}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,5 +75,6 @@ Global
 		{6BF865FD-B792-4F7E-BDC9-B5335E69971A} = {82AAA21C-6A54-4602-863C-6C42C68283A1}
 		{D47E2899-4EC5-4C59-ABDF-37086FBFCE31} = {B4E78B98-89DB-4195-BCBE-5C50873BAB4E}
 		{3B500C9F-E74F-4F8D-AFFC-30003DC24786} = {B4E78B98-89DB-4195-BCBE-5C50873BAB4E}
+		{B1F3CAF4-F660-4B27-833C-6865DAF601F6} = {07DA459C-1325-4B6B-879D-4EB270A33E0C}
 	EndGlobalSection
 EndGlobal
