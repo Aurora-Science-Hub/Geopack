@@ -20,7 +20,7 @@ Each generator produces reference data for specific Geopack routines.
 We recommend to use Intel Fortran Compiler to generate test reference data using [original double-precision Geopack-2008 version by N. A. Tsyganenko](https://geo.phys.spbu.ru/~tsyganenko/models/Geopack-2008_dp.for).
 See [Intel Website](http://intel.com) to get the compiler or follow steps below to install compiler on Linux (Ubuntu).
 
-#### Add Intel oneAPI repository
+### Add Intel oneAPI repository
 
 ```bash
 sudo apt install -y gpg-agent wget
@@ -28,7 +28,7 @@ wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCT
 echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
 ```
 
-#### Install compiler and configure environment
+### Install compiler and configure environment
 ```bash
 sudo apt update
 sudo apt install intel-oneapi-compiler-fortran
@@ -56,3 +56,4 @@ Geopack-2008/
         │   └── TRACE_08.for                        # Magnetic field line tracing
         └── TestData/                               # Generated reference data
 ```
+
