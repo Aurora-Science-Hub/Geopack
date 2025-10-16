@@ -273,17 +273,8 @@ PHI=XLON / RAD
 
 Uncomment desired procedure:
 * `IGRF_GSW_08`:
-```frotran
+```fortran
 CALL IGRF_GSW_08 (XGSW,YGSW,ZGSW,HXGSW,HYGSW,HZGSW)
-```
-* `IGRF_GSW_08`:
-```frotran
-CALL IGRF_GEO_08 (R,COLAT,PHI,BR,BTHETA,BPHI)
-```
-
-Uncomment corresponding output:
-* `IGRF_GSW_08`:
-```frotran
 write(*, 10) HXGSW,HYGSW,HZGSW
 ```
 * `IGRF_GSW_08`:
