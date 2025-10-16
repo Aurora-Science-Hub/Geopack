@@ -22,13 +22,13 @@
 
 This repository provides a comprehensive validation framework for the C# .NET implementation of Geopack-2008 (double-precision).
 The Fortran test data generators enable verification that our implementation maintains numerical accuracy matching
-the original Fortran code by N. A. Tsyganenko to within 13 decimal places. The framework includes detailed test procedures and documentation
+the original Fortran code by N. A. Tsyganenko to within 12 decimal digits (`8E-12D`). The framework includes detailed test procedures and documentation
 to facilitate generation of custom test data with user-specific configurations while ensuring precision consistency across implementations.
 
 ## Prerequisites
 
-We recommend to use Intel Fortran Compiler to generate test reference data using original double-precision Geopack-2008 version by N. A. Tsyganenko.
-See [Intel Website](http://intel.com) to get the compiler or follow steps below to install compiler on Linux (Ubuntu).
+We recommend using Intel Fortran Compiler to generate test reference data using original double-precision Geopack-2008 version by N. A. Tsyganenko.
+See [Intel Website](http://intel.com) to get the compiler or follow the steps below to install the compiler on Linux (Ubuntu).
 
 ### Add Intel oneAPI repository
 
@@ -46,7 +46,7 @@ echo 'source /opt/intel/oneapi/setvars.sh' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-## Project structure
+## Project Structure
 ```
 Geopack-2008/
 └── UnitTests/
@@ -67,7 +67,8 @@ Geopack-2008/
         └── TestData/                               # Generated reference data
 ```
 ## Test data generators
-Generate your own test data using our set of example codes. Download original Geopack-2008dp code [here](https://geo.phys.spbu.ru/~tsyganenko/models/Geopack-2008_dp.for)
+Generate your own test data using our set of example codes:
+download original Geopack-2008dp code [here](https://geo.phys.spbu.ru/~tsyganenko/models/Geopack-2008_dp.for)
 and put it to the **UnitTests** folder: `UnitTests/Geopack/FortranSource/Geopack_2008dp.for`.
 
 ### BCARSPH_08
@@ -76,7 +77,7 @@ and put it to the **UnitTests** folder: `UnitTests/Geopack/FortranSource/Geopack
 
 Specify vector coordinates and cartesian magnetic field components:
 ```fortran
-x=0.D0
+X=0.D0
 Y=0.D0
 Z=0.D0
 
@@ -89,7 +90,7 @@ Execute in terminal:
 ifx Geopack_2008dp.for BCARSPH_08.for -o bcarsph && ./bcarsph && rm bcarsph
 ```
 
-Copy/Paste input and output from terminal to the `GeopackTests.BCarSph_08` test as new `InlineData`, e.g.:
+Copy and paste input and output from terminal to the `GeopackTests.BCarSph_08` test as new `InlineData`, e.g.:
 ```
 [InlineData(1, 1, 1, 1, 0, 0, 0.577350269189625842, 0.408248290463863017, -0.707106781186547462)]
 ```
@@ -121,7 +122,7 @@ DATA Z/6.5999999999999996D0,-6.5999999999999996D0,
  *1.D0,-1.D0,4.5678D0,-4.5678D0,0.D0/
 ```
 
-Setup transformation direction:
+Set up transformation direction:
 * GEO -> GSW:
 ```fortran
 J=1
@@ -142,7 +143,7 @@ OPEN(UNIT=1,FILE='GeoGsw.dat')
 OPEN(UNIT=1,FILE='GswGeo.dat')
 ```
 
-Specify testing procedure in the cycle. Ensure, that procedure name corresponds to the original Geopack-2008:
+Specify testing procedure in the cycle. Ensure that the procedure name corresponds to the original Geopack-2008:
 ```fortran
 CALL GEOGSW_08 (X(N),Y(M),Z(K),XR,YR,ZR,J)
 ...
@@ -159,7 +160,7 @@ ifx Geopack_2008dp.for CoordinateTransformations.for -o gen_data && ./gen_data &
 ifx Geopack_2008dp.for CoordinateTransformations.for -o gen_data && ./gen_data && rm gen_data && mv GswGeo.dat ../TestData/
 ```
 
-Ensure the input parameters in these test generators remain synchronized with the actual unit tests.
+Ensure that the input parameters in these test generators remain synchronized with the actual unit tests.
 Do not forget that test data file name should be synchronized with corresponding variable in test fixture, e.g.:
 * GEO -> GSW:
 ```text
@@ -220,11 +221,11 @@ DATA THETA/1.5708D0,1.3090D0,0.9273D0,0.D0,1.3090D0/
 
 Specify transformation direction:
 * GEOD -> GEO
-```frotran
+```fortran
 J=1
 ```
 * GEO -> GEOD
-```frotran
+```fortran
 J=-1
 ```
 
@@ -241,11 +242,11 @@ OPEN(UNIT=1,FILE='GeoGeod.dat')
 Execute in terminal:
 * GEOD -> GEO
 ```bash
-ifx Geopack_2008dp.for GEODGEO.for -o geodgeo && ./geodgeo && rm geodgeo && mv GeodGeo.dat ../TestData/
+ifx Geopack_2008dp.for GEODGEO_08.for -o geodgeo && ./geodgeo && rm geodgeo && mv GeodGeo.dat ../TestData/
 ```
 * GEO -> GEOD
 ```bash
-ifx Geopack_2008dp.for GEODGEO.for -o geodgeo && ./geodgeo && rm geodgeo && mv GeoGeod.dat ../TestData/
+ifx Geopack_2008dp.for GEODGEO_08.for -o geodgeo && ./geodgeo && rm geodgeo && mv GeoGeod.dat ../TestData/
 ```
 
 Execute `GeopackTests.GeodGeo_08` unit tests.
@@ -289,8 +290,8 @@ ifx Geopack_2008dp.for IGRF_08.for -o igrf && ./igrf && rm igrf
 ```
 
 Copy and paste output from terminal to the corresponding `InlineData` block and launch the test:
-* IGRF_GSW_08 : `GeopackTests.IgrfGsw_08`
-* IGRF_GEO_08 :` GeopackTests.IgrfGeo_08`
+* IGRF_GSW_08: `GeopackTests.IgrfGsw_08`
+* IGRF_GEO_08:` GeopackTests.IgrfGeo_08`
 
 </details>
 
@@ -321,7 +322,7 @@ Copy and paste input and output from terminal to the `GeopackTests.ShuMgnp_08` t
 ```
 [InlineData(5.0D, -350.0D, 5.0D, 9.0D, 0.0D, 0.0D, 9.003326462780140815, 0.000000000000000000, 0.000000000000000000, 0.003326462780140815, MagnetopausePosition.Inside)]
 ```
-Note: `MagnetopausePosition` depends on fortran `ID` output.
+Note: `MagnetopausePosition` depends on Fortran `ID` output.
 
 </details>
 
@@ -355,12 +356,12 @@ DIR=-1
 
 Uncomment corresponding output:
 * SPH -> CAR:
-```frotran
+```fortran
 write(*, 10) X, Y, Z
 C write(*, 10) R, THETA, PHI
 ```
 * CAR -> SPH:
-```frotran
+```fortran
 C write(*, 10) X, Y, Z
 write(*, 10) R, THETA, PHI
 ```
@@ -427,14 +428,14 @@ Copy and paste input and output from terminal to the `GeopackTests.T96Mgnp_08` t
 ```
 [InlineData(5.0D, 350.0D, 9.0D, 0.0D, 0.0D, 11.917821173671217849D, 0.000000000000000000D, 0.000000000000000000D, 2.917821173671217849D, MagnetopausePosition.Inside)]
 ```
-Note: `MagnetopausePosition` depends on fortran `ID` output.
+Note: `MagnetopausePosition` depends on Fortran `ID` output.
 </details>
 
 ### TRACE_08
 <details>
 <summary>Use `UnitTests/Geopack/FortranSource/TRACE_08.for`:</summary>
 
-Copy and paste the whole `SUBROUTINE T89D_DP` from [here](https://geo.phys.spbu.ru/~tsyganenko/models/t89/T89d_dp.for) to the end of example code `TRACE_08.for`.
+Copy and paste the entire `SUBROUTINE T89D_DP` from [here](https://geo.phys.spbu.ru/~tsyganenko/models/t89/T89d_dp.for) to the end of example code `TRACE_08.for`.
 
 * Set up direction for North to South conjugate point:
 ```fortran
