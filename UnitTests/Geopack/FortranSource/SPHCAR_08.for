@@ -15,7 +15,7 @@ c       Z=0.D0
       CALL SPHCAR_08 (R, THETA, PHI, X, Y, Z, DIR)
 
       write(*, 10) X, Y, Z
-С      write(*, 10) R, THETA, PHI
+C      write(*, 10) R, THETA, PHI
 
 10    FORMAT(3F32.18)
 
