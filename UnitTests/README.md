@@ -390,7 +390,24 @@ Copy and paste output from terminal to the corresponding `InlineData` block and 
 <details>
 <summary>Use `UnitTests/Geopack/FortranSource/SUN_08.for`:</summary>
 
+Specify date and time:
+```fortran
+IY=2004
+IDAY=60
+IHOUR=0
+MIN=0
+ISEC=0
+```
 
+Execute in terminal:
+```bash
+ifx Geopack_2008dp.for SUN_08.for -o sun && ./sun && rm sun
+```
+
+Copy and paste input and output from terminal to the `GeopackTests.Sun_08` test as new `InlineData`, e.g.:
+```
+[InlineData(1.0D,1.0D, 1.0D, -5468.999024571849076892, -3525.612769882045540726, 1943.386254689803536166)]
+```
 
 </details>
 
