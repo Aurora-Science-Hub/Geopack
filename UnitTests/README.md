@@ -87,6 +87,7 @@ Execute in terminal:
 ```bash
 ifx Geopack_2008dp.for BCARSPH_08.for -o bcarsph && ./bcarsph && rm bcarsph
 ```
+
 Copy/Paste input and output from terminal to the `GeopackTests.BCarSph_08` test as new `InlineData`, e.g.:
 ```
 [InlineData(1, 1, 1, 1, 0, 0, 0.577350269189625842, 0.408248290463863017, -0.707106781186547462)]
@@ -141,13 +142,10 @@ OPEN(UNIT=1,FILE='GswGeo.dat')
 ```
 
 Specify testing procedure in the cycle. Ensure, that procedure name corresponds to the original Geopack-2008:
-* GEO -> GSW:
 ```fortran
 CALL GEOGSW_08 (X(N),Y(M),Z(K),XR,YR,ZR,J)
-```
-* GSW -> GEO
-```fortran
-CALL GSWGEO_08 (XR,YR,ZR,X(N),Y(M),Z(K),J)
+...
+CALL GEOGSW_08 (XR,YR,ZR,X(N),Y(M),Z(K),J)
 ```
 
 Compile and execute:
@@ -174,9 +172,9 @@ private const string GswGeoDatasetFileName =
 ```
 
 * GEO -> GSW:
-Launch `UnitTests/Geopack/GeopackTests.GeoGsw_08` unit tests.
+Execute `GeopackTests.GeoGsw_08` unit tests.
 * GSW -> GEO:
-Launch `UnitTests/Geopack/GeopackTests.GswGeo_08` unit tests.
+Execute `GeopackTests.GswGeo_08` unit tests.
 
 </details>
 
@@ -249,7 +247,7 @@ ifx Geopack_2008dp.for GEODGEO.for -o geodgeo && ./geodgeo && rm geodgeo && mv G
 ifx Geopack_2008dp.for GEODGEO.for -o geodgeo && ./geodgeo && rm geodgeo && mv GeoGeod.dat ../TestData/
 ```
 
-Launch `UnitTests/Geopack/GeopackTests.GeodGeo_08` unit tests.
+Execute `GeopackTests.GeodGeo_08` unit tests.
 
 </details>
 
@@ -299,8 +297,8 @@ ifx Geopack_2008dp.for IGRF_08.for -o igrf && ./igrf && rm igrf
 ```
 
 Copy and paste output from terminal to the corresponding `InlineData` block and launch the test:
-* `IGRF_GSW_08`: `UnitTests/Geopack/GeopackTests.IgrfGsw_08`
-* `IGRF_GSW_08`:` UnitTests/Geopack/GeopackTests.IgrfGeo_08`
+* IGRF_GSW_08 : `GeopackTests.IgrfGsw_08`
+* IGRF_GSW_08 :` GeopackTests.IgrfGeo_08`
 
 </details>
 
@@ -381,8 +379,8 @@ ifx Geopack_2008dp.for SPHCAR_08.for -o sphcar && ./sphcar && rm sphcar
 ```
 
 Copy and paste output from terminal to the corresponding `InlineData` block and launch the test:
-* SPH -> CAR : `UnitTests/Geopack/GeopackTests.SphCar_08`
-* CAR -> SPH : `UnitTests/Geopack/GeopackTests.CarSph_08`
+* SPH -> CAR : `GeopackTests.SphCar_08`
+* CAR -> SPH : `GeopackTests.CarSph_08`
 
 </details>
 
@@ -406,7 +404,7 @@ ifx Geopack_2008dp.for SUN_08.for -o sun && ./sun && rm sun
 
 Copy and paste input and output from terminal to the `GeopackTests.Sun_08` test as new `InlineData`, e.g.:
 ```
-[InlineData(1.0D,1.0D, 1.0D, -5468.999024571849076892, -3525.612769882045540726, 1943.386254689803536166)]
+[InlineData(2004, 2, 29, 0, 0, 0, 2.760256269651100602, 5.929696758033518478, 5.956663000518048534, -0.138172813779450315)]
 ```
 
 </details>
@@ -442,5 +440,51 @@ Note: `MagnetopausePosition` depends on fortran `ID` output.
 
 ### TRACE_08
 <details>
-Copy and paste the whole `SUBROUTINE T89D_DP` from [here](https://geo.phys.spbu.ru/~tsyganenko/models/t89/T89d_dp.for) below the example code `TRACE_08.for`.
+<summary>Use `UnitTests/Geopack/FortranSource/TRACE_08.for`:</summary>
+
+Copy and paste the whole `SUBROUTINE T89D_DP` from [here](https://geo.phys.spbu.ru/~tsyganenko/models/t89/T89d_dp.for) to the end of example code `TRACE_08.for`.
+
+* Set up direction for North to South conjugate point:
+```fortran
+DIR=1.D0
+```
+* Set up direction for South to North conjugate point:
+```fortran
+DIR=-1.D0
+```
+
+Set up the rest parameters:
+```fortran
+DSMAX=0.1D0
+ERR=0.0001D0
+RLIM=60.D0
+R0=1.D0
+IOPT=1
+XGSW=-1.02D0
+YGSW=0.8D0
+ZGSW=-0.9D0
+```
+
+Specify output filename:
+* North to South conjugate point:
+```fortran
+OPEN(UNIT=1,FILE='TraceNSResult.dat')
+```
+* South to North conjugate point:
+```fortran
+OPEN(UNIT=1,FILE='TraceSNResult.dat')
+```
+
+Execute in terminal:
+* North to South conjugate point:
+```bash
+ifx Geopack_2008dp.for TRACE_08.for -o trace && ./trace && rm trace && mv TraceNSResult.dat ../TestData/
+```
+* South to North conjugate point:
+```bash
+ifx Geopack_2008dp.for TRACE_08.for -o trace && ./trace && rm trace && mv TraceSNResult.dat ../TestData/
+```
+
+Execute `GeopackTests.Trace_08` unit test.
+
 </details>
