@@ -66,7 +66,8 @@ Geopack-2008/
         └── TestData/                               # Generated reference data
 ```
 ## Test data generators
-Generate your own test data using our set of example codes. Download original Geopack-2008dp code [here](https://geo.phys.spbu.ru/~tsyganenko/models/Geopack-2008_dp.for).
+Generate your own test data using our set of example codes. Download original Geopack-2008dp code [here](https://geo.phys.spbu.ru/~tsyganenko/models/Geopack-2008_dp.for)
+and put it to the **UnitTests** folder: `UnitTests/Geopack/FortranSource/Geopack_2008dp.for`.
 
 ### BACARSPH_08
 <details>
@@ -104,7 +105,7 @@ Apply for:
 - `MagSm_08` / `SmMag_08`
 - `SmGsw_08` / `GswSm_08`
 
-As an example below we use `GEOGSW_08` procedure.
+As an example below we test `GEOGSW_08` original procedure.
 
 Set up a set of location coordinates:
 ```fortran
@@ -116,19 +117,6 @@ DATA Y/6.5999999999999996D0,-6.5999999999999996D0,
 
 DATA Z/6.5999999999999996D0,-6.5999999999999996D0,
  *1.D0,-1.D0,4.5678D0,-4.5678D0,0.D0/
-```
-
-Setup date/time and solar wind direction:
-```fortran
-      IYEAR=1997
-      IDAY=350
-      IHOUR=21
-      MIN=0
-      ISEC=0
-
-      VGSEX=-304.D0
-      VGSEY= 13.D0
-      VGSEZ= 4.D0
 ```
 
 Setup transformation direction:
@@ -208,8 +196,7 @@ Execute in terminal:
 ifx Geopack_2008dp.for DIP_08.for -o dip && ./dip && rm dip
 ```
 
-Copy and paste input and output from terminal to the `GeopackTests.Dip_08` test as new `InlineData`.
-The first three values correspond to your Fortran location setup, the last three to the `DIP_08.for` output, e.g.:
+Copy and paste input and output from terminal to the `GeopackTests.Dip_08` test as new `InlineData`, e.g.:
 ```
 [InlineData(1.0D,1.0D, 1.0D, -5468.999024571849076892, -3525.612769882045540726, 1943.386254689803536166)]
 ```
@@ -232,7 +219,12 @@ DATA R/6378.137D0,6478.137D0,6767.810D0,7375.337557D0,42164.137D0/
 DATA THETA/1.5708D0,1.3090D0,0.9273D0,0.D0,1.3090D0/
 ```
 
-Specify transformation direction (DIR > 0 - direct, < 0 - vice versa)
+Specify transformation direction:
+* GEOD -> GEO
+```frotran
+J=1
+```
+* GEO -> GEOD
 ```frotran
 J=-1
 ```
@@ -247,9 +239,14 @@ OPEN(UNIT=1,FILE='GeodGeo.dat')
 OPEN(UNIT=1,FILE='GeoGeod.dat')
 ```
 
-Execute in terminal (ex. for `Geod -> Geo`):
+Execute in terminal:
+* GEOD -> GEO
 ```bash
 ifx Geopack_2008dp.for GEODGEO.for -o geodgeo && ./geodgeo && rm geodgeo && mv GeodGeo.dat ../TestData/
+```
+* GEO -> GEOD
+```bash
+ifx Geopack_2008dp.for GEODGEO.for -o geodgeo && ./geodgeo && rm geodgeo && mv GeoGeod.dat ../TestData/
 ```
 
 Launch `UnitTests/Geopack/GeopackTests.GeodGeo_08` unit tests.
