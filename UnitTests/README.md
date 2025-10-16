@@ -337,10 +337,61 @@ Note: `MagnetopausePosition` depends on fortran `ID` output.
 
 ### SPHCAR_08
 <details>
+<summary>Use `UnitTests/Geopack/FortranSource/SPHCAR_08.for`:</summary>
+
+Uncomment and modify test location:
+* SPH -> CAR:
+```fortran
+R=-1.D0
+THETA=-1.D0
+PHI=-1.D0
+```
+* CAR -> SPH:
+```fortran
+X=0.D0
+Y=-1.D0
+Z=0.D0
+```
+
+Set up conversion option:
+* SPH -> CAR:
+```fortran
+DIR=1
+```
+* CAR -> SPH:
+```fortran
+DIR=-1
+```
+
+Uncomment corresponding output:
+* SPH -> CAR:
+```frotran
+write(*, 10) X, Y, Z
+C write(*, 10) R, THETA, PHI
+```
+* CAR -> SPH:
+```frotran
+C write(*, 10) X, Y, Z
+write(*, 10) R, THETA, PHI
+```
+
+Execute in terminal:
+```bash
+ifx Geopack_2008dp.for SPHCAR_08.for -o sphcar && ./sphcar && rm sphcar
+```
+
+Copy and paste output from terminal to the corresponding `InlineData` block and launch the test:
+* SPH -> CAR : `UnitTests/Geopack/GeopackTests.SphCar_08`
+* CAR -> SPH : `UnitTests/Geopack/GeopackTests.CarSph_08`
+
 </details>
 
 ### SUN_08
 <details>
+<summary>Use `UnitTests/Geopack/FortranSource/SUN_08.for`:</summary>
+
+
+
 </details>
 
 ### T96_MGNP_08

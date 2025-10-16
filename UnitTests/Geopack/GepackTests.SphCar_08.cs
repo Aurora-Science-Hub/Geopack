@@ -9,7 +9,7 @@ public partial class GeopackTests
     public void SphCar_ShouldReturnCorrectValues()
     {
         // Arrange
-        CartesianLocation approvedData = new CartesianLocation(0.4637416876811D, 0.7222348866390D, 0.5511083519855D);
+        CartesianLocation approvedData = new(0.4637416876811D, 0.7222348866390D, 0.5511083519855D);
 
         // Act
         CartesianLocation point = _geopack.SphCar_08(1.02D, 1.0D, 1.0D);
