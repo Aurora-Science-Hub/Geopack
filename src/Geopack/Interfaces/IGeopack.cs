@@ -55,9 +55,9 @@ public interface IGeopack
     /// identical to each other in the case of strictly radial anti-sunward solar wind flow). Its
     /// detailed definition is given in introductory comments for the subroutine GswGse_08.
     /// </remarks>
-    /// <param name="xgsw">Cartesian GSW X-coordinate in RE (1 RE = 6371.2 km)</param>
-    /// <param name="ygsw">Cartesian GSW Y-coordinate in RE (1 RE = 6371.2 km)</param>
-    /// <param name="zgsw">Cartesian GSW Z-coordinate in RE (1 RE = 6371.2 km)</param>
+    /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
     CartesianFieldVector Dip_08(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
@@ -75,10 +75,10 @@ public interface IGeopack
     /// </summary>
     /// <remarks>
     /// Original Geopack-2008 method: SPHCAR_08
-    /// THETA and PHI in radians, R in Earth radii.
+    /// THETA and PHI in radians, R (in units RE=6371.2 km).
     /// At the poles (X=0 and Y=0), PHI is assumed to be 0.
     /// </remarks>
-    /// <param name="r">Radial distance in RE</param>
+    /// <param name="r">Radial distance (in units RE=6371.2 km)</param>
     /// <param name="theta">Co-latitude THETA in radians</param>
     /// <param name="phi">Longitude PHI in radians</param>
     CartesianLocation SphCar_08(double r, double theta, double phi);
@@ -88,12 +88,12 @@ public interface IGeopack
     /// </summary>
     /// <remarks>
     /// Original Geopack-2008 method: SPHCAR_08
-    /// THETA and PHI in radians, R in Earth radii.
+    /// THETA and PHI in radians, R (in units RE=6371.2 km).
     /// At the poles (X=0 and Y=0), PHI is assumed to be 0.
     /// </remarks>
-    /// <param name="x">Cartesian X-coordinate</param>
-    /// <param name="y">Cartesian Y-coordinate</param>
-    /// <param name="z">Cartesian Z-coordinate</param>
+    /// <param name="x">Cartesian X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="y">Cartesian Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="z">Cartesian Z-coordinate (in units RE=6371.2 km)</param>
     SphericalLocation CarSph_08(double x, double y, double z);
 
     /// <summary>
@@ -150,9 +150,9 @@ public interface IGeopack
     /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
     /// Before calling GSWGSE_08, be sure to invoke the subroutine Recalc_08 to define all necessary elements of transformation matrices.
     /// </remarks>
-    /// <param name="xgsw">Cartesian GSW X-coordinate</param>
-    /// <param name="ygsw">Cartesian GSW Y-coordinate</param>
-    /// <param name="zgsw">Cartesian GSW Z-coordinate</param>
+    /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation GswGse_08(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
@@ -165,9 +165,9 @@ public interface IGeopack
     /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
     /// Before calling GseGsw_08, be sure to invoke the subroutine Recalc_08 to define all necessary elements of transformation matrices.
     /// </remarks>
-    /// <param name="xgse">Cartesian GSE X-coordinate</param>
-    /// <param name="ygse">Cartesian GSE Y-coordinate</param>
-    /// <param name="zgse">Cartesian GSE Z-coordinate</param>
+    /// <param name="xgse">Cartesian GSE X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ygse">Cartesian GSE Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zgse">Cartesian GSE Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation GseGsw_08(double xgse, double ygse, double zgse);
 
     /// <summary>
@@ -180,9 +180,9 @@ public interface IGeopack
     /// 2. If the values of date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in Recalc_08.
     /// </remarks>
-    /// <param name="xgeo">Cartesian GEO X-coordinate</param>
-    /// <param name="ygeo">Cartesian GEO Y-coordinate</param>
-    /// <param name="zgeo">Cartesian GEO Z-coordinate</param>
+    /// <param name="xgeo">Cartesian GEO X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ygeo">Cartesian GEO Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zgeo">Cartesian GEO Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation GeoMag_08(double xgeo, double ygeo, double zgeo);
 
     /// <summary>
@@ -195,9 +195,9 @@ public interface IGeopack
     /// 2. If the values of date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in Recalc_08.
     /// </remarks>
-    /// <param name="xmag">Cartesian MAG X-coordinate</param>
-    /// <param name="ymag">Cartesian MAG Y-coordinate</param>
-    /// <param name="zmag">Cartesian MAG Z-coordinate</param>
+    /// <param name="xmag">Cartesian MAG X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ymag">Cartesian MAG Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zmag">Cartesian MAG Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation MagGeo_08(double xmag, double ymag, double zmag);
 
     /// <summary>
@@ -210,9 +210,9 @@ public interface IGeopack
     /// 2. If the current values date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in Recalc_08.
     /// </remarks>
-    /// <param name="xgei">Cartesian GEI X-coordinate</param>
-    /// <param name="ygei">Cartesian GEI Y-coordinate</param>
-    /// <param name="zgei">Cartesian GEI Z-coordinate</param>
+    /// <param name="xgei">Cartesian GEI X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ygei">Cartesian GEI Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zgei">Cartesian GEI Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation GeiGeo_08(double xgei, double ygei, double zgei);
 
     /// <summary>
@@ -225,9 +225,9 @@ public interface IGeopack
     /// 2. If the current values date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in Recalc_08.
     /// </remarks>
-    /// <param name="xgeo">Cartesian GEO X-coordinate</param>
-    /// <param name="ygeo">Cartesian GEO Y-coordinate</param>
-    /// <param name="zgeo">Cartesian GEO Z-coordinate</param>
+    /// <param name="xgeo">Cartesian GEO X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ygeo">Cartesian GEO Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zgeo">Cartesian GEO Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation GeoGei_08(double xgeo, double ygeo, double zgeo);
 
     /// <summary>
@@ -244,9 +244,9 @@ public interface IGeopack
     /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
     /// invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="xmag">Cartesian MAG X-coordinate</param>
-    /// <param name="ymag">Cartesian MAG Y-coordinate</param>
-    /// <param name="zmag">Cartesian MAG Z-coordinate</param>
+    /// <param name="xmag">Cartesian MAG X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ymag">Cartesian MAG Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zmag">Cartesian MAG Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation MagSm_08(double xmag, double ymag, double zmag);
 
     /// <summary>
@@ -263,9 +263,9 @@ public interface IGeopack
     /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
     /// invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="xsm">Cartesian SM X-coordinate</param>
-    /// <param name="ysm">Cartesian SM Y-coordinate</param>
-    /// <param name="zsm">Cartesian SM Z-coordinate</param>
+    /// <param name="xsm">Cartesian SM X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ysm">Cartesian SM Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zsm">Cartesian SM Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation SmMag_08(double xsm, double ysm, double zsm);
 
     /// <summary>
@@ -282,9 +282,9 @@ public interface IGeopack
     /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
     /// invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="xsm">Cartesian SM X-coordinate</param>
-    /// <param name="ysm">Cartesian SM Y-coordinate</param>
-    /// <param name="zsm">Cartesian SM Z-coordinate</param>
+    /// <param name="xsm">Cartesian SM X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ysm">Cartesian SM Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zsm">Cartesian SM Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation SmGsw_08(double xsm, double ysm, double zsm);
 
     /// <summary>
@@ -301,9 +301,9 @@ public interface IGeopack
     /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
     /// invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="xgsw">Cartesian GSW X-coordinate</param>
-    /// <param name="ygsw">Cartesian GSW Y-coordinate</param>
-    /// <param name="zgsw">Cartesian GSW Z-coordinate</param>
+    /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation GswSm_08(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
@@ -319,9 +319,9 @@ public interface IGeopack
     /// taking into account possible deflections of the solar wind direction from strictly radial.
     /// Before converting to/from standard GSM coordinates, invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="xgeo">Cartesian GEO X-coordinate</param>
-    /// <param name="ygeo">Cartesian GEO Y-coordinate</param>
-    /// <param name="zgeo">Cartesian GEO Z-coordinate</param>
+    /// <param name="xgeo">Cartesian GEO X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ygeo">Cartesian GEO Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zgeo">Cartesian GEO Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation GeoGsw_08(double xgeo, double ygeo, double zgeo);
 
     /// <summary>
@@ -337,9 +337,9 @@ public interface IGeopack
     /// taking into account possible deflections of the solar wind direction from strictly radial.
     /// Before converting to/from standard GSM coordinates, invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
-    /// <param name="xgsw">Cartesian GSW X-coordinate</param>
-    /// <param name="ygsw">Cartesian GSW Y-coordinate</param>
-    /// <param name="zgsw">Cartesian GSW Z-coordinate</param>
+    /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
     CartesianLocation GswGeo_08(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
@@ -445,9 +445,9 @@ public interface IGeopack
     /// or any negative number, which indicates that XN_PD stands
     /// for the solar wind pressure, rather than for the density</param>
     /// <param name="bzImf">IMF BZ in nanoteslas</param>
-    /// <param name="xgsw">Cartesian GSW X-coordinate of the observation point in Earth radii</param>
-    /// <param name="ygsw">Cartesian GSW Y-coordinate of the observation point in Earth radii</param>
-    /// <param name="zgsw">Cartesian GSW Z-coordinate of the observation point in Earth radii</param>
+    /// <param name="xgsw">Cartesian GSW X-coordinate of the observation point (in units RE=6371.2 km)</param>
+    /// <param name="ygsw">Cartesian GSW Y-coordinate of the observation point (in units RE=6371.2 km)</param>
+    /// <param name="zgsw">Cartesian GSW Z-coordinate of the observation point (in units RE=6371.2 km)</param>
     Magnetopause ShuMgnp_08(
         double xnPd, double vel, double bzImf,
         double xgsw, double ygsw, double zgsw);
@@ -466,9 +466,9 @@ public interface IGeopack
     /// or the solar wind ram pressure in nanopascals (if VEL lower than zero)</param>
     /// <param name="vel">Either solar wind velocity (km/sec) or any negative number, which indicates that XN_PD stands
     /// for the solar wind pressure, rather than for the density</param>
-    /// <param name="xgsw">Cartesian GSW X-coordinate of the observation point in Earth radii</param>
-    /// <param name="ygsw">Cartesian GSW Y-coordinate of the observation point in Earth radii</param>
-    /// <param name="zgsw">Cartesian GSW Z-coordinate of the observation point in Earth radii</param>
+    /// <param name="xgsw">Cartesian GSW X-coordinate of the observation point (in units RE=6371.2 km)</param>
+    /// <param name="ygsw">Cartesian GSW Y-coordinate of the observation point (in units RE=6371.2 km)</param>
+    /// <param name="zgsw">Cartesian GSW Z-coordinate of the observation point (in units RE=6371.2 km)</param>
     Magnetopause T96Mgnp_08(
         double xnPd, double vel,
         double xgsw, double ygsw, double zgsw);
