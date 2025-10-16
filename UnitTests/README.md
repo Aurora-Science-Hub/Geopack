@@ -298,7 +298,7 @@ ifx Geopack_2008dp.for IGRF_08.for -o igrf && ./igrf && rm igrf
 
 Copy and paste output from terminal to the corresponding `InlineData` block and launch the test:
 * IGRF_GSW_08 : `GeopackTests.IgrfGsw_08`
-* IGRF_GSW_08 :` GeopackTests.IgrfGeo_08`
+* IGRF_GEO_08 :` GeopackTests.IgrfGeo_08`
 
 </details>
 
