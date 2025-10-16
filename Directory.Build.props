@@ -28,7 +28,7 @@
 
   <PropertyGroup>
     <PackageBaseVersion>0.0.1</PackageBaseVersion>
-    <MinVerTagPrefix>-TestDocumentation</MinVerTagPrefix>
+    <MinVerTagPrefix></MinVerTagPrefix>
   </PropertyGroup>
 
   <!--
