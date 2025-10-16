@@ -15,9 +15,7 @@
    * [SUN_08](#SUN_08)
    * [T96_MGNP_08](#T96_MGNP_08)
    * [TRACE_08](#TRACE_08)
-5. [Usage Examples](#usage-examples)
-6. [Synchronization Guide](#synchronization-guide)
-7. [Troubleshooting](#troubleshooting)
+
 
 ## Overview
 
@@ -71,7 +69,9 @@ Geopack-2008/
 Generate your own test data using our set of example codes. Download original Geopack-2008dp code [here](https://geo.phys.spbu.ru/~tsyganenko/models/Geopack-2008_dp.for).
 
 ### BACARSPH_08
-Use file `UnitTests/Geopack/FortranSource/BCARSPH_08.for`.
+<details>
+<summary>Use `UnitTests/Geopack/FortranSource/BCARSPH_08.for`</summary>
+
 Specify vector coordinates and cartesian magnetic field components:
 ```fortran
 x=0.D0
@@ -90,9 +90,11 @@ Copy/Paste input and output from terminal to the `GeopackTests.BCarSph_08` test 
 ```
 [InlineData(1, 1, 1, 1, 0, 0, 0.577350269189625842, 0.408248290463863017, -0.707106781186547462)]
 ```
+</details>
 
 ### Coordinate transformations
-Use `UnitTests/Geopack/FortranSource/CoordinateTransformations.for` to test next procedures:
+<details>
+<summary>Use `UnitTests/Geopack/FortranSource/CoordinateTransformations.for`:</summary>
 - `GeiGeo` / `GeoGei`
 - `GeoGsw` / `GswGeo`
 - `GeoMag` / `MagGeo`
@@ -102,7 +104,7 @@ Use `UnitTests/Geopack/FortranSource/CoordinateTransformations.for` to test next
 
 As an example below we use `GSWGSW_08` procedure.
 
-Setup a set of location coordinates:
+Set up a set of location coordinates:
 ```fortran
 DATA X/6.5999999999999996D0,-6.5999999999999996D0,
      *1.D0,-1.D0,4.5678D0,-4.5678D0,0.D0/
@@ -157,8 +159,11 @@ private const string GswGseDatasetFileName =
 ```
 Launch `UnitTests/Geopack/GeopackTests.GswGeo_08` unit tests.
 
+</details>
+
 ### DIP_08
-Use the file `UnitTests/Geopack/FortranSource/DIP_08.for`.
+<details>
+<summary>Use `UnitTests/Geopack/FortranSource/DIP_08.for`:</summary>
 
 Specify location:
 ```fortran
@@ -178,8 +183,11 @@ The first three values correspond to your Fortran location setup, the last three
 [InlineData(1.0D,1.0D, 1.0D, -5468.999024571849076892, -3525.612769882045540726, 1943.386254689803536166)]
 ```
 
+</details>
+
 ### GEODGEO_08
-Use the file `UnitTests/Geopack/FortranSource/GEODGEO_08.for`.
+<details>
+Use the file `UnitTests/Geopack/FortranSource/GEODGEO_08.for`:
 
 Setup test parameters:
 * For `GEOD -> GEO` transformation:
@@ -215,7 +223,10 @@ ifx Geopack_2008dp.for GEODGEO.for -o geodgeo && ./geodgeo && rm geodgeo && mv G
 
 Launch `UnitTests/Geopack/GeopackTests.GeodGeo_08` unit tests.
 
+</details>
+
 ### IGRF_08
+<details>
 
 Setup location:
 * `IGRF_GSW_08`:
@@ -253,19 +264,29 @@ write(*, 10) HXGSW,HYGSW,HZGSW
 write(*, 10) BR, BTHETA, BPHI
 ```
 
-Copy and paste output from teminal to the corresponding `InlineData` block:
+Copy and paste output from teminal to the corresponding `InlineData` block and launch the test:
 * `IGRF_GSW_08`: `UnitTests/Geopack/GeopackTests.IgrfGsw_08`
 * `IGRF_GSW_08`:` UnitTests/Geopack/GeopackTests.IgrfGeo_08`
 
-Launch `UnitTests/Geopack/GeopackTests.GeodGeo_08` unit tests.
+</details>
 
 ### SHUETAL_MGNP_08
+<details>
+</details>
 
 ### SPHCAR_08
+<details>
+</details>
 
 ### SUN_08
+<details>
+</details>
 
 ### T96_MGNP_08
+<details>
+</details>
 
 ### TRACE_08
+<details>
 Copy and paste the whole `SUBROUTINE T89D_DP` from [here](https://geo.phys.spbu.ru/~tsyganenko/models/t89/T89d_dp.for) below the example code `TRACE_08.for`.
+</details>
