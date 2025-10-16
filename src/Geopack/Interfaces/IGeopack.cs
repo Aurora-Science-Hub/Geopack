@@ -15,6 +15,7 @@ public interface IGeopack
     /// (e.g., https://www.ngdc.noaa.gov/IAGA/vmod/coeffs/igrf13coeffs.txt, revised 01 January 2020)
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: IGRF_GSW_08
     /// The GSW system is essentially similar to the standard GSM (the two systems become identical
     /// to each other in the case of strictly anti-sunward solar wind flow). For a detailed
     /// definition, see introductory comments for the subroutine GSWGSE_08.
@@ -33,6 +34,7 @@ public interface IGeopack
     /// coefficients (e.g., http://www.ngdc.noaa.gov/IAGA/vmod/igrf.html, revised: 22 March 2005)
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: IGRF_GEO_08
     /// Before the first call of this subroutine, or if the date was changed,
     /// the model coefficients should be updated by calling the subroutine RECALC_08
     /// </remarks>
@@ -53,9 +55,10 @@ public interface IGeopack
     /// solar wind direction, have changed).
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: DIP_08
     /// The GSW coordinate system is essentially similar to the standard GSM (the two systems become
     /// identical to each other in the case of strictly radial anti-sunward solar wind flow). Its
-    /// detailed definition is given in introductory comments for the subroutine GSWGSE_08.
+    /// detailed definition is given in introductory comments for the subroutine GswGse_08.
     /// </remarks>
     /// <param name="xgsw">GSW coordinates in re (1 re = 6371.2 km)</param>
     /// <param name="ygsw">GSW coordinates in re (1 re = 6371.2 km)</param>
@@ -68,7 +71,7 @@ public interface IGeopack
     /// </summary>
     /// <param name="dateTime">Year, day, and universal time in hours, minutes, and seconds</param>
     /// <remarks>
-    /// Original: SUN_08
+    /// Original Geopack-2008 method: SUN_08
     /// </remarks>
     Sun Sun_08(DateTime dateTime);
 
@@ -79,6 +82,7 @@ public interface IGeopack
     /// <param name="theta">Co-latitude theta in radians</param>
     /// <param name="phi">Longitude phi in radians</param>
     /// <remarks>
+    /// Original Geopack-2008 method: SPHCAR_08
     /// Theta and Phi in radians, R in Earth radii.
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
     /// Original Geopack-2008 method: SPHCAR_08
@@ -92,6 +96,7 @@ public interface IGeopack
     /// <param name="y">Cartesian y-coordinate</param>
     /// <param name="z">Cartesian z-coordinate</param>
     /// <remarks>
+    /// Original Geopack-2008 method: SPHCAR_08
     /// Theta and Phi in radians, R in Earth radii.
     /// At the poles (x=0 and y=0), phi is assumed to be 0.
     /// Original Geopack-2008 method: SPHCAR_08
@@ -149,6 +154,7 @@ public interface IGeopack
     /// Transforms components of geocentric solar-wind (GSW) system to GSE coordinate.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: GSWGSE_08.
     /// In the GSW system, the X axis is antiparallel to the observed direction of the solar wind flow.
     /// The Y and Z axes are defined similarly to the standard GSM system.
     /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
@@ -163,6 +169,7 @@ public interface IGeopack
     /// Transforms GSE coordinate components to geocentric solar-wind (GSW) ones.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: GSWGSE_08.
     /// In the GSW system, the X axis is antiparallel to the observed direction of the solar wind flow.
     /// The Y and Z axes are defined similarly to the standard GSM system.
     /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
@@ -177,6 +184,7 @@ public interface IGeopack
     /// Converts geographic (GEO) to dipole (MAG) coordinates.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: GEOMAG_08.
     /// Before calling GEOMAG_08, be sure to invoke the subroutine RECALC_08 in two cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have been changed.
@@ -191,6 +199,7 @@ public interface IGeopack
     /// Converts dipole (MAG) coordinates to geographic (GEO).
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: GEOMAG_08.
     /// Before calling MAGGEO_08, be sure to invoke the subroutine RECALC_08 in two cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have been changed.
@@ -205,6 +214,7 @@ public interface IGeopack
     /// Converts equatorial inertial (GEI) to geographical (GEO) coordinates.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: GEIGEO_08.
     /// Before calling GeiGeo, be sure to invoke the subroutine RECALC_08 in two cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the current values date/time have been changed.
@@ -219,6 +229,7 @@ public interface IGeopack
     /// Converts geographical (GEO) coordinates to equatorial inertial (GEI).
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: GEIGEO_08.
     /// Before calling GeoGei, be sure to invoke the subroutine RECALC_08 in two cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the current values date/time have been changed.
@@ -233,6 +244,7 @@ public interface IGeopack
     /// Converts dipole (MAG) to solar magnetic (SM) coordinates.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: MAGSM_08.
     /// Before calling MagSm, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have changed.
@@ -251,6 +263,7 @@ public interface IGeopack
     /// Converts solar magnetic (SM) to dipole (MAG) coordinates.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: MAGSM_08.
     /// Before calling SmMag, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have changed.
@@ -269,6 +282,7 @@ public interface IGeopack
     /// Converts solar magnetic (SM) to geocentric solar-wind (GSW) coordinates.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: SMGSW_08.
     /// Before calling SmGsw, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have been changed.
@@ -287,6 +301,7 @@ public interface IGeopack
     /// Converts geocentric solar-wind (GSW) to solar magnetic (SM) coordinates.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: SMGSW_08.
     /// Before calling GswSm, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have been changed.
@@ -305,6 +320,7 @@ public interface IGeopack
     /// Converts geographic (GEO) to geocentric solar-wind (GSW) coordinates.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: GEOGSW_08.
     /// Before calling GeoGsw, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have changed.
@@ -322,6 +338,7 @@ public interface IGeopack
     /// Converts geocentric solar-wind (GSW) to geographic (GEO) coordinates.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: GEOGSW_08.
     /// Before calling GSWGEO_08, be sure to invoke the subroutine RECALC_08 in three cases:
     /// 1. Before the first transformation of coordinates.
     /// 2. If the values of date/time have changed.
@@ -339,6 +356,7 @@ public interface IGeopack
     /// Converts vertical local height (altitude) H and geodetic latitude XMU into geocentric coordinates R and THETA.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: GEODGEO_08.
     /// The subroutine uses World Geodetic System WGS84 parameters for the Earth's ellipsoid. The angular quantities
     /// (geo co-latitude THETA and geodetic latitude XMU) are in radians, and the distances (geocentric radius R and
     /// altitude H above the Earth's ellipsoid) are in kilometers.
@@ -351,6 +369,7 @@ public interface IGeopack
     /// Converts geocentric coordinates R and THETA into vertical local height (altitude) H and geodetic latitude XMU.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: GEODGEO_08.
     /// The subroutine uses World Geodetic System WGS84 parameters for the Earth's ellipsoid. The angular quantities
     /// (geo co-latitude THETA and geodetic latitude XMU) are in radians, and the distances (geocentric radius R and
     /// altitude H above the Earth's ellipsoid) are in kilometers.
@@ -363,6 +382,7 @@ public interface IGeopack
     /// Traces a field line from an arbitrary point in space to the Earth's surface or to a model limiting boundary.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: TRACE_08.
     /// This subroutine allows two options:
     /// 1. If INNAME=IGRF_GSW_08, then the IGRF model will be used for calculating contribution from Earth's internal sources.
     ///    In this case, subroutine RECALC_08 must be called before using TRACE_08, with properly specified date, universal time,
@@ -426,6 +446,9 @@ public interface IGeopack
     ///    magnetopause and asymptotically tending to the nearest boundary point with
     ///    respect to the observation point {XGSW, YGSW, ZGSW}, as it approaches the magnetopause.
     /// </summary>
+    /// <remarks>
+    /// Original Geopack-2008 method: SHUETAL_MGNP_08.
+    /// </remarks>
     /// <param name="xnPd">
     /// Either solar wind proton number density (per c.c.) (if vel greater than 0)
     /// or the solar wind ram pressure in nanopascals (if vel less than 0)
@@ -451,6 +474,7 @@ public interface IGeopack
     /// same value of the ellipsoidal tau-coordinate, and the distance between them.
     /// </summary>
     /// <remarks>
+    /// Original Geopack-2008 method: T96_MGNP_08.
     /// This is not the shortest distance D_MIN to the boundary, but DIST asymptotically tends to D_MIN,
     /// as the observation point gets closer to the magnetopause.
     /// </remarks>
