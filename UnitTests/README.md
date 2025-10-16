@@ -217,6 +217,48 @@ Launch `UnitTests/Geopack/GeopackTests.GeodGeo_08` unit tests.
 
 ### IGRF_08
 
+Setup location:
+* `IGRF_GSW_08`:
+```fortran
+XGSW=0.D0
+YGSW=0.0D0
+ZGSW=-6.6D0
+```
+* `IGRF_GEO_08`:
+```fortran
+XLAT=89.9D0
+XLON=0.D0
+R=1.02D0
+COLAT=(90.-XLAT) / RAD
+PHI=XLON / RAD
+```
+
+Uncomment desired procedure:
+* `IGRF_GSW_08`:
+```frotran
+CALL IGRF_GSW_08 (XGSW,YGSW,ZGSW,HXGSW,HYGSW,HZGSW)
+```
+* `IGRF_GSW_08`:
+```frotran
+CALL IGRF_GEO_08 (R,COLAT,PHI,BR,BTHETA,BPHI)
+```
+
+Uncomment corresponding print:
+* `IGRF_GSW_08`:
+```frotran
+write(*, 10) HXGSW,HYGSW,HZGSW
+```
+* `IGRF_GSW_08`:
+```frotran
+write(*, 10) BR, BTHETA, BPHI
+```
+
+Copy and paste output from teminal to the corresponding `InlineData` block:
+* `IGRF_GSW_08`: `UnitTests/Geopack/GeopackTests.IgrfGsw_08`
+* `IGRF_GSW_08`:` UnitTests/Geopack/GeopackTests.IgrfGeo_08`
+
+Launch `UnitTests/Geopack/GeopackTests.GeodGeo_08` unit tests.
+
 ### SHUETAL_MGNP_08
 
 ### SPHCAR_08
