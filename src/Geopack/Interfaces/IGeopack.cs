@@ -140,7 +140,7 @@ public interface IGeopack
     /// Original Geopack-2008 method: RECALC_08.
     /// This subroutine should be invoked before using the following subroutines:
     /// IgrfGeo_08, IgrfGsw_08, Dip_08, GeoMag_08, GeoGsw_08, MagSm_08,
-    /// SmGsw_08, GswGse, GeiGeo_08, Trace_08.
+    /// SmGsw_08, GswGse_08, GeiGeo_08, Trace_08.
     /// There is no need to repeatedly invoke RECALC_08 if multiple calculations are made for the same date/time and solar wind flow direction.
     /// </remarks>
     (Common1, Common2) Recalc_08(DateTime dateTime, double vgsex=-400.0, double vgsey=0.0, double vgsez=0.0);
