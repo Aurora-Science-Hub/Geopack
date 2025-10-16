@@ -5,7 +5,7 @@
 2. [Prerequisites](#Prerequisites)
 3. [Project Structure](#Project-Structure)
 4. [Test Data Generators](#Test-Data-Generators)
-   * [BCARSPH_08](#BACARSPH_08)
+   * [BCARSPH_08](#BCARSPH_08)
    * [Coordinate transformations](#Coordinate-transformations)
    * [DIP_08](#DIP_08)
    * [GEODGEO_08](#GEODGEO_08)
