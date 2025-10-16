@@ -7,7 +7,7 @@
     <PublishAot>true</PublishAot>
     <IsAotCompatible>true</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Description>The .NET implementation of Geopack 2008 Single Precision (Tsyganenko N. A.)</Description>
+    <Description>The .NET implementation of Geopack-2008dp (double-precision version) originally developed in Fortran by N. A. Tsyganenko.</Description>
   </PropertyGroup>
 
   <ItemGroup>

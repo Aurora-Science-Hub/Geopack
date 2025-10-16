@@ -1,0 +1,14 @@
+      PROGRAM BCARSPH_08_TESTDATA
+
+      IMPLICIT REAL*8 (A-H,O-Z)
+      DIMENSION PARMOD(10)
+
+1     PRINT *, '  ENTER X,Y,Z,PS,IOPT'
+      READ*, X,Y,Z,PS,IOPT
+
+      CALL T89D_DP (IOPT,PARMOD,PS,X,Y,Z,BX,BY,BZ)
+
+      PRINT *, BX,BY,BZ
+
+      GOTO 1
+      END

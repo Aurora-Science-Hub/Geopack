@@ -1,10 +1,20 @@
+# Geopack-2008dp (C# .NET implementation)
+
+High-performance C# implementation of the Geopack-2008 geomagnetic field model with double-precision accuracy.
+This library provides numerical accuracy matching the original Fortran code by N. A. Tsyganenko to within 12 decimal digits (`8E-12D`).
+
+## Validation
+The implementation is rigorously validated against the original Fortran code using our comprehensive testing framework.
+See [Unit Testing Framework](UnitTests/README.md) for details on test data generation and verification procedures.
+
 ## Tech stack
 - Supported .NET versions:
-  - [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-  - [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+    - [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+    - [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 - [Native AOT compilation](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/)
 - [Nullable reference types](https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references)
 - [Central package management](https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management)
+- [SLNX - simpler solution file format in the .NET CLI](https://devblogs.microsoft.com/dotnet/introducing-slnx-support-dotnet-cli/)
 
 ## Startup project
 

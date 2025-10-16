@@ -1,0 +1,49 @@
+      PROGRAM GEODGEO_08_TESTDATA
+
+      IMPLICIT REAL*8 (A-H,O-Z)
+      DATA RAD/57.295779513D0/
+
+      DIMENSION H(5),XMU(5),R(5),THETA(5)
+
+      DATA H/0.D0,100.D0,400.D0,1000.D0,35786.D0/
+      DATA XMU/0.D0,0.5236D0,1.0472D0,1.5708D0,0.7854D0/
+      DATA R/6378.137D0,6478.137D0,6767.810D0,7375.337557D0,42164.137D0/
+      DATA THETA/1.5708D0,1.3090D0,0.9273D0,0.D0,1.3090D0/
+
+      IYEAR=1997
+      IDAY=350
+      IHOUR=21
+      MIN=0
+      ISEC=0
+
+      VGSEX=-304.D0
+      VGSEY= 13.D0
+      VGSEZ= 4.D0
+
+      CALL RECALC_08 (IYEAR,IDAY,IHOUR,MIN,ISEC,VGSEX,VGSEY,VGSEZ)
+
+C    Specify transformation direction (DIR > 0 - direct, < 0 - vice versa)
+      J=-1
+      OPEN(UNIT=1,FILE='GeoGeod.dat')
+
+      DO 20 N=1,5
+      DO 30 M=1,5
+
+      IF (J .GT. 0) THEN
+      CALL GEODGEO_08 (H(N),XMU(M),RR,THETAR,J)
+      write(1, 10) H(N),XMU(M),RR,THETAR
+      ENDIF
+      IF (J .LT. 0) THEN
+      CALL GEODGEO_08 (HR,XMUR,R(N),THETA(M),J)
+      write(1, 10) R(N),THETA(M),HR,XMUR
+      ENDIF
+
+30    CONTINUE
+20    CONTINUE
+
+      CLOSE(UNIT=1)
+
+10    FORMAT (' H=',F25.18,' XMU=',F25.18,
+     *' RR=',F25.18,' THETAR=',F25.18)
+
+      END

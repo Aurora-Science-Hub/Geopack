@@ -4,10 +4,10 @@
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <AssemblyName>AuroraScienceHub.ExternalFieldModels</AssemblyName>
     <IsPackable>True</IsPackable>
-    <PublishAot>true</PublishAot>
-    <IsAotCompatible>true</IsAotCompatible>
+    <PublishAot>True</PublishAot>
+    <IsAotCompatible>True</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Description>The .NET implementation of T## Tsyganenko N. A. models (T89, T96 etc.)</Description>
+    <Description>The .NET implementation of external magnetic field models (T89, T96, etc.)</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,80 @@
+name: Release
+
+on:
+    push:
+        branches:
+            - '**'
+        tags:
+            - '*.*.*'
+
+env:
+    DOTNET_NOLOGO: true
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  filter: tree:0
+
+            - name: Setup dotnet
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: 9.0.x
+
+            - name: Compute version
+              shell: bash
+              run: |
+                  BASE=$(sed -n 's|.*<PackageBaseVersion>\(.*\)</PackageBaseVersion>.*|\1|p' Directory.Build.props | head -n1)
+                  if [[ -z "$BASE" ]]; then
+                    echo "Failed to read PackageBaseVersion from Directory.Build.props" >&2
+                    exit 1
+                  fi
+
+                  if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+                    # Stable on tags
+                    MINVER_VERSION="${BASE}"
+                    PKG_VERSION="${BASE}"
+                  elif [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+                    # Stable with 4th component on main (no -main)
+                    MINVER_VERSION="${BASE}"                       # SemVer for MinVer
+                    PKG_VERSION="${BASE}.${GITHUB_RUN_NUMBER}"     # 4-part NuGet version
+                  else
+                    # Pre-release on other branches: base-branch.runNumber
+                    SAFE_BRANCH=$(echo "${GITHUB_REF_NAME}" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^0-9a-zA-Z.-]+/-/g' | sed -E 's/^-+|-+$//g')
+                    MINVER_VERSION="${BASE}-${SAFE_BRANCH}.${GITHUB_RUN_NUMBER}"
+                    PKG_VERSION="${MINVER_VERSION}"
+                  fi
+
+                  echo "MINVER_VERSION=${MINVER_VERSION}" >> "$GITHUB_ENV"
+                  echo "PKG_VERSION=${PKG_VERSION}" >> "$GITHUB_ENV"
+                  echo "MinVer: ${MINVER_VERSION}"
+                  echo "Package: ${PKG_VERSION}"
+
+            - name: Restore
+              run: dotnet restore
+
+            - name: Build
+              run: dotnet build --no-restore --configuration Release -p:MinVerVersionOverride=${MINVER_VERSION}
+
+            - name: Test
+              run: dotnet test --no-build --configuration Release --verbosity normal -p:MinVerVersionOverride=${MINVER_VERSION}
+
+#            - name: Pack
+#              run: dotnet pack --no-build --configuration Release --output ./artifacts -p:MinVerVersionOverride=${MINVER_VERSION} -p:PackageVersion=${PKG_VERSION}
+
+#            - name: Push to GitHub Packages
+#              env:
+#                  GH_API_KEY: ${{ secrets.GH_PACKAGES_NUGET_API_KEY }}
+#              run: dotnet nuget push ./artifacts/*.nupkg --source AuroraScienceHub --api-key $GH_API_KEY --skip-duplicate
+
+#            - name: Push to NuGet.org
+#              if: ${{ github.ref_name == 'main' }}
+#              env:
+#                  NUGET_URL: https://api.nuget.org/v3/index.json
+#                  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+#              run: dotnet nuget push ./artifacts/*.nupkg --source $NUGET_URL --api-key $NUGET_API_KEY --skip-duplicate

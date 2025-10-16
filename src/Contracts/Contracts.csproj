@@ -4,10 +4,10 @@
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <AssemblyName>AuroraScienceHub.Geopack.Contracts</AssemblyName>
     <IsPackable>True</IsPackable>
-    <PublishAot>true</PublishAot>
-    <IsAotCompatible>true</IsAotCompatible>
+    <PublishAot>True</PublishAot>
+    <IsAotCompatible>True</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Description>The .NET implementation of Geopack-2008 Double Precision contracts.</Description>
+    <Description>The Geopack-2008dp (double-precision) models.</Description>
   </PropertyGroup>
 
   <ItemGroup>
