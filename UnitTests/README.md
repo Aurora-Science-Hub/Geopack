@@ -69,7 +69,7 @@ Geopack-2008/
 Generate your own test data using our set of example codes. Download original Geopack-2008dp code [here](https://geo.phys.spbu.ru/~tsyganenko/models/Geopack-2008_dp.for)
 and put it to the **UnitTests** folder: `UnitTests/Geopack/FortranSource/Geopack_2008dp.for`.
 
-### BACARSPH_08
+### BCARSPH_08
 <details>
 <summary>Use `UnitTests/Geopack/FortranSource/BCARSPH_08.for`</summary>
 
