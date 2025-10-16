@@ -15,6 +15,7 @@
    * [SUN_08](#SUN_08)
    * [T96_MGNP_08](#T96_MGNP_08)
    * [TRACE_08](#TRACE_08)
+5. [Troubleshooting](#Troubleshooting)
 
 
 ## Overview
@@ -479,3 +480,28 @@ ifx Geopack_2008dp.for TRACE_08.for -o trace && ./trace && rm trace && mv TraceS
 Execute `GeopackTests.Trace_08` unit test.
 
 </details>
+
+## Troubleshooting
+
+### Common Issues and Solutions
+
+#### Compilation Errors
+- **Issue**: "Command 'ifx' not found"
+- **Solution**: Ensure Intel Fortran compiler is installed and environment is sourced: `source /opt/intel/oneapi/setvars.sh`
+
+#### Precision Mismatches
+- **Issue**: Test failures due to double-point precision differences
+- **Solution**: Verify all real numbers use `D0` suffix in Fortran code and ensure consistent double precision in both Fortran and C# implementations.
+- **Contact us**: Create issue if you found a mistake
+
+#### File Path Errors
+- **Issue**: Generated test data files not found by unit tests
+- **Solution**: Check file paths in test fixtures match actual generated file locations and names
+
+#### Transformation Direction Confusion
+- **Issue**: Incorrect results due to wrong direction parameter (`J`)
+- **Solution**: Double-check direction parameter values against Geopack documentation for each transformation routine
+
+#### Test Data Synchronization
+- **Issue**: Unit tests fail after updating test data
+- **Solution**: Ensure input parameters remain identical between Fortran generators and C# test setups, and verify file naming consistency
