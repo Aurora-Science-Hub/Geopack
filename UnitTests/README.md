@@ -95,14 +95,16 @@ Copy/Paste input and output from terminal to the `GeopackTests.BCarSph_08` test 
 ### Coordinate transformations
 <details>
 <summary>Use `UnitTests/Geopack/FortranSource/CoordinateTransformations.for`:</summary>
-- `GeiGeo` / `GeoGei`
-- `GeoGsw` / `GswGeo`
-- `GeoMag` / `MagGeo`
-- `GswGse`/ `GseGsw`
-- `MagSm` / `SmMag`
-- `SmGsw` / `GswSm`
 
-As an example below we use `GSWGSW_08` procedure.
+Apply for:
+- `GeiGeo_08` / `GeoGei_08`
+- `GeoGsw_08` / `GswGeo_08`
+- `GeoMag_08` / `MagGeo_08`
+- `GswGse_08`/ `GseGsw_08`
+- `MagSm_08` / `SmMag_08`
+- `SmGsw_08` / `GswSm_08`
+
+As an example below we use `GEOGSW_08` procedure.
 
 Set up a set of location coordinates:
 ```fortran
@@ -130,33 +132,62 @@ Setup date/time and solar wind direction:
 ```
 
 Setup transformation direction:
+* GEO -> GSW:
+```fortran
+J=1
+```
+* GSW -> GEO:
 ```fortran
 J=-1
 ```
 
+
 Specify output test data file name. Corresponding test data filenames you can find in `UnitTests/Geopack/TestData/`:
+* GEO -> GSW:
+```fortran
+OPEN(UNIT=1,FILE='GeoGsw.dat')
+```
+* GSW -> GEO:
 ```fortran
 OPEN(UNIT=1,FILE='GswGeo.dat')
 ```
 
 Specify testing procedure in the cycle. Ensure, that procedure name corresponds to the original Geopack-2008:
+* GEO -> GSW:
 ```fortran
 CALL GEOGSW_08 (X(N),Y(M),Z(K),XR,YR,ZR,J)
-    ...
-CALL GEOGSW_08 (XR,YR,ZR,X(N),Y(M),Z(K),J)
+```
+* GSW -> GEO
+```fortran
+CALL GSWGEO_08 (XR,YR,ZR,X(N),Y(M),Z(K),J)
 ```
 
 Compile and execute:
+* GEO -> GSW:
+```bash
+ifx Geopack_2008dp.for CoordinateTransformations.for -o gen_data && ./gen_data && rm gen_data && mv GeoGsw.dat ../TestData/
+```
+* GSW -> GEO:
 ```bash
 ifx Geopack_2008dp.for CoordinateTransformations.for -o gen_data && ./gen_data && rm gen_data && mv GswGeo.dat ../TestData/
 ```
 
 Ensure the input parameters in these test generators remain synchronized with the actual unit tests.
 Do not forget that test data file name should be synchronized with corresponding variable in test fixture, e.g.:
+* GEO -> GSW:
 ```text
-private const string GswGseDatasetFileName =
-        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GswGse.dat";
+private const string GeoGswDatasetFileName =
+        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GeoGsw.dat";
 ```
+* GSW -> GEO:
+```text
+private const string GswGeoDatasetFileName =
+        "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.GswGeo.dat";
+```
+
+* GEO -> GSW:
+Launch `UnitTests/Geopack/GeopackTests.GeoGsw_08` unit tests.
+* GSW -> GEO:
 Launch `UnitTests/Geopack/GeopackTests.GswGeo_08` unit tests.
 
 </details>
@@ -187,7 +218,7 @@ The first three values correspond to your Fortran location setup, the last three
 
 ### GEODGEO_08
 <details>
-Use the file `UnitTests/Geopack/FortranSource/GEODGEO_08.for`:
+<summary>Use `UnitTests/Geopack/FortranSource/GEODGEO_08.for`:</summary>
 
 Setup test parameters:
 * For `GEOD -> GEO` transformation:
@@ -227,6 +258,7 @@ Launch `UnitTests/Geopack/GeopackTests.GeodGeo_08` unit tests.
 
 ### IGRF_08
 <details>
+<summary>Use `UnitTests/Geopack/FortranSource/IGRF_08.for`:</summary>
 
 Setup location:
 * `IGRF_GSW_08`:
@@ -254,7 +286,7 @@ CALL IGRF_GSW_08 (XGSW,YGSW,ZGSW,HXGSW,HYGSW,HZGSW)
 CALL IGRF_GEO_08 (R,COLAT,PHI,BR,BTHETA,BPHI)
 ```
 
-Uncomment corresponding print:
+Uncomment corresponding output:
 * `IGRF_GSW_08`:
 ```frotran
 write(*, 10) HXGSW,HYGSW,HZGSW
@@ -264,7 +296,12 @@ write(*, 10) HXGSW,HYGSW,HZGSW
 write(*, 10) BR, BTHETA, BPHI
 ```
 
-Copy and paste output from teminal to the corresponding `InlineData` block and launch the test:
+Execute in terminal:
+```bash
+ifx Geopack_2008dp.for IGRF_08.for -o igrf && ./igrf && rm igrf
+```
+
+Copy and paste output from terminal to the corresponding `InlineData` block and launch the test:
 * `IGRF_GSW_08`: `UnitTests/Geopack/GeopackTests.IgrfGsw_08`
 * `IGRF_GSW_08`:` UnitTests/Geopack/GeopackTests.IgrfGeo_08`
 
@@ -272,6 +309,33 @@ Copy and paste output from teminal to the corresponding `InlineData` block and l
 
 ### SHUETAL_MGNP_08
 <details>
+<summary>Use `UnitTests/Geopack/FortranSource/SHUETAL_MGNP_08.for`:</summary>
+
+Set up solar wind:
+```fortran
+XN_PD=99990.D0
+VEL=999990.D0
+BZIMF=999.D0
+```
+
+Set up location:
+```fortran
+XGSW=9.D0
+YGSW=0.D0
+ZGSW=0.D0
+```
+
+Execute in terminal:
+```bash
+ifx Geopack_2008dp.for SHUETAL_MGNP_08.for -o shu && ./shu && rm shu
+```
+
+Copy and paste input and output from terminal to the `GeopackTests.ShuMgnp_08` test as new `InlineData` e.g.:
+```
+[InlineData(5.0D, -350.0D, 5.0D, 9.0D, 0.0D, 0.0D, 9.003326462780140815, 0.000000000000000000, 0.000000000000000000, 0.003326462780140815, MagnetopausePosition.Inside)]
+```
+Note: `MagnetopausePosition` depends on fortran `ID` output.
+
 </details>
 
 ### SPHCAR_08
@@ -284,6 +348,31 @@ Copy and paste output from teminal to the corresponding `InlineData` block and l
 
 ### T96_MGNP_08
 <details>
+<summary>Use `UnitTests/Geopack/FortranSource/T96_MGNP_08.for`:</summary>
+
+Set up solar wind:
+```fortran
+XN_PD=99990.D0
+VEL=999990.D0
+```
+
+Set up location:
+```fortran
+XGSW=9.D0
+YGSW=0.D0
+ZGSW=0.D0
+```
+
+Execute in terminal:
+```bash
+ifx Geopack_2008dp.for T96_MGNP_08.for -o t96 && ./t96 && rm t96
+```
+
+Copy and paste input and output from terminal to the `GeopackTests.T96Mgnp_08` test as new `InlineData` e.g.:
+```
+[InlineData(5.0D, 350.0D, 9.0D, 0.0D, 0.0D, 11.917821173671217849D, 0.000000000000000000D, 0.000000000000000000D, 2.917821173671217849D, MagnetopausePosition.Inside)]
+```
+Note: `MagnetopausePosition` depends on fortran `ID` output.
 </details>
 
 ### TRACE_08
