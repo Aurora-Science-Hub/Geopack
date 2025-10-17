@@ -94,7 +94,7 @@ public class MagneticFieldLineTraceBenchmark
         }
     }
 
-    [Benchmark]
+    [Benchmark(Description = "Try to vary some tracing parameters.")]
     public FieldLine Trace_DifferentParameters()
     {
         return _geopack.Trace_08(

@@ -7,6 +7,17 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <!-- Disable entry point generation as this project has it's own entry point -->
     <GenerateProgramFile>false</GenerateProgramFile>
+
+    <!-- Важные настройки для BenchmarkDotNet -->
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
