@@ -3,9 +3,10 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <AssemblyName>AuroraScienceHub.Geopack</AssemblyName>
+    <PackageId>AuroraScienceHub.Geopack</PackageId>
     <IsPackable>True</IsPackable>
-    <PublishAot>true</PublishAot>
-    <IsAotCompatible>true</IsAotCompatible>
+    <PublishAot>True</PublishAot>
+    <IsAotCompatible>True</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>The .NET implementation of Geopack-2008dp (double-precision version) originally developed in Fortran by N. A. Tsyganenko.</Description>
   </PropertyGroup>

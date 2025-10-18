@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.ExternalFieldModels.T89;
+namespace AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 
 public sealed partial class T89
 {

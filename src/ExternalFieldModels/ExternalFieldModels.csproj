@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <AssemblyName>AuroraScienceHub.ExternalFieldModels</AssemblyName>
+    <AssemblyName>AuroraScienceHub.Geopack.ExternalFieldModels</AssemblyName>
+    <PackageId>AuroraScienceHub.Geopack.ExternalFieldModels</PackageId>
     <IsPackable>True</IsPackable>
     <PublishAot>True</PublishAot>
     <IsAotCompatible>True</IsAotCompatible>

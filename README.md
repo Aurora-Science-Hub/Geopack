@@ -2,10 +2,17 @@
 
 High-performance C# implementation of the Geopack-2008 geomagnetic field model with double-precision accuracy.
 This library provides numerical accuracy matching the original Fortran code by N. A. Tsyganenko to within 12 decimal digits (`8E-12D`).
+For external magnetic field models accuracy raised up to 13 digits (`1E-13D`)
 
 ## Validation
 The implementation is rigorously validated against the original Fortran code using our comprehensive testing framework.
 See [Unit Testing Framework](UnitTests/README.md) for details on test data generation and verification procedures.
+
+## Benchmarks
+
+Comprehensive performance benchmarks are available to measure the library's efficiency.
+For detailed benchmark results, methodology, and running instructions,
+see the [benchmarks documentation](benchmarks/AuroraScienceHub.Geopack.Benchmarks/README.md).
 
 ## Tech stack
 - Supported .NET versions:
@@ -32,13 +39,13 @@ _In order to build the project, you need to have the .NET SDK installed._
 To build the project with native AOT compilation, execute the following command (depending on the target platform):
 
 ```shell
-dotnet publish -c Release -r linux-x64
+dotnet publish --framework net9.0 -c Release -r linux-x64
 ```
 ```shell
-dotnet publish -c Release -r win-x64
+dotnet publish --framework net9.0 -c Release -r win-x64
 ```
 ```shell
-dotnet publish -c Release -r osx-x64
+dotnet publish --framework net9.0 -c Release -r osx-x64
 ```
 
 # Benchmarks
