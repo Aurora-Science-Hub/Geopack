@@ -8,7 +8,7 @@ using AuroraScienceHub.Geopack.Contracts.Models;
 namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 
 /// <summary>
-/// Benchmarks for magnetic field line tracing performance
+/// Benchmarks for magnetic field calculation performance
 /// </summary>
 [MemoryDiagnoser]
 [SimpleJob(RuntimeMoniker.Net90)]
