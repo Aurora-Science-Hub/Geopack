@@ -14,12 +14,13 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 [SimpleJob(RuntimeMoniker.Net90)]
 // [SimpleJob(RuntimeMoniker.NativeAot90)]
 [MarkdownExporterAttribute.GitHub]
-public class MagneticFieldLineTraceBenchmark
+public class MagneticFieldLineTraceBenchmarks
 {
     private readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
     private readonly IExternalFieldModel _t89 = new T89();
 
-    private readonly TraceDirection _dir = TraceDirection.AntiParallel;
+    private readonly TraceDirection _dirNS = TraceDirection.AntiParallel;
+    private readonly TraceDirection _dirSN = TraceDirection.Parallel;
     private readonly double _dsmax = 0.1D;
     private readonly double _err = 0.0001D;
     private readonly double _rlim = 60.0D;
@@ -77,8 +78,8 @@ public class MagneticFieldLineTraceBenchmark
     {
     }
 
-    [Benchmark(Baseline = true)]
-    public FieldLine[] Trace_MultiplePoints()
+    [Benchmark]
+    public FieldLine[] Trace_SpacecraftFromNorthToSouth()
     {
         FieldLine[] results = new FieldLine[_testPoints.Length];
 
@@ -88,7 +89,27 @@ public class MagneticFieldLineTraceBenchmark
             (double X, double Y, double Z) point = _testPoints[i];
             results[i] = _geopack.Trace_08(
                 point.X, point.Y, point.Z,
-                _dir, _dsmax, _err, _rlim, _r0,
+                _dirNS, _dsmax, _err, _rlim, _r0,
+                _iopt, _parmod,
+                _t89, _geopack.IgrfGsw_08,
+                _lmax);
+        }
+
+        return results;
+    }
+
+    [Benchmark(Baseline = true)]
+    public FieldLine[] Trace_SpacecraftFromSouthToNorth()
+    {
+        FieldLine[] results = new FieldLine[_testPoints.Length];
+
+        for (int i = 0; i < _testPoints.Length; i++)
+        {
+            _geopack.Recalc_08(_testDates[i], _vgsex, _vgsey, _vgsez);
+            (double X, double Y, double Z) point = _testPoints[i];
+            results[i] = _geopack.Trace_08(
+                point.X, point.Y, point.Z,
+                _dirSN, _dsmax, _err, _rlim, _r0,
                 _iopt, _parmod,
                 _t89, _geopack.IgrfGsw_08,
                 _lmax);
