@@ -8,7 +8,7 @@
     <!-- Disable entry point generation as this project has it's own entry point -->
     <GenerateProgramFile>false</GenerateProgramFile>
 
-    <!-- Важные настройки для BenchmarkDotNet -->
+    <!-- Important settings for BenchmarkDotNet -->
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>AnyCPU</PlatformTarget>
