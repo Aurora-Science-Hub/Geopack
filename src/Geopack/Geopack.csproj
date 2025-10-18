@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <AssemblyName>AuroraScienceHub.Geopack</AssemblyName>
+    <PackageId>AuroraScienceHub.Geopack</PackageId>
     <IsPackable>True</IsPackable>
     <PublishAot>True</PublishAot>
     <IsAotCompatible>True</IsAotCompatible>

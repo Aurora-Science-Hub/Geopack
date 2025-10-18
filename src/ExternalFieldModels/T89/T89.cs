@@ -1,7 +1,7 @@
-using AuroraScienceHub.ExternalFieldModels.Interfaces;
 using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.ExternalFieldModels.Interfaces;
 
-namespace AuroraScienceHub.ExternalFieldModels.T89;
+namespace AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 
 public sealed partial class T89 : IT89
 {
