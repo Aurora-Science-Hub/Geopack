@@ -24,8 +24,7 @@ This project contains performance benchmarks for Geopack-2008 field line tracing
 
 #### Magnetic Field Line Tracing Performance
 
-| Method                           | Mean     | Error   | StdDev  | Ratio | Gen0     | Allocated | Alloc Ratio |
-|--------------------------------- |---------:|--------:|--------:|------:|---------:|----------:|------------:|
-| Trace_SpacecraftFromNorthToSouth | 264.8 μs | 1.71 μs | 1.60 μs |  0.82 | 103.0273 | 211.27 KB |        0.82 |
-| Trace_SpacecraftFromSouthToNorth | 322.5 μs | 1.21 μs | 1.13 μs |  1.00 | 125.9766 | 258.12 KB |        1.00 |
+| Method                                    | Mean     | Error   | StdDev  | Ratio | Gen0    | Allocated | Alloc Ratio |
+|------------------------------------------ |---------:|--------:|--------:|------:|--------:|----------:|------------:|
+| Trace_FieldLineFromNorthToSouthHemisphere | 269.1 μs | 0.55 μs | 0.49 μs |  1.00 | 97.6563 | 199.73 KB |        1.00 |
 
