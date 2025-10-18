@@ -1,6 +1,6 @@
-# Geomagnetic Field Calculations Benchmarks
+# Geopack-2008 Benchmarks
 
-This project contains performance benchmarks for geomagnetic field calculation algorithms implemented in .NET 9.0.
+This project contains performance benchmarks for Geopack-2008 field line tracing procedures and magnetic field calculations.
 
 ## 📊 Benchmark Results
 
