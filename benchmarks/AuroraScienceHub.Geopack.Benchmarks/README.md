@@ -16,15 +16,16 @@ This project contains performance benchmarks for Geopack-2008 field line tracing
 
 #### Simple Calculation Performance
 
-| Method                      | Mean       | Error    | StdDev   | Ratio | Gen0   | Allocated | Alloc Ratio |
-|---------------------------- |-----------:|---------:|---------:|------:|-------:|----------:|------------:|
-| Calculate_IgrfMagneticField | 1,471.6 ns | 17.51 ns | 14.62 ns |  1.00 | 0.1869 |     392 B |        1.00 |
-| Calculate_DipMagneticField  | 1,062.1 ns |  8.45 ns |  7.90 ns |  0.72 | 0.0496 |     104 B |        0.27 |
-| Calculate_Sun               |   158.1 ns |  1.03 ns |  0.92 ns |  0.11 | 0.0267 |      56 B |        0.14 |
+| Method                      | Mean     | Error   | StdDev  | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
+|---------------------------- |---------:|--------:|--------:|------:|--------:|-------:|----------:|------------:|
+| Calculate_IgrfMagneticField | 486.2 ns | 8.70 ns | 7.26 ns |  1.00 |    0.02 | 0.1602 |     336 B |        1.00 |
+| Calculate_DipMagneticField  | 104.4 ns | 0.27 ns | 0.23 ns |  0.21 |    0.00 | 0.0229 |      48 B |        0.14 |
+| Calculate_Sun               | 156.1 ns | 0.52 ns | 0.49 ns |  0.32 |    0.00 | 0.0267 |      56 B |        0.17 |
 
 #### Magnetic Field Line Tracing Performance
 
 | Method                                    | Mean     | Error   | StdDev  | Ratio | Gen0    | Allocated | Alloc Ratio |
 |------------------------------------------ |---------:|--------:|--------:|------:|--------:|----------:|------------:|
-| Trace_FieldLineFromNorthToSouthHemisphere | 269.1 μs | 0.55 μs | 0.49 μs |  1.00 | 97.6563 | 199.73 KB |        1.00 |
+| Trace_FieldLineFromNorthToSouthHemisphere | 267.9 μs | 1.76 μs | 1.64 μs |  1.00 | 97.6563 | 199.67 KB |        1.00 |
+| Trace_FieldLineFromSouthToNorthHemisphere | 202.2 μs | 1.36 μs | 1.21 μs |  0.75 | 66.6504 | 136.59 KB |        0.68 |
 

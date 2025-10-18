@@ -18,38 +18,31 @@ public class IgrfMagneticFieldBenchmarks
 {
     private readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
 
-    private readonly double _xgsw = -1.02D;
-    private readonly double _ygsw = 0.0D;
-    private readonly double _zgsw = 0.0D;
+    private const double Xgsw = -1.02D;
+    private const double Ygsw = 0.0D;
+    private const double Zgsw = 0.0D;
 
-    private readonly double _vgsex = -304.0D;
-    private readonly double _vgsey = 14.78D;
-    private readonly double _vgsez = 4.0D;
+    private const double Vgsex = -304.0D;
+    private const double Vgsey = 14.78D;
+    private const double Vgsez = 4.0D;
 
-    private readonly DateTime _testDate = new(1997, 12, 11, 10, 10, 0, DateTimeKind.Utc);
+    private static readonly DateTime s_testDate = new(1997, 12, 11, 10, 10, 0, DateTimeKind.Utc);
 
     [GlobalSetup]
     public void Setup()
     {
+        _geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
     }
 
     [Benchmark(Baseline=true)]
     public void Calculate_IgrfMagneticField()
-    {
-        _geopack.Recalc_08(_testDate, _vgsex, _vgsey, _vgsez);
-        _geopack.IgrfGsw_08(_xgsw, _ygsw, _zgsw);
-    }
+        => _geopack.IgrfGsw_08(Xgsw, Ygsw, Zgsw);
 
     [Benchmark]
     public void Calculate_DipMagneticField()
-    {
-        _geopack.Recalc_08(_testDate, _vgsex, _vgsey, _vgsez);
-        _geopack.Dip_08(_xgsw, _ygsw, _zgsw);
-    }
+        => _geopack.Dip_08(Xgsw, Ygsw, Zgsw);
 
     [Benchmark]
     public void Calculate_Sun()
-    {
-        _geopack.Sun_08(_testDate);
-    }
+        => _geopack.Sun_08(s_testDate);
 }
