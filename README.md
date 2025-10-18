@@ -9,7 +9,6 @@ The implementation is rigorously validated against the original Fortran code usi
 See [Unit Testing Framework](UnitTests/README.md) for details on test data generation and verification procedures.
 
 ## Benchmarks
-## Benchmarks
 
 Comprehensive performance benchmarks are available to measure the library's efficiency.
 For detailed benchmark results, methodology, and running instructions,
