@@ -14,7 +14,7 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 [SimpleJob(RuntimeMoniker.Net90)]
 // [SimpleJob(RuntimeMoniker.NativeAot90)]
 [MarkdownExporterAttribute.GitHub]
-public class IgrfMagneticFieldBenchmark
+public class IgrfMagneticFieldBenchmarks
 {
     private readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
 
