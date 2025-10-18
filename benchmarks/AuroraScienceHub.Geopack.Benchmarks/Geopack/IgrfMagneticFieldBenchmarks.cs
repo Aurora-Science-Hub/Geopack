@@ -34,28 +34,22 @@ public class IgrfMagneticFieldBenchmarks
     }
 
     [Benchmark(Baseline=true)]
-    public CartesianFieldVector Calculate_IgrfMagneticField()
+    public void Calculate_IgrfMagneticField()
     {
         _geopack.Recalc_08(_testDate, _vgsex, _vgsey, _vgsez);
-        CartesianFieldVector field = _geopack.IgrfGsw_08(_xgsw, _ygsw, _zgsw);
-
-        return field;
+        _geopack.IgrfGsw_08(_xgsw, _ygsw, _zgsw);
     }
 
     [Benchmark]
-    public CartesianFieldVector Calculate_DipMagneticField()
+    public void Calculate_DipMagneticField()
     {
         _geopack.Recalc_08(_testDate, _vgsex, _vgsey, _vgsez);
-        CartesianFieldVector field = _geopack.Dip_08(_xgsw, _ygsw, _zgsw);
-
-        return field;
+        _geopack.Dip_08(_xgsw, _ygsw, _zgsw);
     }
 
     [Benchmark]
-    public Sun Calculate_Sun()
+    public void Calculate_Sun()
     {
-        Sun sun = _geopack.Sun_08(_testDate);
-
-        return sun;
+        _geopack.Sun_08(_testDate);
     }
 }
