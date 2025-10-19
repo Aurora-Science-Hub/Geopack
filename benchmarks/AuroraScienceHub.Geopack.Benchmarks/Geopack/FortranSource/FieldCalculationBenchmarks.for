@@ -85,7 +85,7 @@ C         SUN CALL
       WRITE (*,*) '=================='
       WRITE (*,'(A,I6)') 'NUMBER OF RUNS: ', NUM_RUNS
       WRITE (*,*) ''
-      WRITE (*,*) 'POINT (Z)    AVERAGE TIME (MKS)    STD DEV    ERROR
+      WRITE (*,*) 'FUNCTION    AVERAGE TIME (MKS)    STD DEV    ERROR
      *    RATIO'
       WRITE (*,*) '---------    ------------------    -------    -----
      *    -----'
