@@ -1,204 +1,108 @@
-      module MagneticFieldLineTraceBenchmarks
-      use, intrinsic :: iso_fortran_env, only: dp => real64
-      implicit none
+      PROGRAM TRACE_08_TESTDATA
 
-      ! Константы, аналогичные C#
-      integer, parameter :: Lmax = 500
-      integer, parameter :: Iopt = 1
-      real(dp), parameter :: Dsmax = 0.1_dp
-      real(dp), parameter :: Err = 0.0001_dp
-      real(dp), parameter :: Rlim = 60.0_dp
-      real(dp), parameter :: R0 = 1.0_dp
-      real(dp), parameter :: Vgsex = -304.0_dp
-      real(dp), parameter :: Vgsey = 14.78_dp
-      real(dp), parameter :: Vgsez = 4.0_dp
+      IMPLICIT REAL*8 (A-H,O-Z)
 
-      ! Направления трассировки
-      real(dp), parameter :: DirNs = -1.0_dp  ! AntiParallel
-      real(dp), parameter :: DirSn = 1.0_dp   ! Parallel
+      PARAMETER (LMAX=500)
+      DIMENSION XX(LMAX),YY(LMAX),ZZ(LMAX), PARMOD(10)
 
-      ! Тестовые точки
-      real(dp), parameter :: X_ns = -1.02_dp,
-     *Y_ns = 0.0_dp, Z_ns = 0.9_dp
-      real(dp), parameter :: X_sn = -1.02_dp,
-     *Y_sn = 0.0_dp, Z_sn = -0.9_dp
+C     Параметры для измерений
+      INTEGER NUM_RUNS, I
+      PARAMETER (NUM_RUNS=1000)
+      REAL*8 START_TIME, END_TIME, TOTAL_TIME1, TOTAL_TIME2
+      REAL*8 AVG_TIME1, AVG_TIME2, RATIO
+      REAL*8 SUM_SQ1, SUM_SQ2, STD_DEV1, STD_DEV2
+      REAL*8 ERROR1, ERROR2, TIME1, TIME2
+C     Константа для 99.9% доверительного интервала (t-распределение, n=1000)
+      REAL*8 T_VALUE
+      PARAMETER (T_VALUE=3.300D0)  ! t_{0.9995, 999} ≈ 3.300
 
-      ! Параметры модели
-      real(dp) :: parmod(10) = 0.0_dp
+      EXTERNAL T89D_DP,IGRF_GSW_08
 
-      ! Глобальные переменные для состояния Geopack
-      logical :: geopack_initialized = .false.
+      IYEAR=1997
+      IDAY=350
+      IHOUR=21
+      MIN=0
+      ISEC=0
 
-      ! Переменные для подсчёта памяти
-      integer, parameter :: bytes_per_double = 8
-      integer :: total_memory_ns = 0
-      integer :: total_memory_sn = 0
+      VGSEX=-400.0D0
+      VGSEY= 0.0D0
+      VGSEZ= 0.0D0
 
-      contains
+      CALL RECALC_08 (IYEAR,IDAY,IHOUR,MIN,ISEC,VGSEX,VGSEY,VGSEZ)
 
-      ! Аналог GlobalSetup в C#
-      subroutine setup_benchmark()
-          implicit none
+C     Первый вызов TRACE_08
+      DIR1=-1.D0
+      DSMAX=0.1D0
+      ERR=0.0001D0
+      RLIM=60.D0
+      R0=1.D0
+      IOPT=1
+      XGSW1=-0.1059965956329907D0
+      YGSW1=0.41975266827470664D0
+      ZGSW1=-0.9014246640527153D0
 
-          integer :: test_year, test_month, test_day, test_hour,
-     *test_min, test_sec
+C     Второй вызов TRACE_08 (обратное направление)
+      DIR2=1.D0
+      XGSW2=-0.45455707401565865D0
+      YGSW2=0.4737969930623606D0
+      ZGSW2=0.7542497890011055D0
 
-          if (.not. geopack_initialized) then
-              ! 18 октября 2023, 00:00:00
-              test_year = 2023
-              test_month = 10
-              test_day = 18
-              test_hour = 0
-              test_min = 0
-              test_sec = 0
+C     Выполнение бенчмарка
+      TOTAL_TIME1 = 0.0D0
+      TOTAL_TIME2 = 0.0D0
+      SUM_SQ1 = 0.0D0
+      SUM_SQ2 = 0.0D0
 
-              call RECALC_08(test_year, test_month, test_day,
-     *test_hour, test_min, test_sec, Vgsex, Vgsey, Vgsez)
+      DO I = 1, NUM_RUNS
+C         Первый вызов
+          CALL CPU_TIME(START_TIME)
+          CALL TRACE_08 (XGSW1,YGSW1,ZGSW1,DIR1,DSMAX,ERR,RLIM,R0,IOPT,
+     *     PARMOD,T89D_DP,IGRF_GSW_08,XF,YF,ZF,XX,YY,ZZ,M,LMAX)
+          CALL CPU_TIME(END_TIME)
+          TIME1 = END_TIME - START_TIME
+          TOTAL_TIME1 = TOTAL_TIME1 + TIME1
+          SUM_SQ1 = SUM_SQ1 + TIME1*TIME1
 
-              geopack_initialized = .true.
-          end if
-      end subroutine setup_benchmark
+C         Второй вызов
+          CALL CPU_TIME(START_TIME)
+          CALL TRACE_08 (XGSW2,YGSW2,ZGSW2,DIR2,DSMAX,ERR,RLIM,R0,IOPT,
+     *     PARMOD,T89D_DP,IGRF_GSW_08,XF,YF,ZF,XX,YY,ZZ,M,LMAX)
+          CALL CPU_TIME(END_TIME)
+          TIME2 = END_TIME - START_TIME
+          TOTAL_TIME2 = TOTAL_TIME2 + TIME2
+          SUM_SQ2 = SUM_SQ2 + TIME2*TIME2
+      END DO
 
-      ! Функция для подсчёта памяти, используемой в вызове TRACE_08
-      integer function calculate_trace_memory_usage()
-          implicit none
-          ! Память для массивов xx, yy, zz (каждый размером Lmax)
-          calculate_trace_memory_usage = 3 * Lmax * bytes_per_double
-          ! Память для скаляров xf, yf, zf
-          calculate_trace_memory_usage = calculate_trace_memory_usage
-     * + 3 * bytes_per_double
-          ! Память для целочисленной переменной m
-          calculate_trace_memory_usage = calculate_trace_memory_usage
-     * + 4
-          ! Память для входных параметров (x, y, z, dir, dsmax, err, rlim, r0)
-          calculate_trace_memory_usage = calculate_trace_memory_usage
-     * + 8 * bytes_per_double
-          ! Память для массива parmod
-          calculate_trace_memory_usage = calculate_trace_memory_usage
-     * + 10 * bytes_per_double
-      end function calculate_trace_memory_usage
+C     Расчет среднего времени
+      AVG_TIME1 = TOTAL_TIME1 / DBLE(NUM_RUNS)
+      AVG_TIME2 = TOTAL_TIME2 / DBLE(NUM_RUNS)
+      RATIO1 = AVG_TIME1 / AVG_TIME2
+      RATIO2 = AVG_TIME2 / AVG_TIME2
 
-      ! Бенчмарк трассировки от северного к южному полушарию (Baseline)
-      subroutine benchmark_trace_ns()
-          implicit none
-          EXTERNAL T89D_DP,IGRF_GSW_08
+C     Расчет стандартного отклонения
+      STD_DEV1 =
+     *SQRT((SUM_SQ1 - TOTAL_TIME1*AVG_TIME1)/DBLE(NUM_RUNS))
+      STD_DEV2 =
+     *SQRT((SUM_SQ2 - TOTAL_TIME2*AVG_TIME2)/DBLE(NUM_RUNS))
 
-          real(dp) :: xx(Lmax), yy(Lmax), zz(Lmax), xf, yf, zf
-          integer :: m
+C     Расчет ошибки как половины 99.9% доверительного интервала
+      ERROR1 = (T_VALUE * STD_DEV1 / SQRT(DBLE(NUM_RUNS))) / 2.0D0
+      ERROR2 = (T_VALUE * STD_DEV2 / SQRT(DBLE(NUM_RUNS))) / 2.0D0
 
-          call setup_benchmark()
+C     Вывод результатов
+      WRITE (*,*) 'BENCHMARK RESULTS:'
+      WRITE (*,*) '=================='
+      WRITE (*,'(A,I6)') 'NUMBER OF RUNS: ', NUM_RUNS
+      WRITE (*,*) ''
+      WRITE (*,*) 'DIRECTION    AVERAGE TIME (MKS)    STD DEV    ERROR
+     *    RATIO'
+      WRITE (*,*) '---------    ------------------    -------    -----
+     *    -----'
+           WRITE (*,'(A,F15.8,A,F15.8,A,F15.8,A,F6.2)') 'DIR=+1    ',
+     * AVG_TIME2 * 1000000.0D0, '    ', STD_DEV2 * 1000000.0D0, '    ',
+     * ERROR2 * 1000000.0D0, '    ', RATIO2
+      WRITE (*,'(A,F15.8,A,F15.8,A,F15.8,A,F6.2)') 'DIR=-1    ',
+     * AVG_TIME1 * 1000000.0D0, '    ', STD_DEV1 * 1000000.0D0, '    ',
+     * ERROR1 * 1000000.0D0, '    ', RATIO1
 
-          ! Подсчёт памяти для этого вызова
-          total_memory_ns = total_memory_ns
-     * + calculate_trace_memory_usage()
-
-          call TRACE_08(X_ns, Y_ns, Z_ns, DirNs, Dsmax,
-     *Err, Rlim, R0, Iopt,
-     *parmod, T89D_DP, IGRF_GSW_08,
-     *xf, yf, zf, xx, yy, zz, m, Lmax)
-
-      end subroutine benchmark_trace_ns
-
-      ! Бенчмарк трассировки от южного к северному полушарию
-      subroutine benchmark_trace_sn()
-          implicit none
-          EXTERNAL T89D_DP,IGRF_GSW_08
-
-          real(dp) :: xx(Lmax), yy(Lmax), zz(Lmax), xf, yf, zf
-          integer :: m
-
-          call setup_benchmark()
-
-          ! Подсчёт памяти для этого вызова
-          total_memory_sn = total_memory_sn
-     * + calculate_trace_memory_usage()
-
-          call TRACE_08(X_sn, Y_sn, Z_sn, DirSn, Dsmax,
-     *Err, Rlim, R0, Iopt,
-     *parmod, T89D_DP, IGRF_GSW_08,
-     *xf, yf, zf, xx, yy, zz, m, Lmax)
-
-      end subroutine benchmark_trace_sn
-
-      end module MagneticFieldLineTraceBenchmarks
-
-      ! Основная программа для запуска бенчмарков
-      program run_benchmarks
-      use MagneticFieldLineTraceBenchmarks
-      use, intrinsic :: iso_fortran_env, only: dp => real64
-      implicit none
-
-      integer :: i, num_runs
-      real(dp) :: start_time, end_time, total_time_ns, total_time_sn
-      real(dp) :: avg_time_ns, avg_time_sn
-      integer :: count_start, count_end, count_rate
-      real(dp) :: avg_memory_ns, avg_memory_sn
-
-      ! Количество запусков для усреднения
-      num_runs = 1000
-
-      write(*,*) 'Starting Fortran benchmarks...'
-      write(*,*) 'Number of runs per benchmark:', num_runs
-      write(*,*) ''
-
-      ! Инициализация системного таймера
-      call system_clock(count_rate=count_rate)
-
-      ! Обнуление счетчиков памяти
-      total_memory_ns = 0
-      total_memory_sn = 0
-
-      ! Бенчмарк North->South (Baseline)
-      total_time_ns = 0.0_dp
-      do i = 1, num_runs
-          call system_clock(count_start)
-          call benchmark_trace_ns()
-          call system_clock(count_end)
-          total_time_ns = total_time_ns
-     * + real(count_end - count_start, dp) / real(count_rate, dp)
-      end do
-      avg_time_ns = total_time_ns / real(num_runs, dp)
-      avg_memory_ns = real(total_memory_ns, dp) / real(num_runs, dp)
-
-      ! Бенчмарк South->North
-      total_time_sn = 0.0_dp
-      do i = 1, num_runs
-          call system_clock(count_start)
-          call benchmark_trace_sn()
-          call system_clock(count_end)
-          total_time_sn = total_time_sn
-     * + real(count_end - count_start, dp) / real(count_rate, dp)
-      end do
-      avg_time_sn = total_time_sn / real(num_runs, dp)
-      avg_memory_sn = real(total_memory_sn, dp) / real(num_runs, dp)
-
-      ! Вывод результатов
-      write(*,*) 'Benchmark Results:'
-      write(*,*) '=================='
-      write(*,*) 'Trace North->South (Baseline):'
-      write(*,'(A,F12.8,A)') '  Average time: ',
-     *avg_time_ns * 1000000.0_dp, ' mks'
-      write(*,'(A,F12.2,A)') '  Average memory: ',
-     *avg_memory_ns / 1024.0_dp, ' KB'
-      write(*,*) 'Trace South->North:'
-      write(*,'(A,F12.8,A)') '  Average time: ',
-     *avg_time_sn * 1000000.0_dp, ' mks'
-      write(*,'(A,F12.2,A)') '  Average memory: ',
-     *avg_memory_sn / 1024.0_dp, ' KB'
-      write(*,'(A,F8.4)') 'Time Ratio SN/NS: ',
-     *avg_time_sn / avg_time_ns
-      write(*,'(A,F8.4)') 'Memory Ratio SN/NS: ',
-     *avg_memory_sn / avg_memory_ns
-
-      ! Детальная информация об использовании памяти
-      write(*,*) ''
-      write(*,*) 'Memory Usage Details:'
-      write(*,*) '====================='
-      write(*,'(A,I8,A)') 'Memory per TRACE_08 call: ',
-     *calculate_trace_memory_usage(), ' bytes'
-      write(*,'(A,I8,A)') 'Arrays (xx,yy,zz) size: ',
-     *3 * Lmax * bytes_per_double, ' bytes'
-      write(*,'(A,I8,A)') 'Parmod array size: ',
-     *10 * bytes_per_double, ' bytes'
-
-      end program run_benchmarks
+      END

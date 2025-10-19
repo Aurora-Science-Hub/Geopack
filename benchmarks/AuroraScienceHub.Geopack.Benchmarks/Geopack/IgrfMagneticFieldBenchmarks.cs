@@ -1,8 +1,5 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
-using AuroraScienceHub.Geopack.Contracts;
-using AuroraScienceHub.Geopack.Contracts.Interfaces;
-using AuroraScienceHub.Geopack.Contracts.Models;
 
 namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 
