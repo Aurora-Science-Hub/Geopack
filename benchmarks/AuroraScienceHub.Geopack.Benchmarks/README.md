@@ -2,9 +2,7 @@
 
 This project contains performance benchmarks for Geopack-2008 field line tracing procedures and magnetic field calculations.
 
-## 📊 Benchmark Results
-
-### Magnetic Field Calculations Performance
+## Benchmark Results
 
 **Environment:**
 - BenchmarkDotNet v0.15.4
