@@ -1,8 +1,5 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
-using AuroraScienceHub.Geopack.Contracts;
-using AuroraScienceHub.Geopack.Contracts.Interfaces;
-using AuroraScienceHub.Geopack.Contracts.Models;
 
 namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 
@@ -29,9 +26,7 @@ public class IgrfMagneticFieldBenchmarks
 
     [GlobalSetup]
     public void Setup()
-    {
-        _geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
-    }
+        => _geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
 
     [Benchmark(Baseline=true)]
     public void Calculate_IgrfMagneticField()

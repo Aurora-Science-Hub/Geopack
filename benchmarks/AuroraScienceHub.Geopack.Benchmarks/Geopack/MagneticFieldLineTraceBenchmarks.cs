@@ -18,8 +18,6 @@ public class MagneticFieldLineTraceBenchmarks
     private static readonly AuroraScienceHub.Geopack.Geopack s_geopack = new();
     private static readonly IExternalFieldModel s_t89 = new T89();
 
-    private const TraceDirection DirNs = TraceDirection.AntiParallel;
-    private const TraceDirection DirSn = TraceDirection.Parallel;
     private const double Dsmax = 0.1D;
     private const double Err = 0.0001D;
     private const double Rlim = 60.0D;
@@ -32,8 +30,8 @@ public class MagneticFieldLineTraceBenchmarks
     private const double Vgsey = 14.78D;
     private const double Vgsez = 4.0D;
 
-    private static readonly (double X, double Y, double Z) s_testPointNs = (-1.02D, 0.0D, 0.9D);
-    private static readonly (double X, double Y, double Z) s_testPointSn = (-1.02D, 0.0D, -0.9D);
+    private static readonly (double X, double Y, double Z) s_testPointNs = (-0.45455707401565865D, 0.4737969930623606D, 0.7542497890011055D);
+    private static readonly (double X, double Y, double Z) s_testPointSn = (-0.1059965956329907D, 0.41975266827470664D, -0.9014246640527153D);
 
     private static readonly DateTime s_testDate = new(2023, 10, 18, 0, 0, 00);
 
@@ -47,7 +45,7 @@ public class MagneticFieldLineTraceBenchmarks
     public void Trace_FieldLineFromNorthToSouthHemisphere()
         => s_geopack.Trace_08(
             s_testPointNs.X, s_testPointNs.Y, s_testPointNs.Z,
-            DirNs, Dsmax, Err, Rlim, R0,
+            TraceDirection.AntiParallel, Dsmax, Err, Rlim, R0,
             Iopt, s_parmod,
             s_t89, s_geopack.IgrfGsw_08,
             Lmax);
@@ -56,7 +54,7 @@ public class MagneticFieldLineTraceBenchmarks
     public void Trace_FieldLineFromSouthToNorthHemisphere()
         => s_geopack.Trace_08(
             s_testPointSn.X, s_testPointSn.Y, s_testPointSn.Z,
-            DirSn, Dsmax, Err, Rlim, R0,
+            TraceDirection.Parallel, Dsmax, Err, Rlim, R0,
             Iopt, s_parmod,
             s_t89, s_geopack.IgrfGsw_08,
             Lmax);
