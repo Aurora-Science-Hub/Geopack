@@ -1,108 +1,109 @@
-      PROGRAM TRACE_08_TESTDATA
+      PROGRAM IGRF_TESTDATA
 
       IMPLICIT REAL*8 (A-H,O-Z)
 
-      PARAMETER (LMAX=500)
-      DIMENSION XX(LMAX),YY(LMAX),ZZ(LMAX), PARMOD(10)
-
-C     Параметры для измерений
       INTEGER NUM_RUNS, I
       PARAMETER (NUM_RUNS=1000)
       REAL*8 START_TIME, END_TIME, TOTAL_TIME1, TOTAL_TIME2
       REAL*8 AVG_TIME1, AVG_TIME2, RATIO
       REAL*8 SUM_SQ1, SUM_SQ2, STD_DEV1, STD_DEV2
       REAL*8 ERROR1, ERROR2, TIME1, TIME2
-C     Константа для 99.9% доверительного интервала (t-распределение, n=1000)
       REAL*8 T_VALUE
-      PARAMETER (T_VALUE=3.300D0)  ! t_{0.9995, 999} ≈ 3.300
-
-      EXTERNAL T89D_DP,IGRF_GSW_08
+      PARAMETER (T_VALUE=3.300D0)
+      REAL*8 HXGSW1, HYGSW1, HZGSW1, HXGSW2, HYGSW2, HZGSW2
 
       IYEAR=1997
-      IDAY=350
-      IHOUR=21
-      MIN=0
+      IDAY=345
+      IHOUR=10
+      MIN=10
       ISEC=0
 
-      VGSEX=-400.0D0
-      VGSEY= 0.0D0
-      VGSEZ= 0.0D0
+      VGSEX=-304.0D0
+      VGSEY=14.78D0
+      VGSEZ=4.0D0
 
       CALL RECALC_08 (IYEAR,IDAY,IHOUR,MIN,ISEC,VGSEX,VGSEY,VGSEZ)
 
-C     Первый вызов TRACE_08
-      DIR1=-1.D0
-      DSMAX=0.1D0
-      ERR=0.0001D0
-      RLIM=60.D0
-      R0=1.D0
-      IOPT=1
-      XGSW1=-0.1059965956329907D0
-      YGSW1=0.41975266827470664D0
-      ZGSW1=-0.9014246640527153D0
-
-C     Второй вызов TRACE_08 (обратное направление)
-      DIR2=1.D0
-      XGSW2=-0.45455707401565865D0
-      YGSW2=0.4737969930623606D0
-      ZGSW2=0.7542497890011055D0
+      XGSW=-1.02D0
+      YGSW=0.0D0
+      ZGSW=0.0D0
 
 C     Выполнение бенчмарка
       TOTAL_TIME1 = 0.0D0
       TOTAL_TIME2 = 0.0D0
+      TOTAL_TIME3 = 0.0D0
       SUM_SQ1 = 0.0D0
       SUM_SQ2 = 0.0D0
+      SUM_SQ3 = 0.0D0
 
       DO I = 1, NUM_RUNS
-C         Первый вызов
+C         IGRF CALL
           CALL CPU_TIME(START_TIME)
-          CALL TRACE_08 (XGSW1,YGSW1,ZGSW1,DIR1,DSMAX,ERR,RLIM,R0,IOPT,
-     *     PARMOD,T89D_DP,IGRF_GSW_08,XF,YF,ZF,XX,YY,ZZ,M,LMAX)
+          CALL IGRF_GSW_08(XGSW,YGSW,ZGSW,HXGSW,HYGSW,HZGSW)
           CALL CPU_TIME(END_TIME)
           TIME1 = END_TIME - START_TIME
           TOTAL_TIME1 = TOTAL_TIME1 + TIME1
           SUM_SQ1 = SUM_SQ1 + TIME1*TIME1
 
-C         Второй вызов
+C         DIP CALL
           CALL CPU_TIME(START_TIME)
-          CALL TRACE_08 (XGSW2,YGSW2,ZGSW2,DIR2,DSMAX,ERR,RLIM,R0,IOPT,
-     *     PARMOD,T89D_DP,IGRF_GSW_08,XF,YF,ZF,XX,YY,ZZ,M,LMAX)
+          CALL DIP_08(XGSW,YGSW,ZGSW,HXGSW,HYGSW,HZGSW)
           CALL CPU_TIME(END_TIME)
           TIME2 = END_TIME - START_TIME
           TOTAL_TIME2 = TOTAL_TIME2 + TIME2
           SUM_SQ2 = SUM_SQ2 + TIME2*TIME2
+
+C         SUN CALL
+          CALL CPU_TIME(START_TIME)
+          CALL SUN_08(IYEAR,IDAY,IHOUR,MIN,ISEC,GST,SLONG,SRASN,SDEC)
+          CALL CPU_TIME(END_TIME)
+          TIME3 = END_TIME - START_TIME
+          TOTAL_TIME3 = TOTAL_TIME3 + TIME3
+          SUM_SQ3 = SUM_SQ3 + TIME3*TIME3
       END DO
 
 C     Расчет среднего времени
       AVG_TIME1 = TOTAL_TIME1 / DBLE(NUM_RUNS)
       AVG_TIME2 = TOTAL_TIME2 / DBLE(NUM_RUNS)
-      RATIO1 = AVG_TIME1 / AVG_TIME2
-      RATIO2 = AVG_TIME2 / AVG_TIME2
+      AVG_TIME3 = TOTAL_TIME3 / DBLE(NUM_RUNS)
+      RATIO1 = AVG_TIME1 / AVG_TIME1
+      RATIO2 = AVG_TIME2 / AVG_TIME1
+      RATIO3 = AVG_TIME3 / AVG_TIME1
 
 C     Расчет стандартного отклонения
       STD_DEV1 =
      *SQRT((SUM_SQ1 - TOTAL_TIME1*AVG_TIME1)/DBLE(NUM_RUNS-1))
       STD_DEV2 =
      *SQRT((SUM_SQ2 - TOTAL_TIME2*AVG_TIME2)/DBLE(NUM_RUNS-1))
+      STD_DEV3 =
+     *SQRT((SUM_SQ3 - TOTAL_TIME3*AVG_TIME3)/DBLE(NUM_RUNS-1))
 
 C     Расчет ошибки как половины 99.9% доверительного интервала
       ERROR1 = (T_VALUE * STD_DEV1 / SQRT(DBLE(NUM_RUNS))) / 2.0D0
       ERROR2 = (T_VALUE * STD_DEV2 / SQRT(DBLE(NUM_RUNS))) / 2.0D0
+      ERROR3 = (T_VALUE * STD_DEV3 / SQRT(DBLE(NUM_RUNS))) / 2.0D0
 
 C     Вывод результатов
       WRITE (*,*) 'BENCHMARK RESULTS:'
       WRITE (*,*) '=================='
       WRITE (*,'(A,I6)') 'NUMBER OF RUNS: ', NUM_RUNS
       WRITE (*,*) ''
-      WRITE (*,*) 'DIRECTION    AVERAGE TIME (MKS)    STD DEV    ERROR
+      WRITE (*,*) 'POINT (Z)    AVERAGE TIME (MKS)    STD DEV    ERROR
      *    RATIO'
       WRITE (*,*) '---------    ------------------    -------    -----
      *    -----'
-           WRITE (*,'(A,F15.8,A,F15.8,A,F15.8,A,F6.2)') 'DIR=+1    ',
-     * AVG_TIME2 * 1000000.0D0, '    ', STD_DEV2 * 1000000.0D0, '    ',
-     * ERROR2 * 1000000.0D0, '    ', RATIO2
-      WRITE (*,'(A,F15.8,A,F15.8,A,F15.8,A,F6.2)') 'DIR=-1    ',
+
+      WRITE (*,'(A,F12.8,A,F10.8,A,F10.8,A,F6.2)') 'IGRF       ',
      * AVG_TIME1 * 1000000.0D0, '    ', STD_DEV1 * 1000000.0D0, '    ',
      * ERROR1 * 1000000.0D0, '    ', RATIO1
+
+      WRITE (*,'(A,F12.8,A,F10.8,A,F10.8,A,F6.2)') 'DIP       ',
+     * AVG_TIME2 * 1000000.0D0, '    ', STD_DEV2 * 1000000.0D0, '    ',
+     * ERROR2 * 1000000.0D0, '    ', RATIO2
+
+      WRITE (*,'(A,F12.8,A,F10.8,A,F10.8,A,F6.4)') 'SUN       ',
+     * AVG_TIME3 * 1000000.0D0, '    ',
+     * STD_DEV3 * 1000000.0D0, '    ',
+     * ERROR3 * 1000000.0D0, '    ', RATIO3
 
       END

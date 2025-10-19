@@ -26,9 +26,7 @@ public class IgrfMagneticFieldBenchmarks
 
     [GlobalSetup]
     public void Setup()
-    {
-        _geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
-    }
+        => _geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
 
     [Benchmark(Baseline=true)]
     public void Calculate_IgrfMagneticField()

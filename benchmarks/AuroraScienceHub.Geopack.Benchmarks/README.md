@@ -16,29 +16,29 @@ This project contains performance benchmarks for Geopack-2008 field line tracing
 
 #### Simple Calculation Performance
 
-| Method                    | Runtime | Mean     | Error   | StdDev  | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
-|---------------------------|---------|----------|---------|---------|-------|---------|--------|-----------|-------------|
-| IGRF (GSW) magnetic field | .NET 9  | 486.2 ns | 8.70 ns | 7.26 ns | 1.00  | 0.02    | 0.1602 | 336 B     | 1.00        |
-| IGRF (GSW) magnetic field | .NET 9  | 486.2 ns | 8.70 ns | 7.26 ns | 1.00  | 0.02    | 0.1602 | 336 B     | 1.00        |
-| IGRF (GSW) magnetic field | .NET 9  | 486.2 ns | 8.70 ns | 7.26 ns | 1.00  | 0.02    | 0.1602 | 336 B     | 1.00        |
-|                           |         |          |         |         |       |         |        |           |             |
-| Dipole magnetic field     | .NET 9  | 104.4 ns | 0.27 ns | 0.23 ns | 0.21  | 0.00    | 0.0229 | 48 B      | 0.14        |
-| Dipole magnetic field     | .NET 9  | 104.4 ns | 0.27 ns | 0.23 ns | 0.21  | 0.00    | 0.0229 | 48 B      | 0.14        |
-| Dipole magnetic field     | .NET 9  | 104.4 ns | 0.27 ns | 0.23 ns | 0.21  | 0.00    | 0.0229 | 48 B      | 0.14        |
-|                           |         |          |         |         |       |         |        |           |             |
-| Sun position              | .NET 9  | 156.1 ns | 0.52 ns | 0.49 ns | 0.32  | 0.00    | 0.0267 | 56 B      | 0.17        |
-| Sun position              | .NET 9  | 156.1 ns | 0.52 ns | 0.49 ns | 0.32  | 0.00    | 0.0267 | 56 B      | 0.17        |
-| Sun position              | .NET 9  | 156.1 ns | 0.52 ns | 0.49 ns | 0.32  | 0.00    | 0.0267 | 56 B      | 0.17        |
+| Method                | Runtime             | Mean (μs) | Error   | StdDev   | Ratio / RefRatio | RatioSD | Gen0   | Allocated (KB) | Alloc Ratio |
+|-----------------------|---------------------|-----------|---------|----------|------------------|---------|--------|----------------|-------------|
+| IGRF magnetic field   | Intel Fortran 2025  | 1.74      | 0.03    | 0.65     | 1.00 / 1.00      | N/A     | N/A    | N/A            | N/A         |
+| IGRF magnetic field   | .NET 9              | 0.486     | 0.0087  | 0.00726  | 1.00 / **0.28**  | 0.02    | 0.1602 | 0.328          | 1.00        |
+| IGRF magnetic field   | NativeAOT 9         | N/A       | N/A     | N/A      | N/A              | N/A     | N/A    | N/A            | N/A         |
+|                       |                     |           |         |          |                  |         |        |                |             |
+| Dipole magnetic field | Intel Fortran 2025  | 1.34      | 0.02    | 0.51     | 0.77 / 1.00      | N/A     | N/A    | N/A            | N/A         |
+| Dipole magnetic field | .NET 9              | 0.104     | 0.00027 | 0.00023  | 0.21 / **0.06**  | 0.00    | 0.0229 | 0.046          | 0.14        |
+| Dipole magnetic field | NativeAOT 9         | N/A       | N/A     | N/A      | N/A              | N/A     | N/A    | N/A            | N/A         |
+|                       |                     |           |         |          |                  |         |        |                |             |
+| Sun position          | Intel Fortran 2025  | 1.49      | 0.04    | 0.78     | 0.86 / 1.00      | N/A     | N/A    | N/A            | N/A         |
+| Sun position          | .NET 9              | 0.156     | 0.00052 | 0.00049  | 0.32 / **0.09**  | 0.00    | 0.0267 | 0.054          | 0.17        |
+| Sun position          | NativeAOT 9         | N/A       | N/A     | N/A      | N/A              | N/A     | N/A    | N/A            | N/A         |
 
 #### Magnetic Field Line Tracing Performance
 
-| Method                          | Runtime            |     Mean |   Error |  StdDev |    Ratio / RefRatio |  Gen0 | Allocated |    Alloc Ratio |
-|---------------------------------|--------------------|---------:|--------:|--------:|--------------------:|------:|----------:|---------------:|
-| Trace North -> South Hemisphere | Intel Fortran 2025 | 215.2 μs | 0.35 μs | 6.64 μs |         1.00 / 1.00 |   N/A |       N/A |    1.00 / 1.00 |
-| Trace North -> South Hemisphere | .NET 9             | 307.1 μs | 1.09 μs | 0.96 μs |     1.00 / **1.43** | 108.4 | 222.21 KB |     1.00 / N/A |
-| Trace North -> South Hemisphere | NativeAOT 9        |      N/A |     N/A |     N/A |          1.00 / N/A |   N/A |       N/A |     1.00 / N/A |
-|                                 |                    |          |         |         |                     |       |           |                |
-| Trace South -> North Hemisphere | Intel Fortran 2025 | 289.3 μs | 0.38 μs | 7.20 μs |     **1.34** / 1.00 |   N/A |       N/A |    1.00 / 1.00 |
-| Trace South -> North Hemisphere | .NET 9             | 383.6 μs | 2.17 μs | 2.03 μs | **1.25** / **1.33** | 134.8 | 275.49 KB | **1.24** / N/A |
-| Trace South -> North Hemisphere | NativeAOT 9        |      N/A |     N/A |     N/A |          1.00 / N/A |   N/A |       N/A |     1.00 / N/A |
+| Method                          | Runtime            | Mean (μs) | Error (μs) | StdDev (μs) |    Ratio / RefRatio |  Gen0 | Allocated (KB) |    Alloc Ratio |
+|---------------------------------|--------------------|----------:|-----------:|------------:|--------------------:|------:|---------------:|---------------:|
+| Trace North -> South Hemisphere | Intel Fortran 2025 |     215.2 |       0.35 |        6.64 |         1.00 / 1.00 |   N/A |            N/A |    1.00 / 1.00 |
+| Trace North -> South Hemisphere | .NET 9             |     307.1 |       1.09 |        0.96 |     1.00 / **1.43** | 108.4 |         222.21 |     1.00 / N/A |
+| Trace North -> South Hemisphere | NativeAOT 9        |       N/A |        N/A |         N/A |          1.00 / N/A |   N/A |            N/A |     1.00 / N/A |
+|                                 |                    |           |            |             |                     |       |                |                |
+| Trace South -> North Hemisphere | Intel Fortran 2025 |     289.3 |       0.38 |        7.20 |     **1.34** / 1.00 |   N/A |            N/A |    1.00 / 1.00 |
+| Trace South -> North Hemisphere | .NET 9             |     383.6 |       2.17 |        2.03 | **1.25** / **1.33** | 134.8 |         275.49 | **1.24** / N/A |
+| Trace South -> North Hemisphere | NativeAOT 9        |       N/A |        N/A |         N/A |          1.00 / N/A |   N/A |            N/A |     1.00 / N/A |
 
