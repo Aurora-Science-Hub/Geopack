@@ -30,7 +30,6 @@
       YGSW=0.0D0
       ZGSW=0.0D0
 
-C     Выполнение бенчмарка
       TOTAL_TIME1 = 0.0D0
       TOTAL_TIME2 = 0.0D0
       TOTAL_TIME3 = 0.0D0
@@ -64,7 +63,6 @@ C         SUN CALL
           SUM_SQ3 = SUM_SQ3 + TIME3*TIME3
       END DO
 
-C     Расчет среднего времени
       AVG_TIME1 = TOTAL_TIME1 / DBLE(NUM_RUNS)
       AVG_TIME2 = TOTAL_TIME2 / DBLE(NUM_RUNS)
       AVG_TIME3 = TOTAL_TIME3 / DBLE(NUM_RUNS)
@@ -72,7 +70,6 @@ C     Расчет среднего времени
       RATIO2 = AVG_TIME2 / AVG_TIME1
       RATIO3 = AVG_TIME3 / AVG_TIME1
 
-C     Расчет стандартного отклонения
       STD_DEV1 =
      *SQRT((SUM_SQ1 - TOTAL_TIME1*AVG_TIME1)/DBLE(NUM_RUNS-1))
       STD_DEV2 =
@@ -80,12 +77,10 @@ C     Расчет стандартного отклонения
       STD_DEV3 =
      *SQRT((SUM_SQ3 - TOTAL_TIME3*AVG_TIME3)/DBLE(NUM_RUNS-1))
 
-C     Расчет ошибки как половины 99.9% доверительного интервала
       ERROR1 = (T_VALUE * STD_DEV1 / SQRT(DBLE(NUM_RUNS))) / 2.0D0
       ERROR2 = (T_VALUE * STD_DEV2 / SQRT(DBLE(NUM_RUNS))) / 2.0D0
       ERROR3 = (T_VALUE * STD_DEV3 / SQRT(DBLE(NUM_RUNS))) / 2.0D0
 
-C     Вывод результатов
       WRITE (*,*) 'BENCHMARK RESULTS:'
       WRITE (*,*) '=================='
       WRITE (*,'(A,I6)') 'NUMBER OF RUNS: ', NUM_RUNS
