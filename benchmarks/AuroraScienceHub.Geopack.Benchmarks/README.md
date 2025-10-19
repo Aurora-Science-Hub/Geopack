@@ -16,11 +16,19 @@ This project contains performance benchmarks for Geopack-2008 field line tracing
 
 #### Simple Calculation Performance
 
-| Method                      | Mean     | Error   | StdDev  | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
-|-----------------------------|----------|---------|---------|-------|---------|--------|-----------|-------------|
-| Calculate_IgrfMagneticField | 486.2 ns | 8.70 ns | 7.26 ns | 1.00  | 0.02    | 0.1602 | 336 B     | 1.00        |
-| Calculate_DipMagneticField  | 104.4 ns | 0.27 ns | 0.23 ns | 0.21  | 0.00    | 0.0229 | 48 B      | 0.14        |
-| Calculate_Sun               | 156.1 ns | 0.52 ns | 0.49 ns | 0.32  | 0.00    | 0.0267 | 56 B      | 0.17        |
+| Method                    | Runtime | Mean     | Error   | StdDev  | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
+|---------------------------|---------|----------|---------|---------|-------|---------|--------|-----------|-------------|
+| IGRF (GSW) magnetic field | .NET 9  | 486.2 ns | 8.70 ns | 7.26 ns | 1.00  | 0.02    | 0.1602 | 336 B     | 1.00        |
+| IGRF (GSW) magnetic field | .NET 9  | 486.2 ns | 8.70 ns | 7.26 ns | 1.00  | 0.02    | 0.1602 | 336 B     | 1.00        |
+| IGRF (GSW) magnetic field | .NET 9  | 486.2 ns | 8.70 ns | 7.26 ns | 1.00  | 0.02    | 0.1602 | 336 B     | 1.00        |
+|                           |         |          |         |         |       |         |        |           |             |
+| Dipole magnetic field     | .NET 9  | 104.4 ns | 0.27 ns | 0.23 ns | 0.21  | 0.00    | 0.0229 | 48 B      | 0.14        |
+| Dipole magnetic field     | .NET 9  | 104.4 ns | 0.27 ns | 0.23 ns | 0.21  | 0.00    | 0.0229 | 48 B      | 0.14        |
+| Dipole magnetic field     | .NET 9  | 104.4 ns | 0.27 ns | 0.23 ns | 0.21  | 0.00    | 0.0229 | 48 B      | 0.14        |
+|                           |         |          |         |         |       |         |        |           |             |
+| Sun position              | .NET 9  | 156.1 ns | 0.52 ns | 0.49 ns | 0.32  | 0.00    | 0.0267 | 56 B      | 0.17        |
+| Sun position              | .NET 9  | 156.1 ns | 0.52 ns | 0.49 ns | 0.32  | 0.00    | 0.0267 | 56 B      | 0.17        |
+| Sun position              | .NET 9  | 156.1 ns | 0.52 ns | 0.49 ns | 0.32  | 0.00    | 0.0267 | 56 B      | 0.17        |
 
 #### Magnetic Field Line Tracing Performance
 
