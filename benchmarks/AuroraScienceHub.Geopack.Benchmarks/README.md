@@ -24,13 +24,13 @@ This project contains performance benchmarks for Geopack-2008 field line tracing
 
 #### Magnetic Field Line Tracing Performance
 
-| Method                          | Runtime            |     Mean |   Error |  StdDev |                                                                                                         Ratio |     Gen0 | Allocated |                                                 Alloc Ratio |
-|---------------------------------|--------------------|---------:|--------:|--------:|--------------------------------------------------------------------------------------------------------------:|---------:|----------:|------------------------------------------------------------:|
-| Trace North -> South Hemisphere | Intel Fortran 2025 | 215.2 μs | 0.35 μs | 6.64 μs |                                                                                                   1.00 / 1.00 |      N/A |       N/A |                                                 1.00 / 1.00 |
-| Trace North -> South Hemisphere | .NET 9             | 307.1 μs | 1.09 μs | 0.96 μs |                                                  1.00 / <span style="color:red; font-weight:bold">1.43</span> | 108.3984 | 222.21 KB |                                                  1.00 / N/A |
-| Trace North -> South Hemisphere | NativeAOT 9        |      N/A |     N/A |     N/A |                                                                                                    1.00 / N/A |      N/A |       N/A |                                                  1.00 / N/A |
-|                                 |                    |          |         |         |                                                                                                               |          |           |                                                             |
-| Trace South -> North Hemisphere | Intel Fortran 2025 | 289.3 μs | 0.38 μs | 7.20 μs |                                                <span style="color:red; font-weight:bold">1.34</span> / 1.00   |      N/A |       N/A |                                               1.00 / 1.00   |
-| Trace South -> North Hemisphere | .NET 9             | 383.6 μs | 2.17 μs | 2.03 μs | <span style="color:red; font-weight:bold">1.25</span> / <span style="color:red; font-weight:bold">1.33</span> | 134.7656 | 275.49 KB | <span style="color:red; font-weight:bold">1.24</span> / N/A |
-| Trace South -> North Hemisphere | NativeAOT 9        |      N/A |     N/A |     N/A |                                                                                                    1.00 / N/A |      N/A |       N/A |                                                  1.00 / N/A |
+| Method                          | Runtime            |     Mean |   Error |  StdDev |               Ratio |     Gen0 | Allocated |    Alloc Ratio |
+|---------------------------------|--------------------|---------:|--------:|--------:|--------------------:|---------:|----------:|---------------:|
+| Trace North -> South Hemisphere | Intel Fortran 2025 | 215.2 μs | 0.35 μs | 6.64 μs |         1.00 / 1.00 |      N/A |       N/A |    1.00 / 1.00 |
+| Trace North -> South Hemisphere | .NET 9             | 307.1 μs | 1.09 μs | 0.96 μs |     1.00 / **1.43** | 108.3984 | 222.21 KB |     1.00 / N/A |
+| Trace North -> South Hemisphere | NativeAOT 9        |      N/A |     N/A |     N/A |          1.00 / N/A |      N/A |       N/A |     1.00 / N/A |
+|                                 |                    |          |         |         |                     |          |           |                |
+| Trace South -> North Hemisphere | Intel Fortran 2025 | 289.3 μs | 0.38 μs | 7.20 μs |     **1.34** / 1.00 |      N/A |       N/A |    1.00 / 1.00 |
+| Trace South -> North Hemisphere | .NET 9             | 383.6 μs | 2.17 μs | 2.03 μs | **1.25** / **1.33** | 134.7656 | 275.49 KB | **1.24** / N/A |
+| Trace South -> North Hemisphere | NativeAOT 9        |      N/A |     N/A |     N/A |          1.00 / N/A |      N/A |       N/A |     1.00 / N/A |
 
