@@ -11,6 +11,29 @@
     <Description>The .NET implementation of Geopack-2008dp (double-precision version) originally developed in Fortran by N. A. Tsyganenko.</Description>
   </PropertyGroup>
 
+  <PropertyGroup Label="Package info">
+    <Authors>Alexander Nikolaev;Aleksei Ermilov;Aurora Science Hub</Authors>
+    <PackageDescription>
+      GEOPACK-2008 for .NET: A C# port of the GEOPACK-2008 (double-precision) library, a package of subroutines for magnetospheric and solar-terrestrial studies.
+
+      This C# implementation is a derivative work of the original FORTRAN code by Nikolai Tsyganenko, and is distributed under the same GNU GPL v3 license.
+    </PackageDescription>
+    <PackageProjectUrl>https://github.com/Aurora-Science-Hub/Geopack</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Aurora-Science-Hub/Geopack.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>science; geophysics; magnetosphere; coordinate-transforms; solar-terrestrial; geopack; geopack-2008</PackageTags>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <!-- <PackageIcon>geopack-icon.png</PackageIcon> -->
+    <PackageReleaseNotes>See the GitHub releases page for detailed changelog: https://github.com/Aurora-Science-Hub/GEOPACK-2008.NET/releases</PackageReleaseNotes>
+    <Copyright>Copyright 1979, 1986, 1996, 2005, 2008, Nikolai Tsyganenko. Copyright 2024-$([System.DateTime]::Now.ToString(yyyy)) Alexander Nikolaev, Aleksei Ermilov, Aurora Science Hub</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup Label="Package files">
+    <!-- <None Include="..\GeopackIcon.png" Pack="true" Visible="false" PackagePath="" /> -->
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
