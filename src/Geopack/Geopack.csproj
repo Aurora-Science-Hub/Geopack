@@ -26,8 +26,7 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <!-- <PackageIcon>GeopackIcon.png</PackageIcon> -->
     <!-- <PackageReleaseNotes>See the GitHub releases page for detailed changelog: https://github.com/Aurora-Science-Hub/Geopack/releases</PackageReleaseNotes> -->
-    <Copyright>Copyright 1979, 1986, 1996, 2005, 2008, Nikolai Tsyganenko. Copyright 2024-$([System.DateTime]::Now.ToString(yyyy)) Alexander Nikolaev, Aleksei Ermilov, Aurora Science Hub</Copyright>
-  </PropertyGroup>
+    <Copyright>Original FORTRAN code Copyright 1979-2008 Nikolai Tsyganenko. C# implementation Copyright 2024-$([System.DateTime]::Now.ToString(yyyy)) Alexander Nikolaev, Aleksei Ermilov, Aurora Science Hub</Copyright>  </PropertyGroup>
 
   <ItemGroup Label="Package files">
     <!-- <None Include="..\GeopackIcon.png" Pack="true" Visible="false" PackagePath="" /> -->
