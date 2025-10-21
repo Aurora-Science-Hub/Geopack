@@ -27,8 +27,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageBaseVersion>0.3.0</PackageBaseVersion>
-    <MinVerTagPrefix></MinVerTagPrefix>
+    <PackageBaseVersion>1.0.0</PackageBaseVersion>
+    <MinVerTagPrefix>-CI</MinVerTagPrefix>
   </PropertyGroup>
 
   <!--
