@@ -67,17 +67,17 @@ jobs:
             - name: Test
               run: dotnet test --no-build --configuration Release --verbosity normal -p:MinVerVersionOverride=${MINVER_VERSION}
 
-#            - name: Pack
-#              run: dotnet pack --no-build --configuration Release --output ./artifacts -p:MinVerVersionOverride=${MINVER_VERSION} -p:PackageVersion=${PKG_VERSION}
+            - name: Pack
+              run: dotnet pack --no-build --configuration Release --output ./artifacts -p:MinVerVersionOverride=${MINVER_VERSION} -p:PackageVersion=${PKG_VERSION}
 
-#            - name: Push to GitHub Packages
-#              env:
-#                  GH_API_KEY: ${{ secrets.GH_PACKAGES_NUGET_API_KEY }}
-#              run: dotnet nuget push ./artifacts/*.nupkg --source AuroraScienceHub --api-key $GH_API_KEY --skip-duplicate
+            - name: Push to GitHub Packages
+              env:
+                  GH_API_KEY: ${{ secrets.GH_PACKAGES_NUGET_API_KEY }}
+              run: dotnet nuget push ./artifacts/*.nupkg --source AuroraScienceHub --api-key $GH_API_KEY --skip-duplicate
 
-#            - name: Push to NuGet.org
-#              if: ${{ github.ref_name == 'main' }}
-#              env:
-#                  NUGET_URL: https://api.nuget.org/v3/index.json
-#                  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-#              run: dotnet nuget push ./artifacts/*.nupkg --source $NUGET_URL --api-key $NUGET_API_KEY --skip-duplicate
+            - name: Push to NuGet.org
+              if: ${{ github.ref_name == 'main' }}
+              env:
+                  NUGET_URL: https://api.nuget.org/v3/index.json
+                  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+              run: dotnet nuget push ./artifacts/*.nupkg --source $NUGET_URL --api-key $NUGET_API_KEY --skip-duplicate
