@@ -23,18 +23,6 @@ see the [benchmarks documentation](benchmarks/AuroraScienceHub.Geopack.Benchmark
 - [Central package management](https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management)
 - [SLNX - simpler solution file format in the .NET CLI](https://devblogs.microsoft.com/dotnet/introducing-slnx-support-dotnet-cli/)
 
-## Startup project
-
-## Geopack.Cli
-A command-line interface for running Geopack calculations.
-
-### Command line arguments
-- `--help` - Displays help information.
-- `calculate` - Performs Geopack calculations.
-
-# Building and publishing
-_In order to build the project, you need to have the .NET SDK installed._
-
 ## Native AOT compilation
 To build the project with native AOT compilation, execute the following command (depending on the target platform):
 
@@ -47,8 +35,3 @@ dotnet publish --framework net9.0 -c Release -r win-x64
 ```shell
 dotnet publish --framework net9.0 -c Release -r osx-x64
 ```
-
-# Benchmarks
-The solution contains benchmarks for the Geopack calculations located in the [Geopack.Benchmarks](benchmarks/AuroraScienceHub.Geopack.Benchmarks/) project.
-
-Just run the benchmarks project in Release configuration to see the results for different .NET versions.
