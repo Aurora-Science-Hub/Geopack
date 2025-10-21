@@ -1,4 +1,4 @@
-# Geopack-2008dp (C# .NET implementation)
+# Geopack-2008 (C# .NET implementation)
 
 High-performance C# implementation of the Geopack-2008 geomagnetic field model with double-precision accuracy.
 This library provides numerical accuracy matching the original Fortran code by N. A. Tsyganenko to within 12 decimal digits (`8E-12D`).
