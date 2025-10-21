@@ -35,7 +35,8 @@ public sealed partial class Geopack
         // Calculate optimal expansion order
         int irp3 = (int)r + 2;
         int nm = 3 + 30 / irp3;
-        if (nm > 13) nm = 13;
+        if (nm > 13)
+            nm = 13;
 
         int k = nm + 1;
         double[] a = new double[k + 1];
@@ -44,8 +45,8 @@ public sealed partial class Geopack
         for (int n = 1; n <= k; n++)
         {
             p *= pp;
-            a[n-1] = p;
-            b[n-1] = p * n;
+            a[n - 1] = p;
+            b[n - 1] = p * n;
         }
 
         p = 1.0D;
@@ -78,22 +79,23 @@ public sealed partial class Geopack
 
             for (int n = m; n <= k; n++)
             {
-                double an = a[n-1];
+                double an = a[n - 1];
                 int mn = n * (n - 1) / 2 + m;
-                double e = Common2.G[mn-1];
-                double hh = Common2.H[mn-1];
+                double e = Common2.G[mn - 1];
+                double hh = Common2.H[mn - 1];
                 double w_val = e * y + hh * x;
-                bbr += b[n-1] * w_val * q;
+                bbr += b[n - 1] * w_val * q;
                 bbt -= an * w_val * z;
 
                 if (m != 1)
                 {
                     double qq = q;
-                    if (s < 1e-10) qq = z;
+                    if (s < 1e-10)
+                        qq = z;
                     bi += an * (e * x - hh * y) * qq;
                 }
 
-                double xk = Common2.REC[mn-1];
+                double xk = Common2.REC[mn - 1];
                 double dp = c * z - s * q - xk * d2;
                 double pm = c * q - xk * p2;
                 d2 = z;
@@ -118,7 +120,8 @@ public sealed partial class Geopack
 
         if (s < 1e-10)
         {
-            if (c < 0.0) bbf = -bbf;
+            if (c < 0.0)
+                bbf = -bbf;
             bf = bbf;
         }
         else

@@ -22,7 +22,7 @@ public partial class GeopackTests
 
     [Theory(DisplayName = "Cartesian to spherical coordinates conversion: zeroes and ones")]
     [InlineData(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)]
-    [InlineData(1.0, 0.0, 0.0, 1.0,1.57079632679489656, 0.0)]
+    [InlineData(1.0, 0.0, 0.0, 1.0, 1.57079632679489656, 0.0)]
     [InlineData(0.0, 1.0, 0.0, 1.0, 1.57079632679489656, 1.57079632679489656)]
     [InlineData(0.0, 0.0, 1.0, 1.0, 0.0, 0.0)]
     [InlineData(1.0, 1.0, 1.0, 1.73205080756887719, 0.95531661812450930, 0.78539816339744828)]

@@ -12,9 +12,9 @@ public partial class GeopackTests
     [InlineData(0, 0, 1, 1, 1, 1, 1, 1, 1)]
     [InlineData(1, 1, 1, 1, 1, 1, 1.7320508075688776, 0, 0)]
     [InlineData(1, 1, 1, 1, 0, 0, 0.577350269189625842, 0.408248290463863017, -0.707106781186547462)]
-    [InlineData(1, 1, 1, 0, 1, 0, 0.577350269189625842, 0.408248290463863017,  0.707106781186547462)]
-    [InlineData(1, 1, 1, 0, 0, 1, 0.577350269189625842, -0.816496580927726145,  0)]
-    [InlineData(1, 1, 1, 0, 0, 0, 0, 0,  0)]
+    [InlineData(1, 1, 1, 0, 1, 0, 0.577350269189625842, 0.408248290463863017, 0.707106781186547462)]
+    [InlineData(1, 1, 1, 0, 0, 1, 0.577350269189625842, -0.816496580927726145, 0)]
+    [InlineData(1, 1, 1, 0, 0, 0, 0, 0, 0)]
     public void BCarSph_ShouldReturnsCorrectValues(
         double x, double y, double z,
         double bx, double by, double bz,

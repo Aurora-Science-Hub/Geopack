@@ -8,7 +8,7 @@ public sealed partial class Geopack
         double x, double y, double z,
         double bx, double by, double bz)
     {
-        double rho2 = Math.Pow(x, 2.0D) +  Math.Pow(y, 2.0D);
+        double rho2 = Math.Pow(x, 2.0D) + Math.Pow(y, 2.0D);
         double rho = Math.Sqrt(rho2);
 
         double r = Math.Sqrt(rho2 + Math.Pow(z, 2.0D));
