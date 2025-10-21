@@ -14,7 +14,7 @@
   <PropertyGroup Label="Package info">
     <Authors>Alexander Nikolaev;Aleksei Ermilov;Aurora Science Hub</Authors>
     <PackageDescription>
-      GEOPACK-2008 (double-precision) for .NET: A C# port of the GEOPACK-2008 (double-precision) library, a package of subroutines for magnetospheric and solar-terrestrial studies.
+      GEOPACK-2008 for .NET: A C# port of the GEOPACK-2008 (double-precision) library, a package of subroutines for magnetospheric and solar-terrestrial studies.
 
       This C# implementation is a derivative work of the original FORTRAN code by Nikolai Tsyganenko, and is distributed under the same GNU GPL v3 license.
     </PackageDescription>
