@@ -1,42 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <AssemblyName>AuroraScienceHub.Geopack.ExternalFieldModels</AssemblyName>
     <PackageId>AuroraScienceHub.Geopack.ExternalFieldModels</PackageId>
-    <IsPackable>True</IsPackable>
-    <PublishAot>True</PublishAot>
-    <IsAotCompatible>True</IsAotCompatible>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>The .NET implementation of external magnetic field models (T89, T96, etc.)</Description>
   </PropertyGroup>
 
   <PropertyGroup Label="Package info">
-    <Authors>Alexander Nikolaev;Aleksei Ermilov;Aurora Science Hub</Authors>
     <PackageDescription>
       External magnetic field models for .NET: A C# port of the external magnetic field models (T89, T96, etc.) for magnetospheric and solar-terrestrial studies.
 
       This C# implementation is a derivative work of the original FORTRAN code by Nikolai Tsyganenko, and is distributed under the same GNU GPL v3 license.
     </PackageDescription>
-    <PackageProjectUrl>https://github.com/Aurora-Science-Hub/Geopack</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Aurora-Science-Hub/Geopack.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
     <PackageTags>science; geophysics; magnetosphere; magnetic-field-models; solar-terrestrial; geopack; geopack-2008; T89; T89dp; T89C</PackageTags>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <!-- <PackageIcon>GeopackIcon.png</PackageIcon> -->
-    <!-- <PackageReleaseNotes>See the GitHub releases page for detailed changelog: https://github.com/Aurora-Science-Hub/Geopack/releases</PackageReleaseNotes> -->
-    <Copyright>Original FORTRAN code Copyright 1979-2008 Nikolai Tsyganenko. C# implementation Copyright 2024-$([System.DateTime]::Now.ToString(yyyy)) Alexander Nikolaev, Aleksei Ermilov, Aurora Science Hub</Copyright>
   </PropertyGroup>
-
-  <ItemGroup Label="Package files">
-    <!-- <None Include="..\GeopackIcon.png" Pack="true" Visible="false" PackagePath="" /> -->
-    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj" />
