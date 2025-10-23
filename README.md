@@ -15,7 +15,8 @@
 <a href="#validation">Validation</a> •
 <a href="#benchmarks">Benchmarks</a> •
 <a href="#tech-stack">Tech stack</a> •
-<a href="#native-aot-compilation">Code Style</a>
+<a href="#native-aot-compilation">Code Style</a> •
+<a href="#licensing">Licensing</a>
 
 </div>
 
@@ -54,3 +55,6 @@ dotnet publish --framework net9.0 -c Release -r win-x64
 ```shell
 dotnet publish --framework net9.0 -c Release -r osx-x64
 ```
+
+## Licensing
+This C# implementation is a derivative work of the original FORTRAN code by Nikolai Tsyganenko, and is distributed under the same GNU GPL v3 license.
