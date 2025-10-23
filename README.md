@@ -24,7 +24,7 @@
 
 
 This library provides numerical accuracy matching the original Fortran code by N. A. Tsyganenko to within 12 decimal digits (`8E-12D`).
-For external magnetic field models accuracy raised up to 13 digits (`1E-13D`).
+For external magnetic field models, accuracy is raised to 13 digits (`1E-13D`).
 
 ## Validation
 The implementation is rigorously validated against the original Fortran code using our comprehensive testing framework.
