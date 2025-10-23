@@ -10,15 +10,12 @@
 
 [![](https://img.shields.io/badge/.NET-9.0-512BD4)](https://dotnet.microsoft.com/)
 [![](https://img.shields.io/badge/C%23-13.0-239120)](https://learn.microsoft.com/en-us/dotnet/csharp/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Aurora-Science-Hub/Framework/blob/main/LICENSE)
+[![License: GPL v3+](https://img.shields.io/badge/License-GPLv3+-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-<a href="#available-packages">Available Packages</a> •
-<a href="#architecture">Architecture</a> •
-<a href="#development">Development</a> •
-<a href="#code-style">Code Style</a> •
-<a href="#testing">Testing</a> •
-<a href="#licence">Licence</a> •
-<a href="#contributing">Contributing</a>
+<a href="#validation">Validation</a> •
+<a href="#benchmarks">Benchmarks</a> •
+<a href="#tech-stack">Tech stack</a> •
+<a href="#native-aot-compilation">Code Style</a>
 
 </div>
 
