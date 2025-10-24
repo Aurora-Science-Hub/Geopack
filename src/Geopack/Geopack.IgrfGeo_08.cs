@@ -32,8 +32,8 @@ public sealed partial class Geopack
         for (int n = 1; n <= k; n++)
         {
             p *= pp;
-            a[n-1] = p;
-            b[n-1] = p * n;
+            a[n - 1] = p;
+            b[n - 1] = p * n;
         }
 
         p = 1.0D;
@@ -67,20 +67,21 @@ public sealed partial class Geopack
 
             for (int n = m; n <= k; n++)
             {
-                double an = a[n-1];
+                double an = a[n - 1];
                 int mn = n * (n - 1) / 2 + m;
-                double e = Common2.G[mn-1];
-                double hh = Common2.H[mn-1];
-                double xk = Common2.REC[mn-1];
+                double e = Common2.G[mn - 1];
+                double hh = Common2.H[mn - 1];
+                double xk = Common2.REC[mn - 1];
 
                 double w = e * y + hh * x;
-                bbr += b[n-1] * w * q;
+                bbr += b[n - 1] * w * q;
                 bbt -= an * w * z;
 
                 if (m is not 1)
                 {
                     double qq = q;
-                    if (s < 1e-5) qq = z;
+                    if (s < 1e-5)
+                        qq = z;
                     bi += an * (e * x - hh * y) * qq;
                 }
 
@@ -110,7 +111,8 @@ public sealed partial class Geopack
 
         if (s < 1e-10)
         {
-            if (c < 0.0) bbf = -bbf;
+            if (c < 0.0)
+                bbf = -bbf;
             bphi = bbf;
         }
         else

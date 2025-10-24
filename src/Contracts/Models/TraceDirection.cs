@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.Geopack.Contracts;
+namespace AuroraScienceHub.Geopack.Contracts.Models;
 
 /// <summary>
 /// Specifies the direction of tracing relative to the Earth's main magnetic field.

@@ -27,7 +27,7 @@ public partial class GeopackTests
         int lmax = 500;
 
         // Act
-        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, -16.0D+29.78D, 4.0D);
+        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, -16.0D + 29.78D, 4.0D);
         double XGSW = -1.02D;
         double YGSW = 0.8D;
         double ZGSW = 0.9D;
@@ -42,7 +42,7 @@ public partial class GeopackTests
         // Assert
         fieldLine.ActualPointCount.ShouldBe(lines.Length);
 
-        for(int i=0; i < lines.Length ; i++)
+        for (int i = 0; i < lines.Length; i++)
         {
             string[] pars = lines[i].SplitParametersLine();
             fieldLine.Points[i].X.ShouldBe(pars[0].ParseDouble(), MinimalTestsPrecision);

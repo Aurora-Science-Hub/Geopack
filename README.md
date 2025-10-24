@@ -1,8 +1,35 @@
-# Geopack-2008dp (C# .NET implementation)
+<h1 align="center">
+    <br>
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="docs/logo/Gp_white.png">
+      <source media="(prefers-color-scheme: light)" srcset="docs/logo/Gp_black.png">
+      <img src="docs/logo/logo-black.png" style="width:400px;">
+    </picture>
+    <br>
+    Geopack-2008 C# .NET  implementation
+    <br>
+</h1>
 
-High-performance C# implementation of the Geopack-2008 geomagnetic field model with double-precision accuracy.
+<div align="center">
+    High-performance C# implementation of the Geopack-2008 geomagnetic field model with double-precision accuracy.
+    <br><br>
+
+[![](https://img.shields.io/badge/.NET-9.0-512BD4)](https://dotnet.microsoft.com/)
+[![](https://img.shields.io/badge/C%23-13.0-239120)](https://learn.microsoft.com/en-us/dotnet/csharp/)
+[![License: GPL v3+](https://img.shields.io/badge/License-GPLv3+-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Build & test](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml)
+
+<a href="#validation">Validation</a> •
+<a href="#benchmarks">Benchmarks</a> •
+<a href="#tech-stack">Tech stack</a> •
+<a href="#native-aot-compilation">Code Style</a> •
+<a href="#licensing">Licensing</a>
+
+</div>
+
+
 This library provides numerical accuracy matching the original Fortran code by N. A. Tsyganenko to within 12 decimal digits (`8E-12D`).
-For external magnetic field models accuracy raised up to 13 digits (`1E-13D`)
+For external magnetic field models, accuracy is raised to 13 digits (`1E-13D`).
 
 ## Validation
 The implementation is rigorously validated against the original Fortran code using our comprehensive testing framework.
@@ -23,18 +50,6 @@ see the [benchmarks documentation](benchmarks/AuroraScienceHub.Geopack.Benchmark
 - [Central package management](https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management)
 - [SLNX - simpler solution file format in the .NET CLI](https://devblogs.microsoft.com/dotnet/introducing-slnx-support-dotnet-cli/)
 
-## Startup project
-
-## Geopack.Cli
-A command-line interface for running Geopack calculations.
-
-### Command line arguments
-- `--help` - Displays help information.
-- `calculate` - Performs Geopack calculations.
-
-# Building and publishing
-_In order to build the project, you need to have the .NET SDK installed._
-
 ## Native AOT compilation
 To build the project with native AOT compilation, execute the following command (depending on the target platform):
 
@@ -48,7 +63,5 @@ dotnet publish --framework net9.0 -c Release -r win-x64
 dotnet publish --framework net9.0 -c Release -r osx-x64
 ```
 
-# Benchmarks
-The solution contains benchmarks for the Geopack calculations located in the [Geopack.Benchmarks](benchmarks/AuroraScienceHub.Geopack.Benchmarks/) project.
-
-Just run the benchmarks project in Release configuration to see the results for different .NET versions.
+## Licensing
+This C# implementation is a derivative work of the original FORTRAN code by Nikolai Tsyganenko, and is distributed under the same GNU GPL v3 license.

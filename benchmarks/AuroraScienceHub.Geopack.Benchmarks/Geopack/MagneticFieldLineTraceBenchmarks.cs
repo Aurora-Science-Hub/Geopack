@@ -1,8 +1,9 @@
-using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
 using AuroraScienceHub.Geopack.Contracts;
 using AuroraScienceHub.Geopack.Contracts.Interfaces;
+using AuroraScienceHub.Geopack.Contracts.Models;
 using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
 namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 

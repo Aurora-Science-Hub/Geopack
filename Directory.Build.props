@@ -1,6 +1,7 @@
 <Project>
 
   <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <IsPackable>False</IsPackable>
     <Nullable>enable</Nullable>
@@ -27,7 +28,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageBaseVersion>0.3.0</PackageBaseVersion>
+    <PackageBaseVersion>1.0.0</PackageBaseVersion>
     <MinVerTagPrefix></MinVerTagPrefix>
   </PropertyGroup>
 

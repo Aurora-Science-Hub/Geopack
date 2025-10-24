@@ -14,122 +14,123 @@ public sealed partial class Geopack
     IExternalFieldModel exName,
     InternalFieldModel inName,
     int lMax)
-{
-    List<CartesianLocation> points = new();
-    double direction = (double)dir;
-
-    int l = 0;
-    int nrev = 0;
-    Common1.DS3 = direction;
-
-    double ds = 0.5D * direction;
-    double x = xi;
-    double y = yi;
-    double z = zi;
-
-    double xr = x, yr = y, zr = z;
-
-    FieldLineRhsVector initialRhs = Rhand_08(x, y, z, iopt, parmod, exName, inName);
-    double ad = 0.01D;
-    if (x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3 < 0.0D)
     {
-        ad = -0.01D;
+        List<CartesianLocation> points = new();
+        double direction = (double)dir;
+
+        int l = 0;
+        int nrev = 0;
+        Common1.DS3 = direction;
+
+        double ds = 0.5D * direction;
+        double x = xi;
+        double y = yi;
+        double z = zi;
+
+        double xr = x, yr = y, zr = z;
+
+        FieldLineRhsVector initialRhs = Rhand_08(x, y, z, iopt, parmod, exName, inName);
+        double ad = 0.01D;
+        if (x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3 < 0.0D)
+        {
+            ad = -0.01D;
+        }
+
+        double rr = Math.Sqrt(x * x + y * y + z * z) + ad;
+        bool maxPointsExceeded = false;
+
+        while (l <= lMax)
+        {
+            l++;
+
+            points.Add(new CartesianLocation(x, y, z, CoordinateSystem.GSW));
+
+            double ryz = y * y + z * z;
+            double r2 = x * x + ryz;
+            double r = Math.Sqrt(r2);
+
+            // Check outer boundary conditions
+            if (r > rLim || ryz > 1600.0D || x > 20.0D)
+            {
+                break;
+            }
+
+            // Check inner boundary crossing from outside
+            if (r < r0 && rr > r)
+            {
+                double r1 = (r0 - r) / (rr - r);
+                x -= (x - xr) * r1;
+                y -= (y - yr) * r1;
+                z -= (z - zr) * r1;
+                break;
+            }
+
+            // Adaptive step size near Earth
+            if (!(r >= rr || r >= 3.0D))
+            {
+                double fc = 0.2D;
+                if (r - r0 < 0.05D)
+                    fc = 0.05D;
+                double al = fc * (r - r0 + 0.2D);
+                ds = direction * al;
+            }
+
+            xr = x;
+            yr = y;
+            zr = z;
+
+            double drp = r - rr;
+            rr = r;
+
+            // Make step
+            StepResult stepResult = Step_08(x, y, z, ds, dsMax, err, iopt, parmod, exName, inName);
+            x = stepResult.X;
+            y = stepResult.Y;
+            z = stepResult.Z;
+            ds = stepResult.NextStepSize;
+
+            // Check for radial direction reversals
+            r = Math.Sqrt(x * x + y * y + z * z);
+            double dr = r - rr;
+
+            if (drp * dr < 0.0D)
+            {
+                nrev++;
+            }
+
+            if (nrev > 4)
+            {
+                break;
+            }
+        }
+
+        if (l > lMax)
+        {
+            Console.WriteLine(
+                "**** COMPUTATIONS IN THE SUBROUTINE TRACE_08 ARE TERMINATED: THE NUMBER OF POINTS EXCEEDED LMAX ****");
+            maxPointsExceeded = true;
+
+            if (points.Count > lMax)
+            {
+                points.RemoveAt(points.Count - 1);
+            }
+        }
+
+        if (points.Count > 0)
+        {
+            points[^1] = new CartesianLocation(x, y, z, CoordinateSystem.GSW);
+        }
+        else
+        {
+            points.Add(new CartesianLocation(x, y, z, CoordinateSystem.GSW));
+        }
+
+        return new FieldLine(
+            points,
+            new CartesianLocation(x, y, z, CoordinateSystem.GSW),
+            points.Count,
+            maxPointsExceeded ? "Maximum points exceeded" : "Boundary reached");
     }
-
-    double rr = Math.Sqrt(x * x + y * y + z * z) + ad;
-    bool maxPointsExceeded = false;
-
-    while (l <= lMax)
-    {
-        l++;
-
-        points.Add(new CartesianLocation(x, y, z, CoordinateSystem.GSW));
-
-        double ryz = y * y + z * z;
-        double r2 = x * x + ryz;
-        double r = Math.Sqrt(r2);
-
-        // Check outer boundary conditions
-        if (r > rLim || ryz > 1600.0D || x > 20.0D)
-        {
-            break;
-        }
-
-        // Check inner boundary crossing from outside
-        if (r < r0 && rr > r)
-        {
-            double r1 = (r0 - r) / (rr - r);
-            x -= (x - xr) * r1;
-            y -= (y - yr) * r1;
-            z -= (z - zr) * r1;
-            break;
-        }
-
-        // Adaptive step size near Earth
-        if (!(r >= rr || r >= 3.0D))
-        {
-            double fc = 0.2D;
-            if (r - r0 < 0.05D) fc = 0.05D;
-            double al = fc * (r - r0 + 0.2D);
-            ds = direction * al;
-        }
-
-        xr = x;
-        yr = y;
-        zr = z;
-
-        double drp = r - rr;
-        rr = r;
-
-        // Make step
-        StepResult stepResult = Step_08(x, y, z, ds, dsMax, err, iopt, parmod, exName, inName);
-        x = stepResult.X;
-        y = stepResult.Y;
-        z = stepResult.Z;
-        ds = stepResult.NextStepSize;
-
-        // Check for radial direction reversals
-        r = Math.Sqrt(x * x + y * y + z * z);
-        double dr = r - rr;
-
-        if (drp * dr < 0.0D)
-        {
-            nrev++;
-        }
-
-        if (nrev > 4)
-        {
-            break;
-        }
-    }
-
-    if (l > lMax)
-    {
-        Console.WriteLine(
-            "**** COMPUTATIONS IN THE SUBROUTINE TRACE_08 ARE TERMINATED: THE NUMBER OF POINTS EXCEEDED LMAX ****");
-        maxPointsExceeded = true;
-
-        if (points.Count > lMax)
-        {
-            points.RemoveAt(points.Count - 1);
-        }
-    }
-
-    if (points.Count > 0)
-    {
-        points[^1] = new CartesianLocation(x, y, z, CoordinateSystem.GSW);
-    }
-    else
-    {
-        points.Add(new CartesianLocation(x, y, z, CoordinateSystem.GSW));
-    }
-
-    return new FieldLine(
-        points,
-        new CartesianLocation(x, y, z, CoordinateSystem.GSW),
-        points.Count,
-        maxPointsExceeded ? "Maximum points exceeded" : "Boundary reached");
-}
 
     private FieldLineRhsVector Rhand_08(
         double x, double y, double z,
