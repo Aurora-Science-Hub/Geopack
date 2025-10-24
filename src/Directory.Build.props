@@ -16,12 +16,12 @@
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <!-- <PackageIcon>GeopackIcon.png</PackageIcon> -->
+    <PackageIcon>Gp_icon.png</PackageIcon>
     <Copyright>Original FORTRAN code Copyright 1979-2008 Nikolai Tsyganenko. C# implementation Copyright 2024-$([System.DateTime]::Now.ToString(yyyy)) Aurora Science Hub</Copyright>
   </PropertyGroup>
 
   <ItemGroup Label="Package files">
-    <!-- <None Include="..\GeopackIcon.png" Pack="true" Visible="false" PackagePath="" /> -->
+    <None Include="..\docs\logo\Gp_icon.png" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
 
