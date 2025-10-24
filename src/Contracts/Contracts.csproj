@@ -12,7 +12,7 @@
 
       This C# implementation is a derivative work of the original FORTRAN code by Nikolai Tsyganenko, and is distributed under the same GNU GPL v3 license.
     </PackageDescription>
-    <PackageTags>science;geophysics;magnetosphere;coordinate-transforms;solar-terrestrial;geopack; geopack-2008;contracts</PackageTags>
+    <PackageTags>science;geophysics;magnetosphere;coordinate-transforms;coordinates;solar-terrestrial;geopack;geopack-2008;geopack-2008dp;gsm;gsw;gse;gei;geo;geod;sun;sm;mag;dipole;dipole-field;igrf;igrf-field;dgrf;dgrf-field;tsyganenko;n-a-tsyganenko</PackageTags>
   </PropertyGroup>
 
 </Project>

@@ -12,7 +12,7 @@
 
       This C# implementation is a derivative work of the original FORTRAN code by Nikolai Tsyganenko, and is distributed under the same GNU GPL v3 license.
     </PackageDescription>
-    <PackageTags>science; geophysics; magnetosphere; magnetic-field-models; solar-terrestrial; geopack; geopack-2008; T89; T89dp; T89C</PackageTags>
+    <PackageTags>science;geophysics;magnetosphere;solar-terrestrial;geopack;geopack-2008;geopack-2008dp;t89;tsyganenko;n-a-tsyganenko</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
