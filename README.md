@@ -16,7 +16,7 @@
 <a href="#validation">Validation</a> •
 <a href="#benchmarks">Benchmarks</a> •
 <a href="#tech-stack">Tech stack</a> •
-<a href="#native-aot-compilation">Code Style</a> •у
+<a href="#native-aot-compilation">Code Style</a> •
 <a href="#licensing">Licensing</a>
 
 </div>
