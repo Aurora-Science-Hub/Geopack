@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="Package files">
-    <None Include="..\docs\logo\Gp_icon.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\docs\logo\Gp_icon.png" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
 
