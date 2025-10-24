@@ -29,7 +29,7 @@
 
   <PropertyGroup>
     <PackageBaseVersion>1.0.0</PackageBaseVersion>
-    <MinVerTagPrefix>-CI</MinVerTagPrefix>
+    <MinVerTagPrefix></MinVerTagPrefix>
   </PropertyGroup>
 
   <!--
