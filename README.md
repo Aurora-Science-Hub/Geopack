@@ -1,8 +1,12 @@
 <h1 align="center">
     <br>
-<img src="docs/logo/Gp_b.png" style="width:400px;"/>
-
-Geopack-2008 C# .NET  implementation
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="docs/logo/Gp_white.png">
+      <source media="(prefers-color-scheme: light)" srcset="docs/logo/Gp_black.png">
+      <img src="docs/logo/logo-black.png" style="width:400px;">
+    </picture>
+    <br>
+    Geopack-2008 C# .NET  implementation
     <br>
 </h1>
 
