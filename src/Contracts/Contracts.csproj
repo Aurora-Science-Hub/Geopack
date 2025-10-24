@@ -15,4 +15,11 @@
     <PackageTags>science;geophysics;magnetosphere;coordinate-transforms;coordinates;solar-terrestrial;geopack;geopack-2008;geopack-2008dp;gsm;gsw;gse;gei;geo;geod;sun;sm;mag;dipole;dipole-field;igrf;igrf-field;dgrf;dgrf-field;tsyganenko;n-a-tsyganenko</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MinVer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
 </Project>
