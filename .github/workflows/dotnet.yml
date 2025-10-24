@@ -71,6 +71,7 @@ jobs:
               run: dotnet pack --no-build --configuration Release --output ./artifacts -p:MinVerVersionOverride=${MINVER_VERSION} -p:PackageVersion=${PKG_VERSION}
 
             - name: Push to GitHub Packages
+              if: ${{ github.ref_name != 'main' }}
               env:
                   GH_API_KEY: ${{ secrets.GH_PACKAGES_NUGET_API_KEY }}
               run: dotnet nuget push ./artifacts/*.nupkg --source AuroraScienceHub --api-key $GH_API_KEY --skip-duplicate
