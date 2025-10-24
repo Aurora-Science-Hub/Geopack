@@ -5,6 +5,7 @@
   <Folder Name="/docs/">
     <File Path="docs/Geopack_2008dp_Questions.md" />
     <File Path="docs/NuGetPackages.md" />
+    <File Path="docs\logo\Gp (w).png" />
   </Folder>
   <Folder Name="/GitHub/" />
   <Folder Name="/GitHub/workflows/">

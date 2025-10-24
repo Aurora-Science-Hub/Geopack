@@ -1,6 +1,8 @@
 <h1 align="center">
     <br>
-    Geopack-2008 C# .NET  implementation
+<img src="docs/logo/Gp%20(b1).png" style="width:400px;"/>
+
+Geopack-2008 C# .NET  implementation
     <br>
 </h1>
 
