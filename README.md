@@ -67,3 +67,17 @@ dotnet publish --framework net9.0 -c Release -r osx-x64
 This C# implementation is a derivative work of the original FORTRAN code by Nikolai Tsyganenko, and is distributed under the same GNU GPL v3 license.
 
 ## How to cite
+
+If you use this software in your research, please cite it as follows:
+
+**Plain text citation:**
+
+Nikolaev, A.V., Ermilov, A. O., Tsyganenko, N. A. (2024). Geopack-2008 C# .NET implementation (Version 1.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.17437549
+
+## References
+
+[1] Hapgood, M. A. (1992). Space physics coordinate transformations: A user guide. Planetary and Space Science, 40(5), 711–717. http://doi.org/10.1016/0032-0633(92)90012-D
+
+[2] N. A. Tsyganenko, A new data-based model of the near magnetosphere magnetic field: 1. Mathematical structure. 2. Parameterization and fitting to observations (submitted to JGR, July 2001)
+
+[3] N. A. Tsyganenko and M. I. Sitnov, Modeling the dynamics of the inner magnetosphere during strong geomagnetic storms, J. Geophys. Res., v. 110 (A3), A03208, doi: 10.1029/2004JA010798, 2005.
