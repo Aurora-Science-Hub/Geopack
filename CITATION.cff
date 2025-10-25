@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Geopack-2008 C# .NET implementation"
+version: v1.0.0
+date-released: 2025-10-24
+authors:
+  - family-names: Nikolaev
+    given-names: Alexander
+    name-particle: V.
+    orcid: https://orcid.org/0000-0001-5558-9615
+    affiliation: Federal Service for Hydrometeorology and Environmental Monitoring
+  - family-names: Ermilov
+    given-names: Aleksei
+    name-particle: O.
+    orcid: https://orcid.org/0009-0006-3080-2997
+    affiliation: Monopoly.Online
+  - family-names: Tsyganenko
+    given-names: Nikolai
+    name-particle: A.
+    orcid: https://orcid.org/0000-0002-5938-1579
+    affiliation: St Petersburg University
+    role: original Fortran code author
+repository-code: "https://github.com/Aurora-Science-Hub/Geopack"
+url: "https://github.com/Aurora-Science-Hub/Geopack"
+abstract: "High-performance C# implementation of the Geopack-2008 geomagnetic field model with double-precision accuracy. This library provides numerical accuracy matching the original Fortran code by N. A. Tsyganenko to within 12 decimal digits (8E-12D). For external magnetic field models, accuracy is raised to 13 digits (1E-13D)."
+keywords:
+  - geopack
+  - geopack-2008
+  - geophysics
+  - magnetosphere
+  - coordinate-transforms
+  - magnetic-field
+  - IGRF
+  - space-physics
+  - solar-terrestrial
+license: GPL-3.0-or-later
+doi: 10.5281/zenodo.17437549
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.17437549
+    description: Zenodo DOI
