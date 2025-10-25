@@ -17,6 +17,7 @@
 [![](https://img.shields.io/badge/.NET-9.0-512BD4)](https://dotnet.microsoft.com/)
 [![](https://img.shields.io/badge/C%23-13.0-239120)](https://learn.microsoft.com/en-us/dotnet/csharp/)
 [![License: GPL v3+](https://img.shields.io/badge/License-GPLv3+-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![DOI](https://zenodo.org/badge/782457774.svg)](https://doi.org/10.5281/zenodo.17437549)
 [![Build & test](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml)
 
 <a href="#validation">Validation</a> •
@@ -43,7 +44,6 @@ see the [benchmarks documentation](benchmarks/AuroraScienceHub.Geopack.Benchmark
 
 ## Tech stack
 - Supported .NET versions:
-    - [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
     - [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 - [Native AOT compilation](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/)
 - [Nullable reference types](https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references)
@@ -65,3 +65,5 @@ dotnet publish --framework net9.0 -c Release -r osx-x64
 
 ## Licensing
 This C# implementation is a derivative work of the original FORTRAN code by Nikolai Tsyganenko, and is distributed under the same GNU GPL v3 license.
+
+## How to cite
