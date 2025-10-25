@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageBaseVersion>2.1.0</PackageBaseVersion>
+    <PackageBaseVersion>2.0.0</PackageBaseVersion>
     <MinVerTagPrefix></MinVerTagPrefix>
   </PropertyGroup>
 
