@@ -19,6 +19,7 @@
     <File Path="global.json" />
     <File Path="NuGet.Config" />
     <File Path="README.md" />
+    <File Path="CITATION.cff" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Contracts/Contracts.csproj" />
