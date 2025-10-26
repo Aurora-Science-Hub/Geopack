@@ -7,5 +7,4 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 /// <param name="Y">Y-coordinate</param>
 /// <param name="Z">Z-coordinate</param>
 /// <param name="CoordinateSystem">Coordinate system</param>
-public record CartesianLocation(double X, double Y, double Z, CoordinateSystem? CoordinateSystem = null)
-    : Location(CoordinateSystem);
+public record CartesianLocation(double X, double Y, double Z, CoordinateSystem? CoordinateSystem = null);
