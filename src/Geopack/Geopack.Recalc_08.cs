@@ -1,4 +1,3 @@
-using System.Numerics;
 using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.Models;
 

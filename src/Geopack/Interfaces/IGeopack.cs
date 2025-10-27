@@ -23,8 +23,10 @@ public interface IGeopack
     /// or the solar wind velocity components (VGSEX, VGSEY, VGSEZ) have changed, the model coefficients
     /// and geo-gsw rotation matrix elements should be updated by calling the subroutine Recalc_08.
     /// </remarks>
-    /// <param name="context">Computation context, containing </param>
-    CartesianFieldVector IgrfGsw_08(ComputationContext ctx, CartesianLocation location);
+    /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
+    /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
+    CartesianFieldVector IgrfGsw_08(double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Calculates components of the main (internal) geomagnetic field in the spherical geographic
