@@ -4,47 +4,12 @@ namespace AuroraScienceHub.Geopack.Contracts.Engine;
 /// Immutable computation context containing pre-calculated coefficients
 /// for specific datetime and solar wind conditions
 /// </summary>
-public sealed record ComputationContext(double[] H, double[] G, double[] REC);
-
-/// <summary>
-/// Elements of the matrix MAG → SM
-/// </summary>
-public sealed record MagSmCoefficients(double SFI, double CFI);
-
-/// <summary>
-/// Dipole tilt angle in the GSW system
-/// </summary>
-public sealed record DipoleTilt(double SPS, double CPS, double PSI);
-
-/// <summary>
-///  Geomagnetic dipole orientation (GEO coordinates)
-/// </summary>
-public sealed record DipoleOrientation(
-    double SL0, double CL0, double ST0, double CT0,
-    double STCL, double STSL, double CTSL, double CTCL);
-
-// Greenwich Sidereal Time
-public sealed record SiderealTime(double CGST, double SGST);
-
-/// <summary>
-/// Gauss coefficients (cosine terms)
-/// </summary>
-public sealed record G(double[] GaussG);
-
-/// <summary>
-/// Gauss coefficients (sine terms)
-/// </summary>
-public sealed record H(double[] GaussH);
-
-/// <summary>
-/// Recursion coefficients for Legendre polynomials
-/// </summary>
-public sealed record Rec(double[] Recursion);
-
-/// <summary>
-///  Matrix (3×3)
-/// </summary>
-public sealed record Matrix3x3(
-    double M11, double M12, double M13,
-    double M21, double M22, double M23,
-    double M31, double M32, double M33);
+public sealed record ComputationContext(
+    double ST0, double CT0, double SL0, double CL0,
+    double CTCL, double STCL, double CTSL, double STSL,
+    double SFI, double CFI,
+    double SPS, double CPS, double PSI,
+    double CGST, double SGST,
+    double A11, double A21, double A31, double A12, double A22, double A32, double A13, double A23, double A33,
+    double E11, double E21, double E31, double E12, double E22, double E32, double E13, double E23, double E33,
+    double[] H, double[] G, double[] REC);

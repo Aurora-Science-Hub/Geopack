@@ -6,15 +6,13 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public ComputationContext Recalc_08(DateTime dateTime, Vector<double>? vsw = null)
+    public ComputationContext Recalc_08(DateTime dateTime, double vgsex, double vgsey, double vgsez)
     {
         int IY = dateTime.Year;
         int IDAY = dateTime.DayOfYear;
         int IHOUR = dateTime.Hour;
         int MIN = dateTime.Minute;
         int ISEC = dateTime.Second;
-
-        vsw ??= new Vector<double>([DefaultVgseX, 0D, 0D]);
 
         if (IY < 1965)
         {
@@ -84,7 +82,6 @@ public sealed partial class Geopack
                 break;
         }
 
-        // Schmidt normalization factors
         double S = 1;
         for (int N = 2; N <= 14; N++)
         {
@@ -103,7 +100,6 @@ public sealed partial class Geopack
             }
         }
 
-        // Calculate GEO components of the unit vector EzMAG
         double G_10 = -G[1];
         double G_11 = G[2];
         double H_11 = H[2];
@@ -124,7 +120,6 @@ public sealed partial class Geopack
         double S2 = Math.Sin(sun.Srasn) * Math.Cos(sun.Sdec);
         double S3 = Math.Sin(sun.Sdec);
 
-        // Calculate GEI components of the unit vector EZGSE
         double DJ = 365d * (IY - 1900) + (IY - 1901) / 4d + IDAY - 0.5d + (IHOUR * 3600 + MIN * 60 + ISEC) / 86400d;
         double T = DJ / 36525d;
         double OBLIQ = (23.45229d - 0.0130125d * T) / 57.2957795d;
@@ -132,30 +127,25 @@ public sealed partial class Geopack
         double DZ2 = -Math.Sin(OBLIQ);
         double DZ3 = Math.Cos(OBLIQ);
 
-        // Obtain GEI components of the unit vector EYGSE
         double DY1 = DZ2 * S3 - DZ3 * S2;
         double DY2 = DZ3 * S1 - DZ1 * S3;
         double DY3 = DZ1 * S2 - DZ2 * S1;
 
-        // Calculate GEI components of the unit vector X = EXGSW
         double V = Math.Sqrt(vgsex * vgsex + vgsey * vgsey + vgsez * vgsez);
         double DX1 = -vgsex / V;
         double DX2 = -vgsey / V;
         double DX3 = -vgsez / V;
 
-        // Then in GEI
         double X1 = DX1 * S1 + DX2 * DY1 + DX3 * DZ1;
         double X2 = DX1 * S2 + DX2 * DY2 + DX3 * DZ2;
         double X3 = DX1 * S3 + DX2 * DY3 + DX3 * DZ3;
 
-        // Calculate GEI components of the unit vector DIP = EZ_SM = EZ_MAG
         double CGST = Math.Cos(sun.Gst);
         double SGST = Math.Sin(sun.Gst);
         double DIP1 = STCL * CGST - STSL * SGST;
         double DIP2 = STCL * SGST + STSL * CGST;
         double DIP3 = CT0;
 
-        // Calculate GEI components of the unit vector Y = EYGSW
         double Y1 = DIP2 * X3 - DIP3 * X2;
         double Y2 = DIP3 * X1 - DIP1 * X3;
         double Y3 = DIP1 * X2 - DIP2 * X1;
@@ -164,12 +154,10 @@ public sealed partial class Geopack
         Y2 /= Y;
         Y3 /= Y;
 
-        // GEI components of the unit vector Z = EZGSW = EXGSW x EYGSW
         double Z1 = X2 * Y3 - X3 * Y2;
         double Z2 = X3 * Y1 - X1 * Y3;
         double Z3 = X1 * Y2 - X2 * Y1;
 
-        // Elements of the matrix GSE to GSW
         double E11 = S1 * X1 + S2 * X2 + S3 * X3;
         double E12 = S1 * Y1 + S2 * Y2 + S3 * Y3;
         double E13 = S1 * Z1 + S2 * Z2 + S3 * Z3;
@@ -180,12 +168,10 @@ public sealed partial class Geopack
         double E32 = DZ1 * Y1 + DZ2 * Y2 + DZ3 * Y3;
         double E33 = DZ1 * Z1 + DZ2 * Z2 + DZ3 * Z3;
 
-        // Geodipole tilt angle in the GSW system
         double SPS = DIP1 * X1 + DIP2 * X2 + DIP3 * X3;
         double CPS = Math.Sqrt(1 - SPS * SPS);
         double PSI = Math.Asin(SPS);
 
-        // Elements of the matrix GEO to GSW
         double A11 = X1 * CGST + X2 * SGST;
         double A12 = -X1 * SGST + X2 * CGST;
         double A13 = X3;
@@ -196,7 +182,6 @@ public sealed partial class Geopack
         double A32 = -Z1 * SGST + Z2 * CGST;
         double A33 = Z3;
 
-        // Elements of the matrix MAG to SM
         double EXMAGX = CT0 * (CL0 * CGST - SL0 * SGST);
         double EXMAGY = CT0 * (CL0 * SGST + SL0 * CGST);
         double EXMAGZ = -ST0;
@@ -205,7 +190,15 @@ public sealed partial class Geopack
         double CFI = Y1 * EYMAGX + Y2 * EYMAGY;
         double SFI = Y1 * EXMAGX + Y2 * EXMAGY + Y3 * EXMAGZ;
 
-        return new ComputationContext(H: H, G: G, REC: REC);
+        return new ComputationContext(
+            ST0: ST0, CT0: CT0, SL0: SL0, CL0: CL0,
+            CTCL: CTCL, STCL: STCL, CTSL: CTSL, STSL: STSL,
+            SFI: SFI, CFI: CFI,
+            SPS: SPS, CPS: CPS,PSI: PSI,
+            CGST: CGST, SGST: SGST,
+            A11: A11, A21: A21, A31: A31, A12: A12, A22: A22, A32: A32, A13: A13, A23: A23, A33: A33,
+            E11: E11, E21: E21, E31: E31, E12: E12, E22: E22, E32: E32, E13: E13, E23: E23, E33: E33,
+            H: H, G: G, REC: REC);
     }
 
     private static (double[], double[]) Interpolate(

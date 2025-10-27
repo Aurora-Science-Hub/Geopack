@@ -1,5 +1,3 @@
-using System.Numerics;
-using AuroraScienceHub.Geopack.Contracts;
 using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.Interfaces;
 using AuroraScienceHub.Geopack.Contracts.Models;
@@ -25,10 +23,8 @@ public interface IGeopack
     /// or the solar wind velocity components (VGSEX, VGSEY, VGSEZ) have changed, the model coefficients
     /// and geo-gsw rotation matrix elements should be updated by calling the subroutine Recalc_08.
     /// </remarks>
-    /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
-    /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
-    /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianFieldVector IgrfGsw_08(double xgsw, double ygsw, double zgsw);
+    /// <param name="context">Computation context, containing </param>
+    CartesianFieldVector IgrfGsw_08(ComputationContext ctx, CartesianLocation location);
 
     /// <summary>
     /// Calculates components of the main (internal) geomagnetic field in the spherical geographic
@@ -138,7 +134,7 @@ public interface IGeopack
     /// </remarks>
     /// <param name="dateTime">Date and time in UTC</param>
     /// <param name="vsw">Solar wind GSE cartesian velocity vector (in km/s)</param>
-    ComputationContext Recalc_08(DateTime dateTime, Vector<double>? vsw);
+    ComputationContext Recalc_08(DateTime dateTime, double vgsex = -400D, double vgsey = 0D, double vgsez = 0D);
 
     /// <summary>
     /// Transforms components of geocentric solar-wind (GSW) system to GSE coordinate.

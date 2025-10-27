@@ -3,8 +3,8 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 /// <summary>
 /// Location with spherical coordinates
 /// </summary>
-/// <param name="R"> Radial component </param>
-/// <param name="Theta"> Theta angle </param>
-/// <param name="Phi"> Phi angle </param>
+/// <param name="R"> Radial component in Earth radii (Re) </param>
+/// <param name="Theta"> Theta angle in radians (rad)</param>
+/// <param name="Phi"> Phi angle in radians (rad)</param>
 /// <param name="CoordinateSystem"> Coordinate system </param>
-public record SphericalLocation(double R, double Theta, double Phi, CoordinateSystem? CoordinateSystem = null);
+public readonly record struct SphericalLocation(double R, double Theta, double Phi, CoordinateSystem CoordinateSystem);
