@@ -193,7 +193,7 @@ public sealed partial class Geopack
             ST0: ST0, CT0: CT0, SL0: SL0, CL0: CL0,
             CTCL: CTCL, STCL: STCL, CTSL: CTSL, STSL: STSL,
             SFI: SFI, CFI: CFI,
-            SPS: SPS, CPS: CPS,PSI: PSI,
+            SPS: SPS, CPS: CPS, PSI: PSI,
             CGST: CGST, SGST: SGST,
             A11: A11, A21: A21, A31: A31, A12: A12, A22: A22, A32: A32, A13: A13, A23: A23, A33: A33,
             E11: E11, E21: E21, E31: E31, E12: E12, E22: E22, E32: E32, E13: E13, E23: E23, E33: E33,
