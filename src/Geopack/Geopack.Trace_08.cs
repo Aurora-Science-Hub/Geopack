@@ -1,4 +1,5 @@
 using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.Interfaces;
 using AuroraScienceHub.Geopack.Contracts.Models;
 
@@ -6,7 +7,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public FieldLine Trace_08(
+    public FieldLine Trace_08(ComputationContext ctx,
     double xi, double yi, double zi,
     TraceDirection dir,
     double dsMax, double err, double rLim, double r0,
@@ -20,7 +21,7 @@ public sealed partial class Geopack
 
         int l = 0;
         int nrev = 0;
-        Common1.DS3 = direction;
+        ctx.DS3 = direction;
 
         double ds = 0.5D * direction;
         double x = xi;
@@ -29,7 +30,7 @@ public sealed partial class Geopack
 
         double xr = x, yr = y, zr = z;
 
-        FieldLineRhsVector initialRhs = Rhand_08(x, y, z, iopt, parmod, exName, inName);
+        FieldLineRhsVector initialRhs = Rhand_08(ctx, x, y, z, iopt, parmod, exName, inName);
         double ad = 0.01D;
         if (x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3 < 0.0D)
         {
@@ -83,7 +84,7 @@ public sealed partial class Geopack
             rr = r;
 
             // Make step
-            StepResult stepResult = Step_08(x, y, z, ds, dsMax, err, iopt, parmod, exName, inName);
+            StepResult stepResult = Step_08(ctx, x, y, z, ds, dsMax, err, iopt, parmod, exName, inName);
             x = stepResult.X;
             y = stepResult.Y;
             z = stepResult.Z;
@@ -132,20 +133,20 @@ public sealed partial class Geopack
             maxPointsExceeded ? "Maximum points exceeded" : "Boundary reached");
     }
 
-    private FieldLineRhsVector Rhand_08(
+    private FieldLineRhsVector Rhand_08(ComputationContext ctx,
         double x, double y, double z,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
         InternalFieldModel inName)
     {
-        CartesianFieldVector externalField = exName.Calculate(iopt, parmod, Common1.PSI, x, y, z);
+        CartesianFieldVector externalField = exName.Calculate(iopt, parmod, ctx.PSI, x, y, z);
         CartesianFieldVector internalField = inName(x, y, z);
 
         double bx = externalField.Bx + internalField.Bx;
         double by = externalField.By + internalField.By;
         double bz = externalField.Bz + internalField.Bz;
 
-        double b = Common1.DS3 / Math.Sqrt(bx * bx + by * by + bz * bz);
+        double b = ctx.DS3 / Math.Sqrt(bx * bx + by * by + bz * bz);
 
         double r1 = bx * b;
         double r2 = by * b;
@@ -154,7 +155,7 @@ public sealed partial class Geopack
         return new FieldLineRhsVector(r1, r2, r3);
     }
 
-    private StepResult Step_08(
+    private StepResult Step_08(ComputationContext ctx,
         double x, double y, double z,
         double ds, double dsMax, double errIn,
         int iopt, double[] parmod,
@@ -165,21 +166,21 @@ public sealed partial class Geopack
 
         while (true)
         {
-            Common1.DS3 = -currentDs / 3.0D;
+            ctx.DS3 = -currentDs / 3.0D;
 
-            FieldLineRhsVector r1 = Rhand_08(x, y, z, iopt, parmod, exName, inName);
-            FieldLineRhsVector r2 = Rhand_08(x + r1.R1, y + r1.R2, z + r1.R3, iopt, parmod, exName, inName);
-            FieldLineRhsVector r3 = Rhand_08(
+            FieldLineRhsVector r1 = Rhand_08(ctx, x, y, z, iopt, parmod, exName, inName);
+            FieldLineRhsVector r2 = Rhand_08(ctx, x + r1.R1, y + r1.R2, z + r1.R3, iopt, parmod, exName, inName);
+            FieldLineRhsVector r3 = Rhand_08(ctx,
                 x + 0.5D * (r1.R1 + r2.R1),
                 y + 0.5D * (r1.R2 + r2.R2),
                 z + 0.5D * (r1.R3 + r2.R3),
                 iopt, parmod, exName, inName);
-            FieldLineRhsVector r4 = Rhand_08(
+            FieldLineRhsVector r4 = Rhand_08(ctx,
                 x + 0.375D * (r1.R1 + 3.0D * r3.R1),
                 y + 0.375D * (r1.R2 + 3.0D * r3.R2),
                 z + 0.375D * (r1.R3 + 3.0D * r3.R3),
                 iopt, parmod, exName, inName);
-            FieldLineRhsVector r5 = Rhand_08(
+            FieldLineRhsVector r5 = Rhand_08(ctx,
                 x + 1.5D * (r1.R1 - 3.0D * r3.R1 + 4.0D * r4.R1),
                 y + 1.5D * (r1.R2 - 3.0D * r3.R2 + 4.0D * r4.R2),
                 z + 1.5D * (r1.R3 - 3.0D * r3.R3 + 4.0D * r4.R3),

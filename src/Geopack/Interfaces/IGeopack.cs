@@ -23,10 +23,11 @@ public interface IGeopack
     /// or the solar wind velocity components (VGSEX, VGSEY, VGSEZ) have changed, the model coefficients
     /// and geo-gsw rotation matrix elements should be updated by calling the subroutine Recalc_08.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianFieldVector IgrfGsw_08(double xgsw, double ygsw, double zgsw);
+    CartesianFieldVector IgrfGsw_08(ComputationContext ctx, double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Calculates components of the main (internal) geomagnetic field in the spherical geographic
@@ -38,10 +39,11 @@ public interface IGeopack
     /// Before the first call of this subroutine, or if the date was changed,
     /// the model coefficients should be updated by calling the subroutine Recalc_08
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="r">Spherical geographic (geocentric) coordinates: radial distance R (in units RE=6371.2 km)</param>
     /// <param name="theta">Colatitude THETA in radians</param>
     /// <param name="phi">Longitude PHI in radians</param>
-    SphericalFieldVector IgrfGeo_08(double r, double theta, double phi);
+    SphericalFieldVector IgrfGeo_08(ComputationContext ctx, double r, double theta, double phi);
 
     /// <summary>
     /// Calculates GSW (geocentric solar-wind) components of geodipole field with the dipole moment
@@ -55,10 +57,11 @@ public interface IGeopack
     /// identical to each other in the case of strictly radial anti-sunward solar wind flow). Its
     /// detailed definition is given in introductory comments for the subroutine GswGse_08.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianFieldVector Dip_08(double xgsw, double ygsw, double zgsw);
+    CartesianFieldVector Dip_08(ComputationContext ctx, double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Calculates four quantities necessary for coordinate transformations
@@ -129,13 +132,13 @@ public interface IGeopack
     /// </summary>
     /// <remarks>
     /// Original Geopack-2008 method: RECALC_08.
-    /// This subroutine should be invoked before using the following subroutines:
-    /// IgrfGeo_08, IgrfGsw_08, Dip_08, GeoMag_08 / MagGeo, GeoGsw_08 / GswGeo_08,
-    /// MagSm_08 / SmMag_08, SmGsw_08 / GswSm_08, GswGse_08 / GseGsw_08, GeiGeo_08 / GeoGei_08, Trace_08.
     /// There is no need to repeatedly invoke Recalc_08 if multiple calculations are made for the same date/time and solar wind flow direction.
     /// </remarks>
     /// <param name="dateTime">Date and time in UTC</param>
     /// <param name="vsw">Solar wind GSE cartesian velocity vector (in km/s)</param>
+    /// <returns>
+    /// ComputationContext containing all needed coefficients.
+    /// </returns>
     ComputationContext Recalc_08(DateTime dateTime, double vgsex = -400D, double vgsey = 0D, double vgsez = 0D);
 
     /// <summary>
@@ -148,10 +151,11 @@ public interface IGeopack
     /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
     /// Before calling GSWGSE_08, be sure to invoke the subroutine Recalc_08 to define all necessary elements of transformation matrices.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation GswGse_08(double xgsw, double ygsw, double zgsw);
+    CartesianLocation GswGse_08(ComputationContext ctx, double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Transforms GSE coordinate components to geocentric solar-wind (GSW) ones.
@@ -163,10 +167,11 @@ public interface IGeopack
     /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
     /// Before calling GseGsw_08, be sure to invoke the subroutine Recalc_08 to define all necessary elements of transformation matrices.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xgse">Cartesian GSE X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygse">Cartesian GSE Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgse">Cartesian GSE Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation GseGsw_08(double xgse, double ygse, double zgse);
+    CartesianLocation GseGsw_08(ComputationContext ctx, double xgse, double ygse, double zgse);
 
     /// <summary>
     /// Converts geographic (GEO) to dipole (MAG) coordinates.
@@ -178,10 +183,11 @@ public interface IGeopack
     /// 2. If the values of date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in Recalc_08.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xgeo">Cartesian GEO X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygeo">Cartesian GEO Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgeo">Cartesian GEO Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation GeoMag_08(double xgeo, double ygeo, double zgeo);
+    CartesianLocation GeoMag_08(ComputationContext ctx, double xgeo, double ygeo, double zgeo);
 
     /// <summary>
     /// Converts dipole (MAG) coordinates to geographic (GEO).
@@ -193,10 +199,11 @@ public interface IGeopack
     /// 2. If the values of date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in Recalc_08.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xmag">Cartesian MAG X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ymag">Cartesian MAG Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zmag">Cartesian MAG Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation MagGeo_08(double xmag, double ymag, double zmag);
+    CartesianLocation MagGeo_08(ComputationContext ctx, double xmag, double ymag, double zmag);
 
     /// <summary>
     /// Converts equatorial inertial (GEI) to geographical (GEO) coordinates.
@@ -208,10 +215,11 @@ public interface IGeopack
     /// 2. If the current values date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in Recalc_08.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xgei">Cartesian GEI X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygei">Cartesian GEI Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgei">Cartesian GEI Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation GeiGeo_08(double xgei, double ygei, double zgei);
+    CartesianLocation GeiGeo_08(ComputationContext ctx, double xgei, double ygei, double zgei);
 
     /// <summary>
     /// Converts geographical (GEO) coordinates to equatorial inertial (GEI).
@@ -223,10 +231,11 @@ public interface IGeopack
     /// 2. If the current values date/time have been changed.
     /// No information is required here on the solar wind velocity, so one can set VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0 in Recalc_08.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xgeo">Cartesian GEO X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygeo">Cartesian GEO Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgeo">Cartesian GEO Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation GeoGei_08(double xgeo, double ygeo, double zgeo);
+    CartesianLocation GeoGei_08(ComputationContext ctx, double xgeo, double ygeo, double zgeo);
 
     /// <summary>
     /// Converts dipole (MAG) to solar magnetic (SM) coordinates.
@@ -242,10 +251,11 @@ public interface IGeopack
     /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
     /// invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xmag">Cartesian MAG X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ymag">Cartesian MAG Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zmag">Cartesian MAG Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation MagSm_08(double xmag, double ymag, double zmag);
+    CartesianLocation MagSm_08(ComputationContext ctx, double xmag, double ymag, double zmag);
 
     /// <summary>
     /// Converts solar magnetic (SM) to dipole (MAG) coordinates.
@@ -261,10 +271,11 @@ public interface IGeopack
     /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
     /// invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xsm">Cartesian SM X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ysm">Cartesian SM Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zsm">Cartesian SM Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation SmMag_08(double xsm, double ysm, double zsm);
+    CartesianLocation SmMag_08(ComputationContext ctx, double xsm, double ysm, double zsm);
 
     /// <summary>
     /// Converts solar magnetic (SM) to geocentric solar-wind (GSW) coordinates.
@@ -280,10 +291,11 @@ public interface IGeopack
     /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
     /// invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xsm">Cartesian SM X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ysm">Cartesian SM Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zsm">Cartesian SM Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation SmGsw_08(double xsm, double ysm, double zsm);
+    CartesianLocation SmGsw_08(ComputationContext ctx, double xsm, double ysm, double zsm);
 
     /// <summary>
     /// Converts geocentric solar-wind (GSW) to solar magnetic (SM) coordinates.
@@ -299,10 +311,11 @@ public interface IGeopack
     /// (rather than the Earth-Sun line). In order to convert MAG coordinates to and from the standard SM coordinates,
     /// invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation GswSm_08(double xgsw, double ygsw, double zgsw);
+    CartesianLocation GswSm_08(ComputationContext ctx, double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Converts geographic (GEO) to geocentric solar-wind (GSW) coordinates.
@@ -317,10 +330,11 @@ public interface IGeopack
     /// taking into account possible deflections of the solar wind direction from strictly radial.
     /// Before converting to/from standard GSM coordinates, invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xgeo">Cartesian GEO X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygeo">Cartesian GEO Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgeo">Cartesian GEO Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation GeoGsw_08(double xgeo, double ygeo, double zgeo);
+    CartesianLocation GeoGsw_08(ComputationContext ctx, double xgeo, double ygeo, double zgeo);
 
     /// <summary>
     /// Converts geocentric solar-wind (GSW) to geographic (GEO) coordinates.
@@ -335,10 +349,11 @@ public interface IGeopack
     /// taking into account possible deflections of the solar wind direction from strictly radial.
     /// Before converting to/from standard GSM coordinates, invoke Recalc_08 with VGSEX=-400.0, VGSEY=0.0, VGSEZ=0.0.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianLocation GswGeo_08(double xgsw, double ygsw, double zgsw);
+    CartesianLocation GswGeo_08(ComputationContext ctx, double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Converts vertical local height (altitude) H and geodetic latitude XMU into geocentric coordinates R and THETA.
@@ -383,6 +398,7 @@ public interface IGeopack
     ///    Recalc_08) and forwarded in the common block /GEOPACK1/ (in its 11th and 12th elements, respectively). In this case the
     ///    role of the subroutine Recalc_08 is reduced to only calculating the components of the Earth's dipole moment.
     /// </remarks>
+    /// <param name="ctx">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
     /// <param name="xi">GSW X-coordinate of the field line starting point (in Earth radii, 1 RE = 6371.2 km)</param>
     /// <param name="yi">GSW Y-coordinate of the field line starting point (in Earth radii, 1 RE = 6371.2 km)</param>
     /// <param name="zi">GSW Z-coordinate of the field line starting point (in Earth radii, 1 RE = 6371.2 km)</param>
@@ -415,7 +431,7 @@ public interface IGeopack
     /// <param name="lMax">Maximal length of the arrays XX,YY,ZZ, in which coordinates of the field
     /// line points are stored. LMAX should be set equal to the actual length of
     /// the arrays, defined in the main program as actual arguments of this subroutine.</param>
-    FieldLine Trace_08(
+    FieldLine Trace_08(ComputationContext ctx,
         double xi, double yi, double zi,
         TraceDirection dir,
         double dsMax,

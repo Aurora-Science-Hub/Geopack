@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 
@@ -12,7 +13,13 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 [MarkdownExporterAttribute.GitHub]
 public class IgrfMagneticFieldBenchmarks
 {
+    private readonly ComputationContext _ctx;
     private readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
+
+    public IgrfMagneticFieldBenchmarks()
+    {
+        _ctx = _geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
+    }
 
     private const double Xgsw = -1.02D;
     private const double Ygsw = 0.0D;
@@ -24,17 +31,13 @@ public class IgrfMagneticFieldBenchmarks
 
     private static readonly DateTime s_testDate = new(1997, 12, 11, 10, 10, 0, DateTimeKind.Utc);
 
-    [GlobalSetup]
-    public void Setup()
-        => _geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
-
     [Benchmark(Baseline = true)]
     public void Calculate_IgrfMagneticField()
-        => _geopack.IgrfGsw_08(Xgsw, Ygsw, Zgsw);
+        => _geopack.IgrfGsw_08(_ctx, Xgsw, Ygsw, Zgsw);
 
     [Benchmark]
     public void Calculate_DipMagneticField()
-        => _geopack.Dip_08(Xgsw, Ygsw, Zgsw);
+        => _geopack.Dip_08(_ctx, Xgsw, Ygsw, Zgsw);
 
     [Benchmark]
     public void Calculate_Sun()

@@ -1,22 +1,23 @@
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.Models;
 
 namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianLocation GeoGsw_08(double xGeo, double yGeo, double zGeo)
+    public CartesianLocation GeoGsw_08(ComputationContext ctx, double xGeo, double yGeo, double zGeo)
     {
-        double xGsw = Common1.A11 * xGeo + Common1.A12 * yGeo + Common1.A13 * zGeo;
-        double yGsw = Common1.A21 * xGeo + Common1.A22 * yGeo + Common1.A23 * zGeo;
-        double zGsw = Common1.A31 * xGeo + Common1.A32 * yGeo + Common1.A33 * zGeo;
+        double xGsw = ctx.A11 * xGeo + ctx.A12 * yGeo + ctx.A13 * zGeo;
+        double yGsw = ctx.A21 * xGeo + ctx.A22 * yGeo + ctx.A23 * zGeo;
+        double zGsw = ctx.A31 * xGeo + ctx.A32 * yGeo + ctx.A33 * zGeo;
         return new CartesianLocation(xGsw, yGsw, zGsw, CoordinateSystem.GSW);
     }
 
-    public CartesianLocation GswGeo_08(double xGsw, double yGsw, double zGsw)
+    public CartesianLocation GswGeo_08(ComputationContext ctx, double xGsw, double yGsw, double zGsw)
     {
-        double xGeo = Common1.A11 * xGsw + Common1.A21 * yGsw + Common1.A31 * zGsw;
-        double yGeo = Common1.A12 * xGsw + Common1.A22 * yGsw + Common1.A32 * zGsw;
-        double zGeo = Common1.A13 * xGsw + Common1.A23 * yGsw + Common1.A33 * zGsw;
+        double xGeo = ctx.A11 * xGsw + ctx.A21 * yGsw + ctx.A31 * zGsw;
+        double yGeo = ctx.A12 * xGsw + ctx.A22 * yGsw + ctx.A32 * zGsw;
+        double zGeo = ctx.A13 * xGsw + ctx.A23 * yGsw + ctx.A33 * zGsw;
         return new CartesianLocation(xGeo, yGeo, zGeo, CoordinateSystem.GEO);
     }
 }

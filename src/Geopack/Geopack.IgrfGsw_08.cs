@@ -1,10 +1,11 @@
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.Models;
 
 namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianFieldVector IgrfGsw_08(double xgsw, double ygsw, double zgsw)
+    public CartesianFieldVector IgrfGsw_08(ComputationContext ctx, double xgsw, double ygsw, double zgsw)
     {
         CartesianLocation geoLocation = GswGeo_08(xgsw, ygsw, zgsw);
         double xgeo = geoLocation.X;
@@ -81,8 +82,8 @@ public sealed partial class Geopack
             {
                 double an = a[n - 1];
                 int mn = n * (n - 1) / 2 + m;
-                double e = Common2.G[mn - 1];
-                double hh = Common2.H[mn - 1];
+                double e = ctx.G[mn - 1];
+                double hh = ctx.H[mn - 1];
                 double w_val = e * y + hh * x;
                 bbr += b[n - 1] * w_val * q;
                 bbt -= an * w_val * z;
@@ -95,7 +96,7 @@ public sealed partial class Geopack
                     bi += an * (e * x - hh * y) * qq;
                 }
 
-                double xk = Common2.REC[mn - 1];
+                double xk = ctx.REC[mn - 1];
                 double dp = c * z - s * q - xk * d2;
                 double pm = c * q - xk * p2;
                 d2 = z;
