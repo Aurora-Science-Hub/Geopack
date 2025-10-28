@@ -20,7 +20,7 @@ public sealed partial class Geopack
 
         int l = 0;
         int nrev = 0;
-        ctx.DS3 = direction;
+        double ds3 = direction;
 
         double ds = 0.5D * direction;
         double x = xi;
@@ -29,7 +29,7 @@ public sealed partial class Geopack
 
         double xr = x, yr = y, zr = z;
 
-        FieldLineRhsVector initialRhs = Rhand_08(ctx, x, y, z, iopt, parmod, exName, inName);
+        FieldLineRhsVector initialRhs = Rhand_08(ctx, x, y, z, iopt, parmod, exName, inName, ds3);
         double ad = 0.01D;
         if (x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3 < 0.0D)
         {
@@ -83,7 +83,7 @@ public sealed partial class Geopack
             rr = r;
 
             // Make step
-            StepResult stepResult = Step_08(ctx, x, y, z, ds, dsMax, err, iopt, parmod, exName, inName);
+            (StepResult stepResult, ds3) = Step_08(ctx, x, y, z, ds, dsMax, err, iopt, parmod, exName, inName, ds3);
             x = stepResult.X;
             y = stepResult.Y;
             z = stepResult.Z;
@@ -136,7 +136,8 @@ public sealed partial class Geopack
         double x, double y, double z,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
-        InternalFieldModel inName)
+        InternalFieldModel inName,
+        double ds3)
     {
         CartesianFieldVector externalField = exName.Calculate(iopt, parmod, ctx.PSI, x, y, z);
         CartesianFieldVector internalField = inName(ctx, x, y, z);
@@ -145,7 +146,7 @@ public sealed partial class Geopack
         double by = externalField.By + internalField.By;
         double bz = externalField.Bz + internalField.Bz;
 
-        double b = ctx.DS3 / Math.Sqrt(bx * bx + by * by + bz * bz);
+        double b = ds3 / Math.Sqrt(bx * bx + by * by + bz * bz);
 
         double r1 = bx * b;
         double r2 = by * b;
@@ -154,36 +155,40 @@ public sealed partial class Geopack
         return new FieldLineRhsVector(r1, r2, r3);
     }
 
-    private StepResult Step_08(ComputationContext ctx,
+    private (StepResult, double) Step_08(ComputationContext ctx,
         double x, double y, double z,
         double ds, double dsMax, double errIn,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
-        InternalFieldModel inName)
+        InternalFieldModel inName,
+        double ds3)
     {
         double currentDs = ds;
 
         while (true)
         {
-            ctx.DS3 = -currentDs / 3.0D;
+            ds3 = -currentDs / 3.0D;
 
-            FieldLineRhsVector r1 = Rhand_08(ctx, x, y, z, iopt, parmod, exName, inName);
-            FieldLineRhsVector r2 = Rhand_08(ctx, x + r1.R1, y + r1.R2, z + r1.R3, iopt, parmod, exName, inName);
+            FieldLineRhsVector r1 = Rhand_08(ctx, x, y, z, iopt, parmod, exName, inName, ds3);
+            FieldLineRhsVector r2 = Rhand_08(ctx, x + r1.R1, y + r1.R2, z + r1.R3, iopt, parmod, exName, inName, ds3);
             FieldLineRhsVector r3 = Rhand_08(ctx,
                 x + 0.5D * (r1.R1 + r2.R1),
                 y + 0.5D * (r1.R2 + r2.R2),
                 z + 0.5D * (r1.R3 + r2.R3),
-                iopt, parmod, exName, inName);
+                iopt, parmod, exName, inName,
+                ds3);
             FieldLineRhsVector r4 = Rhand_08(ctx,
                 x + 0.375D * (r1.R1 + 3.0D * r3.R1),
                 y + 0.375D * (r1.R2 + 3.0D * r3.R2),
                 z + 0.375D * (r1.R3 + 3.0D * r3.R3),
-                iopt, parmod, exName, inName);
+                iopt, parmod, exName, inName,
+                ds3);
             FieldLineRhsVector r5 = Rhand_08(ctx,
                 x + 1.5D * (r1.R1 - 3.0D * r3.R1 + 4.0D * r4.R1),
                 y + 1.5D * (r1.R2 - 3.0D * r3.R2 + 4.0D * r4.R2),
                 z + 1.5D * (r1.R3 - 3.0D * r3.R3 + 4.0D * r4.R3),
-                iopt, parmod, exName, inName);
+                iopt, parmod, exName, inName,
+                ds3);
 
             double errCur = Math.Abs(r1.R1 - 4.5D * r3.R1 + 4.0D * r4.R1 - 0.5D * r5.R1)
                             + Math.Abs(r1.R2 - 4.5D * r3.R2 + 4.0D * r4.R2 - 0.5D * r5.R2)
@@ -211,7 +216,7 @@ public sealed partial class Geopack
                 nextDs *= 1.5D;
             }
 
-            return new StepResult(newX, newY, newZ, nextDs);
+            return (new StepResult(newX, newY, newZ, nextDs), ds3);
         }
     }
 

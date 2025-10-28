@@ -5,7 +5,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public ComputationContext Recalc_08(DateTime dateTime, double vgsex = 400D, double vgsey = 0D, double vgsez = 0D)
+    public ComputationContext Recalc_08(DateTime dateTime, double vgsex = -400D, double vgsey = 0D, double vgsez = 0D)
     {
         int IY = dateTime.Year;
         int IDAY = dateTime.DayOfYear;

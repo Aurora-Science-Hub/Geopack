@@ -16,7 +16,4 @@ public sealed record ComputationContext(
     double E11, double E21, double E31,
     double E12, double E22, double E32,
     double E13, double E23, double E33,
-    double[] H, double[] G, double[] REC)
-{
-    public double DS3 = 0D;
-};
+    double[] H, double[] G, double[] REC);
