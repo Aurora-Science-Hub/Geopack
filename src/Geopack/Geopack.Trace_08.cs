@@ -83,7 +83,7 @@ public sealed partial class Geopack
             rr = r;
 
             // Make step
-            StepResult stepResult = Step_08(ctx, x, y, z, ds, dsMax, err, iopt, parmod, exName, inName, ds3);
+            (StepResult stepResult, ds3) = Step_08(ctx, x, y, z, ds, dsMax, err, iopt, parmod, exName, inName, ds3);
             x = stepResult.X;
             y = stepResult.Y;
             z = stepResult.Z;
@@ -155,7 +155,7 @@ public sealed partial class Geopack
         return new FieldLineRhsVector(r1, r2, r3);
     }
 
-    private StepResult Step_08(ComputationContext ctx,
+    private (StepResult, double) Step_08(ComputationContext ctx,
         double x, double y, double z,
         double ds, double dsMax, double errIn,
         int iopt, double[] parmod,
@@ -213,7 +213,7 @@ public sealed partial class Geopack
                 nextDs *= 1.5D;
             }
 
-            return new StepResult(newX, newY, newZ, nextDs);
+            return (new StepResult(newX, newY, newZ, nextDs), ds3);
         }
     }
 
