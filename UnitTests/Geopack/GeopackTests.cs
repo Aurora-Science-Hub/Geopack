@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.Interfaces;
 using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using AuroraScienceHub.Geopack.UnitTests.Geopack.Fixtures;
@@ -10,7 +11,9 @@ public class TestDataCollection : ICollectionFixture<TestDataFixture>;
 [Collection("Geopack")]
 public partial class GeopackTests(TestDataFixture fixture)
 {
-    private readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
+    private static readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
+
+    ComputationContext _ctx = _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
     private readonly IExternalFieldModel _t89 = new T89();
 

@@ -34,6 +34,6 @@ public sealed partial class Geopack
         double btheta = (bx * cphi + by * sphi) * ct - bz * st;
         double bphi = by * cphi - bx * sphi;
 
-        return new SphericalFieldVector(br, btheta, bphi, null);
+        return new SphericalFieldVector(br, btheta, bphi);
     }
 }

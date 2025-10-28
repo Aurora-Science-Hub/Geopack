@@ -7,4 +7,4 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 /// <param name="Btheta">Vector theta component </param>
 /// <param name="Bphi"> Vector phi component </param>
 /// <param name="CoordinateSystem"> Coordinate system </param>
-public record SphericalFieldVector(double Br, double Btheta, double Bphi, CoordinateSystem? CoordinateSystem);
+public record SphericalFieldVector(double Br, double Btheta, double Bphi, CoordinateSystem? CoordinateSystem = null);

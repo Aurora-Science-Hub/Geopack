@@ -124,7 +124,9 @@ public interface IGeopack
     /// <param name="bx">Cartesian component of the field vector</param>
     /// <param name="by">Cartesian component of the field vector</param>
     /// <param name="bz">Cartesian component of the field vector</param>
-    SphericalFieldVector BCarSph_08(double x, double y, double z, double bx, double by, double bz);
+    SphericalFieldVector BCarSph_08(
+        double x, double y, double z, double
+            bx, double by, double bz);
 
     /// <summary>
     /// Prepares elements of rotation matrices for transformations of vectors between several coordinate systems,
@@ -135,7 +137,9 @@ public interface IGeopack
     /// There is no need to repeatedly invoke Recalc_08 if multiple calculations are made for the same date/time and solar wind flow direction.
     /// </remarks>
     /// <param name="dateTime">Date and time in UTC</param>
-    /// <param name="vsw">Solar wind GSE cartesian velocity vector (in km/s)</param>
+    /// <param name="vgsex">Solar wind GSE cartesian velocity vector X-component (in km/s)</param>
+    /// <param name="vgsey">Solar wind GSE cartesian velocity vector Y-component (in km/s)</param>
+    /// <param name="vgsez">Solar wind GSE cartesian velocity vector Z-component (in km/s)</param>
     /// <returns>
     /// ComputationContext containing all needed coefficients.
     /// </returns>

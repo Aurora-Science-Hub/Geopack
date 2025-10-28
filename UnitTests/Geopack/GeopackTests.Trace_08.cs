@@ -1,4 +1,3 @@
-using AuroraScienceHub.Geopack.Contracts;
 using AuroraScienceHub.Geopack.Contracts.Interfaces;
 using AuroraScienceHub.Geopack.Contracts.Models;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
@@ -27,12 +26,11 @@ public partial class GeopackTests
         int lmax = 500;
 
         // Act
-        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, -16.0D + 29.78D, 4.0D);
         double XGSW = -1.02D;
         double YGSW = 0.8D;
         double ZGSW = 0.9D;
 
-        FieldLine fieldLine = _geopack.Trace_08(
+        FieldLine fieldLine = _geopack.Trace_08(_ctx,
             XGSW, YGSW, ZGSW,
             dir, dsmax, err, rlim, r0,
             iopt, parmod,
@@ -70,12 +68,11 @@ public partial class GeopackTests
         int lmax = 500;
 
         // Act
-        _geopack.Recalc_08(fixture.InputData.DateTime);
         double XGSW = -1.02D;
         double YGSW = 0.8D;
         double ZGSW = -0.9D;
 
-        FieldLine fieldLine = _geopack.Trace_08(
+        FieldLine fieldLine = _geopack.Trace_08(_ctx,
             XGSW, YGSW, ZGSW,
             dir, dsmax, err, rlim, r0,
             iopt, parmod,

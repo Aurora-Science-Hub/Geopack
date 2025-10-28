@@ -49,7 +49,7 @@ public class MagneticFieldLineTraceBenchmarks
             s_testPointNs.X, s_testPointNs.Y, s_testPointNs.Z,
             TraceDirection.AntiParallel, Dsmax, Err, Rlim, R0,
             Iopt, s_parmod,
-            s_t89, (xgsw, ygsw, zgsw) => s_geopack.IgrfGsw_08(_ctx, xgsw, ygsw, zgsw),
+            s_t89, s_geopack.IgrfGsw_08,
             Lmax);
 
     [Benchmark]
@@ -58,6 +58,6 @@ public class MagneticFieldLineTraceBenchmarks
             s_testPointSn.X, s_testPointSn.Y, s_testPointSn.Z,
             TraceDirection.Parallel, Dsmax, Err, Rlim, R0,
             Iopt, s_parmod,
-            s_t89, (xgsw, ygsw, zgsw) => s_geopack.IgrfGsw_08(_ctx, xgsw, ygsw, zgsw),
+            s_t89, s_geopack.IgrfGsw_08,
             Lmax);
 }
