@@ -3,6 +3,8 @@ using AuroraScienceHub.Geopack.Contracts.Interfaces;
 using AuroraScienceHub.Geopack.Contracts.Models;
 using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 
 namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
@@ -12,8 +14,9 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 /// </summary>
 [MemoryDiagnoser]
 [SimpleJob(RuntimeMoniker.Net90)]
-// [SimpleJob(RuntimeMoniker.NativeAot90)]
+[SimpleJob(RuntimeMoniker.NativeAot90)]
 [MarkdownExporterAttribute.GitHub]
+[Config(typeof(NativeAotConfig))]
 public class MagneticFieldLineTraceBenchmarks
 {
     private readonly ComputationContext _ctx;
@@ -60,4 +63,17 @@ public class MagneticFieldLineTraceBenchmarks
             Iopt, s_parmod,
             s_t89, s_geopack.IgrfGsw_08,
             Lmax);
+
+    private class NativeAotConfig : ManualConfig
+    {
+        public NativeAotConfig()
+        {
+            AddJob(Job.Default
+                .WithRuntime(NativeAotRuntime.Net90)
+                .WithId("NativeAOT"));
+            ArtifactsPath = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "BenchmarkDotNet.Artifacts");
+        }
+    }
 }

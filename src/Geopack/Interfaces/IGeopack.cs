@@ -110,7 +110,9 @@ public interface IGeopack
     /// <param name="br">Local spherical component of the field (radial)</param>
     /// <param name="btheta">Local spherical component of the field (co-latitude)</param>
     /// <param name="bphi">Local spherical component of the field (longitude)</param>
-    CartesianFieldVector BSphCar_08(double theta, double phi, double br, double btheta, double bphi);
+    CartesianFieldVector BSphCar_08(
+        double theta, double phi,
+        double br, double btheta, double bphi);
 
     /// <summary>
     /// Calculates local spherical field components from those in Cartesian system.
@@ -125,8 +127,8 @@ public interface IGeopack
     /// <param name="by">Cartesian component of the field vector</param>
     /// <param name="bz">Cartesian component of the field vector</param>
     SphericalFieldVector BCarSph_08(
-        double x, double y, double z, double
-            bx, double by, double bz);
+        double x, double y, double z,
+        double bx, double by, double bz);
 
     /// <summary>
     /// Prepares elements of rotation matrices for transformations of vectors between several coordinate systems,
