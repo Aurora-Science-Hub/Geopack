@@ -1,3 +1,4 @@
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.Models;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
@@ -10,10 +11,9 @@ public partial class GeopackTests
     public async Task GeiGeo_ReturnsCorrectValues()
     {
         // Arrange
+        ComputationContext ctx = _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeiGeoDatasetFileName);
         string[] lines = rawData.SplitLines();
-
-        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
         foreach (string line in lines)
         {
@@ -27,7 +27,7 @@ public partial class GeopackTests
             double zgeo = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.GeiGeo_08(xgei, ygei, zgei);
+            CartesianLocation location = _geopack.GeiGeo_08(ctx, xgei, ygei, zgei);
 
             // Assert
             location.X.ShouldBe(xgeo, MinimalTestsPrecision);
@@ -44,8 +44,6 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeoGeiDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
@@ -58,7 +56,7 @@ public partial class GeopackTests
             double zgei = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.GeoGei_08(xgeo, ygeo, zgeo);
+            CartesianLocation location = _geopack.GeoGei_08(_context, xgeo, ygeo, zgeo);
 
             // Assert
             location.X.ShouldBe(xgei, MinimalTestsPrecision);

@@ -1,21 +1,22 @@
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.Models;
 
 namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianLocation MagSm_08(double xMag, double yMag, double zMag)
+    public CartesianLocation MagSm_08(ComputationContext context, double xMag, double yMag, double zMag)
     {
-        double xSm = xMag * Common1.CFI - yMag * Common1.SFI;
-        double ySm = xMag * Common1.SFI + yMag * Common1.CFI;
+        double xSm = xMag * context.CFI - yMag * context.SFI;
+        double ySm = xMag * context.SFI + yMag * context.CFI;
         double zSm = zMag;
         return new CartesianLocation(xSm, ySm, zSm, CoordinateSystem.SM);
     }
 
-    public CartesianLocation SmMag_08(double xSm, double ySm, double zSm)
+    public CartesianLocation SmMag_08(ComputationContext context, double xSm, double ySm, double zSm)
     {
-        double xMag = xSm * Common1.CFI + ySm * Common1.SFI;
-        double yMag = ySm * Common1.CFI - xSm * Common1.SFI;
+        double xMag = xSm * context.CFI + ySm * context.SFI;
+        double yMag = ySm * context.CFI - xSm * context.SFI;
         double zMag = zSm;
         return new CartesianLocation(xMag, yMag, zMag, CoordinateSystem.MAG);
     }

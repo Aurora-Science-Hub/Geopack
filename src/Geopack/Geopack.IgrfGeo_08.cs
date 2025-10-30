@@ -1,10 +1,11 @@
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.Models;
 
 namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public SphericalFieldVector IgrfGeo_08(double r, double coLatitude, double phi)
+    public SphericalFieldVector IgrfGeo_08(ComputationContext context, double r, double coLatitude, double phi)
     {
         double c = Math.Cos(coLatitude);
         double s = Math.Sin(coLatitude);
@@ -69,9 +70,9 @@ public sealed partial class Geopack
             {
                 double an = a[n - 1];
                 int mn = n * (n - 1) / 2 + m;
-                double e = Common2.G[mn - 1];
-                double hh = Common2.H[mn - 1];
-                double xk = Common2.REC[mn - 1];
+                double e = context.G[mn - 1];
+                double hh = context.H[mn - 1];
+                double xk = context.REC[mn - 1];
 
                 double w = e * y + hh * x;
                 bbr += b[n - 1] * w * q;

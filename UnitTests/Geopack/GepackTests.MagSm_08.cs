@@ -13,8 +13,6 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(MagSmDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
@@ -27,7 +25,7 @@ public partial class GeopackTests
             double zsm = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.MagSm_08(xmag, ymag, zmag);
+            CartesianLocation location = _geopack.MagSm_08(_context, xmag, ymag, zmag);
 
             // Assert
             location.X.ShouldBe(xsm, MinimalTestsPrecision);
@@ -44,8 +42,6 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(SmMagDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
@@ -58,7 +54,7 @@ public partial class GeopackTests
             double zmag = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.SmMag_08(xsm, ysm, zsm);
+            CartesianLocation location = _geopack.SmMag_08(_context, xsm, ysm, zsm);
 
             // Assert
             location.X.ShouldBe(xmag, MinimalTestsPrecision);

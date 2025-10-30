@@ -1,8 +1,11 @@
-namespace AuroraScienceHub.Geopack;
+namespace AuroraScienceHub.Geopack.Contracts.Engine;
 
-public sealed partial class Geopack
+/// <summary>
+/// Immutable set of gauss and recursive IGRF coefficients
+/// </summary>
+public static class IgrfCoefficients
 {
-    private static readonly double[] G65 = new double[105]
+    public static readonly double[] G65 = new double[105]
     {
         0.0D,-30334.0D,-2119.0D,-1662.0D,2997.0D,1594.0D,1297.0D,
         -2038.0D,1292.0D,856.0D,957.0D,804.0D,479.0D,-390.0D,252.0D,
@@ -14,7 +17,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] H65 = new double[105]
+    public static readonly double[] H65 = new double[105]
     {
         0.0D,0.0D,5776.0D,0.0D,-2016.0D,114.0D,0.0D,-404.0D,
         240.0D,-165.0D,0.0D,148.0D,-269.0D,13.0D,-269.0D,0.0D,19.0D,
@@ -26,7 +29,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] G70 = new double[105]
+    public static readonly double[] G70 = new double[105]
     {
         0.0D,-30220.0D,-2068.0D,-1781.0D,3000.0D,1611.0D,1287.0D,
         -2091.0D,1278.0D,838.0D,952.0D,800.0D,461.0D,-395.0D,234.0D,
@@ -39,7 +42,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] H70 = new double[105]
+    public static readonly double[] H70 = new double[105]
     {
         0.0D,0.0D,5737.0D,0.0D,-2047.0D,25.0D,0.0D,-366.0D,
         251.0D,-196.0D,0.0D,167.0D,-266.0D,26.0D,-279.0D,0.0D,26.0D,
@@ -51,7 +54,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] G75 = new double[105]
+    public static readonly double[] G75 = new double[105]
     {
         0.0D,-30100.0D,-2013.0D,-1902.0D,3010.0D,1632.0D,1276.0D,
         -2144.0D,1260.0D,830.0D,946.0D,791.0D,438.0D,-405.0D,216.0D,
@@ -64,7 +67,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] H75 = new double[105]
+    public static readonly double[] H75 = new double[105]
     {
         0.0D,0.0D,5675.0D,0.0D,-2067.0D,-68.0D,0.0D,-333.0D,
         262.0D,-223.0D,0.0D,191.0D,-265.0D,39.0D,-288.0D,0.0D,31.0D,
@@ -76,7 +79,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] G80 = new double[105]
+    public static readonly double[] G80 = new double[105]
     {
         0.0D,-29992.0D,-1956.0D,-1997.0D,3027.0D,1663.0D,1281.0D,
         -2180.0D,1251.0D,833.0D,938.0D,782.0D,398.0D,-419.0D,199.0D,
@@ -89,7 +92,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] H80 = new double[105]
+    public static readonly double[] H80 = new double[105]
     {
         0.0D,0.0D,5604.0D,0.0D,-2129.0D,-200.0D,0.0D,-336.0D,
         271.0D,-252.0D,0.0D,212.0D,-257.0D,53.0D,-297.0D,0.0D,46.0D,
@@ -102,7 +105,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] G85 = new double[105]
+    public static readonly double[] G85 = new double[105]
     {
         0.0D,-29873.0D,-1905.0D,-2072.0D,3044.0D,1687.0D,1296.0D,
         -2208.0D,1247.0D,829.0D,936.0D,780.0D,361.0D,-424.0D,170.0D,
@@ -115,7 +118,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] H85 = new double[105]
+    public static readonly double[] H85 = new double[105]
     {
         0.0D,0.0D,5500.0D,0.0D,-2197.0D,-306.0D,0.0D,-310.0D,
         284.0D,-297.0D,0.0D,232.0D,-249.0D,69.0D,-297.0D,0.0D,47.0D,
@@ -128,7 +131,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] G90 = new double[105]
+    public static readonly double[] G90 = new double[105]
     {
         0.0D,-29775.0D,-1848.0D,-2131.0D,3059.0D,1686.0D,1314.0D,
              -2239.0D,  1248.0D,  802.0D,  939.0D, 780.0D, 325.0D,-423.0D,
@@ -144,7 +147,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] H90 = new double[105]
+    public static readonly double[] H90 = new double[105]
     {
         0.0D,  0.0D,5406.0D,   0.0D,-2279.0D,-373.0D,  0.0D,
               -284.0D,293.0D,-352.0D,   0.0D,  247.0D,-240.0D, 84.0D,
@@ -160,7 +163,7 @@ public sealed partial class Geopack
                 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] G95 = new double[105]
+    public static readonly double[] G95 = new double[105]
     {
         0.0D,-29692.0D,-1784.0D,-2200.0D,3070.0D,1681.0D,1335.0D,
              -2267.0D,  1249.0D,  759.0D,  940.0D, 780.0D, 290.0D,-418.0D,
@@ -178,7 +181,7 @@ public sealed partial class Geopack
                  0.0d,    0.0d,    0.0d,    0.0d,    0.0d,    0.0d,    0.0d
     };
 
-    private static readonly double[] H95 = new double[105]
+    public static readonly double[] H95 = new double[105]
     {
         0.0D,  0.0D,5306.0D,  0.0D,-2366.0D,-413.0D,  0.0D,
               -262.0D,302.0D,-427.0D,  0.0D,  262.0D,-236.0D, 97.0D,
@@ -194,7 +197,7 @@ public sealed partial class Geopack
         0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d
     };
 
-    private static readonly double[] G00 = new double[105]
+    public static readonly double[] G00 = new double[105]
     {
         0.0D,-29619.4D,-1728.2D,-2267.7D,3068.4D,1670.9D,
              1339.6D,  -2288.0D, 1252.1D,  714.5D, 932.3D, 786.8D,
@@ -216,7 +219,7 @@ public sealed partial class Geopack
                 0.4D,      0.0D,    0.1D
     };
 
-    private static readonly double[] H00 = new double[105]
+    public static readonly double[] H00 = new double[105]
     {
         0.0D,   0.0D,5186.1D,   0.0D,-2481.6D,-458.0D,   0.0D,
              -227.6D,293.4D,-491.1D,   0.0D,  272.6D,-231.9D,119.8D,
@@ -235,7 +238,7 @@ public sealed partial class Geopack
                 0.7D,  0.3D,   0.6D,  0.3D,   -0.2D,  -0.5D, -0.9D
     };
 
-    private static readonly double[] G05 = new double[105]
+    public static readonly double[] G05 = new double[105]
     {
         0.0D,  -29554.6D,-1669.0D,-2337.2D,3047.7D,1657.8D,
              1336.3D,   -2305.8D, 1246.4D,  672.5D, 920.6D, 798.0D,
@@ -257,7 +260,7 @@ public sealed partial class Geopack
                 0.4D,      -0.1D,   -0.2D
     };
 
-    private static readonly double[] H05 = new double[105]
+    public static readonly double[] H05 = new double[105]
     {
         0.0D,  0.0D,5078.0D,  0.0D,-2594.5D,-515.4D,  0.0D,
              -198.9D,269.7D,-524.7D,  0.0D,  282.1D,-225.2D,145.2D,
@@ -276,7 +279,7 @@ public sealed partial class Geopack
                 0.6D,  0.2D,   0.5D,  0.4D,   -0.2D,  -0.6D, -0.9D
     };
 
-    private static readonly double[] G10 = new double[105]
+    public static readonly double[] G10 = new double[105]
     {
         0.00D,-29496.57D,-1586.42D,-2396.06D,3026.34D,
               1668.17D,  1339.85D,-2326.54D, 1232.10D, 633.73D,
@@ -301,7 +304,7 @@ public sealed partial class Geopack
                  0.38D,     0.02D,    0.42D,   -0.26D,  -0.26D
     };
 
-    private static readonly double[] H10 = new double[105]
+    public static readonly double[] H10 = new double[105]
     {
         0.00D,  0.00D,4944.26D,   0.00D,-2708.54D,
              -575.73D,   0.00D,-160.40D, 251.75D, -537.03D, 0.00D,
@@ -323,7 +326,7 @@ public sealed partial class Geopack
                 0.44D,  -0.25D,  -0.53D,  -0.79D
     };
 
-    private static readonly double[] G15 = new double[105]
+    public static readonly double[] G15 = new double[105]
     {
         0.00D,-29441.46D,-1501.77D,-2445.88D,3012.20D,
          1676.35D,1350.33D,-2352.26D,1225.85D, 581.69D,907.42D,
@@ -345,7 +348,7 @@ public sealed partial class Geopack
             0.08D,   0.46D,  -0.35D,  -0.36D
     };
 
-    private static readonly double[] H15 = new double[105]
+    public static readonly double[] H15 = new double[105]
     {
         0.00D,0.00D,4795.99D,0.00D,-2845.41D,-642.17D,0.0D,
         -115.29D,245.04D,-538.7D,   0.0D, 283.54D,-188.43D,180.95D,
@@ -364,7 +367,7 @@ public sealed partial class Geopack
            0.42D, -0.04D,  0.48D,  0.48D,  -0.30D,  -0.43D, -0.71D
     };
 
-    private static readonly double[] G20 = new double[105]
+    public static readonly double[] G20 = new double[105]
     {
         0.0D,-29403.41D,-1451.37D,-2499.78D,2981.96D,
         1676.85D,1363.00D,-2380.80D,1236.06D,525.60D,902.82D,
@@ -382,7 +385,7 @@ public sealed partial class Geopack
         -0.01D,0.76D,-0.05D,0.37D,0.13D,0.45D,-0.46D,-0.40D
     };
 
-    private static readonly double[] H20 = new double[105]
+    public static readonly double[] H20 = new double[105]
     {
         0.0D,0.0D,4653.35D,0.0D,-2991.72D,-734.62D,0.0D,
         -81.96D,241.80D,-542.52D,0.0D,282.10D,-158.5D,199.75D,
@@ -399,7 +402,7 @@ public sealed partial class Geopack
         -0.09D, 0.29D,-0.11D,0.47D,0.54D,-0.41D,-0.36D,-0.60D
     };
 
-    private static readonly double[] G25 = new double[105]
+    public static readonly double[] G25 = new double[105]
     {
         0.0D,-29350.0D,-1410.3D,-2556.2D,2950.9D,1648.7D,
         1360.9D,-2404.2D,1243.8D,453.4D,894.7D,799.6D,55.8D,
@@ -415,7 +418,7 @@ public sealed partial class Geopack
         0.5D,0.1D,0.7D,0.0D,0.3D,0.2D,0.4D,-0.5D,-0.4D
     };
 
-    private static readonly double[] H25 = new double[105]
+    public static readonly double[] H25 = new double[105]
     {
         0.0D,0.0D,4545.5D,0.0D,-3133.6D,-814.2D,0.0D,
         -56.9D,237.6D,-549.6D,0.0D,278.6D,-134.0D,212.0D,-375.4D,
@@ -431,7 +434,7 @@ public sealed partial class Geopack
         -0.6D,-0.3D,-0.5D
     };
 
-    private static readonly double[] DG25 = new double[45]
+    public static readonly double[] DG25 = new double[45]
     {
         0.0D,12.6D,10.0D,-11.2D,-5.3D,-8.3D,-1.5D,-4.4D,
         0.4D,-15.6D,-1.7D,-2.3D,-5.8D,5.4D,-6.8D,0.6D,1.3D,0.0D,
@@ -440,7 +443,7 @@ public sealed partial class Geopack
         0.0D,0.4D,-0.1D,0.3D,0.1D,0.0D,0.3D
     };
 
-    private static readonly double[] DH25 = new double[45]
+    public static readonly double[] DH25 = new double[45]
     {
         0.0D,0.0D,-21.5D,0.0D,-27.3D,-11.1D,0.0D,3.8D,
         -.2D,-3.9D,0.0D,-1.3D,4.1D,1.6D,-4.1D,0.0D,-0.5D,2.1D,

@@ -17,6 +17,6 @@ public sealed partial class Geopack
         double by = be * sf + bphi * cf;
         double bz = br * c - btheta * s;
 
-        return new CartesianFieldVector(bx, by, bz, null);
+        return new CartesianFieldVector(bx, by, bz);
     }
 }
