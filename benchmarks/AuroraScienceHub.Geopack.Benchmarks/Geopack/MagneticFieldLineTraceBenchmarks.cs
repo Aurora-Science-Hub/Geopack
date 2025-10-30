@@ -62,7 +62,6 @@ public class MagneticFieldLineTraceBenchmarks
             s_t89, s_geopack.IgrfGsw_08,
             Lmax);
 
-
     private class NativeAotConfig : ManualConfig
     {
         public NativeAotConfig()
