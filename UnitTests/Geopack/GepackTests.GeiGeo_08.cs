@@ -56,7 +56,7 @@ public partial class GeopackTests
             double zgei = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.GeoGei_08(_ctx, xgeo, ygeo, zgeo);
+            CartesianLocation location = _geopack.GeoGei_08(_context, xgeo, ygeo, zgeo);
 
             // Assert
             location.X.ShouldBe(xgei, MinimalTestsPrecision);

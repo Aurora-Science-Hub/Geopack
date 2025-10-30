@@ -12,7 +12,7 @@ public partial class GeopackTests
     public async Task TraceFieldLineFromNorthToSouth()
     {
         // Arrange
-        ComputationContext ctx = _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, -16.0D + 29.78D, 4.0D);
+        ComputationContext context = _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, -16.0D + 29.78D, 4.0D);
         InternalFieldModel internalField = _geopack.IgrfGsw_08;
 
         string rawData = await EmbeddedResourceReader.ReadTextAsync(TraceNSResultFileName);
@@ -32,7 +32,7 @@ public partial class GeopackTests
         double YGSW = 0.8D;
         double ZGSW = 0.9D;
 
-        FieldLine fieldLine = _geopack.Trace_08(ctx,
+        FieldLine fieldLine = _geopack.Trace_08(context,
             XGSW, YGSW, ZGSW,
             dir, dsmax, err, rlim, r0,
             iopt, parmod,
@@ -55,7 +55,7 @@ public partial class GeopackTests
     public async Task TraceFieldLineFromSouthToNorth()
     {
         // Arrange
-        ComputationContext ctx = _geopack.Recalc_08(fixture.InputData.DateTime);
+        ComputationContext context = _geopack.Recalc_08(fixture.InputData.DateTime);
         InternalFieldModel internalField = _geopack.IgrfGsw_08;
 
         string rawData = await EmbeddedResourceReader.ReadTextAsync(TraceSNResultFileName);
@@ -75,7 +75,7 @@ public partial class GeopackTests
         double YGSW = 0.8D;
         double ZGSW = -0.9D;
 
-        FieldLine fieldLine = _geopack.Trace_08(ctx,
+        FieldLine fieldLine = _geopack.Trace_08(context,
             XGSW, YGSW, ZGSW,
             dir, dsmax, err, rlim, r0,
             iopt, parmod,

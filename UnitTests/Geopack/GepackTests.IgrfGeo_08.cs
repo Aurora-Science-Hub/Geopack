@@ -27,7 +27,7 @@ public partial class GeopackTests
         double lon = xLon / Rad;
 
         // Act
-        SphericalFieldVector resultField = _geopack.IgrfGeo_08(_ctx, r, coLat, lon);
+        SphericalFieldVector resultField = _geopack.IgrfGeo_08(_context, r, coLat, lon);
 
         // Assert
         resultField.Br.ShouldBe(expectedBr, MinimalTestsPrecision);
@@ -40,7 +40,7 @@ public partial class GeopackTests
     public void IgrfGeo_ShouldReturnNaNValues_IfZeroCoordinates()
     {
         // Act
-        SphericalFieldVector resultField = _geopack.IgrfGeo_08(_ctx, 0.0D, 0.0D, 0.0D);
+        SphericalFieldVector resultField = _geopack.IgrfGeo_08(_context, 0.0D, 0.0D, 0.0D);
 
         // Assert
         resultField.Br.ShouldBe(double.NaN);

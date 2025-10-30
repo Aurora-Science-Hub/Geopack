@@ -13,7 +13,7 @@ public partial class GeopackTests(TestDataFixture fixture)
 {
     private static readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
 
-    private readonly ComputationContext _ctx = _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
+    private readonly ComputationContext _context = _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
     private readonly IExternalFieldModel _t89 = new T89();
 

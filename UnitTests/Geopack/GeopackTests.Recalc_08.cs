@@ -11,7 +11,7 @@ public partial class GeopackTests
     public async Task RecalcCommonBlocks_ShouldBeCorrect()
     {
         // Act
-        ComputationContext ctx = _geopack.Recalc_08(
+        ComputationContext context = _geopack.Recalc_08(
             fixture.InputData.DateTime,
             fixture.InputData.VGSEX,
             fixture.InputData.VGSEY,
@@ -21,44 +21,44 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(CommonsDataFileName);
         GeopackCommons approvedData = GeopackDataParser.ParseRecalcCommons(rawData);
 
-        for (int i = 0; i < ctx.G.Length; i++)
+        for (int i = 0; i < context.G.Length; i++)
         {
-            ctx.G[i].ShouldBe(approvedData.G![i], MinimalTestsPrecision);
-            ctx.H[i].ShouldBe(approvedData.H![i], MinimalTestsPrecision);
-            ctx.REC[i].ShouldBe(approvedData.REC![i], MinimalTestsPrecision);
+            context.G[i].ShouldBe(approvedData.G![i], MinimalTestsPrecision);
+            context.H[i].ShouldBe(approvedData.H![i], MinimalTestsPrecision);
+            context.REC[i].ShouldBe(approvedData.REC![i], MinimalTestsPrecision);
         }
-        ctx.ST0.ShouldBe(approvedData.ST0, MinimalTestsPrecision);
-        ctx.CT0.ShouldBe(approvedData.CT0, MinimalTestsPrecision);
-        ctx.SL0.ShouldBe(approvedData.SL0, MinimalTestsPrecision);
-        ctx.CL0.ShouldBe(approvedData.CL0, MinimalTestsPrecision);
-        ctx.CTCL.ShouldBe(approvedData.CTCL, MinimalTestsPrecision);
-        ctx.STCL.ShouldBe(approvedData.STCL, MinimalTestsPrecision);
-        ctx.CTSL.ShouldBe(approvedData.CTSL, MinimalTestsPrecision);
-        ctx.STSL.ShouldBe(approvedData.STSL, MinimalTestsPrecision);
-        ctx.SFI.ShouldBe(approvedData.SFI, MinimalTestsPrecision);
-        ctx.CFI.ShouldBe(approvedData.CFI, MinimalTestsPrecision);
-        ctx.SPS.ShouldBe(approvedData.SPS, MinimalTestsPrecision);
-        ctx.CPS.ShouldBe(approvedData.CPS, MinimalTestsPrecision);
-        ctx.CGST.ShouldBe(approvedData.CGST, MinimalTestsPrecision);
-        ctx.SGST.ShouldBe(approvedData.SGST, MinimalTestsPrecision);
-        ctx.PSI.ShouldBe(approvedData.PSI, MinimalTestsPrecision);
-        ctx.A11.ShouldBe(approvedData.A11, MinimalTestsPrecision);
-        ctx.A21.ShouldBe(approvedData.A21, MinimalTestsPrecision);
-        ctx.A31.ShouldBe(approvedData.A31, MinimalTestsPrecision);
-        ctx.A12.ShouldBe(approvedData.A12, MinimalTestsPrecision);
-        ctx.A22.ShouldBe(approvedData.A22, MinimalTestsPrecision);
-        ctx.A32.ShouldBe(approvedData.A32, MinimalTestsPrecision);
-        ctx.A13.ShouldBe(approvedData.A13, MinimalTestsPrecision);
-        ctx.A23.ShouldBe(approvedData.A23, MinimalTestsPrecision);
-        ctx.A33.ShouldBe(approvedData.A33, MinimalTestsPrecision);
-        ctx.E11.ShouldBe(approvedData.E11, MinimalTestsPrecision);
-        ctx.E21.ShouldBe(approvedData.E21, MinimalTestsPrecision);
-        ctx.E31.ShouldBe(approvedData.E31, MinimalTestsPrecision);
-        ctx.E12.ShouldBe(approvedData.E12, MinimalTestsPrecision);
-        ctx.E22.ShouldBe(approvedData.E22, MinimalTestsPrecision);
-        ctx.E32.ShouldBe(approvedData.E32, MinimalTestsPrecision);
-        ctx.E13.ShouldBe(approvedData.E13, MinimalTestsPrecision);
-        ctx.E23.ShouldBe(approvedData.E23, MinimalTestsPrecision);
-        ctx.E33.ShouldBe(approvedData.E33, MinimalTestsPrecision);
+        context.ST0.ShouldBe(approvedData.ST0, MinimalTestsPrecision);
+        context.CT0.ShouldBe(approvedData.CT0, MinimalTestsPrecision);
+        context.SL0.ShouldBe(approvedData.SL0, MinimalTestsPrecision);
+        context.CL0.ShouldBe(approvedData.CL0, MinimalTestsPrecision);
+        context.CTCL.ShouldBe(approvedData.CTCL, MinimalTestsPrecision);
+        context.STCL.ShouldBe(approvedData.STCL, MinimalTestsPrecision);
+        context.CTSL.ShouldBe(approvedData.CTSL, MinimalTestsPrecision);
+        context.STSL.ShouldBe(approvedData.STSL, MinimalTestsPrecision);
+        context.SFI.ShouldBe(approvedData.SFI, MinimalTestsPrecision);
+        context.CFI.ShouldBe(approvedData.CFI, MinimalTestsPrecision);
+        context.SPS.ShouldBe(approvedData.SPS, MinimalTestsPrecision);
+        context.CPS.ShouldBe(approvedData.CPS, MinimalTestsPrecision);
+        context.CGST.ShouldBe(approvedData.CGST, MinimalTestsPrecision);
+        context.SGST.ShouldBe(approvedData.SGST, MinimalTestsPrecision);
+        context.PSI.ShouldBe(approvedData.PSI, MinimalTestsPrecision);
+        context.A11.ShouldBe(approvedData.A11, MinimalTestsPrecision);
+        context.A21.ShouldBe(approvedData.A21, MinimalTestsPrecision);
+        context.A31.ShouldBe(approvedData.A31, MinimalTestsPrecision);
+        context.A12.ShouldBe(approvedData.A12, MinimalTestsPrecision);
+        context.A22.ShouldBe(approvedData.A22, MinimalTestsPrecision);
+        context.A32.ShouldBe(approvedData.A32, MinimalTestsPrecision);
+        context.A13.ShouldBe(approvedData.A13, MinimalTestsPrecision);
+        context.A23.ShouldBe(approvedData.A23, MinimalTestsPrecision);
+        context.A33.ShouldBe(approvedData.A33, MinimalTestsPrecision);
+        context.E11.ShouldBe(approvedData.E11, MinimalTestsPrecision);
+        context.E21.ShouldBe(approvedData.E21, MinimalTestsPrecision);
+        context.E31.ShouldBe(approvedData.E31, MinimalTestsPrecision);
+        context.E12.ShouldBe(approvedData.E12, MinimalTestsPrecision);
+        context.E22.ShouldBe(approvedData.E22, MinimalTestsPrecision);
+        context.E32.ShouldBe(approvedData.E32, MinimalTestsPrecision);
+        context.E13.ShouldBe(approvedData.E13, MinimalTestsPrecision);
+        context.E23.ShouldBe(approvedData.E23, MinimalTestsPrecision);
+        context.E33.ShouldBe(approvedData.E33, MinimalTestsPrecision);
     }
 }

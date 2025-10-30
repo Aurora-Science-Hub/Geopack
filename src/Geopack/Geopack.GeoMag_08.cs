@@ -5,20 +5,20 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianLocation GeoMag_08(ComputationContext ctx, double xgeo, double ygeo, double zgeo)
+    public CartesianLocation GeoMag_08(ComputationContext context, double xgeo, double ygeo, double zgeo)
     {
-        double xmag = xgeo * ctx.CTCL + ygeo * ctx.CTSL - zgeo * ctx.ST0;
-        double ymag = ygeo * ctx.CL0 - xgeo * ctx.SL0;
-        double zmag = xgeo * ctx.STCL + ygeo * ctx.STSL + zgeo * ctx.CT0;
+        double xmag = xgeo * context.CTCL + ygeo * context.CTSL - zgeo * context.ST0;
+        double ymag = ygeo * context.CL0 - xgeo * context.SL0;
+        double zmag = xgeo * context.STCL + ygeo * context.STSL + zgeo * context.CT0;
 
         return new CartesianLocation(xmag, ymag, zmag, CoordinateSystem.MAG);
     }
 
-    public CartesianLocation MagGeo_08(ComputationContext ctx, double xmag, double ymag, double zmag)
+    public CartesianLocation MagGeo_08(ComputationContext context, double xmag, double ymag, double zmag)
     {
-        double xgeo = xmag * ctx.CTCL - ymag * ctx.SL0 + zmag * ctx.STCL;
-        double ygeo = xmag * ctx.CTSL + ymag * ctx.CL0 + zmag * ctx.STSL;
-        double zgeo = zmag * ctx.CT0 - xmag * ctx.ST0;
+        double xgeo = xmag * context.CTCL - ymag * context.SL0 + zmag * context.STCL;
+        double ygeo = xmag * context.CTSL + ymag * context.CL0 + zmag * context.STSL;
+        double zgeo = zmag * context.CT0 - xmag * context.ST0;
 
         return new CartesianLocation(xgeo, ygeo, zgeo, CoordinateSystem.GEO);
     }

@@ -5,20 +5,20 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianLocation SmGsw_08(ComputationContext ctx, double xSm, double ySm, double zSm)
+    public CartesianLocation SmGsw_08(ComputationContext context, double xSm, double ySm, double zSm)
     {
-        double xGsw = xSm * ctx.CPS + zSm * ctx.SPS;
+        double xGsw = xSm * context.CPS + zSm * context.SPS;
         double yGsw = ySm;
-        double zGsw = zSm * ctx.CPS - xSm * ctx.SPS;
+        double zGsw = zSm * context.CPS - xSm * context.SPS;
 
         return new CartesianLocation(xGsw, yGsw, zGsw, CoordinateSystem.GSW);
     }
 
-    public CartesianLocation GswSm_08(ComputationContext ctx, double xGsw, double yGsw, double zGsw)
+    public CartesianLocation GswSm_08(ComputationContext context, double xGsw, double yGsw, double zGsw)
     {
-        double xSm = xGsw * ctx.CPS - zGsw * ctx.SPS;
+        double xSm = xGsw * context.CPS - zGsw * context.SPS;
         double ySm = yGsw;
-        double zSm = xGsw * ctx.SPS + zGsw * ctx.CPS;
+        double zSm = xGsw * context.SPS + zGsw * context.CPS;
 
         return new CartesianLocation(xSm, ySm, zSm, CoordinateSystem.SM);
     }

@@ -25,7 +25,7 @@ public partial class GeopackTests
             double zgsw = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.GeoGsw_08(_ctx, xgeo, ygeo, zgeo);
+            CartesianLocation location = _geopack.GeoGsw_08(_context, xgeo, ygeo, zgeo);
 
             // Assert
             location.X.ShouldBe(xgsw, MinimalTestsPrecision);
@@ -54,7 +54,7 @@ public partial class GeopackTests
             double zgeo = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.GswGeo_08(_ctx, xgsw, ygsw, zgsw);
+            CartesianLocation location = _geopack.GswGeo_08(_context, xgsw, ygsw, zgsw);
 
             // Assert
             location.X.ShouldBe(xgeo, MinimalTestsPrecision);
