@@ -18,14 +18,17 @@ This project contains performance benchmarks for Geopack-2008 field line tracing
 |--------|-------------|-----------|---------|---------|------------------|--------|----------------|-------------|
 | IGRF   | IFortran`25 | 1.74      | 0.03    | 0.65    | 1.00 / 1.00      | N/A    | N/A            | N/A         |
 | IGRF   | .NET9       | 0.486     | 0.0087  | 0.00726 | 1.00 / **0.28**  | 0.1602 | 0.328          | 1.00        |
+| IGRF   | NativeAOT   | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
 | IGRF   | NativeAOT9  | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
 |        |             |           |         |         |                  |        |                |             |
 | Dipole | IFortran`25 | 1.34      | 0.02    | 0.51    | 0.77 / 1.00      | N/A    | N/A            | N/A         |
 | Dipole | .NET9       | 0.104     | 0.00027 | 0.00023 | 0.21 / **0.06**  | 0.0229 | 0.046          | 0.14        |
+| Dipole | NativeAOT   | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
 | Dipole | NativeAOT9  | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
 |        |             |           |         |         |                  |        |                |             |
 | Sun    | IFortran`25 | 1.49      | 0.04    | 0.78    | 0.86 / 1.00      | N/A    | N/A            | N/A         |
 | Sun    | .NET9       | 0.156     | 0.00052 | 0.00049 | 0.32 / **0.09**  | 0.0267 | 0.054          | 0.17        |
+| Sun    | NativeAOT   | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
 | Sun    | NativeAOT9  | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
 
 #### Magnetic Field Line Tracing Performance
