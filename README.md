@@ -35,7 +35,7 @@ This library provides numerical accuracy matching the original Fortran code by N
 For external magnetic field models, accuracy is raised to 13 digits (`1E-13D`).
 
 ## Validation
-The implementation is rigorously validated against the original Fortran code using our comprehensive testing framework.
+The implementation is rigorously validated against the original Fortran code using our comprehensive testing framework with 100+ unit tests.
 See [Unit Testing Framework](UnitTests/README.md) for details on test data generation and verification procedures.
 
 ## Benchmarks
@@ -91,10 +91,14 @@ Nikolaev, A. V., Ermilov, A. O., & Tsyganenko, N. A. (2025). *Geopack-2008 C# .N
 
 ## References
 
+The homepages of the original Geopack library and the associated scientific literature are available at the following links: [old page](https://geo.phys.spbu.ru/~tsyganenko/modeling.html) and [new page](https://geo.phys.spbu.ru/~tsyganenko/empirical-models/).
+
 This implementation is based on and extends the following scientific works:
 
-1. **Tsyganenko, N. A.** (2001). *A new data-based model of the near magnetosphere magnetic field: 1. Mathematical structure. 2. Parameterization and fitting to observations*. Journal of Geophysical Research. [Submitted manuscript]
+1. **Tsyganenko, N. A.** (2002). *A model of the near magnetosphere with a dawn-dusk asymmetry 1. Mathematical structure*. J. Geophys. Res., 107 (A8), https://doi.org/10.1029/2001JA000219
 
 2. **Tsyganenko, N. A., & Sitnov, M. I.** (2005). *Modeling the dynamics of the inner magnetosphere during strong geomagnetic storms*. Journal of Geophysical Research: Space Physics, 110(A3), A03208. https://doi.org/10.1029/2004JA010798
 
 3. **Hapgood, M. A.** (1992). *Space physics coordinate transformations: A user guide*. Planetary and Space Science, 40(5), 711–717. https://doi.org/10.1016/0032-0633(92)90012-D
+
+4. **Tsyganenko, N. A., Andreeva, V. A.** (2016), *An empirical RBF model of the magnetosphere parameterized by interplanetary and ground-based drivers*, J. Geophys. Res. Space Physics, v.121(11), 10,786-10,802, https://doi.org/10.1002/2016JA023217
