@@ -14,7 +14,7 @@ public sealed partial class T89 : IT89
     private static double AK13, AK14, AK15, AK16, AK17, SXA, SYA, SZA, AK610, AK711, AK812;
     private static double AK913, RDXL, HRDXL, A6H, A9T, YNP, YND;
 
-    public CartesianFieldVector Calculate(int IOPT, double[] PARMOD, double PS, double X, double Y, double Z)
+    public CartesianVector<MagneticField> Calculate(int IOPT, double[] PARMOD, double PS, double X, double Y, double Z)
     {
         double A02 = 25D, XLW2 = 170D, YN = 30D, RPI = 0.31830989D, RT = 30D;
         double XD = 0D, XLD2 = 40D;
@@ -275,6 +275,6 @@ public sealed partial class T89 : IT89
         double BY = BYT + AK5 * DER25 + SY1 + SYA;
         double BZ = BZT + AK5 * DER35 + SZ1 + SZA;
 
-        return new CartesianFieldVector(BX, BY, BZ, CoordinateSystem.GSM);
+        return new CartesianVector(BX, BY, BZ, CoordinateSystem.GSM);
     }
 }

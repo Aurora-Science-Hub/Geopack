@@ -139,8 +139,8 @@ public sealed partial class Geopack
         InternalFieldModel inName,
         double ds3)
     {
-        CartesianFieldVector externalField = exName.Calculate(iopt, parmod, context.PSI, x, y, z);
-        CartesianFieldVector internalField = inName(context, x, y, z);
+        CartesianVector externalField = exName.Calculate(iopt, parmod, context.PSI, x, y, z);
+        CartesianVector internalField = inName(context, x, y, z);
 
         double bx = externalField.Bx + internalField.Bx;
         double by = externalField.By + internalField.By;

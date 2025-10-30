@@ -5,7 +5,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianFieldVector IgrfGsw_08(ComputationContext context, double xgsw, double ygsw, double zgsw)
+    public CartesianVector IgrfGsw_08(ComputationContext context, double xgsw, double ygsw, double zgsw)
     {
         CartesianLocation geoLocation = GswGeo_08(context, xgsw, ygsw, zgsw);
         double xgeo = geoLocation.X;
@@ -139,6 +139,6 @@ public sealed partial class Geopack
         // Convert GEO to GSW
         CartesianLocation gswField = GeoGsw_08(context, hxgeo, hygeo, hzgeo);
 
-        return new CartesianFieldVector(gswField.X, gswField.Y, gswField.Z, CoordinateSystem.GSW);
+        return new CartesianVector(gswField.X, gswField.Y, gswField.Z, CoordinateSystem.GSW);
     }
 }

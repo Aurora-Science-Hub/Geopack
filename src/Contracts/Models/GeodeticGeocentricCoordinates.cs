@@ -12,4 +12,4 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 /// <param name="Xmu"> Geodetic latitude in radians (angle between the ellipsoid normal and equatorial plane) </param>
 /// <param name="R"> Geocentric distance in kilometers (distance from Earth's center) </param>
 /// <param name="Theta"> Geocentric colatitude in radians (angle from Earth's rotation axis, 0 at the North Pole) </param>
-public record GeodeticGeocentricCoordinates(double H, double Xmu, double R, double Theta);
+public readonly record struct GeodeticGeocentricCoordinates(double H, double Xmu, double R, double Theta);

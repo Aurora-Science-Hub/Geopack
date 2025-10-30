@@ -5,7 +5,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianFieldVector Dip_08(ComputationContext context, double xgsw, double ygsw, double zgsw)
+    public CartesianVector Dip_08(ComputationContext context, double xgsw, double ygsw, double zgsw)
     {
         double dipmom = Math.Sqrt(Math.Pow(context.G[1], 2) + Math.Pow(context.G[2], 2) + Math.Pow(context.H[2], 2));
 
@@ -20,6 +20,6 @@ public sealed partial class Geopack
         double bygsw = -3.0D * ygsw * q * (xgsw * context.SPS + zgsw * context.CPS);
         double bzgsw = q * ((p + t - 2.0D * u) * context.CPS - v * context.SPS);
 
-        return new CartesianFieldVector(bxgsw, bygsw, bzgsw, CoordinateSystem.GSW);
+        return new CartesianVector(bxgsw, bygsw, bzgsw, CoordinateSystem.GSW);
     }
 }

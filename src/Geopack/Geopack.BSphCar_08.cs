@@ -4,7 +4,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianFieldVector BSphCar_08(
+    public CartesianVector BSphCar_08(
         double theta, double phi,
         double br, double btheta, double bphi)
     {
@@ -17,6 +17,6 @@ public sealed partial class Geopack
         double by = be * sf + bphi * cf;
         double bz = br * c - btheta * s;
 
-        return new CartesianFieldVector(bx, by, bz);
+        return new CartesianVector(bx, by, bz);
     }
 }

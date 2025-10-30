@@ -7,4 +7,4 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 /// <param name="Theta"> Theta angle in radians (rad)</param>
 /// <param name="Phi"> Phi angle in radians (rad)</param>
 /// <param name="CoordinateSystem"> Coordinate system </param>
-public readonly record struct SphericalLocation(double R, double Theta, double Phi, CoordinateSystem? CoordinateSystem = null);
+public readonly record struct SphericalLocation(double R, double Theta, double Phi, CoordinateSystem CoordinateSystem);

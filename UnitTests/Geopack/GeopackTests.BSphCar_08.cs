@@ -15,20 +15,20 @@ public partial class GeopackTests
 
         double theta = line[1].ParseDouble();
         double phi = line[3].ParseDouble();
-        SphericalFieldVector approvedSphericalFieldVector = new SphericalFieldVector(
+        SphericalVector approvedSphericalFieldVector = new SphericalVector(
             line[5].ParseDouble(),
             line[7].ParseDouble(),
             line[9].ParseDouble(),
             null);
 
-        CartesianFieldVector expectedVector = new CartesianFieldVector(
+        CartesianVector expectedVector = new CartesianVector(
             line[11].ParseDouble(),
             line[13].ParseDouble(),
             line[15].ParseDouble(),
             null);
 
         // Act
-        CartesianFieldVector fieldVector = _geopack.BSphCar_08(
+        CartesianVector fieldVector = _geopack.BSphCar_08(
             theta, phi,
             approvedSphericalFieldVector.Br, approvedSphericalFieldVector.Btheta, approvedSphericalFieldVector.Bphi);
 
@@ -42,7 +42,7 @@ public partial class GeopackTests
     public void BSphCar_ZeroAngles_ReturnsExpectedValues()
     {
         // Act
-        CartesianFieldVector fieldVector = _geopack.BSphCar_08(0.0, 0.0, 1.0, 1.0, 1.0);
+        CartesianVector fieldVector = _geopack.BSphCar_08(0.0, 0.0, 1.0, 1.0, 1.0);
 
         // Assert
         fieldVector.Bx.ShouldBe(1.0, MinimalTestsPrecision);
@@ -54,7 +54,7 @@ public partial class GeopackTests
     public void BSphCar_NegativeAngles_ReturnsExpectedValues()
     {
         // Act
-        CartesianFieldVector fieldVector = _geopack.BSphCar_08(-Math.PI / 4, -Math.PI / 4, 1.0, 1.0, 1.0);
+        CartesianVector fieldVector = _geopack.BSphCar_08(-Math.PI / 4, -Math.PI / 4, 1.0, 1.0, 1.0);
 
         // Assert
         fieldVector.Bx.ShouldBe(0.70710678118654757, MinimalTestsPrecision);
@@ -66,7 +66,7 @@ public partial class GeopackTests
     public void BSphCar_LargeAngles_ReturnsExpectedValues()
     {
         // Act
-        CartesianFieldVector fieldVector = _geopack.BSphCar_08(2 * Math.PI, 2 * Math.PI, 1.0, 1.0, 1.0);
+        CartesianVector fieldVector = _geopack.BSphCar_08(2 * Math.PI, 2 * Math.PI, 1.0, 1.0, 1.0);
 
         // Assert
         fieldVector.Bx.ShouldBe(1.0, MinimalTestsPrecision);
@@ -78,7 +78,7 @@ public partial class GeopackTests
     public void BSphCar_SmallAngles_ReturnsExpectedValues()
     {
         // Act
-        CartesianFieldVector fieldVector = _geopack.BSphCar_08(1e-10, 1e-10, 1.0, 1.0, 1.0);
+        CartesianVector fieldVector = _geopack.BSphCar_08(1e-10, 1e-10, 1.0, 1.0, 1.0);
 
         // Assert
         fieldVector.Bx.ShouldBe(1.0, MinimalTestsPrecision);

@@ -6,4 +6,4 @@ namespace AuroraScienceHub.Geopack.Contracts.Interfaces;
 /// <summary>
 /// Delegate for internal field models
 /// </summary>
-public delegate CartesianFieldVector InternalFieldModel(ComputationContext ctx, double x, double y, double z);
+public delegate CartesianVector InternalFieldModel(ComputationContext ctx, double x, double y, double z);

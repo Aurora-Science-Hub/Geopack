@@ -9,7 +9,7 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 /// <param name="Dist"> Distance (in Re) between observation point and the model magnetopause </param>
 /// <param name="Position"> Position flag </param>
 /// <param name="CoordinateSystem"> Coordinate system </param>
-public sealed record Magnetopause(
-    double X, double Y, double Z, double Dist,
+public sealed record Magnetopause(CartesianLocation BoundaryPoint,
+    double Dist,
     MagnetopausePosition Position,
     CoordinateSystem CoordinateSystem);

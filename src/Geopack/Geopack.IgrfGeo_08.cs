@@ -5,7 +5,7 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public SphericalFieldVector IgrfGeo_08(ComputationContext context, double r, double coLatitude, double phi)
+    public SphericalVector IgrfGeo_08(ComputationContext context, double r, double coLatitude, double phi)
     {
         double c = Math.Cos(coLatitude);
         double s = Math.Sin(coLatitude);
@@ -121,6 +121,6 @@ public sealed partial class Geopack
             bphi = bbf / s;
         }
 
-        return new SphericalFieldVector(br, btheta, bphi, CoordinateSystem.GEO);
+        return new SphericalVector(br, btheta, bphi, CoordinateSystem.GEO);
     }
 }

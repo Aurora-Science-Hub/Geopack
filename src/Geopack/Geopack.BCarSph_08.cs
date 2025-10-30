@@ -4,7 +4,10 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public SphericalFieldVector BCarSph_08(
+    public SphericalVector BCarSph(CartesianLocation location, CartesianVector cartesianFieldVector)
+    => BCarSph_08()
+
+    public SphericalVector BCarSph_08(
         double x, double y, double z,
         double bx, double by, double bz)
     {
@@ -34,6 +37,6 @@ public sealed partial class Geopack
         double btheta = (bx * cphi + by * sphi) * ct - bz * st;
         double bphi = by * cphi - bx * sphi;
 
-        return new SphericalFieldVector(br, btheta, bphi);
+        return new SphericalVector(br, btheta, bphi);
     }
 }

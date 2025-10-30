@@ -27,7 +27,7 @@ public interface IGeopack
     /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianFieldVector IgrfGsw_08(ComputationContext ctx, double xgsw, double ygsw, double zgsw);
+    CartesianVector IgrfGsw_08(ComputationContext ctx, double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Calculates components of the main (internal) geomagnetic field in the spherical geographic
@@ -43,7 +43,7 @@ public interface IGeopack
     /// <param name="r">Spherical geographic (geocentric) coordinates: radial distance R (in units RE=6371.2 km)</param>
     /// <param name="theta">Colatitude THETA in radians</param>
     /// <param name="phi">Longitude PHI in radians</param>
-    SphericalFieldVector IgrfGeo_08(ComputationContext ctx, double r, double theta, double phi);
+    SphericalVector IgrfGeo_08(ComputationContext ctx, double r, double theta, double phi);
 
     /// <summary>
     /// Calculates GSW (geocentric solar-wind) components of geodipole field with the dipole moment
@@ -61,7 +61,7 @@ public interface IGeopack
     /// <param name="xgsw">Cartesian GSW X-coordinate (in units RE=6371.2 km)</param>
     /// <param name="ygsw">Cartesian GSW Y-coordinate (in units RE=6371.2 km)</param>
     /// <param name="zgsw">Cartesian GSW Z-coordinate (in units RE=6371.2 km)</param>
-    CartesianFieldVector Dip_08(ComputationContext ctx, double xgsw, double ygsw, double zgsw);
+    CartesianVector Dip_08(ComputationContext ctx, double xgsw, double ygsw, double zgsw);
 
     /// <summary>
     /// Calculates four quantities necessary for coordinate transformations
@@ -110,7 +110,7 @@ public interface IGeopack
     /// <param name="br">Local spherical component of the field (radial)</param>
     /// <param name="btheta">Local spherical component of the field (co-latitude)</param>
     /// <param name="bphi">Local spherical component of the field (longitude)</param>
-    CartesianFieldVector BSphCar_08(
+    CartesianVector BSphCar_08(
         double theta, double phi,
         double br, double btheta, double bphi);
 
@@ -126,7 +126,7 @@ public interface IGeopack
     /// <param name="bx">Cartesian component of the field vector</param>
     /// <param name="by">Cartesian component of the field vector</param>
     /// <param name="bz">Cartesian component of the field vector</param>
-    SphericalFieldVector BCarSph_08(
+    SphericalVector BCarSph_08(
         double x, double y, double z,
         double bx, double by, double bz);
 
