@@ -275,6 +275,6 @@ public sealed partial class T89 : IT89
         double BY = BYT + AK5 * DER25 + SY1 + SYA;
         double BZ = BZT + AK5 * DER35 + SZ1 + SZA;
 
-        return new CartesianVector(BX, BY, BZ, CoordinateSystem.GSM);
+        return CartesianVector<MagneticField>.New(BX, BY, BZ, CoordinateSystem.GSM);
     }
 }

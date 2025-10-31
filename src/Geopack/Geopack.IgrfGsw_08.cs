@@ -5,16 +5,13 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianVector IgrfGsw_08(ComputationContext context, double xgsw, double ygsw, double zgsw)
+    public CartesianVector<MagneticField> IgrfGsw_08(ComputationContext context, CartesianLocation location)
     {
-        CartesianLocation geoLocation = GswGeo_08(context, xgsw, ygsw, zgsw);
-        double xgeo = geoLocation.X;
-        double ygeo = geoLocation.Y;
-        double zgeo = geoLocation.Z;
+        CartesianLocation geoLocation = GswToGeo(context, location);
 
-        double rho2 = xgeo * xgeo + ygeo * ygeo;
-        double r = Math.Sqrt(rho2 + zgeo * zgeo);
-        double c = zgeo / r;
+        double rho2 = Math.Pow(geoLocation.X, 2) + Math.Pow(geoLocation.Y, 2);
+        double r = Math.Sqrt(rho2 + Math.Pow(geoLocation.Z, 2));
+        double c = geoLocation.Z / r;
         double rho = Math.Sqrt(rho2);
         double s = rho / r;
 
@@ -26,8 +23,8 @@ public sealed partial class Geopack
         }
         else
         {
-            cf = xgeo / rho;
-            sf = ygeo / rho;
+            cf = geoLocation.X / rho;
+            sf = geoLocation.Y / rho;
         }
 
         double pp = 1.0D / r;
@@ -84,9 +81,9 @@ public sealed partial class Geopack
                 int mn = n * (n - 1) / 2 + m;
                 double e = context.G[mn - 1];
                 double hh = context.H[mn - 1];
-                double w_val = e * y + hh * x;
-                bbr += b[n - 1] * w_val * q;
-                bbt -= an * w_val * z;
+                double wVal = e * y + hh * x;
+                bbr += b[n - 1] * wVal * q;
+                bbt -= an * wVal * z;
 
                 if (m != 1)
                 {
@@ -108,11 +105,13 @@ public sealed partial class Geopack
             d = s * d + c * p;
             p = s * p;
 
-            if (m != 1)
+            if (m == 1)
             {
-                bi *= (m - 1);
-                bbf += bi;
+                continue;
             }
+
+            bi *= (m - 1);
+            bbf += bi;
         }
 
         double br = bbr;
@@ -132,13 +131,15 @@ public sealed partial class Geopack
 
         // Convert spherical to Cartesian in GEO
         double he = br * s + bt * c;
-        double hxgeo = he * cf - bf * sf;
-        double hygeo = he * sf + bf * cf;
-        double hzgeo = br * c - bt * s;
+         CartesianVector<MagneticField> hGeo = CartesianVector<MagneticField>.New(
+            he * cf - bf * sf,
+            he * sf + bf * cf,
+            br * c - bt * s,
+            CoordinateSystem.GEO);
 
         // Convert GEO to GSW
-        CartesianLocation gswField = GeoGsw_08(context, hxgeo, hygeo, hzgeo);
+        CartesianVector<MagneticField> hGsw = GeoToGsw(context, hGeo);
 
-        return new CartesianVector(gswField.X, gswField.Y, gswField.Z, CoordinateSystem.GSW);
+        return hGsw;
     }
 }

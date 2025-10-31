@@ -6,13 +6,34 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 /// <summary>
 /// Position in Cartesian coordinates
 /// </summary>
-/// <param name="X">X-coordinate</param>
-/// <param name="Y">Y-coordinate</param>
-/// <param name="Z">Z-coordinate</param>
-/// <param name="CoordinateSystem">Coordinate system</param>
-public readonly record struct CartesianLocation(double X, double Y, double Z, CoordinateSystem CoordinateSystem)
-    : ICartesian
+public readonly record struct CartesianLocation : ICartesian<CartesianLocation>
 {
+    public double X { get; }
+
+    public double Y { get; }
+
+    public double Z  { get; }
+
+    public CoordinateSystem CoordinateSystem  { get; }
+
+    private CartesianLocation(double x, double y, double z, CoordinateSystem coordinateSystem)
+    {
+        X = x;
+        Y = y;
+        Z = z;
+        CoordinateSystem = coordinateSystem;
+    }
+
+    /// <summary>
+    /// Create new cartesian location
+    /// </summary>
+    /// <param name="x">X-coordinate</param>
+    /// <param name="y">Y-coordinate</param>
+    /// <param name="z">Z-coordinate</param>
+    /// <param name="coordinateSystem">Coordinate system</param>
+    public static CartesianLocation New(double x, double y, double z, CoordinateSystem coordinateSystem)
+        => new(x, y, z, coordinateSystem);
+
     /// <summary>
     /// Converts cartesian coordinates to spherical ones
     /// </summary>
@@ -42,18 +63,6 @@ public readonly record struct CartesianLocation(double X, double Y, double Z, Co
             theta = Z < 0.0d ? GeopackConstants.Pi : 0.0d;
         }
 
-        return new SphericalLocation(r, theta, phi, CoordinateSystem);
-    }
-
-    public T Create<T>(double x, double y, double z, CoordinateSystem coordinateSystem)
-        where T : ICartesian
-    {
-        if (typeof(T) == typeof(CartesianLocation))
-        {
-            return (T)(ICartesian)new CartesianLocation(x, y, z, coordinateSystem);
-        }
-
-        throw new InvalidOperationException(
-            $"Cannot create {typeof(T)}. This factory only supports {typeof(CartesianLocation)}");
+        return SphericalLocation.New(r, theta, phi, CoordinateSystem);
     }
 }

@@ -21,7 +21,7 @@ public partial class TModelsTests
         double expectedBx, double expectedBy, double expectedBz)
     {
         // Act
-        CartesianVector resultField = _t89.Calculate(iopt, new double[10], ps, x, y, z);
+        CartesianObject<> resultField = _t89.Calculate(iopt, new double[10], ps, x, y, z);
 
         // Assert
         resultField.Bx.ShouldBe(expectedBx, MinimalTestsPrecision);

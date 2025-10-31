@@ -5,7 +5,8 @@ namespace AuroraScienceHub.Geopack.Contracts.Interfaces;
 /// <summary>
 /// Basic interface for all cartesian objects
 /// </summary>
-public interface ICartesian
+public interface ICartesian<TSelf>
+    where TSelf : ICartesian<TSelf>
 {
     /// <summary> X-coordinate </summary>
     double X { get; }
@@ -26,7 +27,5 @@ public interface ICartesian
     /// <param name="y">Y-coordinate in Earth's radii (Re)</param>
     /// <param name="z">Z-coordinate in Earth's radii (Re)</param>
     /// <param name="coordinateSystem">Coordinate system</param>
-    /// <typeparam name="T">Cartesian object type</typeparam>
-    T Create<T>(double x, double y, double z, CoordinateSystem coordinateSystem)
-        where T : ICartesian;
+    static abstract TSelf New(double x, double y, double z, CoordinateSystem coordinateSystem);
 }

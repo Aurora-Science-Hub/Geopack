@@ -6,22 +6,22 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public T GeoToGsw<T>(ComputationContext context, T coordinates) where T : ICartesian
+    public static T GeoToGsw<T>(ComputationContext context, T coordinates) where T : ICartesian<T>
         => TransformCoordinates(context, coordinates, OperationType.Direct);
 
-    public T GswToGeo<T>(ComputationContext context, T coordinates) where T : ICartesian
+    public static T GswToGeo<T>(ComputationContext context, T coordinates) where T : ICartesian<T>
         => TransformCoordinates(context, coordinates, OperationType.Reversed);
 
-    private T TransformCoordinates<T>(ComputationContext context, T coordinates, OperationType operation)
-        where T : ICartesian
+    private static T TransformCoordinates<T>(ComputationContext context, T coordinates, OperationType operation)
+        where T : ICartesian<T>
         => operation switch
         {
-            OperationType.Direct => coordinates.Create<T>(
+            OperationType.Direct => T.New(
                 context.A11 * coordinates.X + context.A12 * coordinates.Y + context.A13 * coordinates.Z,
                 context.A21 * coordinates.X + context.A22 * coordinates.Y + context.A23 * coordinates.Z,
                 context.A31 * coordinates.X + context.A32 * coordinates.Y + context.A33 * coordinates.Z,
                 coordinates.CoordinateSystem),
-            OperationType.Reversed => coordinates.Create<T>(
+            OperationType.Reversed => T.New(
                 context.A11 * coordinates.X + context.A21 * coordinates.Y + context.A31 * coordinates.Z,
                 context.A12 * coordinates.X + context.A22 * coordinates.Y + context.A32 * coordinates.Z,
                 context.A13 * coordinates.X + context.A23 * coordinates.Y + context.A33 * coordinates.Z,
