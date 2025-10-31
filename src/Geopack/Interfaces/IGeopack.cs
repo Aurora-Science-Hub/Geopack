@@ -239,30 +239,30 @@ public interface IGeopack
     CartesianLocation GswToSm(ComputationContext context, CartesianLocation location);
 
     /// <summary>
-    /// Converts geographic (GEO) to geocentric solar-wind (GSW) coordinates.
+    /// Converts GEO to GSW coordinates.
     /// </summary>
     /// <remarks>
     /// Original Geopack-2008 method: GEOGSW_08.
-    /// This subroutine converts GEO vectors to and from the solar-wind GSW coordinate system,
+    /// This subroutine converts geographic GEO vectors to the solar-wind GSW coordinate system,
     /// taking into account possible deflections of the solar wind direction from strictly radial.
-    /// Before converting to/from standard GSM coordinates, use ComputationContext for Velocity(x = -400.0, y = 0.0, z = 0.0).
+    /// Before converting to standard GSM coordinates, use ComputationContext for Velocity(x = -400.0, y = 0.0, z = 0.0).
     /// </remarks>
     /// <param name="context">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
-    /// <param name="location">Location GEO coordinates</param>
-    CartesianLocation GeoToGsw<T>(ComputationContext context, CartesianLocation location);
+    /// <param name="coordinates"> Cartesian GEO coordinates</param>
+    T GeoToGsw<T>(ComputationContext context, T coordinates) where T : ICartesian<T>;
 
     /// <summary>
-    /// Converts geographic (GEO) to geocentric solar-wind (GSW) coordinates.
+    /// Converts GSW to GEO coordinates.
     /// </summary>
     /// <remarks>
     /// Original Geopack-2008 method: GEOGSW_08.
-    /// This subroutine converts GEO vectors to and from the solar-wind GSW coordinate system,
+    /// This subroutine converts the solar-wind GSW coordinates to geographic GEO coordinate system,
     /// taking into account possible deflections of the solar wind direction from strictly radial.
-    /// Before converting to/from standard GSM coordinates, use ComputationContext for Velocity(x = -400.0, y = 0.0, z = 0.0).
+    /// Before converting from standard GSM coordinates use ComputationContext for Velocity(x = -400.0, y = 0.0, z = 0.0).
     /// </remarks>
     /// <param name="context">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
-    /// <param name="location">Location GSW coordinates</param>
-    CartesianLocation GswToGeo(ComputationContext context, CartesianLocation location);
+    /// <param name="coordinates"> Cartesian GSW coordinates</param>
+    T GswToGeo<T>(ComputationContext context, T coordinates) where T : ICartesian<T>;
 
     /// <summary>
     /// Converts vertical local height (altitude) H and geodetic latitude XMU into geocentric coordinates R and THETA.
