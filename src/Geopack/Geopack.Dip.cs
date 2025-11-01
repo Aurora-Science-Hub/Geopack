@@ -9,7 +9,7 @@ public sealed partial class Geopack
     {
         if (location.CoordinateSystem is not CoordinateSystem.GSW)
         {
-            throw new NotSupportedException("Only GSW location is supported. Please, check coordinate system.");
+            throw new InvalidOperationException("Location must be in GSW coordinate system.");
         }
 
         double dipmom = Math.Sqrt(Math.Pow(context.G[1], 2) + Math.Pow(context.G[2], 2) + Math.Pow(context.H[2], 2));

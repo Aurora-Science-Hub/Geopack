@@ -5,21 +5,26 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public SphericalVector IgrfGeo_08(ComputationContext context, double r, double coLatitude, double phi)
+    public SphericalVector<MagneticField> IgrfGeo(ComputationContext context, SphericalLocation location)
     {
-        double c = Math.Cos(coLatitude);
-        double s = Math.Sin(coLatitude);
-        double cf = Math.Cos(phi);
-        double sf = Math.Sin(phi);
+        if (location.CoordinateSystem is not CoordinateSystem.GEO)
+        {
+            throw new InvalidOperationException("Location must be in GEO coordinate system.");
+        }
 
-        double pp = 1.0D / r;
+        double c = Math.Cos(location.Theta);
+        double s = Math.Sin(location.Theta);
+        double cf = Math.Cos(location.Phi);
+        double sf = Math.Sin(location.Phi);
+
+        double pp = 1.0D / location.R;
         double p = pp;
 
         // IN THIS NEW VERSION, THE OPTIMAL VALUE OF THE PARAMETER NM (MAXIMAL ORDER OF THE SPHERICAL
         // HARMONIC EXPANSION) IS NOT USER-PRESCRIBED, BUT CALCULATED INSIDE THE SUBROUTINE, BASED
         // ON THE VALUE OF THE RADIAL DISTANCE R:
 
-        int irp3 = (int)r + 2;
+        int irp3 = (int)location.R + 2;
         int nm = 3 + 30 / irp3;
         if (nm > 13)
         {
@@ -121,6 +126,6 @@ public sealed partial class Geopack
             bphi = bbf / s;
         }
 
-        return new SphericalVector(br, btheta, bphi, CoordinateSystem.GEO);
+        return SphericalVector<MagneticField>.New(br, btheta, bphi, CoordinateSystem.GEO);
     }
 }

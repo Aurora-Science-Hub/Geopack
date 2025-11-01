@@ -7,6 +7,11 @@ public sealed partial class Geopack
 {
     public CartesianVector<MagneticField> IgrfGsw(ComputationContext context, CartesianLocation location)
     {
+        if (location.CoordinateSystem is not CoordinateSystem.GSW)
+        {
+            throw new InvalidOperationException("Location must be in GSW coordinate system.");
+        }
+
         CartesianLocation geoLocation = GswToGeo(context, location);
 
         double rho2 = Math.Pow(geoLocation.X, 2) + Math.Pow(geoLocation.Y, 2);

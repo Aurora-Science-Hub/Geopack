@@ -5,8 +5,13 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public ComputationContext Recalc_08(DateTime dateTime, double vgsex = -400D, double vgsey = 0D, double vgsez = 0D)
+    public ComputationContext Recalc(DateTime dateTime, CartesianVector<Velocity> swVelocity)
     {
+        if (swVelocity.CoordinateSystem is not CoordinateSystem.GSE)
+        {
+            throw new InvalidOperationException("Solar wind velocity must be in GSE coordinate system.");
+        }
+
         int IY = dateTime.Year;
         int IDAY = dateTime.DayOfYear;
         int IHOUR = dateTime.Hour;
@@ -130,10 +135,10 @@ public sealed partial class Geopack
         double DY2 = DZ3 * S1 - DZ1 * S3;
         double DY3 = DZ1 * S2 - DZ2 * S1;
 
-        double V = Math.Sqrt(vgsex * vgsex + vgsey * vgsey + vgsez * vgsez);
-        double DX1 = -vgsex / V;
-        double DX2 = -vgsey / V;
-        double DX3 = -vgsez / V;
+        double V = Math.Sqrt(Math.Pow(swVelocity.X, 2) + Math.Pow(swVelocity.Y, 2) + Math.Pow(swVelocity.Z, 2));
+        double DX1 = -swVelocity.X / V;
+        double DX2 = -swVelocity.Y / V;
+        double DX3 = -swVelocity.Z / V;
 
         double X1 = DX1 * S1 + DX2 * DY1 + DX3 * DZ1;
         double X2 = DX1 * S2 + DX2 * DY2 + DX3 * DZ2;
