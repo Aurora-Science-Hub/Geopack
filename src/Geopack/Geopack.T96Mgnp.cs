@@ -4,10 +4,15 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public Magnetopause T96Mgnp_08(
+    public Magnetopause T96Mgnp(
         double xnPd, double vel,
-        double xgsw, double ygsw, double zgsw)
+        CartesianLocation location)
     {
+        if (location.CoordinateSystem is not CoordinateSystem.GSW)
+        {
+            throw new InvalidOperationException("Location should be in GSW system.");
+        }
+
         double pd;
         if (vel < 0.0)
         {
@@ -33,37 +38,37 @@ public sealed partial class Geopack
         double xm = x0 - a;
 
         double phi;
-        if (ygsw is not 0.0 || zgsw is not 0.0)
+        if (location.Y is not 0.0 || location.Z is not 0.0)
         {
-            phi = Math.Atan2(ygsw, zgsw);
+            phi = Math.Atan2(location.Y, location.Z);
         }
         else
         {
             phi = 0.0D;
         }
 
-        double rho = Math.Sqrt(Math.Pow(ygsw, 2) + Math.Pow(zgsw, 2));
+        double rho = Math.Sqrt(Math.Pow(location.Y, 2) + Math.Pow(location.Z, 2));
 
-        if (xgsw < xm)
+        if (location.X < xm)
         {
-            double xMgnp = xgsw;
+            double xMgnp = location.X;
             double rhomGnp = a * Math.Sqrt(Math.Pow(s0, 2) - 1.0D);
             double yMgnp = rhomGnp * Math.Sin(phi);
             double zMgnp = rhomGnp * Math.Cos(phi);
             double dist = Math.Sqrt(
-                (xgsw - xMgnp) * (xgsw - xMgnp) +
-                (ygsw - yMgnp) * (ygsw - yMgnp) +
-                (zgsw - zMgnp) * (zgsw - zMgnp));
+                (location.X - xMgnp) * (location.X - xMgnp) +
+                (location.Y - yMgnp) * (location.Y - yMgnp) +
+                (location.Z - zMgnp) * (location.Z - zMgnp));
 
             MagnetopausePosition position = double.IsNaN(rhomGnp) ? MagnetopausePosition.NotDefined
                 : rhomGnp > rho
                     ? MagnetopausePosition.Inside
                     : MagnetopausePosition.Outside;
 
-            return new Magnetopause(xMgnp, yMgnp, zMgnp, dist, position, CoordinateSystem.GSW);
+            return new Magnetopause(CartesianLocation.New(xMgnp, yMgnp, zMgnp, CoordinateSystem.GSW), dist, position);
         }
 
-        double xksi = (xgsw - x0) / a + 1.0D;
+        double xksi = (location.X - x0) / a + 1.0D;
         double xdzt = rho / a;
         double sq1 = Math.Sqrt((1.0D + xksi) * (1.0D + xksi) + xdzt * xdzt);
         double sq2 = Math.Sqrt((1.0D - xksi) * (1.0D - xksi) + xdzt * xdzt);
@@ -83,9 +88,9 @@ public sealed partial class Geopack
         double zMgnpOut = rhomGnpOut * Math.Cos(phi);
 
         double distOut = Math.Sqrt(
-            (xgsw - xMgnpOut) * (xgsw - xMgnpOut) +
-            (ygsw - yMgnpOut) * (ygsw - yMgnpOut) +
-            (zgsw - zMgnpOut) * (zgsw - zMgnpOut));
+            (location.X - xMgnpOut) * (location.X - xMgnpOut) +
+            (location.Y - yMgnpOut) * (location.Y - yMgnpOut) +
+            (location.Z - zMgnpOut) * (location.Z - zMgnpOut));
 
         MagnetopausePosition idOut = double.IsNaN(sigma)
             ? MagnetopausePosition.NotDefined
@@ -93,6 +98,6 @@ public sealed partial class Geopack
                 ? MagnetopausePosition.Outside
                 : MagnetopausePosition.Inside;
 
-        return new Magnetopause(xMgnpOut, yMgnpOut, zMgnpOut, distOut, idOut, CoordinateSystem.GSW);
+        return new Magnetopause(CartesianLocation.New(xMgnpOut, yMgnpOut, zMgnpOut, CoordinateSystem.GSW), distOut, idOut);
     }
 }

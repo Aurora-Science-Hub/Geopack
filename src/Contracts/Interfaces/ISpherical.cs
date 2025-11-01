@@ -8,16 +8,16 @@ namespace AuroraScienceHub.Geopack.Contracts.Interfaces;
 public interface ISpherical<TSelf>
     where TSelf : ISpherical<TSelf>
 {
-    /// <summary> Radial component in Earth's radii (Re) </summary>
+    /// <summary> Radial component in Earth's radii</summary>
     double R { get; }
 
-    /// <summary> Theta angle in radians </summary>
+    /// <summary> Theta angle in radians</summary>
     double Theta { get; }
 
-    /// <summary> Phi angle in radians </summary>
+    /// <summary> Phi angle in radians</summary>
     double Phi { get; }
 
-    /// <summary> Coordinate system </summary>
+    /// <summary> Coordinate system</summary>
     CoordinateSystem CoordinateSystem { get; }
 
     /// <summary>

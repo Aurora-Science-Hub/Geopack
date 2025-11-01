@@ -3,7 +3,7 @@ using AuroraScienceHub.Geopack.Contracts.Interfaces;
 namespace AuroraScienceHub.Geopack.Contracts.Models;
 
 /// <summary>
-/// Location with spherical coordinates
+/// Location with spherical coordinates (geocentric)
 /// </summary>
 public readonly record struct SphericalLocation : ISpherical<SphericalLocation>
 {
@@ -41,5 +41,4 @@ public readonly record struct SphericalLocation : ISpherical<SphericalLocation>
 
         return CartesianLocation.New(x, y, z, CoordinateSystem);
     }
-
 }

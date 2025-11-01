@@ -4,7 +4,7 @@ using AuroraScienceHub.Geopack.Contracts.Interfaces;
 namespace AuroraScienceHub.Geopack.Contracts.Models;
 
 /// <summary>
-/// Position in Cartesian coordinates
+/// Location with cartesian coordinates
 /// </summary>
 public readonly record struct CartesianLocation : ICartesian<CartesianLocation>
 {

@@ -119,7 +119,7 @@ public sealed partial class Geopack
         double CTSL = CT0 * SL0;
         double CTCL = CT0 * CL0;
 
-        Sun sun = Sun_08(dateTime);
+        Sun sun = Sun(dateTime);
         double S1 = Math.Cos(sun.Srasn) * Math.Cos(sun.Sdec);
         double S2 = Math.Sin(sun.Srasn) * Math.Cos(sun.Sdec);
         double S3 = Math.Sin(sun.Sdec);

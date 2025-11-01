@@ -4,12 +4,17 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public Magnetopause ShuMgnp_08(
+    public Magnetopause ShuMgnp(
         double xnPd,
         double vel,
         double bzImf,
-        double xgsw, double ygsw, double zgsw)
+        CartesianLocation location)
     {
+        if (location.CoordinateSystem is not CoordinateSystem.GSW)
+        {
+            throw new InvalidOperationException("Location should be in GSW system.");
+        }
+
         double p;
         if (vel < 0.0)
         {
@@ -22,9 +27,9 @@ public sealed partial class Geopack
         }
 
         double phi;
-        if (ygsw is not 0.0 || zgsw is not 0.0)
+        if (location.Y is not 0.0 || location.Z is not 0.0)
         {
-            phi = Math.Atan2(ygsw, zgsw);
+            phi = Math.Atan2(location.Y, location.Z);
         }
         else
         {
@@ -34,8 +39,8 @@ public sealed partial class Geopack
         MagnetopausePosition id;
         double r0 = (10.22D + 1.29D * Math.Tanh(0.184D * (bzImf + 8.14D))) * Math.Pow(p, -0.15151515D);
         double alpha = (0.58D - 0.007D * bzImf) * (1.0D + 0.024D * Math.Log(p));
-        double r = Math.Sqrt(xgsw * xgsw + ygsw * ygsw + zgsw * zgsw);
-        double rm = r0 * Math.Pow(2.0D / (1.0D + xgsw / r), alpha);
+        double r = Math.Sqrt(location.X * location.X + location.Y * location.Y + location.Z * location.Z);
+        double rm = r0 * Math.Pow(2.0D / (1.0D + location.X / r), alpha);
 
         if (double.IsFinite(rm))
         {
@@ -47,10 +52,10 @@ public sealed partial class Geopack
         }
 
         // Get T96 magnetopause as starting approximation
-        Magnetopause t96Result = T96Mgnp_08(p, -1.0D, xgsw, ygsw, zgsw);
-        double xmt96 = t96Result.X;
-        double ymt96 = t96Result.Y;
-        double zmt96 = t96Result.Z;
+        Magnetopause t96Magnetopause = T96Mgnp(p, -1.0D, location);
+        double xmt96 = t96Magnetopause.BoundaryLocation.X;
+        double ymt96 = t96Magnetopause.BoundaryLocation.Y;
+        double zmt96 = t96Magnetopause.BoundaryLocation.Z;
 
         double rho2 = ymt96 * ymt96 + zmt96 * zmt96;
         r = Math.Sqrt(rho2 + xmt96 * xmt96);
@@ -96,10 +101,10 @@ public sealed partial class Geopack
         double zMgnp = rho * Math.Cos(phi);
 
         double dist = Math.Sqrt(
-            Math.Pow(xgsw - xMgnp, 2) +
-            Math.Pow(ygsw - yMgnp, 2) +
-            Math.Pow(zgsw - zMgnp, 2));
+            Math.Pow(location.X - xMgnp, 2) +
+            Math.Pow(location.Y - yMgnp, 2) +
+            Math.Pow(location.Z - zMgnp, 2));
 
-        return new Magnetopause(xMgnp, yMgnp, zMgnp, dist, id, CoordinateSystem.GSW);
+        return new Magnetopause(CartesianLocation.New(xMgnp, yMgnp, zMgnp, CoordinateSystem.GSW), dist, id);
     }
 }
