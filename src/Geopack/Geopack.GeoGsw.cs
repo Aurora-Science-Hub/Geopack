@@ -7,12 +7,12 @@ namespace AuroraScienceHub.Geopack;
 public sealed partial class Geopack
 {
     public T GeoToGsw<T>(ComputationContext context, T coordinates) where T : ICartesian<T>
-        => TransformCoordinates(context, coordinates, OperationType.Direct);
+        => GeoGswInternal(context, coordinates, OperationType.Direct);
 
     public T GswToGeo<T>(ComputationContext context, T coordinates) where T : ICartesian<T>
-        => TransformCoordinates(context, coordinates, OperationType.Reversed);
+        => GeoGswInternal(context, coordinates, OperationType.Reversed);
 
-    private static T TransformCoordinates<T>(ComputationContext context, T coordinates, OperationType operation)
+    private static T GeoGswInternal<T>(ComputationContext context, T coordinates, OperationType operation)
         where T : ICartesian<T>
         => operation switch
         {
