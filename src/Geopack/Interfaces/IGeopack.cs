@@ -107,20 +107,6 @@ public interface IGeopack
     T GseToGsw<T>(ComputationContext context, T components) where T : ICartesian<T>;
 
     /// <summary>
-    /// Transforms GSE coordinate components to geocentric solar-wind (GSW) ones.
-    /// </summary>
-    /// <remarks>
-    /// Original Geopack-2008 method: GSWGSE_08.
-    /// In the GSW system, the X axis is antiparallel to the observed direction of the solar wind flow.
-    /// The Y and Z axes are defined similarly to the standard GSM system.
-    /// The GSW system becomes identical to the standard GSM in the case of a strictly radial solar wind flow.
-    /// Before calling GseGsw_08, be sure to invoke the subroutine Recalc_08 to define all necessary elements of transformation matrices.
-    /// </remarks>
-    /// <param name="context">Context containing pre-calculated coefficients. Should be generated with Recalc call.</param>
-    /// <param name="location">Location GSW coordinates</param>
-    CartesianLocation GseToGsw(ComputationContext context, CartesianLocation location);
-
-    /// <summary>
     /// Converts geographic (GEO) to dipole (MAG) coordinates.
     /// </summary>
     /// <remarks>
