@@ -6,31 +6,31 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public T GswToGse<T>(ComputationContext context, T coordinates) where T : ICartesian<T>
-        => GswGseInternal(context, coordinates, OperationType.Direct);
+    public T GswToGse<T>(ComputationContext context, T components) where T : ICartesian<T>
+        => GswGseInternal(context, components, OperationType.Direct);
 
-    public T GseToGsw<T>(ComputationContext context, T coordinates) where T : ICartesian<T>
-        => GswGseInternal(context, coordinates, OperationType.Reversed);
+    public T GseToGsw<T>(ComputationContext context, T components) where T : ICartesian<T>
+        => GswGseInternal(context, components, OperationType.Reversed);
 
-    private static T GswGseInternal<T>(ComputationContext context, T coordinates, OperationType operation)
+    private static T GswGseInternal<T>(ComputationContext context, T components, OperationType operation)
         where T : ICartesian<T>
         => operation switch
         {
-            OperationType.Direct => coordinates.CoordinateSystem is CoordinateSystem.GSW
+            OperationType.Direct => components.CoordinateSystem is CoordinateSystem.GSW
                 ? T.New(
-                    context.E11 * coordinates.X + context.E12 * coordinates.Y + context.E13 * coordinates.Z,
-                    context.E21 * coordinates.X + context.E22 * coordinates.Y + context.E23 * coordinates.Z,
-                    context.E31 * coordinates.X + context.E32 * coordinates.Y + context.E33 * coordinates.Z,
+                    context.E11 * components.X + context.E12 * components.Y + context.E13 * components.Z,
+                    context.E21 * components.X + context.E22 * components.Y + context.E23 * components.Z,
+                    context.E31 * components.X + context.E32 * components.Y + context.E33 * components.Z,
                     CoordinateSystem.GSE)
-                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GSW system for Direct operation."),
+                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GSW system."),
 
-            OperationType.Reversed => coordinates.CoordinateSystem is CoordinateSystem.GSE
+            OperationType.Reversed => components.CoordinateSystem is CoordinateSystem.GSE
                 ? T.New(
-                    context.E11 * coordinates.X + context.E21 * coordinates.Y + context.E31 * coordinates.Z,
-                    context.E12 * coordinates.X + context.E22 * coordinates.Y + context.E32 * coordinates.Z,
-                    context.E13 * coordinates.X + context.E23 * coordinates.Y + context.E33 * coordinates.Z,
+                    context.E11 * components.X + context.E21 * components.Y + context.E31 * components.Z,
+                    context.E12 * components.X + context.E22 * components.Y + context.E32 * components.Z,
+                    context.E13 * components.X + context.E23 * components.Y + context.E33 * components.Z,
                     CoordinateSystem.GSW)
-                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GSE system for Direct operation."),
+                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GSE system."),
             _ => throw new NotSupportedException("Specify correct OperationType. Available types are Direct and Reversed.")
         };
 }

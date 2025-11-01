@@ -6,31 +6,31 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public T GeoToGsw<T>(ComputationContext context, T coordinates) where T : ICartesian<T>
-        => GeoGswInternal(context, coordinates, OperationType.Direct);
+    public T GeoToGsw<T>(ComputationContext context, T components) where T : ICartesian<T>
+        => GeoGswInternal(context, components, OperationType.Direct);
 
-    public T GswToGeo<T>(ComputationContext context, T coordinates) where T : ICartesian<T>
-        => GeoGswInternal(context, coordinates, OperationType.Reversed);
+    public T GswToGeo<T>(ComputationContext context, T components) where T : ICartesian<T>
+        => GeoGswInternal(context, components, OperationType.Reversed);
 
-    private static T GeoGswInternal<T>(ComputationContext context, T coordinates, OperationType operation)
+    private static T GeoGswInternal<T>(ComputationContext context, T components, OperationType operation)
         where T : ICartesian<T>
         => operation switch
         {
-            OperationType.Direct => coordinates.CoordinateSystem is CoordinateSystem.GEO
+            OperationType.Direct => components.CoordinateSystem is CoordinateSystem.GEO
                 ? T.New(
-                context.A11 * coordinates.X + context.A12 * coordinates.Y + context.A13 * coordinates.Z,
-                context.A21 * coordinates.X + context.A22 * coordinates.Y + context.A23 * coordinates.Z,
-                context.A31 * coordinates.X + context.A32 * coordinates.Y + context.A33 * coordinates.Z,
-                coordinates.CoordinateSystem)
-                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GEO system for Direct operation."),
+                context.A11 * components.X + context.A12 * components.Y + context.A13 * components.Z,
+                context.A21 * components.X + context.A22 * components.Y + context.A23 * components.Z,
+                context.A31 * components.X + context.A32 * components.Y + context.A33 * components.Z,
+                components.CoordinateSystem)
+                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GEO system."),
 
-            OperationType.Reversed => coordinates.CoordinateSystem is CoordinateSystem.GSW
+            OperationType.Reversed => components.CoordinateSystem is CoordinateSystem.GSW
                 ? T.New(
-                context.A11 * coordinates.X + context.A21 * coordinates.Y + context.A31 * coordinates.Z,
-                context.A12 * coordinates.X + context.A22 * coordinates.Y + context.A32 * coordinates.Z,
-                context.A13 * coordinates.X + context.A23 * coordinates.Y + context.A33 * coordinates.Z,
-                coordinates.CoordinateSystem)
-                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GSW system for Direct operation."),
+                context.A11 * components.X + context.A21 * components.Y + context.A31 * components.Z,
+                context.A12 * components.X + context.A22 * components.Y + context.A32 * components.Z,
+                context.A13 * components.X + context.A23 * components.Y + context.A33 * components.Z,
+                components.CoordinateSystem)
+                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GSW system."),
             _ => throw new NotSupportedException("Specify correct OperationType. Available types are Direct and Reversed.")
         };
 }
