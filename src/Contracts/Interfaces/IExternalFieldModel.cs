@@ -26,5 +26,5 @@ public interface IExternalFieldModel
     /// <param name="x">GSM x-coordinate in Earth radii</param>
     /// <param name="y">GSM y-coordinate in Earth radii</param>
     /// <param name="z">GSM z-coordinate in Earth radii</param>
-    CartesianFieldVector Calculate(int iopt, double[] parmod, double psi, double x, double y, double z);
+    CartesianVector<MagneticField> Calculate(int iopt, double[] parmod, double psi, double x, double y, double z);
 }

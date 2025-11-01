@@ -5,43 +5,35 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public CartesianFieldVector IgrfGsw_08(ComputationContext context, double xgsw, double ygsw, double zgsw)
+    public SphericalVector<MagneticField> IgrfGeo(ComputationContext context, SphericalLocation location)
     {
-        CartesianLocation geoLocation = GswGeo_08(context, xgsw, ygsw, zgsw);
-        double xgeo = geoLocation.X;
-        double ygeo = geoLocation.Y;
-        double zgeo = geoLocation.Z;
-
-        double rho2 = xgeo * xgeo + ygeo * ygeo;
-        double r = Math.Sqrt(rho2 + zgeo * zgeo);
-        double c = zgeo / r;
-        double rho = Math.Sqrt(rho2);
-        double s = rho / r;
-
-        double cf, sf;
-        if (s < 1e-10)
+        if (location.CoordinateSystem is not CoordinateSystem.GEO)
         {
-            cf = 1.0;
-            sf = 0.0;
-        }
-        else
-        {
-            cf = xgeo / rho;
-            sf = ygeo / rho;
+            throw new InvalidOperationException("Location must be in GEO coordinate system.");
         }
 
-        double pp = 1.0D / r;
+        double c = Math.Cos(location.Theta);
+        double s = Math.Sin(location.Theta);
+        double cf = Math.Cos(location.Phi);
+        double sf = Math.Sin(location.Phi);
+
+        double pp = 1.0D / location.R;
         double p = pp;
 
-        // Calculate optimal expansion order
-        int irp3 = (int)r + 2;
+        // IN THIS NEW VERSION, THE OPTIMAL VALUE OF THE PARAMETER NM (MAXIMAL ORDER OF THE SPHERICAL
+        // HARMONIC EXPANSION) IS NOT USER-PRESCRIBED, BUT CALCULATED INSIDE THE SUBROUTINE, BASED
+        // ON THE VALUE OF THE RADIAL DISTANCE R:
+
+        int irp3 = (int)location.R + 2;
         int nm = 3 + 30 / irp3;
         if (nm > 13)
+        {
             nm = 13;
+        }
 
         int k = nm + 1;
-        double[] a = new double[k + 1];
-        double[] b = new double[k + 1];
+        double[] a = new double[k];
+        double[] b = new double[k];
 
         for (int n = 1; n <= k; n++)
         {
@@ -60,13 +52,14 @@ public sealed partial class Geopack
 
         for (int m = 1; m <= k; m++)
         {
-            if (m == 1)
+            if (m is 1)
             {
                 x = 0.0D;
                 y = 1.0D;
             }
             else
             {
+                int mm = m - 1;
                 double w = x;
                 x = w * cf + y * sf;
                 y = y * cf - w * sf;
@@ -84,19 +77,20 @@ public sealed partial class Geopack
                 int mn = n * (n - 1) / 2 + m;
                 double e = context.G[mn - 1];
                 double hh = context.H[mn - 1];
-                double w_val = e * y + hh * x;
-                bbr += b[n - 1] * w_val * q;
-                bbt -= an * w_val * z;
+                double xk = context.REC[mn - 1];
 
-                if (m != 1)
+                double w = e * y + hh * x;
+                bbr += b[n - 1] * w * q;
+                bbt -= an * w * z;
+
+                if (m is not 1)
                 {
                     double qq = q;
-                    if (s < 1e-10)
+                    if (s < 1e-5)
                         qq = z;
                     bi += an * (e * x - hh * y) * qq;
                 }
 
-                double xk = context.REC[mn - 1];
                 double dp = c * z - s * q - xk * d2;
                 double pm = c * q - xk * p2;
                 d2 = z;
@@ -108,37 +102,30 @@ public sealed partial class Geopack
             d = s * d + c * p;
             p = s * p;
 
-            if (m != 1)
+            if (m is 1)
             {
-                bi *= (m - 1);
-                bbf += bi;
+                continue;
             }
+
+            bi *= (m - 1);
+            bbf += bi;
         }
 
         double br = bbr;
-        double bt = bbt;
-        double bf;
+        double btheta = bbt;
+        double bphi;
 
         if (s < 1e-10)
         {
             if (c < 0.0)
                 bbf = -bbf;
-            bf = bbf;
+            bphi = bbf;
         }
         else
         {
-            bf = bbf / s;
+            bphi = bbf / s;
         }
 
-        // Convert spherical to Cartesian in GEO
-        double he = br * s + bt * c;
-        double hxgeo = he * cf - bf * sf;
-        double hygeo = he * sf + bf * cf;
-        double hzgeo = br * c - bt * s;
-
-        // Convert GEO to GSW
-        CartesianLocation gswField = GeoGsw_08(context, hxgeo, hygeo, hzgeo);
-
-        return new CartesianFieldVector(gswField.X, gswField.Y, gswField.Z, CoordinateSystem.GSW);
+        return SphericalVector<MagneticField>.New(br, btheta, bphi, CoordinateSystem.GEO);
     }
 }

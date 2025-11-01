@@ -5,30 +5,45 @@ namespace AuroraScienceHub.Geopack;
 
 public sealed partial class Geopack
 {
-    public SphericalFieldVector IgrfGeo_08(ComputationContext context, double r, double coLatitude, double phi)
+    public CartesianVector<MagneticField> IgrfGsw(ComputationContext context, CartesianLocation location)
     {
-        double c = Math.Cos(coLatitude);
-        double s = Math.Sin(coLatitude);
-        double cf = Math.Cos(phi);
-        double sf = Math.Sin(phi);
+        if (location.CoordinateSystem is not CoordinateSystem.GSW)
+        {
+            throw new InvalidOperationException("Location must be in GSW coordinate system.");
+        }
+
+        CartesianLocation geoLocation = GswToGeo(context, location);
+
+        double rho2 = Math.Pow(geoLocation.X, 2) + Math.Pow(geoLocation.Y, 2);
+        double r = Math.Sqrt(rho2 + Math.Pow(geoLocation.Z, 2));
+        double c = geoLocation.Z / r;
+        double rho = Math.Sqrt(rho2);
+        double s = rho / r;
+
+        double cf, sf;
+        if (s < 1e-10)
+        {
+            cf = 1.0;
+            sf = 0.0;
+        }
+        else
+        {
+            cf = geoLocation.X / rho;
+            sf = geoLocation.Y / rho;
+        }
 
         double pp = 1.0D / r;
         double p = pp;
 
-        // IN THIS NEW VERSION, THE OPTIMAL VALUE OF THE PARAMETER NM (MAXIMAL ORDER OF THE SPHERICAL
-        // HARMONIC EXPANSION) IS NOT USER-PRESCRIBED, BUT CALCULATED INSIDE THE SUBROUTINE, BASED
-        // ON THE VALUE OF THE RADIAL DISTANCE R:
-
+        // Calculate optimal expansion order
         int irp3 = (int)r + 2;
         int nm = 3 + 30 / irp3;
         if (nm > 13)
-        {
             nm = 13;
-        }
 
         int k = nm + 1;
-        double[] a = new double[k];
-        double[] b = new double[k];
+        double[] a = new double[k + 1];
+        double[] b = new double[k + 1];
 
         for (int n = 1; n <= k; n++)
         {
@@ -47,14 +62,13 @@ public sealed partial class Geopack
 
         for (int m = 1; m <= k; m++)
         {
-            if (m is 1)
+            if (m == 1)
             {
                 x = 0.0D;
                 y = 1.0D;
             }
             else
             {
-                int mm = m - 1;
                 double w = x;
                 x = w * cf + y * sf;
                 y = y * cf - w * sf;
@@ -72,20 +86,19 @@ public sealed partial class Geopack
                 int mn = n * (n - 1) / 2 + m;
                 double e = context.G[mn - 1];
                 double hh = context.H[mn - 1];
-                double xk = context.REC[mn - 1];
+                double wVal = e * y + hh * x;
+                bbr += b[n - 1] * wVal * q;
+                bbt -= an * wVal * z;
 
-                double w = e * y + hh * x;
-                bbr += b[n - 1] * w * q;
-                bbt -= an * w * z;
-
-                if (m is not 1)
+                if (m != 1)
                 {
                     double qq = q;
-                    if (s < 1e-5)
+                    if (s < 1e-10)
                         qq = z;
                     bi += an * (e * x - hh * y) * qq;
                 }
 
+                double xk = context.REC[mn - 1];
                 double dp = c * z - s * q - xk * d2;
                 double pm = c * q - xk * p2;
                 d2 = z;
@@ -97,7 +110,7 @@ public sealed partial class Geopack
             d = s * d + c * p;
             p = s * p;
 
-            if (m is 1)
+            if (m == 1)
             {
                 continue;
             }
@@ -107,20 +120,25 @@ public sealed partial class Geopack
         }
 
         double br = bbr;
-        double btheta = bbt;
-        double bphi;
+        double bt = bbt;
+        double bf;
 
         if (s < 1e-10)
         {
             if (c < 0.0)
                 bbf = -bbf;
-            bphi = bbf;
+            bf = bbf;
         }
         else
         {
-            bphi = bbf / s;
+            bf = bbf / s;
         }
 
-        return new SphericalFieldVector(br, btheta, bphi, CoordinateSystem.GEO);
+        double he = br * s + bt * c;
+        double bx = he * cf - bf * sf;
+        double by = he * sf + bf * cf;
+        double bz = br * c - bt * s;
+
+        return GeoToGsw(context,CartesianVector<MagneticField>.New(bx, by, bz, CoordinateSystem.GEO));
     }
 }
