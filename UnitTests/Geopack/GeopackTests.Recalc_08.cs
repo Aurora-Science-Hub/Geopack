@@ -1,4 +1,5 @@
 using AuroraScienceHub.Geopack.Contracts.Engine;
+using AuroraScienceHub.Geopack.Contracts.Models;
 using AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.Models;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
@@ -11,11 +12,10 @@ public partial class GeopackTests
     public async Task RecalcCommonBlocks_ShouldBeCorrect()
     {
         // Act
-        ComputationContext context = _geopack.Recalc_08(
+        ComputationContext context = s_geopack.Recalc(
             fixture.InputData.DateTime,
-            fixture.InputData.VGSEX,
-            fixture.InputData.VGSEY,
-            fixture.InputData.VGSEZ);
+            CartesianVector<Velocity>.New(fixture.InputData.VGSEX, fixture.InputData.VGSEY, fixture.InputData.VGSEZ,
+                CoordinateSystem.GSE));
 
         // Assert
         string rawData = await EmbeddedResourceReader.ReadTextAsync(CommonsDataFileName);
@@ -27,6 +27,7 @@ public partial class GeopackTests
             context.H[i].ShouldBe(approvedData.H![i], MinimalTestsPrecision);
             context.REC[i].ShouldBe(approvedData.REC![i], MinimalTestsPrecision);
         }
+
         context.ST0.ShouldBe(approvedData.ST0, MinimalTestsPrecision);
         context.CT0.ShouldBe(approvedData.CT0, MinimalTestsPrecision);
         context.SL0.ShouldBe(approvedData.SL0, MinimalTestsPrecision);
@@ -60,5 +61,18 @@ public partial class GeopackTests
         context.E13.ShouldBe(approvedData.E13, MinimalTestsPrecision);
         context.E23.ShouldBe(approvedData.E23, MinimalTestsPrecision);
         context.E33.ShouldBe(approvedData.E33, MinimalTestsPrecision);
+    }
+
+    [Fact(DisplayName = "Recalc should throw if incorrect sw velocity coordinate system")]
+    public void Recalc_Throw()
+    {
+        // Act
+        Action act = () => s_geopack.Recalc(
+            fixture.InputData.DateTime,
+            CartesianVector<Velocity>.New(fixture.InputData.VGSEX, fixture.InputData.VGSEY, fixture.InputData.VGSEZ,
+                CoordinateSystem.GSW));
+
+        // Assert
+        act.ShouldThrow<InvalidOperationException>();
     }
 }

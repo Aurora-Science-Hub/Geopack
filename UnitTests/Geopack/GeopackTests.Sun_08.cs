@@ -18,7 +18,7 @@ public partial class GeopackTests
         DateTime date = new(year, month, day, hour, minute, second);
 
         // Act
-        Sun sun = _geopack.Sun_08(date);
+        Sun sun = s_geopack.Sun(date);
 
         // Assert
         sun.DateTime.ShouldBe(date);

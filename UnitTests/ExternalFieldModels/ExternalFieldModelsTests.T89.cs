@@ -21,11 +21,11 @@ public partial class TModelsTests
         double expectedBx, double expectedBy, double expectedBz)
     {
         // Act
-        CartesianObject<> resultField = _t89.Calculate(iopt, new double[10], ps, x, y, z);
+        CartesianVector<MagneticField> resultField = _t89.Calculate(iopt, new double[10], ps, x, y, z);
 
         // Assert
-        resultField.Bx.ShouldBe(expectedBx, MinimalTestsPrecision);
-        resultField.By.ShouldBe(expectedBy, MinimalTestsPrecision);
-        resultField.Bz.ShouldBe(expectedBz, MinimalTestsPrecision);
+        resultField.X.ShouldBe(expectedBx, MinimalTestsPrecision);
+        resultField.Y.ShouldBe(expectedBy, MinimalTestsPrecision);
+        resultField.Z.ShouldBe(expectedBz, MinimalTestsPrecision);
     }
 }
