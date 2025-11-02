@@ -10,13 +10,13 @@ AMD Ryzen 5 5500U with Radeon Graphics 0.40GHz, 1 CPU, 12 logical and 6 physical
 
 
 ```
-| Method                                    | Job           | Runtime       | Mean     | Error   | StdDev  | Ratio | Gen0     | Allocated | Alloc Ratio |
-|------------------------------------------ |-------------- |-------------- |---------:|--------:|--------:|------:|---------:|----------:|------------:|
-| Trace_FieldLineFromNorthToSouthHemisphere | .NET 9.0      | .NET 9.0      | 333.0 μs | 3.04 μs | 2.85 μs |  1.00 |  84.4727 | 172.73 KB |        1.00 |
-| Trace_FieldLineFromSouthToNorthHemisphere | .NET 9.0      | .NET 9.0      | 414.7 μs | 1.85 μs | 1.64 μs |  1.25 | 104.0039 | 212.94 KB |        1.23 |
-|                                           |               |               |          |         |         |       |          |           |             |
-| Trace_FieldLineFromNorthToSouthHemisphere | NativeAOT     | NativeAOT 9.0 | 328.4 μs | 1.07 μs | 1.00 μs |  1.00 |  84.4727 | 172.76 KB |        1.00 |
-| Trace_FieldLineFromSouthToNorthHemisphere | NativeAOT     | NativeAOT 9.0 | 407.3 μs | 1.51 μs | 1.41 μs |  1.24 | 104.0039 | 212.96 KB |        1.23 |
-|                                           |               |               |          |         |         |       |          |           |             |
-| Trace_FieldLineFromNorthToSouthHemisphere | NativeAOT 9.0 | NativeAOT 9.0 | 328.3 μs | 2.01 μs | 1.88 μs |  1.00 |  84.4727 | 172.76 KB |        1.00 |
-| Trace_FieldLineFromSouthToNorthHemisphere | NativeAOT 9.0 | NativeAOT 9.0 | 409.0 μs | 1.04 μs | 0.97 μs |  1.25 | 104.0039 | 212.96 KB |        1.23 |
+| Method                                    | Job           | Runtime       | Mean     | Error   | StdDev  | Ratio | Gen0    | Allocated | Alloc Ratio |
+|------------------------------------------ |-------------- |-------------- |---------:|--------:|--------:|------:|--------:|----------:|------------:|
+| Trace_FieldLineFromNorthToSouthHemisphere | .NET 9.0      | .NET 9.0      | 329.7 μs | 1.96 μs | 1.84 μs |  1.00 | 72.2656 | 147.91 KB |        1.00 |
+| Trace_FieldLineFromSouthToNorthHemisphere | .NET 9.0      | .NET 9.0      | 418.0 μs | 0.75 μs | 0.71 μs |  1.27 | 89.3555 |  182.7 KB |        1.24 |
+|                                           |               |               |          |         |         |       |         |           |             |
+| Trace_FieldLineFromNorthToSouthHemisphere | NativeAOT     | NativeAOT 9.0 | 330.2 μs | 1.11 μs | 1.04 μs |  1.00 | 72.2656 |  147.9 KB |        1.00 |
+| Trace_FieldLineFromSouthToNorthHemisphere | NativeAOT     | NativeAOT 9.0 | 410.6 μs | 1.21 μs | 1.13 μs |  1.24 | 89.3555 | 182.68 KB |        1.24 |
+|                                           |               |               |          |         |         |       |         |           |             |
+| Trace_FieldLineFromNorthToSouthHemisphere | NativeAOT 9.0 | NativeAOT 9.0 | 331.6 μs | 1.30 μs | 1.22 μs |  1.00 | 72.2656 |  147.9 KB |        1.00 |
+| Trace_FieldLineFromSouthToNorthHemisphere | NativeAOT 9.0 | NativeAOT 9.0 | 413.3 μs | 1.89 μs | 1.77 μs |  1.25 | 89.3555 | 182.68 KB |        1.24 |
