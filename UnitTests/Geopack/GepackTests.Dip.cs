@@ -17,24 +17,28 @@ public partial class GeopackTests
         double xgsw, double ygsw, double zgsw,
         double expectedBx, double expectedBy, double expectedBz)
     {
+        // Arrange
+        CartesianLocation location = CartesianLocation.New(xgsw, ygsw, zgsw, CoordinateSystem.GSW);
+
         // Act
-        CartesianObject<> resultField = s_geopack.Dip(_context, xgsw, ygsw, zgsw);
+        CartesianVector<MagneticField> resultField = s_geopack.Dip(_context, location);
 
         // Assert
-        resultField.Bx.ShouldBe(expectedBx, MinimalTestsPrecision);
-        resultField.By.ShouldBe(expectedBy, MinimalTestsPrecision);
-        resultField.Bz.ShouldBe(expectedBz, MinimalTestsPrecision);
+        resultField.X.ShouldBe(expectedBx, MinimalTestsPrecision);
+        resultField.Y.ShouldBe(expectedBy, MinimalTestsPrecision);
+        resultField.Z.ShouldBe(expectedBz, MinimalTestsPrecision);
     }
 
     [Fact(DisplayName = "DIP_08 is NaN if Zero coordinates")]
-    public void Dip_ShouldReturnNaNValues_IfZeroCoordinates()
+    public void Dip_ShouldThrow_IfZeroCoordinates()
     {
+        // Arrange
+        CartesianLocation location = CartesianLocation.New(0D, 0D, 0D, CoordinateSystem.GSW);
+
         // Act
-        CartesianObject<> resultField = s_geopack.Dip(_context, 0.0D, 0.0D, 0.0D);
+        Action act = () => s_geopack.Dip(_context, location);
 
         // Assert
-        resultField.Bx.ShouldBe(double.NaN);
-        resultField.By.ShouldBe(double.NaN);
-        resultField.Bz.ShouldBe(double.NaN);
+        act.ShouldThrow<DivideByZeroException>();
     }
 }

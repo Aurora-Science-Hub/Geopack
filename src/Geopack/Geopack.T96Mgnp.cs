@@ -23,6 +23,11 @@ public sealed partial class Geopack
             pd = 1.94e-6 * xnPd * vel * vel;
         }
 
+        if (pd is 0D)
+        {
+            throw new DivideByZeroException("Division by zero in T96Mgnp. Dynamic pressure is zero.");
+        }
+
         double rat = pd / 2.0D;
         double rat16 = Math.Pow(rat, 0.14);
 

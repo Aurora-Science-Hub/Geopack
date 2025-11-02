@@ -37,13 +37,9 @@ public partial class GeopackTests
         double x, double y, double z)
     {
         // Act
-        Magnetopause resultField = s_geopack.T96Mgnp(xnPd, vel, x, y, z);
+        Action act = () => s_geopack.T96Mgnp(xnPd, vel,  CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
-        resultField.X.ShouldBe(double.NaN);
-        resultField.Y.ShouldBe(double.NaN);
-        resultField.Z.ShouldBe(double.NaN);
-        resultField.Dist.ShouldBe(double.NaN);
-        resultField.Position.ShouldBe(MagnetopausePosition.NotDefined);
+        act.ShouldThrow<DivideByZeroException>();
     }
 }

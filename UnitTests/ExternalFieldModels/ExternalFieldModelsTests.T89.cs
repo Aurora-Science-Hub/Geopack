@@ -20,8 +20,11 @@ public partial class TModelsTests
         double x, double y, double z,
         double expectedBx, double expectedBy, double expectedBz)
     {
+        // Arrange
+        CartesianLocation location = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
+
         // Act
-        CartesianVector<MagneticField> resultField = _t89.Calculate(iopt, new double[10], ps, x, y, z);
+        CartesianVector<MagneticField> resultField = _t89.Calculate(iopt, new double[10], ps, location);
 
         // Assert
         resultField.X.ShouldBe(expectedBx, MinimalTestsPrecision);
