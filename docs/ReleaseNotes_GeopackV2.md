@@ -11,3 +11,14 @@ with an immutable **ComputationContext** pattern.
 - Converts data model records (CartesianLocation, SphericalLocation, etc.) from reference types to readonly record structs for better performance.
 
 @Demosfen
+
+## Issue #43 (PR #64):
+
+This PR refactors the Geopack library to improve thread-safety, immutability, and API design by replacing mutable shared state with an immutable ComputationContext pattern. Key changes include:
+
+### key changes:
+- Introducing strongly-typed vector quantities using generics (CartesianVector<T>, SphericalVector<T>)
+- Converting coordinate/vector transformations from standalone methods to instance methods on model types
+- Refactoring methods to accept structured objects instead of individual coordinate parameters
+- Converting data models to readonly record structs for better performance
+- Adding validation with explicit exception throwing instead of returning NaN values
