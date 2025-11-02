@@ -38,8 +38,8 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            PolarCoordinates testLocation = new(coordinatesString[5].ParseDouble(), coordinatesString[7].ParseDouble());
-            GeodeticCoordinates approvedLocation = new(coordinatesString[3].ParseDouble(), coordinatesString[1].ParseDouble());
+            PolarCoordinates testLocation = new(coordinatesString[1].ParseDouble(), coordinatesString[3].ParseDouble());
+            GeodeticCoordinates approvedLocation = new(coordinatesString[7].ParseDouble(), coordinatesString[5].ParseDouble());
 
             // Act
             GeodeticCoordinates result = testLocation.ToGeodetic();
