@@ -18,12 +18,12 @@ public partial class GeopackTests
         double expectedBx, double expectedBy, double expectedBz)
     {
         // Act
-        CartesianObject<> resultField = s_geopack.IgrfGsw(_context, x, y, z);
+        CartesianVector<MagneticField> resultField = s_geopack.IgrfGsw(_context, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
-        resultField.Bx.ShouldBe(expectedBx, MinimalTestsPrecision);
-        resultField.By.ShouldBe(expectedBy, MinimalTestsPrecision);
-        resultField.Bz.ShouldBe(expectedBz, MinimalTestsPrecision);
+        resultField.X.ShouldBe(expectedBx, MinimalTestsPrecision);
+        resultField.Y.ShouldBe(expectedBy, MinimalTestsPrecision);
+        resultField.Z.ShouldBe(expectedBz, MinimalTestsPrecision);
         resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GSW);
     }
 
@@ -31,12 +31,12 @@ public partial class GeopackTests
     public void IgrfGsw_ShouldReturnNaNValues_IfZeroCoordinates()
     {
         // Act
-        CartesianObject<> resultField = s_geopack.IgrfGsw(_context, 0.0D, 0.0D, 0.0D);
+        CartesianVector<MagneticField> resultField = s_geopack.IgrfGsw(_context, CartesianLocation.New(0.0D, 0.0D, 0.0D, CoordinateSystem.GSW));
 
         // Assert
-        resultField.Bx.ShouldBe(double.NaN);
-        resultField.By.ShouldBe(double.NaN);
-        resultField.Bz.ShouldBe(double.NaN);
+        resultField.X.ShouldBe(double.NaN);
+        resultField.Y.ShouldBe(double.NaN);
+        resultField.Z.ShouldBe(double.NaN);
         resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GSW);
     }
 }

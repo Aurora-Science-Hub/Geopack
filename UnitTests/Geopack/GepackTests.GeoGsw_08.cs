@@ -16,16 +16,17 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            double xgeo = coordinatesString[1].ParseDouble();
-            double ygeo = coordinatesString[3].ParseDouble();
-            double zgeo = coordinatesString[5].ParseDouble();
+            CartesianLocation geoLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
+                coordinatesString[3].ParseDouble(),
+                coordinatesString[5].ParseDouble(),
+                CoordinateSystem.GSW);
 
             double xgsw = coordinatesString[7].ParseDouble();
             double ygsw = coordinatesString[9].ParseDouble();
             double zgsw = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = s_geopack.GeoGsw_08(_context, xgeo, ygeo, zgeo);
+            CartesianLocation location = s_geopack.GeoToGsw(_context, geoLocation);
 
             // Assert
             location.X.ShouldBe(xgsw, MinimalTestsPrecision);
@@ -45,16 +46,17 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            double xgsw = coordinatesString[1].ParseDouble();
-            double ygsw = coordinatesString[3].ParseDouble();
-            double zgsw = coordinatesString[5].ParseDouble();
+            CartesianLocation gswLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
+                coordinatesString[3].ParseDouble(),
+                coordinatesString[5].ParseDouble(),
+                CoordinateSystem.GSW);
 
             double xgeo = coordinatesString[7].ParseDouble();
             double ygeo = coordinatesString[9].ParseDouble();
             double zgeo = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = s_geopack.GswGeo_08(_context, xgsw, ygsw, zgsw);
+            CartesianLocation location = s_geopack.GswToGeo(_context, gswLocation);
 
             // Assert
             location.X.ShouldBe(xgeo, MinimalTestsPrecision);

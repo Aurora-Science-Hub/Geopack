@@ -16,16 +16,17 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            double xgeo = coordinatesString[1].ParseDouble();
-            double ygeo = coordinatesString[3].ParseDouble();
-            double zgeo = coordinatesString[5].ParseDouble();
+            CartesianLocation geoLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
+                coordinatesString[3].ParseDouble(),
+                coordinatesString[5].ParseDouble(),
+                CoordinateSystem.GSW);
 
             double xmag = coordinatesString[7].ParseDouble();
             double ymag = coordinatesString[9].ParseDouble();
             double zmag = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = s_geopack.GeoMag_08(_context, xgeo, ygeo, zgeo);
+            CartesianLocation location = s_geopack.GeoToMag(_context, geoLocation);
 
             // Assert
             location.X.ShouldBe(xmag, MinimalTestsPrecision);
@@ -45,16 +46,17 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            double xmag = coordinatesString[1].ParseDouble();
-            double ymag = coordinatesString[3].ParseDouble();
-            double zmag = coordinatesString[5].ParseDouble();
+            CartesianLocation magLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
+                coordinatesString[3].ParseDouble(),
+                coordinatesString[5].ParseDouble(),
+                CoordinateSystem.GSW);
 
             double xgeo = coordinatesString[7].ParseDouble();
             double ygeo = coordinatesString[9].ParseDouble();
             double zgeo = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = s_geopack.MagGeo_08(_context, xmag, ymag, zmag);
+            CartesianLocation location = s_geopack.MagToGeo(_context, magLocation);
 
             // Assert
             location.X.ShouldBe(xgeo, MinimalTestsPrecision);

@@ -16,16 +16,17 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            double xgsw = coordinatesString[1].ParseDouble();
-            double ygsw = coordinatesString[3].ParseDouble();
-            double zgsw = coordinatesString[5].ParseDouble();
+            CartesianLocation gswLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
+            coordinatesString[3].ParseDouble(),
+            coordinatesString[5].ParseDouble(),
+            CoordinateSystem.GSW);
 
             double xgse = coordinatesString[7].ParseDouble();
             double ygse = coordinatesString[9].ParseDouble();
             double zgse = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = s_geopack.GswGse_08(_context, xgsw, ygsw, zgsw);
+            CartesianLocation location = s_geopack.GswToGse(_context, gswLocation);
 
             // Assert
             location.X.ShouldBe(xgse, MinimalTestsPrecision);
@@ -45,16 +46,17 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            double xgse = coordinatesString[1].ParseDouble();
-            double ygse = coordinatesString[3].ParseDouble();
-            double zgse = coordinatesString[5].ParseDouble();
+            CartesianLocation gseLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
+                coordinatesString[3].ParseDouble(),
+                coordinatesString[5].ParseDouble(),
+                CoordinateSystem.GSW);
 
             double xgsw = coordinatesString[7].ParseDouble();
             double ygsw = coordinatesString[9].ParseDouble();
             double zgsw = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = s_geopack.GseGsw_08(_context, xgse, ygse, zgse);
+            CartesianLocation location = s_geopack.GseToGsw(_context, gseLocation);
 
             // Assert
             location.X.ShouldBe(xgsw, MinimalTestsPrecision);

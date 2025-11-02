@@ -35,7 +35,7 @@ public readonly record struct PolarCoordinates
     /// (geo co-latitude THETA and geodetic latitude XMU) are in radians, and the distances (geocentric radius R and
     /// altitude H above the Earth's ellipsoid) are in kilometers.
     /// </remarks>
-    public GeodeticCoordinates GeoToGeod()
+    public GeodeticCoordinates ToGeodetic()
     {
         const double rEq = 6378.137D;
         const double beta = 6.73949674228e-3;
