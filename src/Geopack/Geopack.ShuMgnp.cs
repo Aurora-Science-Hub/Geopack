@@ -10,6 +10,11 @@ public sealed partial class Geopack
         double bzImf,
         CartesianLocation location)
     {
+        if (xnPd is 0D || vel is 0D)
+        {
+            throw new DivideByZeroException("Solar wind plasma parameters should not be zero");
+        }
+
         if (location.CoordinateSystem is not CoordinateSystem.GSW)
         {
             throw new InvalidOperationException("Location should be in GSW system.");

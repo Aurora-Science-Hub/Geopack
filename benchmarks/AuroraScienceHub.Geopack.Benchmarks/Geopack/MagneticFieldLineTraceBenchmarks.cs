@@ -20,11 +20,7 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 public class MagneticFieldLineTraceBenchmarks
 {
     private readonly ComputationContext _ctx;
-
-    public MagneticFieldLineTraceBenchmarks()
-    {
-        _ctx = s_geopack.Recalc(s_testDate, Vgsex, Vgsey, Vgsez);
-    }
+    private static readonly CartesianVector<Velocity> s_testVelocity = CartesianVector<Velocity>.New(-304.0D, 14.78D, 4.0D, CoordinateSystem.GSE);
 
     private static readonly AuroraScienceHub.Geopack.Geopack s_geopack = new();
     private static readonly IExternalFieldModel s_t89 = new T89();
@@ -37,19 +33,20 @@ public class MagneticFieldLineTraceBenchmarks
     private static readonly double[] s_parmod = new double[10];
     private const int Lmax = 500;
 
-    private const double Vgsex = -304.0D;
-    private const double Vgsey = 14.78D;
-    private const double Vgsez = 4.0D;
-
-    private static readonly (double X, double Y, double Z) s_testPointNs = (-0.45455707401565865D, 0.4737969930623606D, 0.7542497890011055D);
-    private static readonly (double X, double Y, double Z) s_testPointSn = (-0.1059965956329907D, 0.41975266827470664D, -0.9014246640527153D);
+    private static readonly CartesianLocation s_testPointNs = CartesianLocation.New(-0.45455707401565865D, 0.4737969930623606D, 0.7542497890011055D, CoordinateSystem.GSW);
+    private static readonly CartesianLocation s_testPointSn = CartesianLocation.New(-0.1059965956329907D, 0.41975266827470664D, -0.9014246640527153D, CoordinateSystem.GSW);
 
     private static readonly DateTime s_testDate = new(2023, 10, 18, 0, 0, 00);
 
+    public MagneticFieldLineTraceBenchmarks()
+    {
+        _ctx = s_geopack.Recalc(s_testDate, s_testVelocity);
+    }
+
     [Benchmark(Baseline = true)]
     public void Trace_FieldLineFromNorthToSouthHemisphere()
-        => s_geopack.Trace_08(_ctx,
-            s_testPointNs.X, s_testPointNs.Y, s_testPointNs.Z,
+        => s_geopack.Trace(_ctx,
+            s_testPointNs,
             TraceDirection.AntiParallel, Dsmax, Err, Rlim, R0,
             Iopt, s_parmod,
             s_t89, s_geopack.IgrfGsw,
@@ -57,8 +54,8 @@ public class MagneticFieldLineTraceBenchmarks
 
     [Benchmark]
     public void Trace_FieldLineFromSouthToNorthHemisphere()
-        => s_geopack.Trace_08(_ctx,
-            s_testPointSn.X, s_testPointSn.Y, s_testPointSn.Z,
+        => s_geopack.Trace(_ctx,
+            s_testPointSn,
             TraceDirection.Parallel, Dsmax, Err, Rlim, R0,
             Iopt, s_parmod,
             s_t89, s_geopack.IgrfGsw,
