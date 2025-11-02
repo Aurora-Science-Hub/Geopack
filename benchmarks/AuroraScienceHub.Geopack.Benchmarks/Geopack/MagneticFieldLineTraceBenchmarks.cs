@@ -23,7 +23,7 @@ public class MagneticFieldLineTraceBenchmarks
 
     public MagneticFieldLineTraceBenchmarks()
     {
-        _ctx = s_geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
+        _ctx = s_geopack.Recalc(s_testDate, Vgsex, Vgsey, Vgsez);
     }
 
     private static readonly AuroraScienceHub.Geopack.Geopack s_geopack = new();
@@ -52,7 +52,7 @@ public class MagneticFieldLineTraceBenchmarks
             s_testPointNs.X, s_testPointNs.Y, s_testPointNs.Z,
             TraceDirection.AntiParallel, Dsmax, Err, Rlim, R0,
             Iopt, s_parmod,
-            s_t89, s_geopack.IgrfGsw_08,
+            s_t89, s_geopack.IgrfGsw,
             Lmax);
 
     [Benchmark]
@@ -61,7 +61,7 @@ public class MagneticFieldLineTraceBenchmarks
             s_testPointSn.X, s_testPointSn.Y, s_testPointSn.Z,
             TraceDirection.Parallel, Dsmax, Err, Rlim, R0,
             Iopt, s_parmod,
-            s_t89, s_geopack.IgrfGsw_08,
+            s_t89, s_geopack.IgrfGsw,
             Lmax);
 
     private class NativeAotConfig : ManualConfig

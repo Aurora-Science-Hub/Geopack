@@ -21,7 +21,7 @@ public class IgrfMagneticFieldBenchmarks
 
     public IgrfMagneticFieldBenchmarks()
     {
-        _ctx = _geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
+        _ctx = _geopack.Recalc(s_testDate, Vgsex, Vgsey, Vgsez);
     }
 
     private const double Xgsw = -1.02D;
@@ -36,11 +36,11 @@ public class IgrfMagneticFieldBenchmarks
 
     [Benchmark(Baseline = true)]
     public void Calculate_IgrfMagneticField()
-        => _geopack.IgrfGsw_08(_ctx, Xgsw, Ygsw, Zgsw);
+        => _geopack.IgrfGsw(_ctx, Xgsw, Ygsw, Zgsw);
 
     [Benchmark]
     public void Calculate_DipMagneticField()
-        => _geopack.Dip_08(_ctx, Xgsw, Ygsw, Zgsw);
+        => _geopack.Dip(_ctx, Xgsw, Ygsw, Zgsw);
 
     [Benchmark]
     public void Calculate_Sun()

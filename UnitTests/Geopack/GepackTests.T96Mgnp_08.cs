@@ -18,12 +18,12 @@ public partial class GeopackTests
         double dist, MagnetopausePosition position)
     {
         // Act
-        Magnetopause resultField = _geopack.T96Mgnp_08(xnPd, vel, x, y, z);
+        Magnetopause resultField = s_geopack.T96Mgnp(xnPd, vel, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
-        resultField.X.ShouldBe(xmgnp, MinimalTestsPrecision);
-        resultField.Y.ShouldBe(ymgnp, MinimalTestsPrecision);
-        resultField.Z.ShouldBe(zmgnp, MinimalTestsPrecision);
+        resultField.BoundaryLocation.X.ShouldBe(xmgnp, MinimalTestsPrecision);
+        resultField.BoundaryLocation.Y.ShouldBe(ymgnp, MinimalTestsPrecision);
+        resultField.BoundaryLocation.Z.ShouldBe(zmgnp, MinimalTestsPrecision);
         resultField.Dist.ShouldBe(dist, MinimalTestsPrecision);
         resultField.Position.ShouldBe(position);
     }
@@ -37,7 +37,7 @@ public partial class GeopackTests
         double x, double y, double z)
     {
         // Act
-        Magnetopause resultField = _geopack.T96Mgnp_08(xnPd, vel, x, y, z);
+        Magnetopause resultField = s_geopack.T96Mgnp(xnPd, vel, x, y, z);
 
         // Assert
         resultField.X.ShouldBe(double.NaN);

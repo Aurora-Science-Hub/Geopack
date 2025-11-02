@@ -35,6 +35,16 @@ public readonly record struct CartesianLocation : ICartesian<CartesianLocation>
         => new(x, y, z, coordinateSystem);
 
     /// <summary>
+    /// Summ of two cartesian locations
+    /// </summary>
+    /// <param name="location"> Location to be added </param>
+    /// <exception cref="InvalidOperationException">If different location coordinate systems</exception>
+    public CartesianLocation SumWith(CartesianLocation location)
+        => CoordinateSystem == location.CoordinateSystem
+            ? New(X + location.X, Y + location.Y, Z + location.Z, CoordinateSystem)
+            : throw new InvalidOperationException("Cannot sum locations in different coordinate systems.");
+
+    /// <summary>
     /// Converts cartesian coordinates to spherical ones
     /// </summary>
     /// <remarks>

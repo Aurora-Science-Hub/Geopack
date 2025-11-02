@@ -18,7 +18,7 @@ public partial class GeopackTests
         double expectedBx, double expectedBy, double expectedBz)
     {
         // Act
-        CartesianVector resultField = _geopack.Dip_08(_context, xgsw, ygsw, zgsw);
+        CartesianObject<> resultField = s_geopack.Dip(_context, xgsw, ygsw, zgsw);
 
         // Assert
         resultField.Bx.ShouldBe(expectedBx, MinimalTestsPrecision);
@@ -30,7 +30,7 @@ public partial class GeopackTests
     public void Dip_ShouldReturnNaNValues_IfZeroCoordinates()
     {
         // Act
-        CartesianVector resultField = _geopack.Dip_08(_context, 0.0D, 0.0D, 0.0D);
+        CartesianObject<> resultField = s_geopack.Dip(_context, 0.0D, 0.0D, 0.0D);
 
         // Assert
         resultField.Bx.ShouldBe(double.NaN);

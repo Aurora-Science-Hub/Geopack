@@ -12,7 +12,7 @@ public partial class GeopackTests
         SphericalLocation approvedData = new SphericalLocation(1.7320508075689, 0.9553166181245, 0.7853981633974);
 
         // Act
-        SphericalLocation point = _geopack.CarSph_08(1.0D, 1.0D, 1.0D);
+        SphericalLocation point = s_geopack.CarSph_08(1.0D, 1.0D, 1.0D);
 
         // Assert
         point.R.ShouldBe(approvedData.R, MinimalTestsPrecision);
@@ -33,7 +33,7 @@ public partial class GeopackTests
     public void CarSph_ZeroesAndOnes_ReturnsCorrectValues(double x, double y, double z, double r, double theta, double phi)
     {
         // Act
-        SphericalLocation point = _geopack.CarSph_08(x, y, z);
+        SphericalLocation point = s_geopack.CarSph_08(x, y, z);
 
         // Assert
         point.R.ShouldBe(r);

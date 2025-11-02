@@ -34,7 +34,7 @@ public sealed partial class Geopack
 
         double xr = x, yr = y, zr = z;
 
-        FieldLineRhsVector initialRhs = Rhand_08(context, x, y, z, iopt, parmod, exName, inName, ds3);
+        FieldLineRhsVector initialRhs = Rhand(context, location, iopt, parmod, exName, inName, ds3);
         double ad = 0.01D;
         if (x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3 < 0.0D)
         {
@@ -88,7 +88,7 @@ public sealed partial class Geopack
             rr = r;
 
             // Make step
-            (StepResult stepResult, ds3) = Step_08(context, x, y, z, ds, dsMax, err, iopt, parmod, exName, inName, ds3);
+            (StepResult stepResult, ds3) = Step(context, x, y, z, ds, dsMax, err, iopt, parmod, exName, inName, ds3);
             x = stepResult.X;
             y = stepResult.Y;
             z = stepResult.Z;
@@ -137,15 +137,15 @@ public sealed partial class Geopack
             maxPointsExceeded ? "Maximum points exceeded" : "Boundary reached");
     }
 
-    private FieldLineRhsVector Rhand_08(ComputationContext context,
-        double x, double y, double z,
+    private FieldLineRhsVector Rhand(ComputationContext context,
+        CartesianLocation location,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
         InternalFieldModel inName,
         double ds3)
     {
-        CartesianVector<MagneticField> externalField = exName.Calculate(iopt, parmod, context.PSI, x, y, z);
-        CartesianVector<MagneticField> internalField = inName(context, x, y, z);
+        CartesianVector<MagneticField> externalField = exName.Calculate(iopt, parmod, context.PSI, location);
+        CartesianVector<MagneticField> internalField = inName(context, location);
 
         double bx = externalField.X + internalField.X;
         double by = externalField.Y + internalField.Y;
@@ -160,8 +160,8 @@ public sealed partial class Geopack
         return new FieldLineRhsVector(r1, r2, r3);
     }
 
-    private (StepResult, double) Step_08(ComputationContext context,
-        double x, double y, double z,
+    private (StepResult, double) Step(ComputationContext context,
+        CartesianLocation location,
         double ds, double dsMax, double errIn,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
@@ -174,21 +174,23 @@ public sealed partial class Geopack
         {
             ds3 = -currentDs / 3.0D;
 
-            FieldLineRhsVector r1 = Rhand_08(context, x, y, z, iopt, parmod, exName, inName, ds3);
-            FieldLineRhsVector r2 = Rhand_08(context, x + r1.R1, y + r1.R2, z + r1.R3, iopt, parmod, exName, inName, ds3);
-            FieldLineRhsVector r3 = Rhand_08(context,
+            FieldLineRhsVector r1 = Rhand(context, location, iopt, parmod, exName, inName, ds3);
+            FieldLineRhsVector r2 = Rhand(context,
+                CartesianLocation.New(location.X + r1.R1, location.Y + r1.R2, location.Z + r1.R3, CoordinateSystem.GSW),
+                iopt, parmod, exName, inName, ds3);
+            FieldLineRhsVector r3 = Rhand(context,
                 x + 0.5D * (r1.R1 + r2.R1),
                 y + 0.5D * (r1.R2 + r2.R2),
                 z + 0.5D * (r1.R3 + r2.R3),
                 iopt, parmod, exName, inName,
                 ds3);
-            FieldLineRhsVector r4 = Rhand_08(context,
+            FieldLineRhsVector r4 = Rhand(context,
                 x + 0.375D * (r1.R1 + 3.0D * r3.R1),
                 y + 0.375D * (r1.R2 + 3.0D * r3.R2),
                 z + 0.375D * (r1.R3 + 3.0D * r3.R3),
                 iopt, parmod, exName, inName,
                 ds3);
-            FieldLineRhsVector r5 = Rhand_08(context,
+            FieldLineRhsVector r5 = Rhand(context,
                 x + 1.5D * (r1.R1 - 3.0D * r3.R1 + 4.0D * r4.R1),
                 y + 1.5D * (r1.R2 - 3.0D * r3.R2 + 4.0D * r4.R2),
                 z + 1.5D * (r1.R3 - 3.0D * r3.R3 + 4.0D * r4.R3),
@@ -225,7 +227,7 @@ public sealed partial class Geopack
         }
     }
 
-    private sealed record StepResult(double X, double Y, double Z, double NextStepSize);
+    private record struct StepResult(double X, double Y, double Z, double NextStepSize);
 
-    private sealed record FieldLineRhsVector(double R1, double R2, double R3);
+    private record struct FieldLineRhsVector(double R1, double R2, double R3);
 }

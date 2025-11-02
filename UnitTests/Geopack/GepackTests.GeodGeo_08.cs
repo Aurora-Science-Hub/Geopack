@@ -13,7 +13,7 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeodGeoDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
+        s_geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
         foreach (string line in lines)
         {
@@ -25,7 +25,7 @@ public partial class GeopackTests
             double theta = coordinatesString[7].ParseDouble();
 
             // Act
-            GeodeticGeocentricCoordinates location = _geopack.GeodGeo_08(h, xmu);
+            GeodeticGeocentricCoordinates location = s_geopack.GeodGeo_08(h, xmu);
 
             // Assert
             location.H.ShouldBe(h, MinimalTestsPrecision);
@@ -42,7 +42,7 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeoGeodDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
+        s_geopack.Recalc(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
 
         foreach (string line in lines)
         {
@@ -54,7 +54,7 @@ public partial class GeopackTests
             double xmu = coordinatesString[7].ParseDouble();
 
             // Act
-            GeodeticGeocentricCoordinates location = _geopack.GeoGeod_08(r, theta);
+            GeodeticGeocentricCoordinates location = s_geopack.GeoGeod_08(r, theta);
 
             // Assert
             location.H.ShouldBe(h, MinimalTestsPrecision);

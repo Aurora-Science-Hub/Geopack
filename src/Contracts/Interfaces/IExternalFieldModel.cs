@@ -23,8 +23,6 @@ public interface IExternalFieldModel
     ///     Dummy array, not used in this subroutine, provided for compatibility with the new version of the GEOPACK software.
     /// </param>
     /// <param name="psi">Geodipole tilt angle in radians</param>
-    /// <param name="x">GSM x-coordinate in Earth radii</param>
-    /// <param name="y">GSM y-coordinate in Earth radii</param>
-    /// <param name="z">GSM z-coordinate in Earth radii</param>
-    CartesianVector<MagneticField> Calculate(int iopt, double[] parmod, double psi, double x, double y, double z);
+    /// <param name="location">Location with cartesian GSM coordinates</param>
+    CartesianVector<MagneticField> Calculate(int iopt, double[] parmod, double psi, CartesianLocation location);
 }

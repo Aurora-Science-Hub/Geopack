@@ -18,7 +18,7 @@ public partial class GeopackTests
         MagnetopausePosition position)
     {
         // Act
-        Magnetopause resultField = _geopack.ShuMgnp_08(xnPd, vel, bzimf, x, y, z);
+        Magnetopause resultField = s_geopack.ShuMgnp_08(xnPd, vel, bzimf, x, y, z);
 
         // Assert
         resultField.X.ShouldBe(xmgnp, MinimalTestsPrecision);
@@ -38,7 +38,7 @@ public partial class GeopackTests
         double x, double y, double z)
     {
         // Act
-        Magnetopause resultField = _geopack.ShuMgnp_08(xnPd, vel, bzImf, x, y, z);
+        Magnetopause resultField = s_geopack.ShuMgnp_08(xnPd, vel, bzImf, x, y, z);
 
         // Assert
         resultField.X.ShouldBe(double.NaN);
