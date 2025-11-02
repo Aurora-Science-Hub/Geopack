@@ -225,7 +225,7 @@ public sealed partial class Geopack
         }
     }
 
-    private sealed record StepResult(double X, double Y, double Z, double NextStepSize);
+    private readonly record struct StepResult(double X, double Y, double Z, double NextStepSize);
 
-    private sealed record FieldLineRhsVector(double R1, double R2, double R3);
+    private readonly record struct FieldLineRhsVector(double R1, double R2, double R3);
 }

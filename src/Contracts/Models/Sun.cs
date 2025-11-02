@@ -3,43 +3,9 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 /// <summary>
 /// Sun position parameters
 /// </summary>
-public sealed class Sun
-{
-    public Sun(DateTime dateTime,
-        double gst = 0,
-        double slong = 0,
-        double srasn = 0,
-        double sdec = 0)
-    {
-        DateTime = dateTime;
-        Gst = gst;
-        Slong = slong;
-        Srasn = srasn;
-        Sdec = sdec;
-    }
-
-    /// <summary>
-    /// Input UTC date and time
-    /// </summary>
-    public DateTime DateTime { get; }
-
-    /// <summary>
-    /// Greenwich mean sidereal time
-    /// </summary>
-    public double Gst { get; }
-
-    /// <summary>
-    /// Longitude along ecliptic
-    /// </summary>
-    public double Slong { get; }
-
-    /// <summary>
-    /// Right ascension
-    /// </summary>
-    public double Srasn { get; }
-
-    /// <summary>
-    /// Declination of the Sun (radians)
-    /// </summary>
-    public double Sdec { get; }
-}
+/// <param name="DateTime">Input UTC date and time</param>
+/// <param name="Gst">Greenwich mean sidereal time</param>
+/// <param name="Slong">Longitude along ecliptic</param>
+/// <param name="Srasn"Right ascension></param>
+/// <param name="Sdec">Declination of the Sun (radians)</param>
+public readonly record struct Sun(DateTime DateTime, double Gst = 0, double Slong = 0, double Srasn = 0, double Sdec = 0);
