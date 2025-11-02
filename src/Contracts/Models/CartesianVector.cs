@@ -13,9 +13,9 @@ public readonly record struct CartesianVector<TVector>
 
     public double Y { get; }
 
-    public double Z  { get; }
+    public double Z { get; }
 
-    public CoordinateSystem CoordinateSystem  { get; }
+    public CoordinateSystem CoordinateSystem { get; }
 
     public static CartesianVector<TVector> New(double x, double y, double z, CoordinateSystem coordinateSystem)
         => new(x, y, z, coordinateSystem);

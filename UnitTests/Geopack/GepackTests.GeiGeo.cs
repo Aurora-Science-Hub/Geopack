@@ -58,9 +58,9 @@ public partial class GeopackTests
                 coordinatesString[5].ParseDouble(),
                 CoordinateSystem.GEO);
 
-                double x = coordinatesString[7].ParseDouble();
-                double y = coordinatesString[9].ParseDouble();
-                double z = coordinatesString[11].ParseDouble();
+            double x = coordinatesString[7].ParseDouble();
+            double y = coordinatesString[9].ParseDouble();
+            double z = coordinatesString[11].ParseDouble();
 
             // Act
             CartesianLocation calculatedLocation = s_geopack.GeoToGei(_context, locationGeo);

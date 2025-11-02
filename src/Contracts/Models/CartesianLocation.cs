@@ -12,9 +12,9 @@ public readonly record struct CartesianLocation : ICartesian<CartesianLocation>
 
     public double Y { get; }
 
-    public double Z  { get; }
+    public double Z { get; }
 
-    public CoordinateSystem CoordinateSystem  { get; }
+    public CoordinateSystem CoordinateSystem { get; }
 
     private CartesianLocation(double x, double y, double z, CoordinateSystem coordinateSystem)
     {

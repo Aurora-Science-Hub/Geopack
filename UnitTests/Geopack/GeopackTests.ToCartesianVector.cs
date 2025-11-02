@@ -39,7 +39,7 @@ public partial class GeopackTests
     public void ToCartesian_ZeroAngles_ReturnsExpectedValues()
     {
         // Arrange
-        SphericalLocation location = SphericalLocation.New(0,0,0, CoordinateSystem.GSW);
+        SphericalLocation location = SphericalLocation.New(0, 0, 0, CoordinateSystem.GSW);
         SphericalVector<MagneticField> testField = SphericalVector<MagneticField>.New(1, 1, 1, CoordinateSystem.GSW);
 
         // Act
@@ -55,7 +55,7 @@ public partial class GeopackTests
     public void BSphCar_NegativeAngles_ReturnsExpectedValues()
     {
         // Arrange
-        SphericalLocation location = SphericalLocation.New(0,-Math.PI / 4, -Math.PI / 4, CoordinateSystem.GSW);
+        SphericalLocation location = SphericalLocation.New(0, -Math.PI / 4, -Math.PI / 4, CoordinateSystem.GSW);
         SphericalVector<MagneticField> testField = SphericalVector<MagneticField>.New(1, 1, 1, CoordinateSystem.GSW);
 
         // Act
@@ -71,7 +71,7 @@ public partial class GeopackTests
     public void BSphCar_LargeAngles_ReturnsExpectedValues()
     {
         // Arrange
-        SphericalLocation location = SphericalLocation.New(0,2 * Math.PI, 2 * Math.PI, CoordinateSystem.GSW);
+        SphericalLocation location = SphericalLocation.New(0, 2 * Math.PI, 2 * Math.PI, CoordinateSystem.GSW);
         SphericalVector<MagneticField> testField = SphericalVector<MagneticField>.New(1, 1, 1, CoordinateSystem.GSW);
 
         // Act
@@ -87,7 +87,7 @@ public partial class GeopackTests
     public void BSphCar_SmallAngles_ReturnsExpectedValues()
     {
         // Arrange
-        SphericalLocation location = SphericalLocation.New(0,1e-10, 1e-10, CoordinateSystem.GSW);
+        SphericalLocation location = SphericalLocation.New(0, 1e-10, 1e-10, CoordinateSystem.GSW);
         SphericalVector<MagneticField> testField = SphericalVector<MagneticField>.New(1, 1, 1, CoordinateSystem.GSW);
 
         // Act

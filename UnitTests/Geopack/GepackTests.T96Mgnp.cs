@@ -37,7 +37,7 @@ public partial class GeopackTests
         double x, double y, double z)
     {
         // Act
-        Action act = () => s_geopack.T96Mgnp(xnPd, vel,  CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
+        Action act = () => s_geopack.T96Mgnp(xnPd, vel, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
         act.ShouldThrow<DivideByZeroException>();

@@ -19,7 +19,7 @@ public sealed partial class Geopack
         double v = 3.0D * location.Z * location.X;
         double t = Math.Pow(location.Y, 2);
 
-        if(p + t + u is 0D)
+        if (p + t + u is 0D)
         {
             throw new DivideByZeroException("Division by zero in Geopack.Dip. Location radius is zero.");
         }

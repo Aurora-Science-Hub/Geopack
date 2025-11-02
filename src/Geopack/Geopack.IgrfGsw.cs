@@ -139,6 +139,6 @@ public sealed partial class Geopack
         double by = he * sf + bf * cf;
         double bz = br * c - bt * s;
 
-        return GeoToGsw(context,CartesianVector<MagneticField>.New(bx, by, bz, CoordinateSystem.GEO));
+        return GeoToGsw(context, CartesianVector<MagneticField>.New(bx, by, bz, CoordinateSystem.GEO));
     }
 }
