@@ -7,6 +7,11 @@ public sealed partial class Geopack
 {
     public SphericalVector<MagneticField> IgrfGeo(ComputationContext context, SphericalLocation location)
     {
+        if (location.R is 0D)
+        {
+            throw new DivideByZeroException("Radial distance cannot be zero.");
+        }
+
         if (location.CoordinateSystem is not CoordinateSystem.GEO)
         {
             throw new InvalidOperationException("Location must be in GEO coordinate system.");

@@ -23,29 +23,25 @@ public partial class GeopackTests
         double expectedBr, double expectedBtheta, double expectedBphi)
     {
         // Arrange
-        double coLat = (90.0 - xLat) / Rad;
-        double lon = xLon / Rad;
+        SphericalLocation testLocation = SphericalLocation.New(r, (90.0 - xLat) / Rad, xLon / Rad, CoordinateSystem.GEO);
 
         // Act
-        SphericalVector resultField = s_geopack.IgrfGeo_08(_context, r, coLat, lon);
+        SphericalVector<MagneticField> resultField = s_geopack.IgrfGeo(_context, testLocation);
 
         // Assert
-        resultField.Br.ShouldBe(expectedBr, MinimalTestsPrecision);
-        resultField.Btheta.ShouldBe(expectedBtheta, MinimalTestsPrecision);
-        resultField.Bphi.ShouldBe(expectedBphi, MinimalTestsPrecision);
+        resultField.R.ShouldBe(expectedBr, MinimalTestsPrecision);
+        resultField.Theta.ShouldBe(expectedBtheta, MinimalTestsPrecision);
+        resultField.Phi.ShouldBe(expectedBphi, MinimalTestsPrecision);
         resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GEO);
     }
 
     [Fact(DisplayName = "IGRF_GEO_08 is NaN if Zero coordinates")]
-    public void IgrfGeo_ShouldReturnNaNValues_IfZeroCoordinates()
+    public void IgrfGeo_ShouldThrow_IfZeroCoordinates()
     {
         // Act
-        SphericalVector resultField = s_geopack.IgrfGeo_08(_context, 0.0D, 0.0D, 0.0D);
+        Action act = () => s_geopack.IgrfGeo(_context, SphericalLocation.New(0D, 1D, 1D, CoordinateSystem.GEO));
 
         // Assert
-        resultField.Br.ShouldBe(double.NaN);
-        resultField.Btheta.ShouldBe(double.NaN);
-        resultField.Bphi.ShouldBe(double.NaN);
-        resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GEO);
+        act.ShouldThrow<DivideByZeroException>();
     }
 }
