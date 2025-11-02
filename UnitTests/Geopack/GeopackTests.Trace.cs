@@ -29,10 +29,10 @@ public partial class GeopackTests
         int lmax = 500;
 
         // Act
-        CartesianLocation location = CartesianLocation.New(-1.02D, 0.8D, 0.9D, CoordinateSystem.GSW);
+        CartesianLocation startingPoint = CartesianLocation.New(-1.02D, 0.8D, 0.9D, CoordinateSystem.GSW);
 
         FieldLine fieldLine = s_geopack.Trace(context,
-            location,
+            startingPoint,
             dir, dsmax, err, rlim, r0,
             iopt, parmod,
             _t89, internalField,
@@ -70,12 +70,10 @@ public partial class GeopackTests
         int lmax = 500;
 
         // Act
-        double XGSW = -1.02D;
-        double YGSW = 0.8D;
-        double ZGSW = -0.9D;
+        CartesianLocation startingPoint = CartesianLocation.New(-1.02D, 0.8D, -0.9D, CoordinateSystem.GSW);
 
-        FieldLine fieldLine = s_geopack.Trace_08(context,
-            XGSW, YGSW, ZGSW,
+        FieldLine fieldLine = s_geopack.Trace(context,
+            startingPoint,
             dir, dsmax, err, rlim, r0,
             iopt, parmod,
             _t89, internalField,

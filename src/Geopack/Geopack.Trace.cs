@@ -7,7 +7,7 @@ namespace AuroraScienceHub.Geopack;
 public sealed partial class Geopack
 {
     public FieldLine Trace(ComputationContext context,
-    CartesianLocation location,
+    CartesianLocation startingPoint,
     TraceDirection dir,
     double dsMax, double err, double rLim, double r0,
     int iopt, double[] parmod,
@@ -15,7 +15,7 @@ public sealed partial class Geopack
     InternalFieldModel inName,
     int lMax)
     {
-        if (location.CoordinateSystem is not CoordinateSystem.GSW)
+        if (startingPoint.CoordinateSystem is not CoordinateSystem.GSW)
         {
             throw new InvalidOperationException("Location should be in GSW system.");
         }
@@ -28,9 +28,9 @@ public sealed partial class Geopack
         double ds3 = direction;
 
         double ds = 0.5D * direction;
-        double x = location.X;
-        double y = location.Y;
-        double z = location.Z;
+        double x = startingPoint.X;
+        double y = startingPoint.Y;
+        double z = startingPoint.Z;
 
         double xr = x, yr = y, zr = z;
 
@@ -123,16 +123,16 @@ public sealed partial class Geopack
 
         if (points.Count > 0)
         {
-            points[^1] = new CartesianLocation(x, y, z, CoordinateSystem.GSW);
+            points[^1] = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
         }
         else
         {
-            points.Add(new CartesianLocation(x, y, z, CoordinateSystem.GSW));
+            points.Add(CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
         }
 
         return new FieldLine(
             points,
-            new CartesianLocation(x, y, z, CoordinateSystem.GSW),
+            CartesianLocation.New(x, y, z, CoordinateSystem.GSW),
             points.Count,
             maxPointsExceeded ? "Maximum points exceeded" : "Boundary reached");
     }
