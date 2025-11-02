@@ -7,7 +7,7 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 public readonly record struct GeodeticCoordinates
 {
     /// <summary> Geodetic latitude (in radians) </summary>
-    public double CoLatitude { get; }
+    public double GeodLatitude { get; }
 
     /// <summary> Altitude above ellipsoid (in km) </summary>
     public double Altitude { get; }
@@ -15,11 +15,11 @@ public readonly record struct GeodeticCoordinates
     /// <summary>
     /// ctor
     /// </summary>
-    /// <param name="latitude">Geodetic latitude</param>
+    /// <param name="geodLatitude">Geodetic latitude</param>
     /// <param name="altitude">Geodetic altitude</param>
-    public GeodeticCoordinates(double latitude, double altitude)
+    public GeodeticCoordinates(double geodLatitude, double altitude)
     {
-        CoLatitude = latitude;
+        GeodLatitude = geodLatitude;
         Altitude = altitude;
     }
 
@@ -34,15 +34,15 @@ public readonly record struct GeodeticCoordinates
     /// </remarks>
     public PolarCoordinates ToPolar()
     {
-        const double rEq = 6378.137D;
+        const double r_eq = 6378.137D;
         const double beta = 6.73949674228e-3;
 
-        double cosxmu = Math.Cos(CoLatitude);
-        double sinxmu = Math.Sin(CoLatitude);
+        double cosxmu = Math.Cos(GeodLatitude);
+        double sinxmu = Math.Sin(GeodLatitude);
         double den = Math.Sqrt(Math.Pow(cosxmu, 2) + Math.Pow(sinxmu / (1.0D + beta), 2));
         double coslam = cosxmu / den;
         double sinlam = sinxmu / (den * (1.0D + beta));
-        double rs = rEq / Math.Sqrt(1.0D + beta * Math.Pow(sinlam, 2));
+        double rs = r_eq / Math.Sqrt(1.0D + beta * Math.Pow(sinlam, 2));
         double x = rs * coslam + Altitude * cosxmu;
         double z = rs * sinlam + Altitude * sinxmu;
         double r = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(z, 2));

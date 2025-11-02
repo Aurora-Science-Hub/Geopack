@@ -19,7 +19,7 @@ public partial class GeopackTests
             CartesianLocation smLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
                 coordinatesString[3].ParseDouble(),
                 coordinatesString[5].ParseDouble(),
-                CoordinateSystem.GSW);
+                CoordinateSystem.SM);
 
             double xgsw = coordinatesString[7].ParseDouble();
             double ygsw = coordinatesString[9].ParseDouble();

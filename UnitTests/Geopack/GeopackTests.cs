@@ -15,7 +15,7 @@ public partial class GeopackTests(TestDataFixture fixture)
     private static readonly AuroraScienceHub.Geopack.Geopack s_geopack = new();
 
     private readonly ComputationContext _context = s_geopack.Recalc(
-        fixture.InputData.DateTime, CartesianVector<Velocity>.New(-304.0D, 13.0D, 4.0D, CoordinateSystem.GSW));
+        fixture.InputData.DateTime, CartesianVector<Velocity>.New(-304.0D, 13.0D, 4.0D, CoordinateSystem.GSE));
 
     private readonly IExternalFieldModel _t89 = new T89();
 

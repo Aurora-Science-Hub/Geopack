@@ -19,7 +19,7 @@ public partial class GeopackTests
             CartesianLocation geoLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
                 coordinatesString[3].ParseDouble(),
                 coordinatesString[5].ParseDouble(),
-                CoordinateSystem.GSW);
+                CoordinateSystem.GEO);
 
             double xmag = coordinatesString[7].ParseDouble();
             double ymag = coordinatesString[9].ParseDouble();
@@ -49,7 +49,7 @@ public partial class GeopackTests
             CartesianLocation magLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
                 coordinatesString[3].ParseDouble(),
                 coordinatesString[5].ParseDouble(),
-                CoordinateSystem.GSW);
+                CoordinateSystem.MAG);
 
             double xgeo = coordinatesString[7].ParseDouble();
             double ygeo = coordinatesString[9].ParseDouble();

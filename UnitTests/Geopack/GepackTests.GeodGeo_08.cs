@@ -6,8 +6,8 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 public partial class GeopackTests
 {
-    [Fact(DisplayName = "GeodGeo: convert to correct values")]
-    public async Task GeodToGeo_ReturnsCorrectValues()
+    [Fact(DisplayName = "ToPolar: convert to correct values")]
+    public async Task ToPolar_ReturnsCorrectValues()
     {
         // Arrange
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeodGeoDatasetFileName);
@@ -16,7 +16,7 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            GeodeticCoordinates testLocation = new(coordinatesString[1].ParseDouble(), coordinatesString[3].ParseDouble());
+            GeodeticCoordinates testLocation = new(coordinatesString[3].ParseDouble(), coordinatesString[1].ParseDouble());
             PolarCoordinates approvedLocation = new(coordinatesString[5].ParseDouble(), coordinatesString[7].ParseDouble());
 
             // Act
@@ -28,8 +28,8 @@ public partial class GeopackTests
         }
     }
 
-    [Fact(DisplayName = "GeoGeod: convert to correct values")]
-    public async Task GeoToGeod_ReturnsCorrectValues()
+    [Fact(DisplayName = "ToGeodetic: convert to correct values")]
+    public async Task ToGeodetic_ReturnsCorrectValues()
     {
         // Arrange
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeoGeodDatasetFileName);
@@ -39,14 +39,14 @@ public partial class GeopackTests
         {
             string[] coordinatesString = line.SplitParametersLine();
             PolarCoordinates testLocation = new(coordinatesString[5].ParseDouble(), coordinatesString[7].ParseDouble());
-            GeodeticCoordinates approvedLocation = new(coordinatesString[1].ParseDouble(), coordinatesString[3].ParseDouble());
+            GeodeticCoordinates approvedLocation = new(coordinatesString[3].ParseDouble(), coordinatesString[1].ParseDouble());
 
             // Act
             GeodeticCoordinates result = testLocation.ToGeodetic();
 
             // Assert
             result.Altitude.ShouldBe(approvedLocation.Altitude, MinimalTestsPrecision);
-            result.CoLatitude.ShouldBe(approvedLocation.CoLatitude, MinimalTestsPrecision);
+            result.GeodLatitude.ShouldBe(approvedLocation.GeodLatitude, MinimalTestsPrecision);
         }
     }
 }

@@ -56,21 +56,19 @@ public partial class GeopackTests
                 coordinatesString[1].ParseDouble(),
                 coordinatesString[3].ParseDouble(),
                 coordinatesString[5].ParseDouble(),
-                CoordinateSystem.GSE);
+                CoordinateSystem.GEO);
 
-            CartesianLocation locationGei = CartesianLocation.New(
-                coordinatesString[7].ParseDouble(),
-                coordinatesString[9].ParseDouble(),
-                coordinatesString[11].ParseDouble(),
-                CoordinateSystem.GSE);
+                double x = coordinatesString[7].ParseDouble();
+                double y = coordinatesString[9].ParseDouble();
+                double z = coordinatesString[11].ParseDouble();
 
             // Act
             CartesianLocation calculatedLocation = s_geopack.GeoToGei(_context, locationGeo);
 
             // Assert
-            calculatedLocation.X.ShouldBe(locationGei.X, MinimalTestsPrecision);
-            calculatedLocation.Y.ShouldBe(locationGei.Y, MinimalTestsPrecision);
-            calculatedLocation.Z.ShouldBe(locationGei.Z, MinimalTestsPrecision);
+            calculatedLocation.X.ShouldBe(x, MinimalTestsPrecision);
+            calculatedLocation.Y.ShouldBe(y, MinimalTestsPrecision);
+            calculatedLocation.Z.ShouldBe(z, MinimalTestsPrecision);
             calculatedLocation.CoordinateSystem.ShouldBe(CoordinateSystem.GEI);
         }
     }

@@ -37,7 +37,7 @@ public readonly record struct PolarCoordinates
     /// </remarks>
     public GeodeticCoordinates ToGeodetic()
     {
-        const double rEq = 6378.137D;
+        const double r_eq = 6378.137D;
         const double beta = 6.73949674228e-3;
         const double tol = 1e-6;
 
@@ -52,9 +52,9 @@ public readonly record struct PolarCoordinates
             double sp = Math.Sin(phi1);
             double arg = sp * (1.0D + beta) / Math.Sqrt(1.0D + beta * (2.0D + beta) * Math.Pow(sp, 2));
             xmus = Math.Asin(arg);
-            rs = rEq / Math.Sqrt(1.0D + beta * Math.Pow(Math.Sin(phi1), 2));
+            rs = r_eq / Math.Sqrt(1.0D + beta * Math.Pow(Math.Sin(phi1), 2));
             cosfims = Math.Cos(phi1 - xmus);
-            h = Math.Sqrt(Math.Pow(rs * cosfims, 2) + Math.Pow(R, 2) - Math.Pow(rs, 2)) - rs * cosfims;
+            h = Math.Sqrt(rs * cosfims * rs * cosfims + R * R - rs * rs) - rs * cosfims;
             z = rs * Math.Sin(phi1) + h * Math.Sin(xmus);
             x = rs * Math.Cos(phi1) + h * Math.Cos(xmus);
             rr = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(z, 2));
@@ -64,6 +64,6 @@ public readonly record struct PolarCoordinates
         }
         while (Math.Abs(dphi) > tol && n < 100);
 
-        return new GeodeticCoordinates(h, xmus);
+        return new GeodeticCoordinates(xmus, h);
     }
 };
