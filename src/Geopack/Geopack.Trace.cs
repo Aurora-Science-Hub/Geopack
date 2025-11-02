@@ -34,7 +34,7 @@ public sealed partial class Geopack
 
         double xr = x, yr = y, zr = z;
 
-        FieldLineRhsVector initialRhs = Rhand(context, location, iopt, parmod, exName, inName, ds3);
+        FieldLineRhsVector initialRhs = Rhand(context, x, y, z, iopt, parmod, exName, inName, ds3);
         double ad = 0.01D;
         if (x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3 < 0.0D)
         {
@@ -123,29 +123,29 @@ public sealed partial class Geopack
 
         if (points.Count > 0)
         {
-            points[^1] = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
+            points[^1] = new CartesianLocation(x, y, z, CoordinateSystem.GSW);
         }
         else
         {
-            points.Add(CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
+            points.Add(new CartesianLocation(x, y, z, CoordinateSystem.GSW));
         }
 
         return new FieldLine(
             points,
-            CartesianLocation.New(x, y, z, CoordinateSystem.GSW),
+            new CartesianLocation(x, y, z, CoordinateSystem.GSW),
             points.Count,
             maxPointsExceeded ? "Maximum points exceeded" : "Boundary reached");
     }
 
     private FieldLineRhsVector Rhand(ComputationContext context,
-        CartesianLocation location,
+        double x, double y, double z,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
         InternalFieldModel inName,
         double ds3)
     {
-        CartesianVector<MagneticField> externalField = exName.Calculate(iopt, parmod, context.PSI, location);
-        CartesianVector<MagneticField> internalField = inName(context, location);
+        CartesianVector<MagneticField> externalField = exName.Calculate(iopt, parmod, context.PSI, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
+        CartesianVector<MagneticField> internalField = inName(context, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         double bx = externalField.X + internalField.X;
         double by = externalField.Y + internalField.Y;
@@ -161,7 +161,7 @@ public sealed partial class Geopack
     }
 
     private (StepResult, double) Step(ComputationContext context,
-        CartesianLocation location,
+        double x, double y, double z,
         double ds, double dsMax, double errIn,
         int iopt, double[] parmod,
         IExternalFieldModel exName,
@@ -174,10 +174,8 @@ public sealed partial class Geopack
         {
             ds3 = -currentDs / 3.0D;
 
-            FieldLineRhsVector r1 = Rhand(context, location, iopt, parmod, exName, inName, ds3);
-            FieldLineRhsVector r2 = Rhand(context,
-                CartesianLocation.New(location.X + r1.R1, location.Y + r1.R2, location.Z + r1.R3, CoordinateSystem.GSW),
-                iopt, parmod, exName, inName, ds3);
+            FieldLineRhsVector r1 = Rhand(context, x, y, z, iopt, parmod, exName, inName, ds3);
+            FieldLineRhsVector r2 = Rhand(context, x + r1.R1, y + r1.R2, z + r1.R3, iopt, parmod, exName, inName, ds3);
             FieldLineRhsVector r3 = Rhand(context,
                 x + 0.5D * (r1.R1 + r2.R1),
                 y + 0.5D * (r1.R2 + r2.R2),
@@ -227,7 +225,7 @@ public sealed partial class Geopack
         }
     }
 
-    private record struct StepResult(double X, double Y, double Z, double NextStepSize);
+    private sealed record StepResult(double X, double Y, double Z, double NextStepSize);
 
-    private record struct FieldLineRhsVector(double R1, double R2, double R3);
+    private sealed record FieldLineRhsVector(double R1, double R2, double R3);
 }
