@@ -9,15 +9,17 @@ public partial class GeopackTests
     public void CarSph_ShouldReturnCorrectValues()
     {
         // Arrange
-        SphericalLocation approvedData = new SphericalLocation(1.7320508075689, 0.9553166181245, 0.7853981633974);
+        CartesianLocation testData = CartesianLocation.New(1D, 1D, 1D, CoordinateSystem.GSW);
+        SphericalLocation approvedData = SphericalLocation.New(1.7320508075689, 0.9553166181245, 0.7853981633974, CoordinateSystem.GSW);
 
         // Act
-        SphericalLocation point = s_geopack.CarSph_08(1.0D, 1.0D, 1.0D);
+        SphericalLocation result = testData.ToSpherical();
 
         // Assert
-        point.R.ShouldBe(approvedData.R, MinimalTestsPrecision);
-        point.Theta.ShouldBe(approvedData.Theta, MinimalTestsPrecision);
-        point.Phi.ShouldBe(approvedData.Phi, MinimalTestsPrecision);
+        result.R.ShouldBe(approvedData.R, MinimalTestsPrecision);
+        result.Theta.ShouldBe(approvedData.Theta, MinimalTestsPrecision);
+        result.Phi.ShouldBe(approvedData.Phi, MinimalTestsPrecision);
+        result.CoordinateSystem.ShouldBe(approvedData.CoordinateSystem);
     }
 
     [Theory(DisplayName = "Cartesian to spherical coordinates conversion: zeroes and ones")]
@@ -32,12 +34,16 @@ public partial class GeopackTests
     [InlineData(-1.0, -1.0, -1.0, 1.73205080756887719, 2.18627603546528393, 3.92699081680765527)]
     public void CarSph_ZeroesAndOnes_ReturnsCorrectValues(double x, double y, double z, double r, double theta, double phi)
     {
+        // Arrange
+        CartesianLocation testLocation = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
+
         // Act
-        SphericalLocation point = s_geopack.CarSph_08(x, y, z);
+        SphericalLocation result = testLocation.ToSpherical();
 
         // Assert
-        point.R.ShouldBe(r);
-        point.Theta.ShouldBe(theta);
-        point.Phi.ShouldBe(phi);
+        result.R.ShouldBe(r);
+        result.Theta.ShouldBe(theta);
+        result.Phi.ShouldBe(phi);
+        result.CoordinateSystem.ShouldBe(testLocation.CoordinateSystem);
     }
 }

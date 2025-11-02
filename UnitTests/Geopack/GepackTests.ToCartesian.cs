@@ -9,15 +9,17 @@ public partial class GeopackTests
     public void SphCar_ShouldReturnCorrectValues()
     {
         // Arrange
-        CartesianLocation approvedData = new(0.4637416876811D, 0.7222348866390D, 0.5511083519855D);
+        SphericalLocation testLocation = SphericalLocation.New(1.02D, 1.0D, 1.0D, CoordinateSystem.GSW);
+        CartesianLocation approvedData = CartesianLocation.New(0.4637416876811D, 0.7222348866390D, 0.5511083519855D, CoordinateSystem.GSW);
 
         // Act
-        CartesianLocation point = s_geopack.SphCar_08(1.02D, 1.0D, 1.0D);
+        CartesianLocation result = testLocation.ToCartesian();
 
         // Assert
-        point.X.ShouldBe(approvedData.X, MinimalTestsPrecision);
-        point.Y.ShouldBe(approvedData.Y, MinimalTestsPrecision);
-        point.Z.ShouldBe(approvedData.Z, MinimalTestsPrecision);
+        result.X.ShouldBe(approvedData.X, MinimalTestsPrecision);
+        result.Y.ShouldBe(approvedData.Y, MinimalTestsPrecision);
+        result.Z.ShouldBe(approvedData.Z, MinimalTestsPrecision);
+        result.CoordinateSystem.ShouldBe(approvedData.CoordinateSystem);
     }
 
     [Theory(DisplayName = "Spherical to cartesian coordinates: zeroes and ones")]
@@ -33,12 +35,15 @@ public partial class GeopackTests
 
     public void SphCar_Variances_ReturnCorrectValues(double r, double theta, double phi, double x, double y, double z)
     {
+        // Arrange
+        SphericalLocation testLocation = SphericalLocation.New(r, theta, phi, CoordinateSystem.GSW);
+
         // Act
-        CartesianLocation point = s_geopack.SphCar_08(r, theta, phi);
+        CartesianLocation result = testLocation.ToCartesian();
 
         // Assert
-        point.X.ShouldBe(x);
-        point.Y.ShouldBe(y);
-        point.Z.ShouldBe(z);
+        result.X.ShouldBe(x);
+        result.Y.ShouldBe(y);
+        result.Z.ShouldBe(z);
     }
 }
