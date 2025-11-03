@@ -10,6 +10,7 @@ public sealed partial class Geopack
     {
         swVelocity ??= CartesianVector<Velocity>.New(-400D, 0D, 0D, CoordinateSystem.GSE);
 
+        // if (swVelocity.Required().CoordinateSystem is not CoordinateSystem.GSE)
         if (swVelocity.Required().CoordinateSystem is not CoordinateSystem.GSE)
         {
             throw new InvalidOperationException("Solar wind velocity must be in GSE coordinate system.");

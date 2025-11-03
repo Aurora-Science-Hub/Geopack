@@ -31,6 +31,6 @@ public sealed partial class Geopack
                     components.Z * context.CT0 - components.X * context.ST0,
                     CoordinateSystem.GEO)
                 : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in MAG system."),
-            _ => throw new NotSupportedException("Specify correct OperationType. Available types are Direct and Reversed.")
+            _ => throw new NotSupportedException($"Specify correct OperationType: {operation}. Available types are Direct and Reversed.")
         };
 }

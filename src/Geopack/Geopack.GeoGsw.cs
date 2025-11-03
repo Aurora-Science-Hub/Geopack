@@ -31,6 +31,6 @@ public sealed partial class Geopack
                 context.A13 * components.X + context.A23 * components.Y + context.A33 * components.Z,
                 CoordinateSystem.GEO)
                 : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GSW system."),
-            _ => throw new NotSupportedException("Specify correct OperationType. Available types are Direct and Reversed.")
+            _ => throw new NotSupportedException($"Specify correct OperationType: {operation}. Available types are Direct and Reversed.")
         };
 }
