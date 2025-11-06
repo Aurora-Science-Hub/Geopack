@@ -20,7 +20,7 @@ public partial class GeopackTests
             GeocentricCoordinates approvedLocation = new(coordinatesString[5].ParseDouble(), coordinatesString[7].ParseDouble());
 
             // Act
-            GeocentricCoordinates result = testLocation.ToPolar();
+            GeocentricCoordinates result = testLocation.ToGeocentric();
 
             // Assert
             result.R.ShouldBe(approvedLocation.R, MinimalTestsPrecision);
