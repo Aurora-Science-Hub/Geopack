@@ -20,13 +20,13 @@ This project contains performance benchmarks for Geopack-2008 field line tracing
 | Dipole | IFortran`25   | 1359.00   | 36.99      | 708.95      | 0.75 / 1.00      | N/A    | N/A            | N/A         |
 | Sun    | IFortran`25   | 1446.00   | 25.94      | 497.32      | 0.80 / 1.00      | N/A    | N/A            | N/A         |
 |        |               |           |            |             |                  |        |                |             |
-| IGRF   | .NET 9.0      | 476.7 ns  | 3.81 ns    | 3.57 ns     | 1.00             | 0.1602 | 336 B          | 1.00        |
-| Dipole | .NET 9.0      | 105.7 ns  | 0.58 ns    | 0.54 ns     | 0.22             | 0.0229 | 48 B           | 0.14        |
-| Sun    | .NET 9.0      | 156.7 ns  | 0.31 ns    | 0.28 ns     | 0.33             | 0.0267 | 56 B           | 0.17        |
+| IGRF   | .NET 9.0      | 476.7     | 3.81       | 3.57        | 1.00             | 0.1602 | 336 B          | 1.00        |
+| Dipole | .NET 9.0      | 105.7     | 0.58       | 0.54        | 0.22             | 0.0229 | 48 B           | 0.14        |
+| Sun    | .NET 9.0      | 156.7     | 0.31       | 0.28        | 0.33             | 0.0267 | 56 B           | 0.17        |
 |        |               |           |            |             |                  |        |                |             |
-| IGRF   | NativeAOT 9.0 | 490.0 ns  | 2.03 ns    | 1.90 ns     | 1.00             | 0.2060 | 432 B          | 1.00        |
-| Dipole | NativeAOT 9.0 | 101.4 ns  | 1.43 ns    | 1.19 ns     | 0.21             | 0.0229 | 48 B           | 0.11        |
-| Sun    | NativeAOT 9.0 | 163.7 ns  | 0.60 ns    | 0.56 ns     | 0.33             | 0.0267 | 56 B           | 0.13        |
+| IGRF   | NativeAOT 9.0 | 490.0     | 2.03       | 1.90        | 1.00             | 0.2060 | 432 B          | 1.00        |
+| Dipole | NativeAOT 9.0 | 101.4     | 1.43       | 1.19        | 0.21             | 0.0229 | 48 B           | 0.11        |
+| Sun    | NativeAOT 9.0 | 163.7     | 0.60       | 0.56        | 0.33             | 0.0267 | 56 B           | 0.13        |
 
 #### Magnetic Field Line Tracing Performance
 
