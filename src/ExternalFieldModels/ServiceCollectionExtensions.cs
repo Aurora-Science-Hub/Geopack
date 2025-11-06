@@ -9,7 +9,7 @@ namespace AuroraScienceHub.Geopack.ExternalFieldModels;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Add External field models
+    /// Registers external field model services with the dependency injection container.
     /// </summary>
     /// <param name="services">Service collection</param>
     public static IServiceCollection AddExternalFieldModels(this IServiceCollection services)
