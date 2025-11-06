@@ -8,9 +8,10 @@ namespace AuroraScienceHub.Geopack;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Add Geopack
+    /// Registers Geopack services with the dependency injection container.
     /// </summary>
-    /// <param name="services">Service collection</param>
+    /// <param name="services">The service collection to which Geopack services will be added.</param>
+    /// <returns>The updated <see cref="IServiceCollection"/> instance.</returns>
     public static IServiceCollection AddGeopack(this IServiceCollection services)
     {
         services.AddSingleton<IGeopack, Geopack>();
