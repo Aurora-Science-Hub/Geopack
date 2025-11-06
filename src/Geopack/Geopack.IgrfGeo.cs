@@ -9,9 +9,9 @@ internal sealed partial class Geopack
 {
     public SphericalVector<MagneticField> IgrfGeo(ComputationContext context, SphericalLocation location)
     {
-        if (location.R is 0D)
+        if (Math.Abs(location.R) <= double.Epsilon)
         {
-            throw new DivideByZeroException("Radial distance cannot be zero.");
+            throw new InvalidOperationException("Radial distance should not be zero.");
         }
 
         if (location.CoordinateSystem is not CoordinateSystem.GEO)

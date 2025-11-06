@@ -22,7 +22,7 @@ internal sealed partial class Geopack
                 context.A21 * components.X + context.A22 * components.Y + context.A23 * components.Z,
                 context.A31 * components.X + context.A32 * components.Y + context.A33 * components.Z,
                 CoordinateSystem.GSW)
-                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GEO system."),
+                : throw new InvalidOperationException("Input coordinates must be in GEO system."),
 
             OperationType.Reversed => components.CoordinateSystem is CoordinateSystem.GSW
                 ? T.New(
@@ -30,7 +30,7 @@ internal sealed partial class Geopack
                 context.A12 * components.X + context.A22 * components.Y + context.A32 * components.Z,
                 context.A13 * components.X + context.A23 * components.Y + context.A33 * components.Z,
                 CoordinateSystem.GEO)
-                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GSW system."),
+                : throw new InvalidOperationException("Input coordinates must be in GSW system."),
             _ => throw new NotSupportedException($"Specify correct OperationType: {operation}. Available types are Direct and Reversed.")
         };
 }

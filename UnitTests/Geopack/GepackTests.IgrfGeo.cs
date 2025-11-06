@@ -44,6 +44,6 @@ public partial class GeopackTests
         Action act = () => s_geopack.IgrfGeo(_context, SphericalLocation.New(0D, 1D, 1D, CoordinateSystem.GEO));
 
         // Assert
-        act.ShouldThrow<DivideByZeroException>();
+        act.ShouldThrow<InvalidOperationException>();
     }
 }

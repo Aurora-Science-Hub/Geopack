@@ -23,7 +23,7 @@ internal sealed partial class Geopack
 
         if (p + t + u is 0D)
         {
-            throw new DivideByZeroException("Division by zero in Geopack.Dip. Location radius is zero.");
+            throw new InvalidOperationException("Location radius should not be zero.");
         }
 
         double q = dipmom / Math.Pow(p + t + u, 2.5);

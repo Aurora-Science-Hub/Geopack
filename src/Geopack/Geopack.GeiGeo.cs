@@ -22,7 +22,7 @@ internal sealed partial class Geopack
                     components.Y * context.CGST - components.X * context.SGST,
                     components.Z,
                     CoordinateSystem.GEO)
-                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GEI system."),
+                : throw new InvalidOperationException("Input coordinates must be in GEI system."),
 
             OperationType.Reversed => components.CoordinateSystem is CoordinateSystem.GEO
                 ? T.New(
@@ -30,7 +30,7 @@ internal sealed partial class Geopack
                     components.Y * context.CGST + components.X * context.SGST,
                     components.Z,
                     CoordinateSystem.GEI)
-                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in GEO system."),
+                : throw new InvalidOperationException("Input coordinates must be in GEO system."),
             _ => throw new NotSupportedException($"Specify correct OperationType: {operation}. Available types are Direct and Reversed.")
         };
 }

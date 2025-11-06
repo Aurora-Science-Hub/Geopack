@@ -20,7 +20,7 @@ internal sealed partial class T89 : IT89
     {
         if (location.CoordinateSystem is not (CoordinateSystem.GSM or CoordinateSystem.GSW))
         {
-            throw new InvalidOperationException("Location should be in GSM or GSW system.");
+            throw new InvalidOperationException("Location must be in GSM or GSW coordinate system.");
         }
 
         double A02 = 25D, XLW2 = 170D, YN = 30D, RPI = 0.31830989D, RT = 30D;

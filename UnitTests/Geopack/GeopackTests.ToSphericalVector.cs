@@ -46,6 +46,6 @@ public partial class GeopackTests
         Action act = () => cartesianVector.ToSphericalVector(location);
 
         // Assert
-        act.ShouldThrow<DivideByZeroException>();
+        act.ShouldThrow<InvalidOperationException>();
     }
 }

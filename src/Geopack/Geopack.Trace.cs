@@ -20,7 +20,7 @@ internal sealed partial class Geopack
     {
         if (startingPoint.CoordinateSystem is not CoordinateSystem.GSW)
         {
-            throw new InvalidOperationException("Location should be in GSW system.");
+            throw new InvalidOperationException("Location must be in GSW system.");
         }
 
         List<CartesianLocation> points = new();

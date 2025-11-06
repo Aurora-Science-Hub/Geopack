@@ -41,6 +41,6 @@ public partial class GeopackTests
         Action act = () => s_geopack.Dip(_context, location);
 
         // Assert
-        act.ShouldThrow<DivideByZeroException>();
+        act.ShouldThrow<InvalidOperationException>();
     }
 }

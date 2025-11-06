@@ -42,6 +42,6 @@ public partial class GeopackTests
         Action act = () => s_geopack.T96Mgnp(xnPd, vel, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
-        act.ShouldThrow<DivideByZeroException>();
+        act.ShouldThrow<InvalidOperationException>();
     }
 }

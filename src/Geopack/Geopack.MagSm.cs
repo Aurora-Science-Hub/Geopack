@@ -22,7 +22,7 @@ internal sealed partial class Geopack
                     components.X * context.SFI + components.Y * context.CFI,
                     components.Z,
                     CoordinateSystem.SM)
-                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in MAG system."),
+                : throw new InvalidOperationException("Input coordinates must be in MAG system."),
 
             OperationType.Reversed => components.CoordinateSystem is CoordinateSystem.SM
                 ? T.New(
@@ -30,7 +30,7 @@ internal sealed partial class Geopack
                     components.Y * context.CFI - components.X * context.SFI,
                     components.Z,
                     CoordinateSystem.MAG)
-                : throw new InvalidOperationException("Invalid transformation: the input coordinates must be in SM system."),
+                : throw new InvalidOperationException("Input coordinates must be in SM system."),
             _ => throw new NotSupportedException($"Specify correct OperationType: {operation}. Available types are Direct and Reversed.")
         };
 }

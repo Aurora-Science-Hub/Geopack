@@ -42,9 +42,9 @@ public readonly record struct CartesianVector<TVector>
 
         double r = Math.Sqrt(rho2 + Math.Pow(location.Z, 2.0D));
 
-        if (r is 0D)
+        if (Math.Abs(r) <= double.Epsilon)
         {
-            throw new DivideByZeroException("Division by zero in CartesianVector.ToSphericalVector. Location radius is zero.");
+            throw new InvalidOperationException("Location radius should not be zero.");
         }
 
         double cphi;

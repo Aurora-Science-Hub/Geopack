@@ -12,7 +12,7 @@ internal sealed partial class Geopack
     {
         if (location.CoordinateSystem is not CoordinateSystem.GSW)
         {
-            throw new InvalidOperationException("Location should be in GSW system.");
+            throw new InvalidOperationException("Location must be in GSW system.");
         }
 
         double pd;
@@ -27,7 +27,7 @@ internal sealed partial class Geopack
 
         if (pd is 0D)
         {
-            throw new DivideByZeroException("Division by zero in T96Mgnp. Dynamic pressure is zero.");
+            throw new InvalidOperationException("Dynamic pressure should not be zero.");
         }
 
         double rat = pd / 2.0D;

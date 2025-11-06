@@ -43,6 +43,6 @@ public partial class GeopackTests
         Action act = () => s_geopack.ShuMgnp(xnPd, vel, bzImf, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
-        act.ShouldThrow<DivideByZeroException>();
+        act.ShouldThrow<InvalidOperationException>();
     }
 }
