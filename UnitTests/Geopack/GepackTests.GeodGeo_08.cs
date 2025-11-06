@@ -1,4 +1,4 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -17,10 +17,10 @@ public partial class GeopackTests
         {
             string[] coordinatesString = line.SplitParametersLine();
             GeodeticCoordinates testLocation = new(coordinatesString[3].ParseDouble(), coordinatesString[1].ParseDouble());
-            PolarCoordinates approvedLocation = new(coordinatesString[5].ParseDouble(), coordinatesString[7].ParseDouble());
+            GeocentricCoordinates approvedLocation = new(coordinatesString[5].ParseDouble(), coordinatesString[7].ParseDouble());
 
             // Act
-            PolarCoordinates result = testLocation.ToPolar();
+            GeocentricCoordinates result = testLocation.ToPolar();
 
             // Assert
             result.R.ShouldBe(approvedLocation.R, MinimalTestsPrecision);
@@ -38,7 +38,7 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            PolarCoordinates testLocation = new(coordinatesString[1].ParseDouble(), coordinatesString[3].ParseDouble());
+            GeocentricCoordinates testLocation = new(coordinatesString[1].ParseDouble(), coordinatesString[3].ParseDouble());
             GeodeticCoordinates approvedLocation = new(coordinatesString[7].ParseDouble(), coordinatesString[5].ParseDouble());
 
             // Act
@@ -46,7 +46,7 @@ public partial class GeopackTests
 
             // Assert
             result.Altitude.ShouldBe(approvedLocation.Altitude, MinimalTestsPrecision);
-            result.GeodLatitude.ShouldBe(approvedLocation.GeodLatitude, MinimalTestsPrecision);
+            result.Latitude.ShouldBe(approvedLocation.Latitude, MinimalTestsPrecision);
         }
     }
 }

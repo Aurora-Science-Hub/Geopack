@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.Geopack.Contracts.Models;
+namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 
 /// <summary>
 /// Geodetic coordinates for 2D meridian plane transformations.
@@ -7,7 +7,7 @@ namespace AuroraScienceHub.Geopack.Contracts.Models;
 public readonly record struct GeodeticCoordinates
 {
     /// <summary> Geodetic latitude (in radians) </summary>
-    public double GeodLatitude { get; }
+    public double Latitude { get; }
 
     /// <summary> Altitude above ellipsoid (in km) </summary>
     public double Altitude { get; }
@@ -19,7 +19,7 @@ public readonly record struct GeodeticCoordinates
     /// <param name="altitude">Geodetic altitude</param>
     public GeodeticCoordinates(double geodLatitude, double altitude)
     {
-        GeodLatitude = geodLatitude;
+        Latitude = geodLatitude;
         Altitude = altitude;
     }
 
@@ -32,13 +32,13 @@ public readonly record struct GeodeticCoordinates
     /// (geo co-latitude and geodetic latitude) are in radians, and the distances (geocentric radius R and
     /// altitude H above the Earth's ellipsoid) are in kilometers.
     /// </remarks>
-    public PolarCoordinates ToPolar()
+    public GeocentricCoordinates ToPolar()
     {
         const double r_eq = 6378.137D;
         const double beta = 6.73949674228e-3;
 
-        double cosxmu = Math.Cos(GeodLatitude);
-        double sinxmu = Math.Sin(GeodLatitude);
+        double cosxmu = Math.Cos(Latitude);
+        double sinxmu = Math.Sin(Latitude);
         double den = Math.Sqrt(Math.Pow(cosxmu, 2) + Math.Pow(sinxmu / (1.0D + beta), 2));
         double coslam = cosxmu / den;
         double sinlam = sinxmu / (den * (1.0D + beta));
@@ -48,6 +48,6 @@ public readonly record struct GeodeticCoordinates
         double r = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(z, 2));
         double theta = Math.Acos(z / r);
 
-        return new PolarCoordinates(r, theta);
+        return new GeocentricCoordinates(r, theta);
     }
 }

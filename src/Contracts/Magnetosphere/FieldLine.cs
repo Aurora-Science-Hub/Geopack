@@ -1,4 +1,6 @@
-namespace AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+
+namespace AuroraScienceHub.Geopack.Contracts.Magnetosphere;
 
 /// <summary>
 /// Magnetic field line

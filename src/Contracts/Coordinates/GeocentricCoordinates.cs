@@ -1,9 +1,9 @@
-namespace AuroraScienceHub.Geopack.Contracts.Models;
+namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 
 /// <summary>
 /// Represents (R, Theta) slice of ECEF spherical coordinates
 /// </summary>
-public readonly record struct PolarCoordinates
+public readonly record struct GeocentricCoordinates
 {
     /// <summary>
     /// Geocentric distance (in km, ECEF radial)
@@ -20,7 +20,7 @@ public readonly record struct PolarCoordinates
     /// </summary>
     /// <param name="r">Geocentric distance (in km, ECEF radial)</param>
     /// <param name="theta">Spherical co-latitude (in radians, ECEF polar angle)</param>
-    public PolarCoordinates(double r, double theta)
+    public GeocentricCoordinates(double r, double theta)
     {
         R = r;
         Theta = theta;

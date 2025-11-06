@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.Geopack.Contracts.Models;
+namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 
 /// <summary>
 /// Direct or reversed operations in Geopack methods.

@@ -1,4 +1,5 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 

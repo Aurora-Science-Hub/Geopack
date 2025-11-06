@@ -1,4 +1,4 @@
-using AuroraScienceHub.Geopack.Contracts.Interfaces;
+using AuroraScienceHub.Geopack.Contracts;
 
 namespace AuroraScienceHub.Geopack.ExternalFieldModels.Interfaces;
 

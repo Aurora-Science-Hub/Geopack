@@ -1,6 +1,7 @@
+using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.Engine;
-using AuroraScienceHub.Geopack.Contracts.Interfaces;
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
 using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;

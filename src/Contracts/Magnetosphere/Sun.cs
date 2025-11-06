@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.Geopack.Contracts.Models;
+namespace AuroraScienceHub.Geopack.Contracts.Magnetosphere;
 
 /// <summary>
 /// Sun position parameters

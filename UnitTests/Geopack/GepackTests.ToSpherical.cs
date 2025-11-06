@@ -1,4 +1,4 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;

@@ -1,7 +1,6 @@
 using AuroraScienceHub.Geopack.Contracts.Engine;
-using AuroraScienceHub.Geopack.Contracts.Interfaces;
 
-namespace AuroraScienceHub.Geopack.Contracts.Models;
+namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 
 /// <summary>
 /// Location with cartesian coordinates

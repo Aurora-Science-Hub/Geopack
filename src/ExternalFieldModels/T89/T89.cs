@@ -1,4 +1,5 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
 using AuroraScienceHub.Geopack.ExternalFieldModels.Interfaces;
 
 namespace AuroraScienceHub.Geopack.ExternalFieldModels.T89;

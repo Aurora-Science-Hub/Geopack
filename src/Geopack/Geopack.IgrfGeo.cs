@@ -1,5 +1,6 @@
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.Engine;
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
 
 namespace AuroraScienceHub.Geopack;
 

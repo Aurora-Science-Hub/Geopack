@@ -1,5 +1,3 @@
-using AuroraScienceHub.Geopack.Interfaces;
-
 namespace AuroraScienceHub.Geopack;
 
 /// <summary>

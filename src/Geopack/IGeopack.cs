@@ -1,8 +1,9 @@
+using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.Engine;
-using AuroraScienceHub.Geopack.Contracts.Interfaces;
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
 
-namespace AuroraScienceHub.Geopack.Interfaces;
+namespace AuroraScienceHub.Geopack;
 
 /// <summary>
 /// Geopack-2008 Double Precision contracts

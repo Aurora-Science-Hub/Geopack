@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.Geopack.Contracts.Interfaces;
+namespace AuroraScienceHub.Geopack.Contracts;
 
 /// <summary>
 /// Marker interface for physical quantities

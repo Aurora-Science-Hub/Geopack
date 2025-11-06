@@ -1,6 +1,6 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
 
-namespace AuroraScienceHub.Geopack.Contracts.Interfaces;
+namespace AuroraScienceHub.Geopack.Contracts;
 
 /// <summary>
 /// Basic interface for all spherical objects
