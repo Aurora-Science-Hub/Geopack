@@ -14,7 +14,7 @@ This project contains performance benchmarks for Geopack-2008 field line tracing
 
 #### Simple Calculation Performance
 
-| Method | Job           | Mean (ns) | Error (ns) | StdDev (ns) | Ratio / RefRatio | Gen0   | Allocated (KB) | Alloc Ratio |
+| Method | Runtime       | Mean (ns) | Error (ns) | StdDev (ns) | Ratio / RefRatio | Gen0   | Allocated (KB) | Alloc Ratio |
 |--------|---------------|-----------|------------|-------------|------------------|--------|----------------|-------------|
 | IGRF   | IFortran`25   | 1802.00   | 52.43      | 1004.89     | 1.00 / 1.00      | N/A    | N/A            | N/A         |
 | Dipole | IFortran`25   | 1359.00   | 36.99      | 708.95      | 0.75 / 1.00      | N/A    | N/A            | N/A         |
