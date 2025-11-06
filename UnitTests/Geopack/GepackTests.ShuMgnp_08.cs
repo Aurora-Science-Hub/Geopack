@@ -1,6 +1,7 @@
 using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -23,10 +24,10 @@ public partial class GeopackTests
         Magnetopause resultField = s_geopack.ShuMgnp(xnPd, vel, bzimf, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
-        resultField.BoundaryLocation.X.ShouldBe(xmgnp, MinimalTestsPrecision);
-        resultField.BoundaryLocation.Y.ShouldBe(ymgnp, MinimalTestsPrecision);
-        resultField.BoundaryLocation.Z.ShouldBe(zmgnp, MinimalTestsPrecision);
-        resultField.Dist.ShouldBe(dist, MinimalTestsPrecision);
+        resultField.BoundaryLocation.X.ShouldApproximatelyBe(xmgnp);
+        resultField.BoundaryLocation.Y.ShouldApproximatelyBe(ymgnp);
+        resultField.BoundaryLocation.Z.ShouldApproximatelyBe(zmgnp);
+        resultField.Dist.ShouldApproximatelyBe(dist);
         resultField.Position.ShouldBe(position);
     }
 

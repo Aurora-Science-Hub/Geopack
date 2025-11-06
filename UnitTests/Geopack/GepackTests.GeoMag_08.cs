@@ -1,5 +1,6 @@
 using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -30,9 +31,9 @@ public partial class GeopackTests
             CartesianLocation location = s_geopack.GeoToMag(_context, geoLocation);
 
             // Assert
-            location.X.ShouldBe(xmag, MinimalTestsPrecision);
-            location.Y.ShouldBe(ymag, MinimalTestsPrecision);
-            location.Z.ShouldBe(zmag, MinimalTestsPrecision);
+            location.X.ShouldApproximatelyBe(xmag);
+            location.Y.ShouldApproximatelyBe(ymag);
+            location.Z.ShouldApproximatelyBe(zmag);
             location.CoordinateSystem.ShouldBe(CoordinateSystem.MAG);
         }
     }
@@ -60,9 +61,9 @@ public partial class GeopackTests
             CartesianLocation location = s_geopack.MagToGeo(_context, magLocation);
 
             // Assert
-            location.X.ShouldBe(xgeo, MinimalTestsPrecision);
-            location.Y.ShouldBe(ygeo, MinimalTestsPrecision);
-            location.Z.ShouldBe(zgeo, MinimalTestsPrecision);
+            location.X.ShouldApproximatelyBe(xgeo);
+            location.Y.ShouldApproximatelyBe(ygeo);
+            location.Z.ShouldApproximatelyBe(zgeo);
             location.CoordinateSystem.ShouldBe(CoordinateSystem.GEO);
         }
     }

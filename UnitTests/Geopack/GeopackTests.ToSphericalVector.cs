@@ -2,6 +2,7 @@ using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using AuroraScienceHub.Geopack.Contracts.Spherical;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -30,9 +31,9 @@ public partial class GeopackTests
         SphericalVector<MagneticField> sphericalVector = cartesianVector.ToSphericalVector(location);
 
         // Assert
-        sphericalVector.R.ShouldBe(br, MinimalTestsPrecision);
-        sphericalVector.Theta.ShouldBe(btheta, MinimalTestsPrecision);
-        sphericalVector.Phi.ShouldBe(bphi, MinimalTestsPrecision);
+        sphericalVector.R.ShouldApproximatelyBe(br);
+        sphericalVector.Theta.ShouldApproximatelyBe(btheta);
+        sphericalVector.Phi.ShouldApproximatelyBe(bphi);
     }
 
     [Fact(DisplayName = "BCarSph: NaN check (identical to original Geopack-2008 behavior)")]

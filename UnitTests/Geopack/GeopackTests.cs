@@ -23,8 +23,6 @@ public partial class GeopackTests(TestDataFixture fixture)
 
     private const double Rad = 57.295779513D;
 
-    private const double MinimalTestsPrecision = 0.000000000008d;
-
     private const string CommonsDataFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.CommonsDataSet.dat";
 

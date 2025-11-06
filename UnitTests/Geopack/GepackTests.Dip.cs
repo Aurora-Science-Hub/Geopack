@@ -1,6 +1,7 @@
 using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -26,9 +27,9 @@ public partial class GeopackTests
         CartesianVector<MagneticField> resultField = s_geopack.Dip(_context, location);
 
         // Assert
-        resultField.X.ShouldBe(expectedBx, MinimalTestsPrecision);
-        resultField.Y.ShouldBe(expectedBy, MinimalTestsPrecision);
-        resultField.Z.ShouldBe(expectedBz, MinimalTestsPrecision);
+        resultField.X.ShouldApproximatelyBe(expectedBx);
+        resultField.Y.ShouldApproximatelyBe(expectedBy);
+        resultField.Z.ShouldApproximatelyBe(expectedBz);
     }
 
     [Fact(DisplayName = "DIP_08 is NaN if Zero coordinates")]

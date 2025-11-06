@@ -4,6 +4,7 @@ using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -47,9 +48,9 @@ public partial class GeopackTests
         for (int i = 0; i < lines.Length; i++)
         {
             string[] pars = lines[i].SplitParametersLine();
-            fieldLine.Points[i].X.ShouldBe(pars[0].ParseDouble(), MinimalTestsPrecision);
-            fieldLine.Points[i].Y.ShouldBe(pars[1].ParseDouble(), MinimalTestsPrecision);
-            fieldLine.Points[i].Z.ShouldBe(pars[2].ParseDouble(), MinimalTestsPrecision);
+            fieldLine.Points[i].X.ShouldApproximatelyBe(pars[0].ParseDouble());
+            fieldLine.Points[i].Y.ShouldApproximatelyBe(pars[1].ParseDouble());
+            fieldLine.Points[i].Z.ShouldApproximatelyBe(pars[2].ParseDouble());
         }
     }
 
@@ -88,9 +89,9 @@ public partial class GeopackTests
         for (int i = 0; i < lines.Length; i++)
         {
             string[] pars = lines[i].SplitParametersLine();
-            fieldLine.Points[i].X.ShouldBe(pars[0].ParseDouble(), MinimalTestsPrecision);
-            fieldLine.Points[i].Y.ShouldBe(pars[1].ParseDouble(), MinimalTestsPrecision);
-            fieldLine.Points[i].Z.ShouldBe(pars[2].ParseDouble(), MinimalTestsPrecision);
+            fieldLine.Points[i].X.ShouldApproximatelyBe(pars[0].ParseDouble());
+            fieldLine.Points[i].Y.ShouldApproximatelyBe(pars[1].ParseDouble());
+            fieldLine.Points[i].Z.ShouldApproximatelyBe(pars[2].ParseDouble());
         }
     }
 }

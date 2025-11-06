@@ -2,6 +2,7 @@ using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using AuroraScienceHub.Geopack.Contracts.Spherical;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -33,9 +34,9 @@ public partial class GeopackTests
         CartesianVector<MagneticField> calculatedVector = testSphericalFieldVector.ToCartesianVector(sphLocation);
 
         // Assert
-        calculatedVector.X.ShouldBe(expectedVector.X, MinimalTestsPrecision);
-        calculatedVector.Y.ShouldBe(expectedVector.Y, MinimalTestsPrecision);
-        calculatedVector.Z.ShouldBe(expectedVector.Z, MinimalTestsPrecision);
+        calculatedVector.X.ShouldApproximatelyBe(expectedVector.X);
+        calculatedVector.Y.ShouldApproximatelyBe(expectedVector.Y);
+        calculatedVector.Z.ShouldApproximatelyBe(expectedVector.Z);
     }
 
     [Fact(DisplayName = "BSphCar: Zero angles B-field coordinates conversion")]
@@ -49,9 +50,9 @@ public partial class GeopackTests
         CartesianVector<MagneticField> fieldVector = testField.ToCartesianVector(location);
 
         // Assert
-        fieldVector.X.ShouldBe(1.0, MinimalTestsPrecision);
-        fieldVector.Y.ShouldBe(1.0, MinimalTestsPrecision);
-        fieldVector.Z.ShouldBe(1.0, MinimalTestsPrecision);
+        fieldVector.X.ShouldApproximatelyBe(1.0);
+        fieldVector.Y.ShouldApproximatelyBe(1.0);
+        fieldVector.Z.ShouldApproximatelyBe(1.0);
     }
 
     [Fact(DisplayName = "BSphCar: Negative angles B-field coordinates conversion")]
@@ -65,9 +66,9 @@ public partial class GeopackTests
         CartesianVector<MagneticField> fieldVector = testField.ToCartesianVector(location);
 
         // Assert
-        fieldVector.X.ShouldBe(0.70710678118654757, MinimalTestsPrecision);
-        fieldVector.Y.ShouldBe(0.70710678118654746, MinimalTestsPrecision);
-        fieldVector.Z.ShouldBe(1.4142135623730949, MinimalTestsPrecision);
+        fieldVector.X.ShouldApproximatelyBe(0.70710678118654757);
+        fieldVector.Y.ShouldApproximatelyBe(0.70710678118654746);
+        fieldVector.Z.ShouldApproximatelyBe(1.4142135623730949);
     }
 
     [Fact(DisplayName = "BSphCar: Large angles B-field coordinates conversion")]
@@ -81,9 +82,9 @@ public partial class GeopackTests
         CartesianVector<MagneticField> fieldVector = testField.ToCartesianVector(location);
 
         // Assert
-        fieldVector.X.ShouldBe(1.0, MinimalTestsPrecision);
-        fieldVector.Y.ShouldBe(1.0, MinimalTestsPrecision);
-        fieldVector.Z.ShouldBe(1.0, MinimalTestsPrecision);
+        fieldVector.X.ShouldApproximatelyBe(1.0);
+        fieldVector.Y.ShouldApproximatelyBe(1.0);
+        fieldVector.Z.ShouldApproximatelyBe(1.0);
     }
 
     [Fact(DisplayName = "BSphCar: Small angles B-field coordinates conversion")]
@@ -97,8 +98,8 @@ public partial class GeopackTests
         CartesianVector<MagneticField> fieldVector = testField.ToCartesianVector(location);
 
         // Assert
-        fieldVector.X.ShouldBe(1.0, MinimalTestsPrecision);
-        fieldVector.Y.ShouldBe(1.0000000001, MinimalTestsPrecision);
-        fieldVector.Z.ShouldBe(0.99999999989999999, MinimalTestsPrecision);
+        fieldVector.X.ShouldApproximatelyBe(1.0);
+        fieldVector.Y.ShouldApproximatelyBe(1.0000000001);
+        fieldVector.Z.ShouldApproximatelyBe(0.99999999989999999);
     }
 }

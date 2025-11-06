@@ -1,4 +1,5 @@
 using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -22,9 +23,9 @@ public partial class GeopackTests
 
         // Assert
         sun.DateTime.ShouldBe(date);
-        sun.Gst.ShouldBe(gst, MinimalTestsPrecision);
-        sun.Slong.ShouldBe(slong, MinimalTestsPrecision);
-        sun.Srasn.ShouldBe(srasn, MinimalTestsPrecision);
-        sun.Sdec.ShouldBe(sdec, MinimalTestsPrecision);
+        sun.Gst.ShouldApproximatelyBe(gst);
+        sun.Slong.ShouldApproximatelyBe(slong);
+        sun.Srasn.ShouldApproximatelyBe(srasn);
+        sun.Sdec.ShouldApproximatelyBe(sdec);
     }
 }

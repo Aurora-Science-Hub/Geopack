@@ -1,4 +1,5 @@
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -23,8 +24,8 @@ public partial class GeopackTests
             GeocentricCoordinates result = testLocation.ToGeocentric();
 
             // Assert
-            result.R.ShouldBe(approvedLocation.R, MinimalTestsPrecision);
-            result.Theta.ShouldBe(approvedLocation.Theta, MinimalTestsPrecision);
+            result.R.ShouldApproximatelyBe(approvedLocation.R);
+            result.Theta.ShouldApproximatelyBe(approvedLocation.Theta);
         }
     }
 
@@ -45,8 +46,8 @@ public partial class GeopackTests
             GeodeticCoordinates result = testLocation.ToGeodetic();
 
             // Assert
-            result.Altitude.ShouldBe(approvedLocation.Altitude, MinimalTestsPrecision);
-            result.Latitude.ShouldBe(approvedLocation.Latitude, MinimalTestsPrecision);
+            result.Altitude.ShouldApproximatelyBe(approvedLocation.Altitude);
+            result.Latitude.ShouldApproximatelyBe(approvedLocation.Latitude);
         }
     }
 }

@@ -1,6 +1,7 @@
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using AuroraScienceHub.Geopack.Contracts.Spherical;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -31,9 +32,9 @@ public partial class GeopackTests
         SphericalVector<MagneticField> resultField = s_geopack.IgrfGeo(_context, testLocation);
 
         // Assert
-        resultField.R.ShouldBe(expectedBr, MinimalTestsPrecision);
-        resultField.Theta.ShouldBe(expectedBtheta, MinimalTestsPrecision);
-        resultField.Phi.ShouldBe(expectedBphi, MinimalTestsPrecision);
+        resultField.R.ShouldApproximatelyBe(expectedBr);
+        resultField.Theta.ShouldApproximatelyBe(expectedBtheta);
+        resultField.Phi.ShouldApproximatelyBe(expectedBphi);
         resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GEO);
     }
 

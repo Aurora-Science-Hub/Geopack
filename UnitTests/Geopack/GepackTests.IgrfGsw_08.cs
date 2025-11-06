@@ -1,6 +1,7 @@
 using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -23,9 +24,9 @@ public partial class GeopackTests
         CartesianVector<MagneticField> resultField = s_geopack.IgrfGsw(_context, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
-        resultField.X.ShouldBe(expectedBx, MinimalTestsPrecision);
-        resultField.Y.ShouldBe(expectedBy, MinimalTestsPrecision);
-        resultField.Z.ShouldBe(expectedBz, MinimalTestsPrecision);
+        resultField.X.ShouldApproximatelyBe(expectedBx);
+        resultField.Y.ShouldApproximatelyBe(expectedBy);
+        resultField.Z.ShouldApproximatelyBe(expectedBz);
         resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GSW);
     }
 
@@ -36,9 +37,9 @@ public partial class GeopackTests
         CartesianVector<MagneticField> resultField = s_geopack.IgrfGsw(_context, CartesianLocation.New(0.0D, 0.0D, 0.0D, CoordinateSystem.GSW));
 
         // Assert
-        resultField.X.ShouldBe(double.NaN);
-        resultField.Y.ShouldBe(double.NaN);
-        resultField.Z.ShouldBe(double.NaN);
+        resultField.X.ShouldApproximatelyBe(double.NaN);
+        resultField.Y.ShouldApproximatelyBe(double.NaN);
+        resultField.Z.ShouldApproximatelyBe(double.NaN);
         resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GSW);
     }
 }
