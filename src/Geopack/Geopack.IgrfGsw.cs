@@ -18,6 +18,12 @@ internal sealed partial class Geopack
 
         double rho2 = Math.Pow(geoLocation.X, 2) + Math.Pow(geoLocation.Y, 2);
         double r = Math.Sqrt(rho2 + Math.Pow(geoLocation.Z, 2));
+
+        if (Math.Abs(r) <= double.Epsilon)
+        {
+            throw new InvalidOperationException("Location radius vector should not be zero.");
+        }
+
         double c = geoLocation.Z / r;
         double rho = Math.Sqrt(rho2);
         double s = rho / r;

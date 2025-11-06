@@ -34,12 +34,9 @@ public partial class GeopackTests
     public void IgrfGsw_ShouldReturnNaNValues_IfZeroCoordinates()
     {
         // Act
-        CartesianVector<MagneticField> resultField = s_geopack.IgrfGsw(_context, CartesianLocation.New(0.0D, 0.0D, 0.0D, CoordinateSystem.GSW));
+        Action act = () => s_geopack.IgrfGsw(_context, CartesianLocation.New(0.0D, 0.0D, 0.0D, CoordinateSystem.GSW));
 
         // Assert
-        resultField.X.ShouldApproximatelyBe(double.NaN);
-        resultField.Y.ShouldApproximatelyBe(double.NaN);
-        resultField.Z.ShouldApproximatelyBe(double.NaN);
-        resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GSW);
+        act.ShouldThrow<InvalidOperationException>();
     }
 }
