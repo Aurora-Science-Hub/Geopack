@@ -1,6 +1,6 @@
-using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
 
-namespace AuroraScienceHub.Geopack.Contracts.Magnetosphere;
+namespace AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 
 /// <summary>
 /// Magnetic field line

@@ -1,5 +1,5 @@
 using AuroraScienceHub.Geopack.Contracts.Engine;
-using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
+using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 
 namespace AuroraScienceHub.Geopack;
 

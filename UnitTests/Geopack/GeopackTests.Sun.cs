@@ -1,4 +1,4 @@
-using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
+using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;

@@ -1,5 +1,6 @@
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
-using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using AuroraScienceHub.Geopack.ExternalFieldModels.Interfaces;
 
 namespace AuroraScienceHub.Geopack.ExternalFieldModels.T89;

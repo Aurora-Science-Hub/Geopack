@@ -1,4 +1,7 @@
-namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+
+namespace AuroraScienceHub.Geopack.Contracts.Spherical;
 
 /// <summary>
 /// Field vector with spherical components

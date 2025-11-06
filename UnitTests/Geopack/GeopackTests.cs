@@ -1,7 +1,8 @@
 using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.Engine;
-using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using AuroraScienceHub.Geopack.UnitTests.Geopack.Fixtures;
 

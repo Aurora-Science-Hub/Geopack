@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.Geopack.Contracts.Magnetosphere;
+namespace AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 
 /// <summary>
 /// Object location relative to magnetopause

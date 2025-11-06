@@ -1,6 +1,8 @@
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.Engine;
-using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
+using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using AuroraScienceHub.Geopack.Utilities;
 
 namespace AuroraScienceHub.Geopack;

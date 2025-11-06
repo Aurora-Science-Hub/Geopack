@@ -1,4 +1,4 @@
-namespace AuroraScienceHub.Geopack.Contracts.Magnetosphere;
+namespace AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 
 /// <summary>
 /// Magnetic field vector

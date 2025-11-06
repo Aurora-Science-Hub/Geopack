@@ -1,5 +1,7 @@
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
-using AuroraScienceHub.Geopack.Contracts.Magnetosphere;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
+using AuroraScienceHub.Geopack.Contracts.Spherical;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 

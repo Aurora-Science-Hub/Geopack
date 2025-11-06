@@ -1,4 +1,6 @@
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.Spherical;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
