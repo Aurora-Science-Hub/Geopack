@@ -16,7 +16,7 @@ with an immutable **ComputationContext** pattern.
 
 This PR refactors the Geopack library to improve thread-safety, immutability, and API design by replacing mutable shared state with an immutable ComputationContext pattern. Key changes include:
 
-### key changes:
+### Key changes:
 - Introducing strongly-typed vector quantities using generics (CartesianVector<T>, SphericalVector<T>)
 - Converting coordinate/vector transformations from standalone methods to instance methods on model types
 - Refactoring methods to accept structured objects instead of individual coordinate parameters
