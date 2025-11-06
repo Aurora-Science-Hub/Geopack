@@ -5,7 +5,7 @@ using AuroraScienceHub.Geopack.Contracts.Spherical;
 
 namespace AuroraScienceHub.Geopack;
 
-public sealed partial class Geopack
+internal sealed partial class Geopack
 {
     public SphericalVector<MagneticField> IgrfGeo(ComputationContext context, SphericalLocation location)
     {

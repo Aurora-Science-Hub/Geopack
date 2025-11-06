@@ -7,7 +7,7 @@ using AuroraScienceHub.Geopack.Utilities;
 
 namespace AuroraScienceHub.Geopack;
 
-public sealed partial class Geopack
+internal sealed partial class Geopack
 {
     public ComputationContext Recalc(DateTime dateTime, CartesianVector<Velocity>? swVelocity = null)
     {

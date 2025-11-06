@@ -4,7 +4,7 @@ using AuroraScienceHub.Geopack.Contracts.Engine;
 
 namespace AuroraScienceHub.Geopack;
 
-public sealed partial class Geopack
+internal sealed partial class Geopack
 {
     public T MagToSm<T>(ComputationContext context, T components) where T : ICartesian<T>
         => MagSmInternal(context, components, OperationType.Direct);

@@ -19,7 +19,7 @@ public partial class GeopackTests(TestDataFixture fixture)
     private readonly ComputationContext _context = s_geopack.Recalc(
         fixture.InputData.DateTime, CartesianVector<Velocity>.New(-304.0D, 13.0D, 4.0D, CoordinateSystem.GSE));
 
-    private readonly IExternalFieldModel _t89 = new T89();
+    private static readonly IExternalFieldModel _t89 = new T89();
 
     private const double Rad = 57.295779513D;
 

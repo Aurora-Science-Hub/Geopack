@@ -5,7 +5,7 @@ using AuroraScienceHub.Geopack.ExternalFieldModels.Interfaces;
 
 namespace AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 
-public sealed partial class T89 : IT89
+internal sealed partial class T89 : IT89
 {
     private static double[] A = new double[30];
     private static int IOP = 10;

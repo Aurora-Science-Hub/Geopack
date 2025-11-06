@@ -18,6 +18,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="AuroraScienceHub.Geopack.UnitTests" />
+    <InternalsVisibleTo Include="AuroraScienceHub.Geopack.Benchmarks" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MinVer">

@@ -4,7 +4,7 @@ using AuroraScienceHub.Geopack.Contracts.Engine;
 
 namespace AuroraScienceHub.Geopack;
 
-public sealed partial class Geopack
+internal sealed partial class Geopack
 {
     public T GeoToMag<T>(ComputationContext context, T components) where T : ICartesian<T>
         => GeoMagInternal(context, components, OperationType.Direct);

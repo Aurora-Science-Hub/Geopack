@@ -7,7 +7,7 @@ using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 
 namespace AuroraScienceHub.Geopack;
 
-public sealed partial class Geopack
+internal sealed partial class Geopack
 {
     public FieldLine Trace(ComputationContext context,
     CartesianLocation startingPoint,

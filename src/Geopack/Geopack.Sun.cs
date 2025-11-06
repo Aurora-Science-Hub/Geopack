@@ -3,7 +3,7 @@ using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 
 namespace AuroraScienceHub.Geopack;
 
-public sealed partial class Geopack
+internal sealed partial class Geopack
 {
     public Sun Sun(DateTime dateTime)
     {
