@@ -7,6 +7,10 @@ namespace AuroraScienceHub.Geopack;
 /// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Add Geopack
+    /// </summary>
+    /// <param name="services">Service collection</param>
     public static IServiceCollection AddGeopack(this IServiceCollection services)
     {
         services.AddSingleton<IGeopack, Geopack>();
