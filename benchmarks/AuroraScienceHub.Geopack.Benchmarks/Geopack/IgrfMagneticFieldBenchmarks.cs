@@ -1,4 +1,7 @@
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.Engine;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Environments;
@@ -11,40 +14,33 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 /// </summary>
 [MemoryDiagnoser]
 [SimpleJob(RuntimeMoniker.Net90)]
-// [SimpleJob(RuntimeMoniker.NativeAot90)]
+[SimpleJob(RuntimeMoniker.NativeAot90)]
 [MarkdownExporterAttribute.GitHub]
 [Config(typeof(NativeAotConfig))]
 public class IgrfMagneticFieldBenchmarks
 {
     private readonly ComputationContext _ctx;
     private readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
+    private static readonly CartesianLocation s_testLocation = CartesianLocation.New(-1.02D, 0D, 0D, CoordinateSystem.GSW);
+    private static readonly CartesianVector<Velocity> s_testVelocity = CartesianVector<Velocity>.New(-304.0D, 14.78D, 4.0D, CoordinateSystem.GSE);
+    private static readonly DateTime s_testDate = new(1997, 12, 11, 10, 10, 0, DateTimeKind.Utc);
 
     public IgrfMagneticFieldBenchmarks()
     {
-        _ctx = _geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
+        _ctx = _geopack.Recalc(s_testDate, s_testVelocity);
     }
-
-    private const double Xgsw = -1.02D;
-    private const double Ygsw = 0.0D;
-    private const double Zgsw = 0.0D;
-
-    private const double Vgsex = -304.0D;
-    private const double Vgsey = 14.78D;
-    private const double Vgsez = 4.0D;
-
-    private static readonly DateTime s_testDate = new(1997, 12, 11, 10, 10, 0, DateTimeKind.Utc);
 
     [Benchmark(Baseline = true)]
     public void Calculate_IgrfMagneticField()
-        => _geopack.IgrfGsw_08(_ctx, Xgsw, Ygsw, Zgsw);
+        => _geopack.IgrfGsw(_ctx, s_testLocation);
 
     [Benchmark]
     public void Calculate_DipMagneticField()
-        => _geopack.Dip_08(_ctx, Xgsw, Ygsw, Zgsw);
+        => _geopack.Dip(_ctx, s_testLocation);
 
     [Benchmark]
     public void Calculate_Sun()
-        => _geopack.Sun_08(s_testDate);
+        => _geopack.Sun(s_testDate);
 
     private class NativeAotConfig : ManualConfig
     {

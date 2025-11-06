@@ -1,4 +1,5 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -6,61 +7,47 @@ namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
 public partial class GeopackTests
 {
-    [Fact(DisplayName = "GeodGeo: convert to correct values")]
-    public async Task GeodGeo_ReturnsCorrectValues()
+    [Fact(DisplayName = "ToPolar: convert to correct values")]
+    public async Task ToPolar_ReturnsCorrectValues()
     {
         // Arrange
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeodGeoDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            double h = coordinatesString[1].ParseDouble();
-            double xmu = coordinatesString[3].ParseDouble();
-
-            double r = coordinatesString[5].ParseDouble();
-            double theta = coordinatesString[7].ParseDouble();
+            GeodeticCoordinates testLocation = new(coordinatesString[3].ParseDouble(), coordinatesString[1].ParseDouble());
+            GeocentricCoordinates approvedLocation = new(coordinatesString[5].ParseDouble(), coordinatesString[7].ParseDouble());
 
             // Act
-            GeodeticGeocentricCoordinates location = _geopack.GeodGeo_08(h, xmu);
+            GeocentricCoordinates result = testLocation.ToGeocentric();
 
             // Assert
-            location.H.ShouldBe(h, MinimalTestsPrecision);
-            location.Xmu.ShouldBe(xmu, MinimalTestsPrecision);
-            location.R.ShouldBe(r, MinimalTestsPrecision);
-            location.Theta.ShouldBe(theta, MinimalTestsPrecision);
+            result.R.ShouldApproximatelyBe(approvedLocation.R);
+            result.Theta.ShouldApproximatelyBe(approvedLocation.Theta);
         }
     }
 
-    [Fact(DisplayName = "GeoGeod: convert to correct values")]
-    public async Task GeoGeod_ReturnsCorrectValues()
+    [Fact(DisplayName = "ToGeodetic: convert to correct values")]
+    public async Task ToGeodetic_ReturnsCorrectValues()
     {
         // Arrange
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeoGeodDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
-
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            double r = coordinatesString[1].ParseDouble();
-            double theta = coordinatesString[3].ParseDouble();
-
-            double h = coordinatesString[5].ParseDouble();
-            double xmu = coordinatesString[7].ParseDouble();
+            GeocentricCoordinates testLocation = new(coordinatesString[1].ParseDouble(), coordinatesString[3].ParseDouble());
+            GeodeticCoordinates approvedLocation = new(coordinatesString[7].ParseDouble(), coordinatesString[5].ParseDouble());
 
             // Act
-            GeodeticGeocentricCoordinates location = _geopack.GeoGeod_08(r, theta);
+            GeodeticCoordinates result = testLocation.ToGeodetic();
 
             // Assert
-            location.H.ShouldBe(h, MinimalTestsPrecision);
-            location.Xmu.ShouldBe(xmu, MinimalTestsPrecision);
-            location.R.ShouldBe(r, MinimalTestsPrecision);
-            location.Theta.ShouldBe(theta, MinimalTestsPrecision);
+            result.Altitude.ShouldApproximatelyBe(approvedLocation.Altitude);
+            result.Latitude.ShouldApproximatelyBe(approvedLocation.Latitude);
         }
     }
 }

@@ -1,5 +1,8 @@
+using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.Engine;
-using AuroraScienceHub.Geopack.Contracts.Interfaces;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using AuroraScienceHub.Geopack.UnitTests.Geopack.Fixtures;
 
@@ -11,15 +14,14 @@ public class TestDataCollection : ICollectionFixture<TestDataFixture>;
 [Collection("Geopack")]
 public partial class GeopackTests(TestDataFixture fixture)
 {
-    private static readonly AuroraScienceHub.Geopack.Geopack _geopack = new();
+    private static readonly AuroraScienceHub.Geopack.Geopack s_geopack = new();
 
-    private readonly ComputationContext _context = _geopack.Recalc_08(fixture.InputData.DateTime, -304.0D, 13.0D, 4.0D);
+    private readonly ComputationContext _context = s_geopack.Recalc(
+        fixture.InputData.DateTime, CartesianVector<Velocity>.New(-304.0D, 13.0D, 4.0D, CoordinateSystem.GSE));
 
-    private readonly IExternalFieldModel _t89 = new T89();
+    private static readonly IExternalFieldModel _t89 = new T89();
 
     private const double Rad = 57.295779513D;
-
-    private const double MinimalTestsPrecision = 0.000000000008d;
 
     private const string CommonsDataFileName =
         "AuroraScienceHub.Geopack.UnitTests.Geopack.TestData.CommonsDataSet.dat";

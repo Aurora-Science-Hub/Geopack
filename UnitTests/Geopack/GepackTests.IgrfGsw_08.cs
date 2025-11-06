@@ -1,4 +1,7 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -18,12 +21,12 @@ public partial class GeopackTests
         double expectedBx, double expectedBy, double expectedBz)
     {
         // Act
-        CartesianFieldVector resultField = _geopack.IgrfGsw_08(_context, x, y, z);
+        CartesianVector<MagneticField> resultField = s_geopack.IgrfGsw(_context, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
-        resultField.Bx.ShouldBe(expectedBx, MinimalTestsPrecision);
-        resultField.By.ShouldBe(expectedBy, MinimalTestsPrecision);
-        resultField.Bz.ShouldBe(expectedBz, MinimalTestsPrecision);
+        resultField.X.ShouldApproximatelyBe(expectedBx);
+        resultField.Y.ShouldApproximatelyBe(expectedBy);
+        resultField.Z.ShouldApproximatelyBe(expectedBz);
         resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GSW);
     }
 
@@ -31,12 +34,9 @@ public partial class GeopackTests
     public void IgrfGsw_ShouldReturnNaNValues_IfZeroCoordinates()
     {
         // Act
-        CartesianFieldVector resultField = _geopack.IgrfGsw_08(_context, 0.0D, 0.0D, 0.0D);
+        Action act = () => s_geopack.IgrfGsw(_context, CartesianLocation.New(0.0D, 0.0D, 0.0D, CoordinateSystem.GSW));
 
         // Assert
-        resultField.Bx.ShouldBe(double.NaN);
-        resultField.By.ShouldBe(double.NaN);
-        resultField.Bz.ShouldBe(double.NaN);
-        resultField.CoordinateSystem.ShouldBe(CoordinateSystem.GSW);
+        act.ShouldThrow<InvalidOperationException>();
     }
 }

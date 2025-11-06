@@ -1,4 +1,6 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using AuroraScienceHub.Geopack.UnitTests.Utils;
 using Shouldly;
 
@@ -16,21 +18,22 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            double xmag = coordinatesString[1].ParseDouble();
-            double ymag = coordinatesString[3].ParseDouble();
-            double zmag = coordinatesString[5].ParseDouble();
+            CartesianLocation magLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
+                coordinatesString[3].ParseDouble(),
+                coordinatesString[5].ParseDouble(),
+                CoordinateSystem.MAG);
 
             double xsm = coordinatesString[7].ParseDouble();
             double ysm = coordinatesString[9].ParseDouble();
             double zsm = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.MagSm_08(_context, xmag, ymag, zmag);
+            CartesianLocation location = s_geopack.MagToSm(_context, magLocation);
 
             // Assert
-            location.X.ShouldBe(xsm, MinimalTestsPrecision);
-            location.Y.ShouldBe(ysm, MinimalTestsPrecision);
-            location.Z.ShouldBe(zsm, MinimalTestsPrecision);
+            location.X.ShouldApproximatelyBe(xsm);
+            location.Y.ShouldApproximatelyBe(ysm);
+            location.Z.ShouldApproximatelyBe(zsm);
             location.CoordinateSystem.ShouldBe(CoordinateSystem.SM);
         }
     }
@@ -45,21 +48,22 @@ public partial class GeopackTests
         foreach (string line in lines)
         {
             string[] coordinatesString = line.SplitParametersLine();
-            double xsm = coordinatesString[1].ParseDouble();
-            double ysm = coordinatesString[3].ParseDouble();
-            double zsm = coordinatesString[5].ParseDouble();
+            CartesianLocation smLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
+                coordinatesString[3].ParseDouble(),
+                coordinatesString[5].ParseDouble(),
+                CoordinateSystem.SM);
 
             double xmag = coordinatesString[7].ParseDouble();
             double ymag = coordinatesString[9].ParseDouble();
             double zmag = coordinatesString[11].ParseDouble();
 
             // Act
-            CartesianLocation location = _geopack.SmMag_08(_context, xsm, ysm, zsm);
+            CartesianLocation location = s_geopack.SmToMag(_context, smLocation);
 
             // Assert
-            location.X.ShouldBe(xmag, MinimalTestsPrecision);
-            location.Y.ShouldBe(ymag, MinimalTestsPrecision);
-            location.Z.ShouldBe(zmag, MinimalTestsPrecision);
+            location.X.ShouldApproximatelyBe(xmag);
+            location.Y.ShouldApproximatelyBe(ymag);
+            location.Z.ShouldApproximatelyBe(zmag);
             location.CoordinateSystem.ShouldBe(CoordinateSystem.MAG);
         }
     }

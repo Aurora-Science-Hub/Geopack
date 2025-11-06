@@ -1,4 +1,7 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
@@ -18,13 +21,13 @@ public partial class GeopackTests
         MagnetopausePosition position)
     {
         // Act
-        Magnetopause resultField = _geopack.ShuMgnp_08(xnPd, vel, bzimf, x, y, z);
+        Magnetopause resultField = s_geopack.ShuMgnp(xnPd, vel, bzimf, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
-        resultField.X.ShouldBe(xmgnp, MinimalTestsPrecision);
-        resultField.Y.ShouldBe(ymgnp, MinimalTestsPrecision);
-        resultField.Z.ShouldBe(zmgnp, MinimalTestsPrecision);
-        resultField.Dist.ShouldBe(dist, MinimalTestsPrecision);
+        resultField.BoundaryLocation.X.ShouldApproximatelyBe(xmgnp);
+        resultField.BoundaryLocation.Y.ShouldApproximatelyBe(ymgnp);
+        resultField.BoundaryLocation.Z.ShouldApproximatelyBe(zmgnp);
+        resultField.Dist.ShouldApproximatelyBe(dist);
         resultField.Position.ShouldBe(position);
     }
 
@@ -38,13 +41,9 @@ public partial class GeopackTests
         double x, double y, double z)
     {
         // Act
-        Magnetopause resultField = _geopack.ShuMgnp_08(xnPd, vel, bzImf, x, y, z);
+        Action act = () => s_geopack.ShuMgnp(xnPd, vel, bzImf, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
         // Assert
-        resultField.X.ShouldBe(double.NaN);
-        resultField.Y.ShouldBe(double.NaN);
-        resultField.Z.ShouldBe(double.NaN);
-        resultField.Dist.ShouldBe(double.NaN);
-        resultField.Position.ShouldBe(MagnetopausePosition.NotDefined);
+        act.ShouldThrow<InvalidOperationException>();
     }
 }
