@@ -56,7 +56,9 @@
           TIME1 = END_TIME - START_TIME
           TOTAL_TIME1 = TOTAL_TIME1 + TIME1
           SUM_SQ1 = SUM_SQ1 + TIME1*TIME1
+      END DO
 
+      DO I = 1, NUM_RUNS
           CALL CPU_TIME(START_TIME)
           CALL TRACE_08 (XGSW2,YGSW2,ZGSW2,DIR2,DSMAX,ERR,RLIM,R0,IOPT,
      *     PARMOD,T89D_DP,IGRF_GSW_08,XF,YF,ZF,XX,YY,ZZ,M,LMAX)
@@ -88,10 +90,12 @@
       WRITE (*,*) '---------    ------------------    -------    -----
      *    -----'
            WRITE (*,'(A,F15.8,A,F15.8,A,F15.8,A,F6.2)') 'DIR=+1    ',
-     * AVG_TIME2 * 1000000.0D0, '    ', STD_DEV2 * 1000000.0D0, '    ',
-     * ERROR2 * 1000000.0D0, '    ', RATIO2
+     * AVG_TIME2 * 1000000000.0D0, '    ',
+     * STD_DEV2 * 1000000000.0D0, '    ',
+     * ERROR2 * 1000000000.0D0, '    ', RATIO2
       WRITE (*,'(A,F15.8,A,F15.8,A,F15.8,A,F6.2)') 'DIR=-1    ',
-     * AVG_TIME1 * 1000000.0D0, '    ', STD_DEV1 * 1000000.0D0, '    ',
-     * ERROR1 * 1000000.0D0, '    ', RATIO1
+     * AVG_TIME1 * 1000000000.0D0, '    ',
+     * STD_DEV1 * 1000000000.0D0, '    ',
+     * ERROR1 * 1000000000.0D0, '    ', RATIO1
 
       END

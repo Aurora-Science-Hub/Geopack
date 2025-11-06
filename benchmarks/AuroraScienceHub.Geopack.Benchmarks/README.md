@@ -14,34 +14,31 @@ This project contains performance benchmarks for Geopack-2008 field line tracing
 
 #### Simple Calculation Performance
 
-| Method | Runtime     | Mean (μs) | Error   | StdDev  | Ratio / RefRatio | Gen0   | Allocated (KB) | Alloc Ratio |
-|--------|-------------|-----------|---------|---------|------------------|--------|----------------|-------------|
-| IGRF   | IFortran`25 | 1.74      | 0.03    | 0.65    | 1.00 / 1.00      | N/A    | N/A            | N/A         |
-| IGRF   | .NET9       | 0.486     | 0.0087  | 0.00726 | 1.00 / **0.28**  | 0.1602 | 0.328          | 1.00        |
-| IGRF   | NativeAOT   | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
-| IGRF   | NativeAOT9  | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
-|        |             |           |         |         |                  |        |                |             |
-| Dipole | IFortran`25 | 1.34      | 0.02    | 0.51    | 0.77 / 1.00      | N/A    | N/A            | N/A         |
-| Dipole | .NET9       | 0.104     | 0.00027 | 0.00023 | 0.21 / **0.06**  | 0.0229 | 0.046          | 0.14        |
-| Dipole | NativeAOT   | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
-| Dipole | NativeAOT9  | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
-|        |             |           |         |         |                  |        |                |             |
-| Sun    | IFortran`25 | 1.49      | 0.04    | 0.78    | 0.86 / 1.00      | N/A    | N/A            | N/A         |
-| Sun    | .NET9       | 0.156     | 0.00052 | 0.00049 | 0.32 / **0.09**  | 0.0267 | 0.054          | 0.17        |
-| Sun    | NativeAOT   | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
-| Sun    | NativeAOT9  | N/A       | N/A     | N/A     | N/A              | N/A    | N/A            | N/A         |
+| Method | Job           | Mean (ns) | Error (ns) | StdDev (ns) | Ratio / RefRatio | Gen0   | Allocated (KB) | Alloc Ratio |
+|--------|---------------|-----------|------------|-------------|------------------|--------|----------------|-------------|
+| IGRF   | IFortran`25   | 1802.00   | 52.43      | 1004.89     | 1.00 / 1.00      | N/A    | N/A            | N/A         |
+| Dipole | IFortran`25   | 1359.00   | 36.99      | 708.95      | 0.75 / 1.00      | N/A    | N/A            | N/A         |
+| Sun    | IFortran`25   | 1446.00   | 25.94      | 497.32      | 0.80 / 1.00      | N/A    | N/A            | N/A         |
+|        |               |           |            |             |                  |        |                |             |
+| IGRF   | .NET 9.0      | 476.7 ns  | 3.81 ns    | 3.57 ns     | 1.00             | 0.1602 | 336 B          | 1.00        |
+| Dipole | .NET 9.0      | 105.7 ns  | 0.58 ns    | 0.54 ns     | 0.22             | 0.0229 | 48 B           | 0.14        |
+| Sun    | .NET 9.0      | 156.7 ns  | 0.31 ns    | 0.28 ns     | 0.33             | 0.0267 | 56 B           | 0.17        |
+|        |               |           |            |             |                  |        |                |             |
+| IGRF   | NativeAOT 9.0 | 490.0 ns  | 2.03 ns    | 1.90 ns     | 1.00             | 0.2060 | 432 B          | 1.00        |
+| Dipole | NativeAOT 9.0 | 101.4 ns  | 1.43 ns    | 1.19 ns     | 0.21             | 0.0229 | 48 B           | 0.11        |
+| Sun    | NativeAOT 9.0 | 163.7 ns  | 0.60 ns    | 0.56 ns     | 0.33             | 0.0267 | 56 B           | 0.13        |
 
 #### Magnetic Field Line Tracing Performance
 
-| Method                          | Runtime     |     Mean (μs) |  Error (μs) | StdDev (μs) |    Ratio / RefRatio |  Gen0 | Allocated (KB) | Alloc Ratio |
-|---------------------------------|-------------|--------------:|------------:|------------:|--------------------:|------:|---------------:|------------:|
-| Trace North -> South Hemisphere | IFortran`25 |         215.2 |        0.35 |        6.64 |         1.00 / 1.00 |   N/A |            N/A |         N/A |
-| Trace North -> South Hemisphere | .NET9       |         307.1 |        1.09 |        0.96 |     1.00 / **1.43** | 108.4 |         222.21 |        1.00 |
-| Trace North -> South Hemisphere | NativeAOT   |         314.6 |        1.14 |        1.06 |     1.00 / **1.46** | 134.3 |         274.36 |        1.00 |
-| Trace North -> South Hemisphere | NativeAOT9  |         311.0 |        1.26 |        1.18 |     1.24 / **1.45** | 134.3 |         274.36 |        1.00 |
-|                                 |             |               |             |             |                     |       |                |             |
-| Trace South -> North Hemisphere | IFortran`25 |         289.3 |        0.38 |        7.20 |     **1.34** / 1.00 |   N/A |            N/A |         N/A |
-| Trace South -> North Hemisphere | .NET9       |         383.6 |        2.17 |        2.03 | **1.25** / **1.33** | 134.8 |         275.49 |    **1.24** |
-| Trace South -> North Hemisphere | NativeAOT   |         389.6 |        1.05 |        0.99 |     1.00 / **1.35** |   N/A |         340.77 |    **1.24** |
-| Trace South -> North Hemisphere | NativeAOT9  |         389.5 |        4.04 |        3.78 |     1.25 / **1.35** |   N/A |         340.77 |    **1.24** |
+| Method                          | Runtime       | Mean (ns) | Error (ns) | StdDev (ns) | Ratio / RefRatio |     Gen0 | Allocated (KB) | Alloc Ratio |
+|---------------------------------|---------------|----------:|-----------:|------------:|-----------------:|---------:|---------------:|------------:|
+| Trace North -> South Hemisphere | IFortran`25   | 216379.00 |        554 |    10635.99 |      1.00 / 1.00 |      N/A |            N/A |         N/A |
+| Trace South -> North Hemisphere | IFortran`25   | 288899.00 |        403 |     7735.02 |  **1.34** / 1.00 |      N/A |            N/A |         N/A |
+|                                 |               |           |            |             |                  |          |                |             |
+| Trace North -> South Hemisphere | .NET 9.0      | 305100.00 |       5290 |        4130 |             1.00 | 108.3984 |      222.21 KB |        1.00 |
+| Trace South -> North Hemisphere | .NET 9.0      | 386800.00 |       1750 |        1560 |             1.27 | 134.7656 |      275.49 KB |        1.24 |
+|                                 |               |           |            |             |                  |          |                |             |
+| Trace North -> South Hemisphere | NativeAOT 9.0 | 313800.00 |       2080 |        1950 |             1.00 | 134.2773 |      274.36 KB |        1.00 |
+| Trace South -> North Hemisphere | NativeAOT 9.0 | 389200.00 |       2760 |        2450 |             1.24 | 166.5039 |      340.77 KB |        1.24 |
+
 

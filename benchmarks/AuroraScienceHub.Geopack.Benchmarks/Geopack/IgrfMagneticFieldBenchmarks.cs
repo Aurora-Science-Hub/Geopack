@@ -10,7 +10,7 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 /// </summary>
 [MemoryDiagnoser]
 [SimpleJob(RuntimeMoniker.Net90)]
-// [SimpleJob(RuntimeMoniker.NativeAot90)]
+[SimpleJob(RuntimeMoniker.NativeAot90)]
 [MarkdownExporterAttribute.GitHub]
 [Config(typeof(NativeAotConfig))]
 public class IgrfMagneticFieldBenchmarks

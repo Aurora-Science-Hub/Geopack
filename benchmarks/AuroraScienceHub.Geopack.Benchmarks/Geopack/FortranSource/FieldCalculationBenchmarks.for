@@ -45,7 +45,11 @@ C         IGRF CALL
           TIME1 = END_TIME - START_TIME
           TOTAL_TIME1 = TOTAL_TIME1 + TIME1
           SUM_SQ1 = SUM_SQ1 + TIME1*TIME1
+      END DO
+            AVG_TIME1 = TOTAL_TIME1 / DBLE(NUM_RUNS)
+            RATIO1 = AVG_TIME1 / AVG_TIME1
 
+      DO I = 1, NUM_RUNS
 C         DIP CALL
           CALL CPU_TIME(START_TIME)
           CALL DIP_08(XGSW,YGSW,ZGSW,HXGSW,HYGSW,HZGSW)
@@ -53,7 +57,11 @@ C         DIP CALL
           TIME2 = END_TIME - START_TIME
           TOTAL_TIME2 = TOTAL_TIME2 + TIME2
           SUM_SQ2 = SUM_SQ2 + TIME2*TIME2
+      END DO
+            AVG_TIME2 = TOTAL_TIME2 / DBLE(NUM_RUNS)
+            RATIO2 = AVG_TIME2 / AVG_TIME1
 
+      DO I = 1, NUM_RUNS
 C         SUN CALL
           CALL CPU_TIME(START_TIME)
           CALL SUN_08(IYEAR,IDAY,IHOUR,MIN,ISEC,GST,SLONG,SRASN,SDEC)
@@ -62,13 +70,8 @@ C         SUN CALL
           TOTAL_TIME3 = TOTAL_TIME3 + TIME3
           SUM_SQ3 = SUM_SQ3 + TIME3*TIME3
       END DO
-
-      AVG_TIME1 = TOTAL_TIME1 / DBLE(NUM_RUNS)
-      AVG_TIME2 = TOTAL_TIME2 / DBLE(NUM_RUNS)
-      AVG_TIME3 = TOTAL_TIME3 / DBLE(NUM_RUNS)
-      RATIO1 = AVG_TIME1 / AVG_TIME1
-      RATIO2 = AVG_TIME2 / AVG_TIME1
-      RATIO3 = AVG_TIME3 / AVG_TIME1
+            AVG_TIME3 = TOTAL_TIME3 / DBLE(NUM_RUNS)
+            RATIO3 = AVG_TIME3 / AVG_TIME1
 
       STD_DEV1 =
      *SQRT((SUM_SQ1 - TOTAL_TIME1*AVG_TIME1)/DBLE(NUM_RUNS-1))
@@ -85,22 +88,24 @@ C         SUN CALL
       WRITE (*,*) '=================='
       WRITE (*,'(A,I6)') 'NUMBER OF RUNS: ', NUM_RUNS
       WRITE (*,*) ''
-      WRITE (*,*) 'FUNCTION    AVERAGE TIME (MKS)    STD DEV    ERROR
+      WRITE (*,*) 'FUNCTION    AVERAGE TIME (nS)    STD DEV    ERROR
      *    RATIO'
       WRITE (*,*) '---------    ------------------    -------    -----
      *    -----'
 
-      WRITE (*,'(A,F12.8,A,F10.8,A,F10.8,A,F6.2)') 'IGRF       ',
-     * AVG_TIME1 * 1000000.0D0, '    ', STD_DEV1 * 1000000.0D0, '    ',
-     * ERROR1 * 1000000.0D0, '    ', RATIO1
+      WRITE (*,'(A,F15.8,A,F13.8,A,F13.8,A,F6.2)') 'IGRF       ',
+     * AVG_TIME1 * 1000000000.0D0, '    ',
+     * STD_DEV1 * 1000000000.0D0, '    ',
+     * ERROR1 * 1000000000.0D0, '    ', RATIO1
 
-      WRITE (*,'(A,F12.8,A,F10.8,A,F10.8,A,F6.2)') 'DIP       ',
-     * AVG_TIME2 * 1000000.0D0, '    ', STD_DEV2 * 1000000.0D0, '    ',
-     * ERROR2 * 1000000.0D0, '    ', RATIO2
+      WRITE (*,'(A,F15.8,A,F13.8,A,F13.8,A,F6.2)') 'DIP       ',
+     * AVG_TIME2 * 1000000000.0D0, '    ',
+     * STD_DEV2 * 1000000000.0D0, '    ',
+     * ERROR2 * 1000000000.0D0, '    ', RATIO2
 
-      WRITE (*,'(A,F12.8,A,F10.8,A,F10.8,A,F6.4)') 'SUN       ',
-     * AVG_TIME3 * 1000000.0D0, '    ',
-     * STD_DEV3 * 1000000.0D0, '    ',
-     * ERROR3 * 1000000.0D0, '    ', RATIO3
+      WRITE (*,'(A,F15.8,A,F13.8,A,F13.8,A,F6.4)') 'SUN       ',
+     * AVG_TIME3 * 1000000000.0D0, '    ',
+     * STD_DEV3 * 1000000000.0D0, '    ',
+     * ERROR3 * 1000000000.0D0, '    ', RATIO3
 
       END
