@@ -8,12 +8,12 @@ internal sealed partial class T89 : IT89
 {
     private static double[] A = new double[30];
     private static int IOP = 10;
-    private static double DYC, DYC2, DX, HA02, RDX2M, RDX2, RDYC2, HLWC2M, DRDYC2, DRDYC3;
+    private static double DYC, DYC2, DX, HA02, RDYC2, HLWC2M, DRDYC2;
     private static double HXLW2M, ADR, D0, DD, RC, G, AT, DT, DEL, P, Q, SX, GAM;
     private static double HXLD2M, ADSL, XGHS, H, HS, GAMH, W1, DBLDEL, W2, W4, W3, W5, W6;
     private static double AK1, AK2, AK3, AK4, AK5, AK6, AK7, AK8, AK9, AK10, AK11, AK12;
     private static double AK13, AK14, AK15, AK16, AK17, SXA, SYA, SZA, AK610, AK711, AK812;
-    private static double AK913, RDXL, HRDXL, A6H, A9T, YNP, YND;
+    private static double AK913;
 
     public CartesianVector<MagneticField> Calculate(int IOPT, double[] PARMOD, double PS, CartesianLocation location)
     {
@@ -22,10 +22,9 @@ internal sealed partial class T89 : IT89
             throw new InvalidOperationException("Location must be in GSM or GSW coordinate system.");
         }
 
-        double A02 = 25D, XLW2 = 170D, YN = 30D, RPI = 0.31830989D, RT = 30D;
-        double XD = 0D, XLD2 = 40D;
-        double SXC = 4D, XLWC2 = 50D;
-        double DXL = 20D;
+        const double A02 = 25.0, XLW2 = 170.0, RT = 30.0;
+        const double XD = 0.0, XLD2 = 40.0;
+        const double SXC = 4.0, XLWC2 = 50.0;
 
         if (IOP != IOPT)
         {
@@ -36,14 +35,11 @@ internal sealed partial class T89 : IT89
             DYC = A[29];
             DYC2 = DYC * DYC;
             DX = A[17];
-            HA02 = 0.5D * A02;
-            RDX2M = -1.0D / (DX * DX);
-            RDX2 = -RDX2M;
-            RDYC2 = 1.0D / DYC2;
-            HLWC2M = -0.5D * XLWC2;
-            DRDYC2 = -2.0D * RDYC2;
-            DRDYC3 = 2.0D * RDYC2 * Math.Sqrt(RDYC2);
-            HXLW2M = -0.5D * XLW2;
+            HA02 = 0.5 * A02;
+            RDYC2 = 1.0 / DYC2;
+            HLWC2M = -0.5 * XLWC2;
+            DRDYC2 = -2.0 * RDYC2;
+            HXLW2M = -0.5 * XLW2;
             ADR = A[18];
             D0 = A[19];
             DD = A[20];
@@ -56,19 +52,19 @@ internal sealed partial class T89 : IT89
             Q = A[26];
             SX = A[27];
             GAM = A[28];
-            HXLD2M = -0.5D * XLD2;
-            ADSL = 0.0D;
-            XGHS = 0.0D;
-            H = 0.0D;
-            HS = 0.0D;
-            GAMH = 0.0D;
-            W1 = -0.5D / DX;
-            DBLDEL = 2.0D * DEL;
-            W2 = W1 * 2.0D;
-            W4 = -1.0D / 3.0D;
+            HXLD2M = -0.5 * XLD2;
+            ADSL = 0.0;
+            XGHS = 0.0;
+            H = 0.0;
+            HS = 0.0;
+            GAMH = 0.0;
+            W1 = -0.5 / DX;
+            DBLDEL = 2.0 * DEL;
+            W2 = W1 * 2.0;
+            W4 = -1.0 / 3.0;
             W3 = W4 / DX;
-            W5 = -0.5D;
-            W6 = -3.0D;
+            W5 = -0.5;
+            W6 = -3.0;
             AK1 = A[0];
             AK2 = A[1];
             AK3 = A[2];
@@ -86,68 +82,64 @@ internal sealed partial class T89 : IT89
             AK15 = A[14];
             AK16 = A[15];
             AK17 = A[16];
-            SXA = 0.0D;
-            SYA = 0.0D;
-            SZA = 0.0D;
+            SXA = 0.0;
+            SYA = 0.0;
+            SZA = 0.0;
             AK610 = AK6 * W1 + AK10 * W5;
             AK711 = AK7 * W2 - AK11;
             AK812 = AK8 * W2 + AK12 * W6;
             AK913 = AK9 * W3 + AK13 * W4;
-            RDXL = 1.0D / DXL;
-            HRDXL = 0.5D * RDXL;
-            A6H = AK6 * 0.5D;
-            A9T = AK9 / 3.0D;
-            YNP = RPI / YN * 0.5D;
-            YND = 2.0D * YN;
         }
 
-        double SPS = Math.Sin(PS);
-        double CPS = Math.Cos(PS);
+        (double SPS, double CPS) = Math.SinCos(PS);
 
         double X2 = location.X * location.X;
         double Y2 = location.Y * location.Y;
         double Z2 = location.Z * location.Z;
         double TPS = SPS / CPS;
-        double HTP = TPS * 0.5D;
-        double GSP = G * SPS;
+        double HTP = TPS * 0.5;
         double XSM = location.X * CPS - location.Z * SPS;
         double ZSM = location.X * SPS + location.Z * CPS;
 
         double XRC = XSM + RC;
-        double XRC16 = XRC * XRC + 16.0D;
+        double XRC16 = XRC * XRC + 16.0;
         double SXRC = Math.Sqrt(XRC16);
         double Y4 = Y2 * Y2;
-        double Y410 = Y4 + 10000.0D;
-        double SY4 = SPS / Y410;
+        double Y410 = Y4 + 10000.0;
+        double Y410Inv = 1.0 / Y410;
+        double SY4 = SPS * Y410Inv;
         double GSY4 = G * SY4;
         double ZS1 = HTP * (XRC - SXRC);
         double DZSX = -ZS1 / SXRC;
         double ZS = ZS1 - GSY4 * Y4;
-        double D2ZSGY = -SY4 / Y410 * 40000.0D * Y2 * location.Y;
+        double D2ZSGY = -SY4 * Y410Inv * 40000.0 * Y2 * location.Y;
         double DZSY = G * D2ZSGY;
 
         double XSM2 = XSM * XSM;
         double DSQT = Math.Sqrt(XSM2 + A02);
-        double FA0 = 0.5D * (1.0D + XSM / DSQT);
+        double FA0 = 0.5 * (1.0 + XSM / DSQT);
         double DDR = D0 + DD * FA0;
-        double DFA0 = HA02 / (DSQT * DSQT * DSQT);
+        double DSQT3 = DSQT * DSQT * DSQT;
+        double DFA0 = HA02 / DSQT3;
         double ZR = ZSM - ZS;
-        double TR = Math.Sqrt(ZR * ZR + DDR * DDR);
-        double RTR = 1.0D / TR;
+        double ZR2 = ZR * ZR;
+        double DDR2 = DDR * DDR;
+        double TR = Math.Sqrt(ZR2 + DDR2);
+        double RTR = 1.0 / TR;
         double RO2 = XSM2 + Y2;
         double ADRT = ADR + TR;
         double ADRT2 = ADRT * ADRT;
-        double FK = 1.0D / (ADRT2 + RO2);
+        double FK = 1.0 / (ADRT2 + RO2);
         double DSFC = Math.Sqrt(FK);
         double FC = FK * FK * DSFC;
-        double FACXY = 3.0D * ADRT * FC * RTR;
+        double FACXY = 3.0 * ADRT * FC * RTR;
         double XZR = XSM * ZR;
         double YZR = location.Y * ZR;
         double DBXDP = FACXY * XZR;
         double DER25 = FACXY * YZR;
         double XZYZ = XSM * DZSX + location.Y * DZSY;
         double FAQ = ZR * XZYZ - DDR * DD * DFA0 * XSM;
-        double DBZDP = FC * (2.0D * ADRT2 - RO2) + FACXY * FAQ;
+        double DBZDP = FC * (2.0 * ADRT2 - RO2) + FACXY * FAQ;
         double DER15 = DBXDP * CPS + DBZDP * SPS;
         double DER35 = DBZDP * CPS - DBXDP * SPS;
 
@@ -155,17 +147,18 @@ internal sealed partial class T89 : IT89
         double D = DT + DELY2;
         if (Math.Abs(GAM) < 1e-6)
         {
-            H = 0.0D;
-            HS = 0.0D;
-            GAMH = 0.0D;
-            ADSL = 0.0D;
+            H = 0.0;
+            HS = 0.0;
+            GAMH = 0.0;
+            ADSL = 0.0;
         }
         else
         {
             double XXD = XSM - XD;
-            double RQD = 1.0D / (XXD * XXD + XLD2);
+            double XXD2 = XXD * XXD;
+            double RQD = 1.0 / (XXD2 + XLD2);
             double RQDS = Math.Sqrt(RQD);
-            H = 0.5D * (1.0D + XXD * RQDS);
+            H = 0.5 * (1.0 + XXD * RQDS);
             HS = -HXLD2M * RQD * RQDS;
             GAMH = GAM * H;
             D += GAMH;
@@ -173,35 +166,40 @@ internal sealed partial class T89 : IT89
             ADSL = -D * XGHS;
         }
         double D2 = D * D;
-        double T = Math.Sqrt(ZR * ZR + D2);
+        double T = Math.Sqrt(ZR2 + D2);
         double XSMX = XSM - SX;
-        double RDSQ2 = 1.0D / (XSMX * XSMX + XLW2);
+        double XSMX2 = XSMX * XSMX;
+        double RDSQ2 = 1.0 / (XSMX2 + XLW2);
         double RDSQ = Math.Sqrt(RDSQ2);
-        double V = 0.5D * (1.0D - XSMX * RDSQ);
-        double DVX = HXLW2M * RDSQ * RDSQ2;
-        double OM = Math.Sqrt(Math.Sqrt(XSM2 + 16.0D) - XSM);
-        double OMS = -OM / (OM * OM + XSM) * 0.5D;
-        double RDY = 1.0D / (P + Q * OM);
+        double RDSQ3 = RDSQ * RDSQ2;
+        double V = 0.5 * (1.0 - XSMX * RDSQ);
+        double DVX = HXLW2M * RDSQ3;
+        double OM = Math.Sqrt(Math.Sqrt(XSM2 + 16.0) - XSM);
+        double OM2 = OM * OM;
+        double OMS = -OM / (OM2 + XSM) * 0.5;
+        double RDY = 1.0 / (P + Q * OM);
         double OMSV = OMS * V;
         double RDY2 = RDY * RDY;
-        double FY = 1.0D / (1.0D + Y2 * RDY2);
+        double Y2RDY2 = Y2 * RDY2;
+        double FY = 1.0 / (1.0 + Y2RDY2);
         double W = V * FY;
-        double YFY1 = 2.0D * FY * Y2 * RDY2;
+        double YFY1 = 2.0 * FY * Y2RDY2;
         double FYPR = YFY1 * RDY;
         double FYDY = FYPR * FY;
         double DWX = DVX * FY + FYDY * Q * OMSV;
         double YDWY = -V * YFY1 * FY;
         double DDY = DBLDEL * location.Y;
         double ATT = AT + T;
-        double S1 = Math.Sqrt(ATT * ATT + RO2);
-        double F5 = 1.0D / S1;
-        double F7 = 1.0D / (S1 + ATT);
+        double ATT2 = ATT * ATT;
+        double S1 = Math.Sqrt(ATT2 + RO2);
+        double F5 = 1.0 / S1;
+        double F7 = 1.0 / (S1 + ATT);
         double F1 = F5 * F7;
         double F3 = F5 * F5 * F5;
         double F9 = ATT * F3;
         double FS = ZR * XZYZ - D * location.Y * DDY + ADSL;
         double XDWX = XSM * DWX + YDWY;
-        double RTT = 1.0D / T;
+        double RTT = 1.0 / T;
         double WT = W * RTT;
         double BRRZ1 = WT * F1;
         double BRRZ2 = WT * F3;
@@ -229,17 +227,21 @@ internal sealed partial class T89 : IT89
         double ZPL = location.Z + RT;
         double ZMN = location.Z - RT;
         double ROGSM2 = X2 + Y2;
-        double SPL = Math.Sqrt(ZPL * ZPL + ROGSM2);
-        double SMN = Math.Sqrt(ZMN * ZMN + ROGSM2);
+        double ZPL2 = ZPL * ZPL;
+        double ZMN2 = ZMN * ZMN;
+        double SPL = Math.Sqrt(ZPL2 + ROGSM2);
+        double SMN = Math.Sqrt(ZMN2 + ROGSM2);
         double XSXC = location.X - SXC;
-        double RQC2 = 1.0D / (XSXC * XSXC + XLWC2);
+        double XSXC2 = XSXC * XSXC;
+        double RQC2 = 1.0 / (XSXC2 + XLWC2);
         double RQC = Math.Sqrt(RQC2);
-        double FYC = 1.0D / (1.0D + Y2 * RDYC2);
-        double WC = 0.5D * (1.0D - XSXC * RQC) * FYC;
-        double DWCX = HLWC2M * RQC2 * RQC * FYC;
+        double RQC3 = RQC * RQC2;
+        double FYC = 1.0 / (1.0 + Y2 * RDYC2);
+        double WC = 0.5 * (1.0 - XSXC * RQC) * FYC;
+        double DWCX = HLWC2M * RQC3 * FYC;
         double DWCY = DRDYC2 * WC * FYC * location.Y;
-        double SZRP = 1.0D / (SPL + ZPL);
-        double SZRM = 1.0D / (SMN - ZMN);
+        double SZRP = 1.0 / (SPL + ZPL);
+        double SZRM = 1.0 / (SMN - ZMN);
         double XYWC = location.X * DWCX + location.Y * DWCY;
         double WCSP = WC / SPL;
         double WCSM = WC / SMN;
