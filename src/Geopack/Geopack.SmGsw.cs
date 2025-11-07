@@ -14,23 +14,33 @@ internal sealed partial class Geopack
 
     private static T SmGswInternal<T>(ComputationContext context, T components, OperationType operation)
         where T : ICartesian<T>
-        => operation switch
+    {
+        double x = components.X;
+        double y = components.Y;
+        double z = components.Z;
+
+        // Cache context coefficients
+        double cps = context.CPS;
+        double sps = context.SPS;
+
+        return operation switch
         {
             OperationType.Direct => components.CoordinateSystem is CoordinateSystem.SM
                 ? T.New(
-                    components.X * context.CPS + components.Z * context.SPS,
-                    components.Y,
-                    components.Z * context.CPS - components.X * context.SPS,
+                    x * cps + z * sps,
+                    y,
+                    z * cps - x * sps,
                     CoordinateSystem.GSW)
                 : throw new InvalidOperationException("Input coordinates must be in SM system."),
 
             OperationType.Reversed => components.CoordinateSystem is CoordinateSystem.GSW
                 ? T.New(
-                    components.X * context.CPS - components.Z * context.SPS,
-                    components.Y,
-                    components.X * context.SPS + components.Z * context.CPS,
+                    x * cps - z * sps,
+                    y,
+                    x * sps + z * cps,
                     CoordinateSystem.SM)
                 : throw new InvalidOperationException("Input coordinates must be in GSW system."),
             _ => throw new NotSupportedException($"Specify correct OperationType: {operation}. Available types are Direct and Reversed.")
         };
+    }
 }

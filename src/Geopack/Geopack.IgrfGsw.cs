@@ -16,17 +16,21 @@ internal sealed partial class Geopack
 
         CartesianLocation geoLocation = GswToGeo(context, location);
 
-        double rho2 = Math.Pow(geoLocation.X, 2) + Math.Pow(geoLocation.Y, 2);
-        double r = Math.Sqrt(rho2 + Math.Pow(geoLocation.Z, 2));
+        double x2 = geoLocation.X * geoLocation.X;
+        double y2 = geoLocation.Y * geoLocation.Y;
+        double z2 = geoLocation.Z * geoLocation.Z;
+        double rho2 = x2 + y2;
+        double r = Math.Sqrt(rho2 + z2);
 
-        if (Math.Abs(r) <= double.Epsilon)
+        if (r <= double.Epsilon)
         {
             throw new InvalidOperationException("Location radius vector should not be zero.");
         }
 
-        double c = geoLocation.Z / r;
+        double rInv = 1.0 / r;
+        double c = geoLocation.Z * rInv;
         double rho = Math.Sqrt(rho2);
-        double s = rho / r;
+        double s = rho * rInv;
 
         double cf, sf;
         if (s < 1e-10)
@@ -36,11 +40,12 @@ internal sealed partial class Geopack
         }
         else
         {
-            cf = geoLocation.X / rho;
-            sf = geoLocation.Y / rho;
+            double rhoInv = 1.0 / rho;
+            cf = geoLocation.X * rhoInv;
+            sf = geoLocation.Y * rhoInv;
         }
 
-        double pp = 1.0D / r;
+        double pp = rInv;
         double p = pp;
 
         // Calculate optimal expansion order
@@ -60,20 +65,20 @@ internal sealed partial class Geopack
             b[n - 1] = p * n;
         }
 
-        p = 1.0D;
-        double d = 0.0D;
-        double bbr = 0.0D;
-        double bbt = 0.0D;
-        double bbf = 0.0D;
+        p = 1.0;
+        double d = 0.0;
+        double bbr = 0.0;
+        double bbt = 0.0;
+        double bbf = 0.0;
 
-        double x = 0.0D, y = 0.0D;
+        double x = 0.0, y = 0.0;
 
         for (int m = 1; m <= k; m++)
         {
             if (m == 1)
             {
-                x = 0.0D;
-                y = 1.0D;
+                x = 0.0;
+                y = 1.0;
             }
             else
             {
@@ -84,9 +89,9 @@ internal sealed partial class Geopack
 
             double q = p;
             double z = d;
-            double bi = 0.0D;
-            double p2 = 0.0D;
-            double d2 = 0.0D;
+            double bi = 0.0;
+            double p2 = 0.0;
+            double d2 = 0.0;
 
             for (int n = m; n <= k; n++)
             {

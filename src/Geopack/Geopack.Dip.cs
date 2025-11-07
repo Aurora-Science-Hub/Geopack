@@ -14,23 +14,28 @@ internal sealed partial class Geopack
             throw new InvalidOperationException("Location must be in GSW coordinate system.");
         }
 
-        double dipmom = Math.Sqrt(Math.Pow(context.G[1], 2) + Math.Pow(context.G[2], 2) + Math.Pow(context.H[2], 2));
+        double g1 = context.G[1];
+        double g2 = context.G[2];
+        double h2 = context.H[2];
+        double dipmom = Math.Sqrt(g1 * g1 + g2 * g2 + h2 * h2);
 
-        double p = Math.Pow(location.X, 2);
-        double u = Math.Pow(location.Z, 2);
-        double v = 3.0D * location.Z * location.X;
-        double t = Math.Pow(location.Y, 2);
+        double x2 = location.X * location.X;
+        double y2 = location.Y * location.Y;
+        double z2 = location.Z * location.Z;
+        double v = 3.0 * location.Z * location.X;
 
-        if (p + t + u is 0D)
+        double r2 = x2 + y2 + z2;
+        if (r2 <= 0.0)
         {
             throw new InvalidOperationException("Location radius should not be zero.");
         }
 
-        double q = dipmom / Math.Pow(p + t + u, 2.5);
+        double r5 = r2 * r2 * Math.Sqrt(r2);
+        double q = dipmom / r5;
 
-        double bxgsw = q * ((t + u - 2.0D * p) * context.SPS - v * context.CPS);
-        double bygsw = -3.0D * location.Y * q * (location.X * context.SPS + location.Z * context.CPS);
-        double bzgsw = q * ((p + t - 2.0D * u) * context.CPS - v * context.SPS);
+        double bxgsw = q * ((y2 + z2 - 2.0 * x2) * context.SPS - v * context.CPS);
+        double bygsw = -3.0 * location.Y * q * (location.X * context.SPS + location.Z * context.CPS);
+        double bzgsw = q * ((x2 + y2 - 2.0 * z2) * context.CPS - v * context.SPS);
 
         return CartesianVector<MagneticField>.New(bxgsw, bygsw, bzgsw, CoordinateSystem.GSW);
     }

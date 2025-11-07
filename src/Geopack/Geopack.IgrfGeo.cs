@@ -19,12 +19,10 @@ internal sealed partial class Geopack
             throw new InvalidOperationException("Location must be in GEO coordinate system.");
         }
 
-        double c = Math.Cos(location.Theta);
-        double s = Math.Sin(location.Theta);
-        double cf = Math.Cos(location.Phi);
-        double sf = Math.Sin(location.Phi);
+        (double s, double c) = Math.SinCos(location.Theta);
+        (double sf, double cf) = Math.SinCos(location.Phi);
 
-        double pp = 1.0D / location.R;
+        double pp = 1.0 / location.R;
         double p = pp;
 
         // IN THIS NEW VERSION, THE OPTIMAL VALUE OF THE PARAMETER NM (MAXIMAL ORDER OF THE SPHERICAL
@@ -49,20 +47,20 @@ internal sealed partial class Geopack
             b[n - 1] = p * n;
         }
 
-        p = 1.0D;
-        double d = 0.0D;
-        double bbr = 0.0D;
-        double bbt = 0.0D;
-        double bbf = 0.0D;
+        p = 1.0;
+        double d = 0.0;
+        double bbr = 0.0;
+        double bbt = 0.0;
+        double bbf = 0.0;
 
-        double x = 0.0D, y = 0.0D;
+        double x = 0.0, y = 0.0;
 
         for (int m = 1; m <= k; m++)
         {
             if (m is 1)
             {
-                x = 0.0D;
-                y = 1.0D;
+                x = 0.0;
+                y = 1.0;
             }
             else
             {
@@ -74,9 +72,9 @@ internal sealed partial class Geopack
 
             double q = p;
             double z = d;
-            double bi = 0.0D;
-            double p2 = 0.0D;
-            double d2 = 0.0D;
+            double bi = 0.0;
+            double p2 = 0.0;
+            double d2 = 0.0;
 
             for (int n = m; n <= k; n++)
             {

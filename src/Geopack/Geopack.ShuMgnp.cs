@@ -31,7 +31,7 @@ internal sealed partial class Geopack
         else
         {
             // Solar wind dynamic pressure in nPa
-            p = 1.94e-6 * xnPd * Math.Pow(vel, 2);
+            p = 1.94e-6 * xnPd * vel * vel;
         }
 
         double phi;
@@ -41,14 +41,18 @@ internal sealed partial class Geopack
         }
         else
         {
-            phi = 0.0D;
+            phi = 0.0;
         }
 
         MagnetopausePosition id;
-        double r0 = (10.22D + 1.29D * Math.Tanh(0.184D * (bzImf + 8.14D))) * Math.Pow(p, -0.15151515D);
-        double alpha = (0.58D - 0.007D * bzImf) * (1.0D + 0.024D * Math.Log(p));
-        double r = Math.Sqrt(location.X * location.X + location.Y * location.Y + location.Z * location.Z);
-        double rm = r0 * Math.Pow(2.0D / (1.0D + location.X / r), alpha);
+        double r0 = (10.22 + 1.29 * Math.Tanh(0.184 * (bzImf + 8.14))) * Math.Pow(p, -0.15151515);
+        double alpha = (0.58 - 0.007 * bzImf) * (1.0 + 0.024 * Math.Log(p));
+        double x2 = location.X * location.X;
+        double y2 = location.Y * location.Y;
+        double z2 = location.Z * location.Z;
+        double r = Math.Sqrt(x2 + y2 + z2);
+        double rInv = 1.0 / r;
+        double rm = r0 * Math.Pow(2.0 / (1.0 + location.X * rInv), alpha);
 
         if (double.IsFinite(rm))
         {
@@ -60,15 +64,16 @@ internal sealed partial class Geopack
         }
 
         // Get T96 magnetopause as starting approximation
-        Magnetopause t96Magnetopause = T96Mgnp(p, -1.0D, location);
+        Magnetopause t96Magnetopause = T96Mgnp(p, -1.0, location);
         double xmt96 = t96Magnetopause.BoundaryLocation.X;
         double ymt96 = t96Magnetopause.BoundaryLocation.Y;
         double zmt96 = t96Magnetopause.BoundaryLocation.Z;
 
         double rho2 = ymt96 * ymt96 + zmt96 * zmt96;
         r = Math.Sqrt(rho2 + xmt96 * xmt96);
-        double st = Math.Sqrt(rho2) / r;
-        double ct = xmt96 / r;
+        rInv = 1.0 / r;
+        double st = Math.Sqrt(rho2) * rInv;
+        double ct = xmt96 * rInv;
 
         // Newton's iterative method to find nearest boundary point
         int nit = 0;
@@ -77,22 +82,23 @@ internal sealed partial class Geopack
         do
         {
             t = Math.Atan2(st, ct);
-            rm_val = r0 * Math.Pow(2.0D / (1.0D + ct), alpha);
+            rm_val = r0 * Math.Pow(2.0 / (1.0 + ct), alpha);
 
             f = r - rm_val;
-            gradf_r = 1.0D;
-            gradf_t = -alpha / r * rm_val * st / (1.0D + ct);
+            gradf_r = 1.0;
+            gradf_t = -alpha * rInv * rm_val * st / (1.0 + ct);
             gradf = Math.Sqrt(gradf_r * gradf_r + gradf_t * gradf_t);
 
             dr = -f / (gradf * gradf);
-            dt = dr / r * gradf_t;
+            dt = dr * rInv * gradf_t;
 
             r += dr;
             t += dt;
-            st = Math.Sin(t);
-            ct = Math.Cos(t);
+            (st, ct) = Math.SinCos(t);
+            rInv = 1.0 / r;
 
-            ds = Math.Sqrt(dr * dr + (r * dt) * (r * dt));
+            double rdt = r * dt;
+            ds = Math.Sqrt(dr * dr + rdt * rdt);
             nit++;
 
             if (nit > 1000)
@@ -103,15 +109,17 @@ internal sealed partial class Geopack
         }
         while (ds > 1e-4);
 
-        double xMgnp = r * Math.Cos(t);
-        double rho = r * Math.Sin(t);
-        double yMgnp = rho * Math.Sin(phi);
-        double zMgnp = rho * Math.Cos(phi);
+        (double sinPhi, double cosPhi) = Math.SinCos(phi);
+        (double sinT, double cosT) = Math.SinCos(t);
+        double xMgnp = r * cosT;
+        double rho = r * sinT;
+        double yMgnp = rho * sinPhi;
+        double zMgnp = rho * cosPhi;
 
-        double dist = Math.Sqrt(
-            Math.Pow(location.X - xMgnp, 2) +
-            Math.Pow(location.Y - yMgnp, 2) +
-            Math.Pow(location.Z - zMgnp, 2));
+        double dx = location.X - xMgnp;
+        double dy = location.Y - yMgnp;
+        double dz = location.Z - zMgnp;
+        double dist = Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
         return new Magnetopause(CartesianLocation.New(xMgnp, yMgnp, zMgnp, CoordinateSystem.GSW), dist, id);
     }
