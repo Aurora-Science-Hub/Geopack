@@ -84,6 +84,10 @@ internal sealed partial class Geopack
         double[] contextH = context.H;
         double[] contextREC = context.REC;
 
+        // Precompute indices to avoid repeated calculations in hot loop
+        // Maximum possible indices: for k=14, max index = 14*13/2 + 14 = 105
+        Span<int> mnIndices = stackalloc int[k + 1];
+
         for (int m = 1; m <= k; m++)
         {
             if (m == 1)
@@ -104,11 +108,16 @@ internal sealed partial class Geopack
             double p2 = 0.0;
             double d2 = 0.0;
 
+            // Precompute indices for this m
+            for (int n = m; n <= k; n++)
+            {
+                mnIndices[n] = n * (n - 1) / 2 + m - 1;
+            }
+
             for (int n = m; n <= k; n++)
             {
                 double an = a[n - 1];
-                int mn = n * (n - 1) / 2 + m;
-                int mnIdx = mn - 1;
+                int mnIdx = mnIndices[n];
                 double e = contextG[mnIdx];
                 double hh = contextH[mnIdx];
                 double wVal = e * y + hh * x;
