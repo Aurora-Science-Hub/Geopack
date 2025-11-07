@@ -16,9 +16,13 @@ internal sealed partial class Geopack
 
         CartesianLocation geoLocation = GswToGeo(context, location);
 
-        double x2 = geoLocation.X * geoLocation.X;
-        double y2 = geoLocation.Y * geoLocation.Y;
-        double z2 = geoLocation.Z * geoLocation.Z;
+        double geoX = geoLocation.X;
+        double geoY = geoLocation.Y;
+        double geoZ = geoLocation.Z;
+
+        double x2 = geoX * geoX;
+        double y2 = geoY * geoY;
+        double z2 = geoZ * geoZ;
         double rho2 = x2 + y2;
         double r = Math.Sqrt(rho2 + z2);
 
@@ -28,7 +32,7 @@ internal sealed partial class Geopack
         }
 
         double rInv = 1.0 / r;
-        double c = geoLocation.Z * rInv;
+        double c = geoZ * rInv;
         double rho = Math.Sqrt(rho2);
         double s = rho * rInv;
 
@@ -41,8 +45,8 @@ internal sealed partial class Geopack
         else
         {
             double rhoInv = 1.0 / rho;
-            cf = geoLocation.X * rhoInv;
-            sf = geoLocation.Y * rhoInv;
+            cf = geoX * rhoInv;
+            sf = geoY * rhoInv;
         }
 
         double pp = rInv;
@@ -55,8 +59,10 @@ internal sealed partial class Geopack
             nm = 13;
 
         int k = nm + 1;
-        double[] a = new double[k + 1];
-        double[] b = new double[k + 1];
+
+        // Use stack allocation for small arrays instead of heap allocation
+        Span<double> a = stackalloc double[k + 1];
+        Span<double> b = stackalloc double[k + 1];
 
         for (int n = 1; n <= k; n++)
         {
@@ -72,6 +78,11 @@ internal sealed partial class Geopack
         double bbf = 0.0;
 
         double x = 0.0, y = 0.0;
+
+        // Cache context arrays
+        double[] contextG = context.G;
+        double[] contextH = context.H;
+        double[] contextREC = context.REC;
 
         for (int m = 1; m <= k; m++)
         {
@@ -97,21 +108,21 @@ internal sealed partial class Geopack
             {
                 double an = a[n - 1];
                 int mn = n * (n - 1) / 2 + m;
-                double e = context.G[mn - 1];
-                double hh = context.H[mn - 1];
+                int mnIdx = mn - 1;
+                double e = contextG[mnIdx];
+                double hh = contextH[mnIdx];
                 double wVal = e * y + hh * x;
-                bbr += b[n - 1] * wVal * q;
+                double bnVal = b[n - 1];
+                bbr += bnVal * wVal * q;
                 bbt -= an * wVal * z;
 
                 if (m != 1)
                 {
-                    double qq = q;
-                    if (s < 1e-10)
-                        qq = z;
+                    double qq = s < 1e-10 ? z : q;
                     bi += an * (e * x - hh * y) * qq;
                 }
 
-                double xk = context.REC[mn - 1];
+                double xk = contextREC[mnIdx];
                 double dp = c * z - s * q - xk * d2;
                 double pm = c * q - xk * p2;
                 d2 = z;
@@ -132,10 +143,7 @@ internal sealed partial class Geopack
             bbf += bi;
         }
 
-        double br = bbr;
-        double bt = bbt;
         double bf;
-
         if (s < 1e-10)
         {
             if (c < 0.0)
@@ -147,10 +155,10 @@ internal sealed partial class Geopack
             bf = bbf / s;
         }
 
-        double he = br * s + bt * c;
+        double he = bbr * s + bbt * c;
         double bx = he * cf - bf * sf;
         double by = he * sf + bf * cf;
-        double bz = br * c - bt * s;
+        double bz = bbr * c - bbt * s;
 
         return GeoToGsw(context, CartesianVector<MagneticField>.New(bx, by, bz, CoordinateSystem.GEO));
     }
