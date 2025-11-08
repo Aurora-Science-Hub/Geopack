@@ -137,7 +137,7 @@ public class GeopackBenchmarks
     public void GswToSm()
         => s_geopack.GswSm_08(X, Y, Z);
 
-    [Benchmark]
+    [Benchmark(Baseline = true)]
     public void Recalc()
         => s_geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
 
@@ -178,7 +178,7 @@ public class GeopackBenchmarks
             s_t89, s_geopack.IgrfGsw_08,
             Lmax);
 
-    [Benchmark(Baseline = true)]
+    [Benchmark]
     public void Trace_SN()
         => s_geopack.Trace_08(
             s_testPointSn.X, s_testPointSn.Y, s_testPointSn.Z,

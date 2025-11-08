@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Geopack\Results\" />
+    <Folder Include="Geopack\results\" />
   </ItemGroup>
 
 </Project>
