@@ -49,14 +49,15 @@ internal sealed partial class Geopack
             sf = geoY * rhoInv;
         }
 
-        double pp = rInv;
-        double p = pp;
+        double p = rInv;
 
         // Calculate optimal expansion order
         int irp3 = (int)r + 2;
         int nm = 3 + 30 / irp3;
         if (nm > 13)
+        {
             nm = 13;
+        }
 
         int k = nm + 1;
 
@@ -66,7 +67,7 @@ internal sealed partial class Geopack
 
         for (int n = 1; n <= k; n++)
         {
-            p *= pp;
+            p *= rInv;
             a[n - 1] = p;
             b[n - 1] = p * n;
         }
@@ -84,9 +85,7 @@ internal sealed partial class Geopack
         double[] contextH = context.H;
         double[] contextREC = context.REC;
 
-        // Precompute indices to avoid repeated calculations in hot loop
-        // Maximum possible indices: for k=14, max index = 14*13/2 + 14 = 105
-        Span<int> mnIndices = stackalloc int[k + 1];
+        bool sIsSmall = s < 1e-10;
 
         for (int m = 1; m <= k; m++)
         {
@@ -108,16 +107,10 @@ internal sealed partial class Geopack
             double p2 = 0.0;
             double d2 = 0.0;
 
-            // Precompute indices for this m
-            for (int n = m; n <= k; n++)
-            {
-                mnIndices[n] = n * (n - 1) / 2 + m - 1;
-            }
-
             for (int n = m; n <= k; n++)
             {
                 double an = a[n - 1];
-                int mnIdx = mnIndices[n];
+                int mnIdx = n * (n - 1) / 2 + m - 1;
                 double e = contextG[mnIdx];
                 double hh = contextH[mnIdx];
                 double wVal = e * y + hh * x;
@@ -127,7 +120,7 @@ internal sealed partial class Geopack
 
                 if (m != 1)
                 {
-                    double qq = s < 1e-10 ? z : q;
+                    double qq = sIsSmall ? z : q;
                     bi += an * (e * x - hh * y) * qq;
                 }
 
@@ -143,7 +136,7 @@ internal sealed partial class Geopack
             d = s * d + c * p;
             p = s * p;
 
-            if (m == 1)
+            if (m is 1)
             {
                 continue;
             }
