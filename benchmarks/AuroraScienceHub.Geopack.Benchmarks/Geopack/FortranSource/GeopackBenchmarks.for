@@ -49,21 +49,6 @@ C     Инициализация PARMOD
       WRITE (*,'(A,I6)') 'NUMBER OF RUNS: ', NUM_RUNS
       WRITE (*,*) ''
 
-C     Бенчмарк 0: RECALC_08 (базовый)
-      TOTAL_TIME = 0.0D0
-      SUM_SQ = 0.0D0
-      DO I = 1, NUM_RUNS
-          CALL CPU_TIME(START_TIME)
-          CALL RECALC_08(IYEAR, IDAY, IHOUR, MIN, ISEC,
-     *                   VGSEX, VGSEY, VGSEZ)
-          CALL CPU_TIME(END_TIME)
-          TOTAL_TIME = TOTAL_TIME + (END_TIME - START_TIME)
-          SUM_SQ = SUM_SQ + (END_TIME - START_TIME)**2
-      END DO
-      CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
-     *                   AVG_TIME_RECALC, STD_DEV, ERROR_VAL)
-      PRINT *, 'RECALC_08 completed'
-
 C     Единый вызов RECALC_08 для всех последующих тестов
       CALL RECALC_08(IYEAR, IDAY, IHOUR, MIN, ISEC, VGSEX, VGSEY, VGSEZ)
 
@@ -112,6 +97,21 @@ C     Параметры для TRACE тестов
      *            'STD DEV (nS)    ERROR (nS)    RATIO'
       WRITE (*,*) '-------------------    -----------------    ',
      *            '-------------    ----------    -----'
+
+C     Бенчмарк 0: RECALC_08 (базовый)
+      TOTAL_TIME = 0.0D0
+      SUM_SQ = 0.0D0
+      DO I = 1, NUM_RUNS
+          CALL CPU_TIME(START_TIME)
+          CALL RECALC_08(IYEAR, IDAY, IHOUR, MIN, ISEC,
+     *                   VGSEX, VGSEY, VGSEZ)
+          CALL CPU_TIME(END_TIME)
+          TOTAL_TIME = TOTAL_TIME + (END_TIME - START_TIME)
+          SUM_SQ = SUM_SQ + (END_TIME - START_TIME)**2
+      END DO
+      CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
+     *        AVG_TIME_RECALC, STD_DEV_RECALC, ERROR_VAL_RECALC)
+      PRINT *, 'RECALC_08 completed'
 
 C     Бенчмарк 1: IGRF_GSW_08
       TOTAL_TIME = 0.0D0
@@ -579,7 +579,8 @@ C     Бенчмарк 26: TRACE_08 (DIR=+1)
 
 C     Бенчмарк 27: RECALC_08 (отдельно выводим в таблицу)
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'RECALC_08          ',
-     *     AVG_TIME_RECALC * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9, 1.0D0
+     *     AVG_TIME_RECALC * 1D9, STD_DEV_RECALC * 1D9,
+     *     ERROR_VAL_RECALC * 1D9, 1.0D0
 
       WRITE (*,*) ''
       WRITE (*,*) 'BENCHMARK COMPLETED SUCCESSFULLY'

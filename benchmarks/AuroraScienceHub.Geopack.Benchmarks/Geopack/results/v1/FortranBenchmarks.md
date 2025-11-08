@@ -5,48 +5,51 @@
 
 | Function          | Average Time (ns) | Std Dev (ns) | Error (ns) |   Ratio |
 |-------------------|------------------:|-------------:|-----------:|--------:|
-| RECALC_08         |         1 698.000 |    39602.838 |   2066.380 |   1.000 |
-| IGRF_GSW_08       |         1 739.000 |      765.156 |     39.924 |   1.024 |
-| IGRF_GEO_08       |         1 710.000 |      663.581 |     34.624 |   1.007 |
-| DIP_08            |         1 336.000 |      658.436 |     34.356 |   0.787 |
-| SUN_08            |         1 432.000 |      495.602 |     25.859 |   0.843 |
-| SPHCAR_08 (J>0)   |         1 344.000 |      523.391 |     27.309 |   0.792 |
-| SPHCAR_08 (J<0)   |         1 381.000 |      868.673 |     45.325 |   0.813 |
-| BSPCAR_08         |         1 363.000 |      777.068 |     40.546 |   0.803 |
-| BCARSP_08         |         1 345.000 |      608.560 |     31.753 |   0.792 |
-| GEOMAG_08 (J>0)   |         1 348.000 |      804.701 |     41.987 |   0.794 |
-| GEOMAG_08 (J<0)   |         1 340.000 |      663.958 |     34.644 |   0.789 |
-| GEIGEO_08 (J>0)   |         1 339.000 |      659.176 |     34.394 |   0.789 |
-| GEIGEO_08 (J<0)   |         1 341.000 |      785.708 |     40.996 |   0.790 |
-| MAGSM_08 (J>0)    |         1 348.000 |      703.840 |     36.725 |   0.794 |
-| MAGSM_08 (J<0)    |         1 318.000 |      470.210 |     24.534 |   0.776 |
-| SMGSW_08 (J>0)    |         1 352.000 |      843.094 |     43.991 |   0.796 |
-| SMGSW_08 (J<0)    |         1 346.000 |      603.861 |     31.508 |   0.793 |
-| GEOGSW_08 (J>0)   |         1 340.000 |      488.507 |     25.489 |   0.789 |
-| GEOGSW_08 (J<0)   |         1 318.000 |      486.943 |     25.407 |   0.776 |
-| GEODGEO_08 (J>0)  |         1 412.000 |      738.106 |     38.513 |   0.832 |
-| GEODGEO_08 (J<0)  |         1 511.000 |      513.949 |     26.817 |   0.890 |
-| GSWGSE_08 (J>0)   |         1 317.000 |      465.540 |     24.291 |   0.776 |
-| GSWGSE_08 (J<0)   |         1 331.000 |      827.117 |     43.157 |   0.784 |
-| SHUETAL_MGNP_08   |         1 758.000 |      936.116 |     48.844 |   1.035 |
-| T96_MGNP_08       |         1 415.000 |      797.126 |     41.592 |   0.833 |
-| TRACE_08 (DIR=-1) |       316 465.000 |    43209.997 |   2254.593 | 186.375 |
-| TRACE_08 (DIR=+1) |       318 740.000 |    39602.838 |   2066.380 | 187.715 |
+| RECALC_08         |          1674.000 |      695.851 |     36.308 |   1.000 |
+| IGRF_GSW_08       |          1754.000 |      891.223 |     46.502 |   1.048 |
+| IGRF_GEO_08       |          1722.000 |      622.176 |     32.464 |   1.029 |
+| DIP_08            |          1379.000 |      920.982 |     48.055 |   0.824 |
+| SUN_08            |          1484.000 |      619.781 |     32.339 |   0.886 |
+| SPHCAR_08 (J>0)   |          1340.000 |      476.053 |     24.839 |   0.800 |
+| SPHCAR_08 (J<0)   |          1370.000 |      487.173 |     25.419 |   0.818 |
+| BSPCAR_08         |          1374.000 |      725.707 |     37.866 |   0.821 |
+| BCARSP_08         |          1368.000 |      557.572 |     29.093 |   0.817 |
+| GEOMAG_08 (J>0)   |          1358.000 |      736.463 |     38.427 |   0.811 |
+| GEOMAG_08 (J<0)   |          1352.000 |      688.891 |     35.945 |   0.808 |
+| GEIGEO_08 (J>0)   |          1355.000 |      810.946 |     42.313 |   0.809 |
+| GEIGEO_08 (J<0)   |          1359.000 |      732.568 |     38.224 |   0.812 |
+| MAGSM_08 (J>0)    |          1346.000 |      666.880 |     34.796 |   0.804 |
+| MAGSM_08 (J<0)    |          1320.000 |      466.710 |     24.352 |   0.789 |
+| SMGSW_08 (J>0)    |          1352.000 |      640.708 |     33.431 |   0.808 |
+| SMGSW_08 (J<0)    |          1367.000 |      811.770 |     42.356 |   0.817 |
+| GEOGSW_08 (J>0)   |          1353.000 |      740.905 |     38.659 |   0.808 |
+| GEOGSW_08 (J<0)   |          1330.000 |      470.448 |     24.547 |   0.795 |
+| GEODGEO_08 (J>0)  |          1436.000 |      747.303 |     38.992 |   0.858 |
+| GEODGEO_08 (J<0)  |          1574.000 |      857.473 |     44.741 |   0.940 |
+| GSWGSE_08 (J>0)   |          1351.000 |      730.981 |     38.141 |   0.807 |
+| GSWGSE_08 (J<0)   |          1343.000 |      725.174 |     37.838 |   0.802 |
+| SHUETAL_MGNP_08   |          1753.000 |      726.993 |     37.933 |   1.047 |
+| T96_MGNP_08       |          1402.000 |      585.439 |     30.547 |   0.838 |
+| TRACE_08 (DIR=-1) |        286521.000 |     7309.103 |    381.371 | 171.159 |
+| TRACE_08 (DIR=+1) |        297793.000 |     7381.778 |    385.163 | 177.893 |
 
-## Key Observations
+## Performance Analysis
 
-- **Most computationally intensive:** TRACE_08 procedures are ~187x slower than RECALC_08
-- **Most efficient:** GSWGSE_08 (J>0) at 0.776 ratio
-- **Field models:** IGRF procedures are slightly slower than RECALC_08 (1.007-1.024 ratio)
-- **Coordinate transformations:** Generally efficient (0.776-0.890 ratio)
-- **Magnetopause models:** SHUETAL_MGNP_08 is slightly more expensive than T96_MGNP_08
+### Performance Categories
 
-## Performance Categories
+| Category                    | Ratio Range | Examples                       |
+|-----------------------------|-------------|--------------------------------|
+| **Extremely High**          | 170-178x    | TRACE_08 procedures            |
+| **Baseline**                | 1.0x        | RECALC_08                      |
+| **Slightly Above Baseline** | 1.02-1.05x  | IGRF models, SHUETAL_MGNP_08   |
+| **Efficient**               | 0.8-1.0x    | Most coordinate transforms     |
+| **Most Efficient**          | 0.78-0.80x  | MAGSM_08, GEOGSW_08, GSWGSE_08 |
 
-| Category       | Ratio Range | Examples                       |
-|----------------|-------------|--------------------------------|
-| Very High      | 186-188x    | TRACE_08                       |
-| Baseline       | 1.0x        | RECALC_08                      |
-| Moderate       | 1.0-1.1x    | IGRF models, SHUETAL_MGNP_08   |
-| Efficient      | 0.8-1.0x    | Most coordinate transforms     |
-| Most Efficient | 0.77-0.79x  | GSWGSE_08, MAGSM_08, GEOGSW_08 |
+### Key Observations
+
+- **TRACE_08** remains the most computationally intensive procedure (171-178x baseline)
+- **IGRF field models** are slightly more expensive than RECALC_08 (1.03-1.05x)
+- **Coordinate transformations** show consistent performance (0.78-0.82x)
+- **GEODGEO_08** shows directional performance difference (0.86x vs 0.94x)
+- **Magnetopause models**: SHUETAL_MGNP_08 (1.05x) vs T96_MGNP_08 (0.84x)
+- **Most efficient**: GEOGSW_08 (J<0) at 0.795 ratio
