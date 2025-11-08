@@ -15,7 +15,7 @@ cd benchmarks/AuroraScienceHub.Geopack.Benchmarks/
 ```
 and execute:
 ```bash
-dotnet run -c Release -- --filter *GeopackBenchmarks*
+dotnet run -c Release --filter *GeopackBenchmarks*
 ```
 
 ## Results
