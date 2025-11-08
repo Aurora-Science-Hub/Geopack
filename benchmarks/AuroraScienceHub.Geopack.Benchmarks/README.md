@@ -1,7 +1,6 @@
 # Geopack-2008 Benchmarks
 
 This project contains performance benchmarks for Geopack-2008 field line tracing procedures and magnetic field calculations, comparing implementations across different .NET runtimes.
-Running Benchmarks
 
 ## Prerequisites
 
@@ -23,4 +22,5 @@ dotnet run -c Release -- --filter *GeopackBenchmarks*
 
 Detailed benchmark results with performance metrics, memory allocation analysis, and runtime comparisons are available by versions:
 
-- [v.1.0.2](Geopack/results/v1_0_2.md)
+- [IntelFortran](Geopack/results/FortranBenchmarks.md)
+- [v.1.0.2](Geopack/results/v1/v1_0_2.md)
