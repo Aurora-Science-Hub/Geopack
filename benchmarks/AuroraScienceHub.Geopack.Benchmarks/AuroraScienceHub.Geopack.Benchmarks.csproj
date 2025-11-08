@@ -29,4 +29,8 @@
     <ProjectReference Include="..\..\src\Geopack\Geopack.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Geopack\Results\" />
+  </ItemGroup>
+
 </Project>

@@ -13,7 +13,6 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 /// </summary>
 [MemoryDiagnoser]
 [SimpleJob(RuntimeMoniker.Net90)]
-[SimpleJob(RuntimeMoniker.NativeAot90)]
 [MarkdownExporterAttribute.GitHub]
 [Config(typeof(NativeAotConfig))]
 public class GeopackBenchmarks
@@ -26,6 +25,7 @@ public class GeopackBenchmarks
     private const double Rlim = 60.0D;
     private const double R0 = 1.0D;
     private const int Iopt = 1;
+    private const double Psi = 1;
     private static readonly double[] s_parmod = new double[10];
     private const int Lmax = 500;
 
@@ -72,6 +72,14 @@ public class GeopackBenchmarks
     [Benchmark]
     public void ToCartesianVector()
         => s_geopack.BSphCar_08(Theta, Phi, BR, BTh, BPhi);
+
+    [Benchmark]
+    public void ToSpherical()
+        => s_geopack.CarSph_08(X, Y, Z);
+
+    [Benchmark]
+    public void ToCartesian()
+        => s_geopack.SphCar_08(R, Theta, Phi);
 
     [Benchmark]
     public void GeiToGeo()
@@ -138,6 +146,10 @@ public class GeopackBenchmarks
         => s_geopack.ShuMgnp_08(XnPd, Vel, BzImf, X, Y, Z);
 
     [Benchmark]
+    public void T96Mgnp()
+        => s_geopack.T96Mgnp_08(XnPd, Vel, X, Y, Z);
+
+    [Benchmark]
     public void IgrfGeo()
         => s_geopack.IgrfGeo_08(R, Theta, Phi);
 
@@ -153,7 +165,11 @@ public class GeopackBenchmarks
     public void Sun()
         => s_geopack.Sun_08(s_testDate);
 
-    [Benchmark(Baseline = true)]
+    [Benchmark]
+    public void T89()
+        => s_t89.Calculate(Iopt, s_parmod, Psi, X, Y, Z);
+
+    [Benchmark]
     public void Trace_NS()
         => s_geopack.Trace_08(
             s_testPointNs.X, s_testPointNs.Y, s_testPointNs.Z,
