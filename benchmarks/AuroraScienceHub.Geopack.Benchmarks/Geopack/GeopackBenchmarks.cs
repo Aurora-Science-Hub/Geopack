@@ -87,7 +87,7 @@ public class GeopackBenchmarks
 
     [Benchmark]
     public void GeoToGei()
-        => s_geopack.GeiGeo_08(X, Y, Z);
+        => s_geopack.GeoGei_08(X, Y, Z);
 
     [Benchmark]
     public void ToGeocentric()
