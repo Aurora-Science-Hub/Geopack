@@ -11,11 +11,9 @@
       REAL*8 T_VALUE
       PARAMETER (T_VALUE=3.300D0)
 
-C     Общие переменные для хранения времени
       REAL*8 TOTAL_TIME, AVG_TIME, SUM_SQ, STD_DEV, ERROR_VAL
       REAL*8 AVG_TIME_RECALC
 
-C     Переменные для выходных параметров
       REAL*8 HXGSW, HYGSW, HZGSW, BR, BTHETA, BPHI
       REAL*8 BXGSW, BYGSW, BZGSW, GST, SLONG, SRASN, SDEC
       REAL*8 X, Y, Z, R, THETA, PHI, BX, BY, BZ
@@ -26,10 +24,8 @@ C     Переменные для выходных параметров
       REAL*8 XF, YF, ZF
       INTEGER ID, M, L
 
-C     Внешние процедуры
       EXTERNAL T89D_DP, IGRF_GSW_08, DIP_08
 
-C     Общие параметры для RECALC_08
       IYEAR = 1997
       IDAY = 345
       IHOUR = 10
@@ -39,7 +35,6 @@ C     Общие параметры для RECALC_08
       VGSEY = 14.78D0
       VGSEZ = 4.0D0
 
-C     Инициализация PARMOD
       DO I = 1, 10
           PARMOD(I) = 0.0D0
       END DO
@@ -49,10 +44,8 @@ C     Инициализация PARMOD
       WRITE (*,'(A,I6)') 'NUMBER OF RUNS: ', NUM_RUNS
       WRITE (*,*) ''
 
-C     Единый вызов RECALC_08 для всех последующих тестов
-      CALL RECALC_08(IYEAR, IDAY, IHOUR, MIN, ISEC, VGSEX, VGSEY, VGSEZ)
+c       CALL RECALC_08(IYEAR, IDAY, IHOUR, MIN, ISEC, VGSEX, VGSEY, VGSEZ)
 
-C     Параметры для тестов (согласованы с C# бенчмарком)
       XGSW = -1.02D0
       YGSW = 1.02D0
       ZGSW = 1.02D0
@@ -78,7 +71,6 @@ C     Параметры для тестов (согласованы с C# бе�
       VEL = -350.0D0
       BZIMF = 5.0D0
 
-C     Параметры для TRACE тестов
       DIR1 = -1.D0
       DIR2 = 1.D0
       DSMAX_TRACE = 0.1D0
@@ -98,7 +90,7 @@ C     Параметры для TRACE тестов
       WRITE (*,*) '-------------------    -----------------    ',
      *            '-------------    ----------    -----'
 
-C     Бенчмарк 0: RECALC_08 (базовый)
+C     Benchmark 0: RECALC_08 (baseline)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -113,7 +105,7 @@ C     Бенчмарк 0: RECALC_08 (базовый)
      *        AVG_TIME_RECALC, STD_DEV_RECALC, ERROR_VAL_RECALC)
       PRINT *, 'RECALC_08 completed'
 
-C     Бенчмарк 1: IGRF_GSW_08
+C     Benchmark 1: IGRF_GSW_08
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -130,7 +122,7 @@ C     Бенчмарк 1: IGRF_GSW_08
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 2: IGRF_GEO_08
+C     Benchmark 2: IGRF_GEO_08
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -147,7 +139,7 @@ C     Бенчмарк 2: IGRF_GEO_08
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 3: DIP_08
+C     Benchmark 3: DIP_08
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -164,7 +156,7 @@ C     Бенчмарк 3: DIP_08
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 4: SUN_08
+C     Benchmark 4: SUN_08
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -182,7 +174,7 @@ C     Бенчмарк 4: SUN_08
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 5: SPHCAR_08 (J>0)
+C     Benchmark 5: SPHCAR_08 (J>0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -199,7 +191,7 @@ C     Бенчмарк 5: SPHCAR_08 (J>0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 6: SPHCAR_08 (J<0)
+C     Benchmark 6: SPHCAR_08 (J<0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -216,7 +208,7 @@ C     Бенчмарк 6: SPHCAR_08 (J<0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 7: BSPCAR_08
+C     Benchmark 7: BSPCAR_08
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -233,7 +225,7 @@ C     Бенчмарк 7: BSPCAR_08
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 8: BCARSP_08
+C     Benchmark 8: BCARSP_08
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -250,7 +242,7 @@ C     Бенчмарк 8: BCARSP_08
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 9: GEOMAG_08 (J>0)
+C     Benchmark 9: GEOMAG_08 (J>0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       XGEO = XGSW
@@ -270,7 +262,7 @@ C     Бенчмарк 9: GEOMAG_08 (J>0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 10: GEOMAG_08 (J<0)
+C     Benchmark 10: GEOMAG_08 (J<0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -287,7 +279,7 @@ C     Бенчмарк 10: GEOMAG_08 (J<0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 11: GEIGEO_08 (J>0)
+C     Benchmark 11: GEIGEO_08 (J>0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       XGEI = XGSW
@@ -307,7 +299,7 @@ C     Бенчмарк 11: GEIGEO_08 (J>0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 12: GEIGEO_08 (J<0)
+C     Benchmark 12: GEIGEO_08 (J<0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -324,7 +316,7 @@ C     Бенчмарк 12: GEIGEO_08 (J<0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 13: MAGSM_08 (J>0)
+C     Benchmark 13: MAGSM_08 (J>0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       XMAG = XGSW
@@ -344,7 +336,7 @@ C     Бенчмарк 13: MAGSM_08 (J>0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 14: MAGSM_08 (J<0)
+C     Benchmark 14: MAGSM_08 (J<0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -361,7 +353,7 @@ C     Бенчмарк 14: MAGSM_08 (J<0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 15: SMGSW_08 (J>0)
+C     Benchmark 15: SMGSW_08 (J>0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       XSM = XGSW
@@ -381,7 +373,7 @@ C     Бенчмарк 15: SMGSW_08 (J>0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 16: SMGSW_08 (J<0)
+C     Benchmark 16: SMGSW_08 (J<0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -398,7 +390,7 @@ C     Бенчмарк 16: SMGSW_08 (J<0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 17: GEOGSW_08 (J>0)
+C     Benchmark 17: GEOGSW_08 (J>0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       XGEO = XGSW
@@ -418,7 +410,7 @@ C     Бенчмарк 17: GEOGSW_08 (J>0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 18: GEOGSW_08 (J<0)
+C     Benchmark 18: GEOGSW_08 (J<0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -435,7 +427,7 @@ C     Бенчмарк 18: GEOGSW_08 (J<0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 19: GEODGEO_08 (J>0)
+C     Benchmark 19: GEODGEO_08 (J>0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -452,7 +444,7 @@ C     Бенчмарк 19: GEODGEO_08 (J>0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 20: GEODGEO_08 (J<0)
+C     Benchmark 20: GEODGEO_08 (J<0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -469,7 +461,7 @@ C     Бенчмарк 20: GEODGEO_08 (J<0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 21: GSWGSE_08 (J>0)
+C     Benchmark 21: GSWGSE_08 (J>0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -486,7 +478,7 @@ C     Бенчмарк 21: GSWGSE_08 (J>0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 22: GSWGSE_08 (J<0)
+C     Benchmark 22: GSWGSE_08 (J<0)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -503,7 +495,7 @@ C     Бенчмарк 22: GSWGSE_08 (J<0)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 23: SHUETAL_MGNP_08
+C     Benchmark 23: SHUETAL_MGNP_08
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -521,7 +513,7 @@ C     Бенчмарк 23: SHUETAL_MGNP_08
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 24: T96_MGNP_08
+C     Benchmark 24: T96_MGNP_08
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -539,7 +531,7 @@ C     Бенчмарк 24: T96_MGNP_08
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 25: TRACE_08 (DIR=-1)
+C     Benchmark 25: TRACE_08 (DIR=-1)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -558,7 +550,7 @@ C     Бенчмарк 25: TRACE_08 (DIR=-1)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 26: TRACE_08 (DIR=+1)
+C     Benchmark 26: TRACE_08 (DIR=+1)
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
       DO I = 1, NUM_RUNS
@@ -577,7 +569,7 @@ C     Бенчмарк 26: TRACE_08 (DIR=+1)
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
 
-C     Бенчмарк 27: RECALC_08 (отдельно выводим в таблицу)
+C     Benchmark 27: RECALC_08
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'RECALC_08          ',
      *     AVG_TIME_RECALC * 1D9, STD_DEV_RECALC * 1D9,
      *     ERROR_VAL_RECALC * 1D9, 1.0D0
@@ -588,7 +580,6 @@ C     Бенчмарк 27: RECALC_08 (отдельно выводим в таб�
 
       END
 
-C     Вспомогательная подпрограмма для вычисления статистики
       SUBROUTINE COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                         AVG_TIME, STD_DEV, ERROR_VAL)
       IMPLICIT REAL*8 (A-H,O-Z)
