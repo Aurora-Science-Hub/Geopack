@@ -4,6 +4,7 @@
   </Folder>
   <Folder Name="/docs/">
     <File Path="docs/NuGetPackages.md" />
+    <File Path="docs\ReleaseNotes_GeopackV1.md" />
   </Folder>
   <Folder Name="/GitHub/" />
   <Folder Name="/GitHub/workflows/">
