@@ -33,6 +33,7 @@ public class GeopackBenchmarks
     private const double Psi = 1;
     private static readonly double[] s_parmod = new double[10];
     private const int Lmax = 500;
+    private const double Rad = 57.295779513D;
 
     private static readonly CartesianVector<Velocity> s_gseVelocityVector = CartesianVector<Velocity>.New(-304.0, 14.78, 4.0, CoordinateSystem.GSE);
 
@@ -44,11 +45,12 @@ public class GeopackBenchmarks
     private static readonly CartesianLocation s_geoCartesian = CartesianLocation.New(-1.02D, -1.02D, 1.02D, CoordinateSystem.GEO);
     private static readonly CartesianLocation s_magCartesian = CartesianLocation.New(-1.02D, -1.02D, 1.02D, CoordinateSystem.MAG);
     private static readonly CartesianLocation s_smCartesian = CartesianLocation.New(-1.02D, -1.02D, 1.02D, CoordinateSystem.SM);
-    private static CartesianVector<MagneticField> s_gswFieldCar = CartesianVector<MagneticField>.New(1.0, 1.0, 1.0, CoordinateSystem.GSW);
+    private static readonly CartesianVector<MagneticField> s_gswFieldCar = CartesianVector<MagneticField>.New(1.0, 1.0, 1.0, CoordinateSystem.GSW);
 
-    private static SphericalLocation s_gswSph = SphericalLocation.New(1.02, 0.7, 1.4, CoordinateSystem.GSW);
-    private static SphericalLocation s_geoSph = SphericalLocation.New(1.02, 0.7, 1.4, CoordinateSystem.GSW);
-    private static SphericalVector<MagneticField> s_gswFieldSph = SphericalVector<MagneticField>.New(1.0, 1.0, 1.0, CoordinateSystem.GSW);
+    private static readonly SphericalLocation s_igrfGeoLocation = SphericalLocation.New(1.02, (90.0 - 73.0) / Rad, 45.0 / Rad, CoordinateSystem.GEO);
+
+    private static readonly SphericalLocation s_gswSph = SphericalLocation.New(1.02D, 1.0D, 1.0D, CoordinateSystem.GSW);
+    private static readonly SphericalVector<MagneticField> s_gswFieldSph = SphericalVector<MagneticField>.New(1.0, 1.0, 1.0, CoordinateSystem.GSW);
 
     private static readonly GeodeticCoordinates s_geodetic = new(1.04719, 100.0);
     private static readonly GeocentricCoordinates s_geocentric = new(6462.13176, 0.526464);
@@ -147,7 +149,7 @@ public class GeopackBenchmarks
 
     [Benchmark]
     public void IgrfGeo()
-        => s_geopack.IgrfGeo(s_context, s_geoSph);
+        => s_geopack.IgrfGeo(s_context, s_igrfGeoLocation);
 
     [Benchmark]
     public void IgrfGsw()
@@ -187,6 +189,9 @@ public class GeopackBenchmarks
     {
         public NativeAotConfig()
         {
+            Add(DefaultConfig.Instance);
+            WithOptions(ConfigOptions.DisableOptimizationsValidator);
+
             AddJob(Job.Default
                 .WithRuntime(NativeAotRuntime.Net90)
                 .WithId("NativeAOT"));
