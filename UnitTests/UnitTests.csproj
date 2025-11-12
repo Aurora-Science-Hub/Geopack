@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\Contracts\Contracts.csproj" />
     <ProjectReference Include="..\src\ExternalFieldModels\ExternalFieldModels.csproj" />
     <ProjectReference Include="..\src\Geopack\Geopack.csproj" />
   </ItemGroup>
