@@ -34,18 +34,26 @@ public readonly record struct GeodeticCoordinates
     /// </remarks>
     public GeocentricCoordinates ToGeocentric()
     {
-        const double r_eq = 6378.137D;
+        const double r_eq = 6378.137;
         const double beta = 6.73949674228e-3;
+        const double beta1 = 1.0 + beta;
 
-        double cosxmu = Math.Cos(Latitude);
-        double sinxmu = Math.Sin(Latitude);
-        double den = Math.Sqrt(Math.Pow(cosxmu, 2) + Math.Pow(sinxmu / (1.0D + beta), 2));
-        double coslam = cosxmu / den;
-        double sinlam = sinxmu / (den * (1.0D + beta));
-        double rs = r_eq / Math.Sqrt(1.0D + beta * Math.Pow(sinlam, 2));
+        (double sinxmu, double cosxmu) = Math.SinCos(Latitude);
+
+        double sinxmu_beta1 = sinxmu / beta1;
+        double den = Math.Sqrt(cosxmu * cosxmu + sinxmu_beta1 * sinxmu_beta1);
+        double denInv = 1.0 / den;
+
+        double coslam = cosxmu * denInv;
+        double sinlam = sinxmu_beta1 * denInv;
+
+        double sinlam2 = sinlam * sinlam;
+        double rs = r_eq / Math.Sqrt(1.0 + beta * sinlam2);
+
         double x = rs * coslam + Altitude * cosxmu;
         double z = rs * sinlam + Altitude * sinxmu;
-        double r = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(z, 2));
+
+        double r = Math.Sqrt(x * x + z * z);
         double theta = Math.Acos(z / r);
 
         return new GeocentricCoordinates(r, theta);

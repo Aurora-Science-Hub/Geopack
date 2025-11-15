@@ -127,36 +127,39 @@ internal sealed partial class Geopack
         double CTCL = CT0 * CL0;
 
         Sun sun = Sun(dateTime);
-        double S1 = Math.Cos(sun.Srasn) * Math.Cos(sun.Sdec);
-        double S2 = Math.Sin(sun.Srasn) * Math.Cos(sun.Sdec);
-        double S3 = Math.Sin(sun.Sdec);
+        (double sinSrasn, double cosSrasn) = Math.SinCos(sun.Srasn);
+        (double sinSdec, double cosSdec) = Math.SinCos(sun.Sdec);
+        double S1 = cosSrasn * cosSdec;
+        double S2 = sinSrasn * cosSdec;
+        double S3 = sinSdec;
 
-        double DJ = 365d * (IY - 1900) + (IY - 1901) / 4d + IDAY - 0.5d + (IHOUR * 3600 + MIN * 60 + ISEC) / 86400d;
-        double T = DJ / 36525d;
-        double OBLIQ = (23.45229d - 0.0130125d * T) / 57.2957795d;
+        double DJ = 365.0 * (IY - 1900) + (IY - 1901) / 4.0 + IDAY - 0.5 + (IHOUR * 3600 + MIN * 60 + ISEC) / 86400.0;
+        double T = DJ / 36525.0;
+        double OBLIQ = (23.45229 - 0.0130125 * T) / 57.2957795;
+        (double sinObliq, double cosObliq) = Math.SinCos(OBLIQ);
         double DZ1 = 0;
-        double DZ2 = -Math.Sin(OBLIQ);
-        double DZ3 = Math.Cos(OBLIQ);
+        double DZ2 = -sinObliq;
+        double DZ3 = cosObliq;
 
         double DY1 = DZ2 * S3 - DZ3 * S2;
         double DY2 = DZ3 * S1 - DZ1 * S3;
         double DY3 = DZ1 * S2 - DZ2 * S1;
 
-        double V = Math.Sqrt(
-            Math.Pow(swVelocity.Required().X, 2)
-            + Math.Pow(swVelocity.Required().Y, 2)
-            + Math.Pow(swVelocity.Required().Z, 2));
+        double swX = swVelocity.Required().X;
+        double swY = swVelocity.Required().Y;
+        double swZ = swVelocity.Required().Z;
+        double V = Math.Sqrt(swX * swX + swY * swY + swZ * swZ);
+        double VInv = 1.0 / V;
 
-        double DX1 = -swVelocity.Required().X / V;
-        double DX2 = -swVelocity.Required().Y / V;
-        double DX3 = -swVelocity.Required().Z / V;
+        double DX1 = -swX * VInv;
+        double DX2 = -swY * VInv;
+        double DX3 = -swZ * VInv;
 
         double X1 = DX1 * S1 + DX2 * DY1 + DX3 * DZ1;
         double X2 = DX1 * S2 + DX2 * DY2 + DX3 * DZ2;
         double X3 = DX1 * S3 + DX2 * DY3 + DX3 * DZ3;
 
-        double CGST = Math.Cos(sun.Gst);
-        double SGST = Math.Sin(sun.Gst);
+        (double SGST, double CGST) = Math.SinCos(sun.Gst);
         double DIP1 = STCL * CGST - STSL * SGST;
         double DIP2 = STCL * SGST + STSL * CGST;
         double DIP3 = CT0;
@@ -165,9 +168,10 @@ internal sealed partial class Geopack
         double Y2 = DIP3 * X1 - DIP1 * X3;
         double Y3 = DIP1 * X2 - DIP2 * X1;
         double Y = Math.Sqrt(Y1 * Y1 + Y2 * Y2 + Y3 * Y3);
-        Y1 /= Y;
-        Y2 /= Y;
-        Y3 /= Y;
+        double YInv = 1.0 / Y;
+        Y1 *= YInv;
+        Y2 *= YInv;
+        Y3 *= YInv;
 
         double Z1 = X2 * Y3 - X3 * Y2;
         double Z2 = X3 * Y1 - X1 * Y3;

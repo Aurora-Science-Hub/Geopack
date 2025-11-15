@@ -30,7 +30,7 @@ internal sealed partial class Geopack
         int nrev = 0;
         double ds3 = direction;
 
-        double ds = 0.5D * direction;
+        double ds = 0.5 * direction;
         double x = startingPoint.X;
         double y = startingPoint.Y;
         double z = startingPoint.Z;
@@ -38,10 +38,10 @@ internal sealed partial class Geopack
         double xr = x, yr = y, zr = z;
 
         FieldLineRhsVector initialRhs = Rhand(context, x, y, z, iopt, parmod, exName, inName, ds3);
-        double ad = 0.01D;
-        if (x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3 < 0.0D)
+        double ad = 0.01;
+        if (x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3 < 0.0)
         {
-            ad = -0.01D;
+            ad = -0.01;
         }
 
         double rr = Math.Sqrt(x * x + y * y + z * z) + ad;
@@ -53,12 +53,14 @@ internal sealed partial class Geopack
 
             points.Add(CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
-            double ryz = y * y + z * z;
+            double y2 = y * y;
+            double z2 = z * z;
+            double ryz = y2 + z2;
             double r2 = x * x + ryz;
             double r = Math.Sqrt(r2);
 
             // Check outer boundary conditions
-            if (r > rLim || ryz > 1600.0D || x > 20.0D)
+            if (r > rLim || ryz > 1600.0 || x > 20.0)
             {
                 break;
             }
@@ -74,12 +76,12 @@ internal sealed partial class Geopack
             }
 
             // Adaptive step size near Earth
-            if (!(r >= rr || r >= 3.0D))
+            if (!(r >= rr || r >= 3.0))
             {
-                double fc = 0.2D;
-                if (r - r0 < 0.05D)
-                    fc = 0.05D;
-                double al = fc * (r - r0 + 0.2D);
+                double fc = 0.2;
+                if (r - r0 < 0.05)
+                    fc = 0.05;
+                double al = fc * (r - r0 + 0.2);
                 ds = direction * al;
             }
 
@@ -101,7 +103,7 @@ internal sealed partial class Geopack
             r = Math.Sqrt(x * x + y * y + z * z);
             double dr = r - rr;
 
-            if (drp * dr < 0.0D)
+            if (drp * dr < 0.0)
             {
                 nrev++;
             }
@@ -175,30 +177,41 @@ internal sealed partial class Geopack
 
         while (true)
         {
-            ds3 = -currentDs / 3.0D;
+            ds3 = -currentDs / 3.0;
 
             FieldLineRhsVector r1 = Rhand(context, x, y, z, iopt, parmod, exName, inName, ds3);
             FieldLineRhsVector r2 = Rhand(context, x + r1.R1, y + r1.R2, z + r1.R3, iopt, parmod, exName, inName, ds3);
+
+            double r1r2_x = r1.R1 + r2.R1;
+            double r1r2_y = r1.R2 + r2.R2;
+            double r1r2_z = r1.R3 + r2.R3;
+
             FieldLineRhsVector r3 = Rhand(context,
-                x + 0.5D * (r1.R1 + r2.R1),
-                y + 0.5D * (r1.R2 + r2.R2),
-                z + 0.5D * (r1.R3 + r2.R3),
-                iopt, parmod, exName, inName,
-                ds3);
-            FieldLineRhsVector r4 = Rhand(context,
-                x + 0.375D * (r1.R1 + 3.0D * r3.R1),
-                y + 0.375D * (r1.R2 + 3.0D * r3.R2),
-                z + 0.375D * (r1.R3 + 3.0D * r3.R3),
-                iopt, parmod, exName, inName,
-                ds3);
-            FieldLineRhsVector r5 = Rhand(context,
-                x + 1.5D * (r1.R1 - 3.0D * r3.R1 + 4.0D * r4.R1),
-                y + 1.5D * (r1.R2 - 3.0D * r3.R2 + 4.0D * r4.R2),
-                z + 1.5D * (r1.R3 - 3.0D * r3.R3 + 4.0D * r4.R3),
+                x + 0.5 * r1r2_x,
+                y + 0.5 * r1r2_y,
+                z + 0.5 * r1r2_z,
                 iopt, parmod, exName, inName,
                 ds3);
 
-            double errCur = Math.Abs(r1.R1 - 4.5D * r3.R1 + 4.0D * r4.R1 - 0.5D * r5.R1)
+            double r1_3r3_x = r1.R1 + 3.0 * r3.R1;
+            double r1_3r3_y = r1.R2 + 3.0 * r3.R2;
+            double r1_3r3_z = r1.R3 + 3.0 * r3.R3;
+
+            FieldLineRhsVector r4 = Rhand(context,
+                x + 0.375 * r1_3r3_x,
+                y + 0.375 * r1_3r3_y,
+                z + 0.375 * r1_3r3_z,
+                iopt, parmod, exName, inName,
+                ds3);
+
+            FieldLineRhsVector r5 = Rhand(context,
+                x + 1.5 * (r1.R1 - 3.0 * r3.R1 + 4.0 * r4.R1),
+                y + 1.5 * (r1.R2 - 3.0 * r3.R2 + 4.0 * r4.R2),
+                z + 1.5 * (r1.R3 - 3.0 * r3.R3 + 4.0 * r4.R3),
+                iopt, parmod, exName, inName,
+                ds3);
+
+            double errCur = Math.Abs(r1.R1 - 4.5 * r3.R1 + 4.0 * r4.R1 - 0.5 * r5.R1)
                             + Math.Abs(r1.R2 - 4.5D * r3.R2 + 4.0D * r4.R2 - 0.5D * r5.R2)
                             + Math.Abs(r1.R3 - 4.5D * r3.R3 + 4.0D * r4.R3 - 0.5D * r5.R3);
 

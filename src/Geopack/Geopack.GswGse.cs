@@ -13,8 +13,8 @@ internal sealed partial class Geopack
         => GswGseInternal(context, components, OperationType.Reversed);
 
     private static T GswGseInternal<T>(ComputationContext context, T components, OperationType operation)
-        where T : ICartesian<T>
-        => operation switch
+        where T : ICartesian<T> =>
+        operation switch
         {
             OperationType.Direct => components.CoordinateSystem is CoordinateSystem.GSW
                 ? T.New(

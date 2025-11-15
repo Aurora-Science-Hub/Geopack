@@ -37,27 +37,40 @@ public readonly record struct GeocentricCoordinates
     /// </remarks>
     public GeodeticCoordinates ToGeodetic()
     {
-        const double r_eq = 6378.137D;
+        const double r_eq = 6378.137;
         const double beta = 6.73949674228e-3;
         const double tol = 1e-6;
+        const double beta1 = 1.0 + beta;
+        const double beta2 = beta * (2.0 + beta);
 
         int n = 0;
-        double phi = 1.570796327D - Theta;
+        double phi = 1.570796327 - Theta;
         double phi1 = phi;
 
         double xmus, rs, cosfims, h, z, x, rr, dphi;
+        double r2 = R * R;
 
         do
         {
-            double sp = Math.Sin(phi1);
-            double arg = sp * (1.0D + beta) / Math.Sqrt(1.0D + beta * (2.0D + beta) * Math.Pow(sp, 2));
+            (double sinPhi1, double cosPhi1) = Math.SinCos(phi1);
+            double sp2 = sinPhi1 * sinPhi1;
+
+            double arg = sinPhi1 * beta1 / Math.Sqrt(1.0 + beta2 * sp2);
             xmus = Math.Asin(arg);
-            rs = r_eq / Math.Sqrt(1.0D + beta * Math.Pow(Math.Sin(phi1), 2));
+
+            rs = r_eq / Math.Sqrt(1.0 + beta * sp2);
             cosfims = Math.Cos(phi1 - xmus);
-            h = Math.Sqrt(rs * cosfims * rs * cosfims + R * R - rs * rs) - rs * cosfims;
-            z = rs * Math.Sin(phi1) + h * Math.Sin(xmus);
-            x = rs * Math.Cos(phi1) + h * Math.Cos(xmus);
-            rr = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(z, 2));
+
+            double rsCosfims = rs * cosfims;
+            double rs2 = rs * rs;
+            h = Math.Sqrt(rsCosfims * rsCosfims + r2 - rs2) - rsCosfims;
+
+            (double sinXmus, double cosXmus) = Math.SinCos(xmus);
+
+            z = rs * sinPhi1 + h * sinXmus;
+            x = rs * cosPhi1 + h * cosXmus;
+
+            rr = Math.Sqrt(x * x + z * z);
             dphi = Math.Asin(z / rr) - phi;
             phi1 -= dphi;
             n++;
