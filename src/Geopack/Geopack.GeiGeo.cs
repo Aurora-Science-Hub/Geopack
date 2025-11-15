@@ -15,25 +15,20 @@ internal sealed partial class Geopack
     private static T GeiGeoInternal<T>(ComputationContext context, T components, OperationType operation)
         where T : ICartesian<T>
     {
-        double xCgst = components.X * context.CGST;
-        double xSgst = components.X * context.SGST;
-        double yCgst = components.Y * context.CGST;
-        double ySgst = components.Y * context.SGST;
-
         return operation switch
         {
             OperationType.Direct => components.CoordinateSystem is CoordinateSystem.GEI
                 ? T.New(
-                    xCgst + ySgst,
-                    yCgst - xSgst,
+                    components.X * context.CGST + components.Y * context.SGST,
+                    components.Y * context.CGST - components.X * context.SGST,
                     components.Z,
                     CoordinateSystem.GEO)
                 : throw new InvalidOperationException("Input coordinates must be in GEI system."),
 
             OperationType.Reversed => components.CoordinateSystem is CoordinateSystem.GEO
                 ? T.New(
-                    xCgst - ySgst,
-                    yCgst + xSgst,
+                    components.X * context.CGST - components.Y * context.SGST,
+                    components.Y * context.CGST + components.X * context.SGST,
                     components.Z,
                     CoordinateSystem.GEI)
                 : throw new InvalidOperationException("Input coordinates must be in GEO system."),
