@@ -14,8 +14,7 @@ internal sealed partial class Geopack
 
     private static T GeiGeoInternal<T>(ComputationContext context, T components, OperationType operation)
         where T : ICartesian<T>
-    {
-        return operation switch
+        => operation switch
         {
             OperationType.Direct => components.CoordinateSystem is CoordinateSystem.GEI
                 ? T.New(
@@ -34,5 +33,4 @@ internal sealed partial class Geopack
                 : throw new InvalidOperationException("Input coordinates must be in GEO system."),
             _ => throw new NotSupportedException($"Specify correct OperationType: {operation}. Available types are Direct and Reversed.")
         };
-    }
 }

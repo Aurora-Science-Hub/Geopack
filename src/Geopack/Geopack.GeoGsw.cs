@@ -14,8 +14,7 @@ internal sealed partial class Geopack
 
     private static T GeoGswInternal<T>(ComputationContext context, T components, OperationType operation)
         where T : ICartesian<T>
-    {
-        return operation switch
+        => operation switch
         {
             OperationType.Direct => components.CoordinateSystem is CoordinateSystem.GEO
                 ? T.New(
@@ -34,5 +33,4 @@ internal sealed partial class Geopack
                 : throw new InvalidOperationException("Input coordinates must be in GSW system."),
             _ => throw new NotSupportedException($"Specify correct OperationType: {operation}. Available types are Direct and Reversed.")
         };
-    }
 }
