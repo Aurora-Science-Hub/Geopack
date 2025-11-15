@@ -14,6 +14,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1900;</WarningsNotAsErrors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -27,6 +28,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\ExternalFieldModels\ExternalFieldModels.csproj" />
     <ProjectReference Include="..\..\src\Geopack\Geopack.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BenchmarkDotNet.Artifacts\results\" />
   </ItemGroup>
 
 </Project>
