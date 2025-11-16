@@ -38,14 +38,13 @@ public readonly record struct SphericalVector<TVector>
     /// <param name="location"> Point spherical coordinates </param>
     public CartesianVector<TVector> ToCartesianVector(SphericalLocation location)
     {
-        double s = Math.Sin(location.Theta);
-        double c = Math.Cos(location.Theta);
-        double sf = Math.Sin(location.Phi);
-        double cf = Math.Cos(location.Phi);
-        double be = R * s + Theta * c;
-        double bx = be * cf - Phi * sf;
-        double by = be * sf + Phi * cf;
-        double bz = R * c - Theta * s;
+        (double sinTheta, double cosTheta) = Math.SinCos(location.Theta);
+        (double sinPhi, double cosPhi) = Math.SinCos(location.Phi);
+
+        double be = R * sinTheta + Theta * cosTheta;
+        double bx = be * cosPhi - Phi * sinPhi;
+        double by = be * sinPhi + Phi * cosPhi;
+        double bz = R * cosTheta - Theta * sinTheta;
 
         return CartesianVector<TVector>.New(bx, by, bz, CoordinateSystem);
     }

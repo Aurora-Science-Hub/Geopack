@@ -16,17 +16,25 @@ internal sealed partial class Geopack
 
         CartesianLocation geoLocation = GswToGeo(context, location);
 
-        double rho2 = Math.Pow(geoLocation.X, 2) + Math.Pow(geoLocation.Y, 2);
-        double r = Math.Sqrt(rho2 + Math.Pow(geoLocation.Z, 2));
+        double geoX = geoLocation.X;
+        double geoY = geoLocation.Y;
+        double geoZ = geoLocation.Z;
 
-        if (Math.Abs(r) <= double.Epsilon)
+        double x2 = geoX * geoX;
+        double y2 = geoY * geoY;
+        double z2 = geoZ * geoZ;
+        double rho2 = x2 + y2;
+        double r = Math.Sqrt(rho2 + z2);
+
+        if (r <= double.Epsilon)
         {
             throw new InvalidOperationException("Location radius vector should not be zero.");
         }
 
-        double c = geoLocation.Z / r;
+        double rInv = 1.0 / r;
+        double c = geoZ * rInv;
         double rho = Math.Sqrt(rho2);
-        double s = rho / r;
+        double s = rho * rInv;
 
         double cf, sf;
         if (s < 1e-10)
@@ -36,44 +44,55 @@ internal sealed partial class Geopack
         }
         else
         {
-            cf = geoLocation.X / rho;
-            sf = geoLocation.Y / rho;
+            double rhoInv = 1.0 / rho;
+            cf = geoX * rhoInv;
+            sf = geoY * rhoInv;
         }
 
-        double pp = 1.0D / r;
-        double p = pp;
+        double p = rInv;
 
         // Calculate optimal expansion order
         int irp3 = (int)r + 2;
         int nm = 3 + 30 / irp3;
         if (nm > 13)
+        {
             nm = 13;
+        }
 
         int k = nm + 1;
-        double[] a = new double[k + 1];
-        double[] b = new double[k + 1];
+
+        // Use stack allocation for small arrays instead of heap allocation
+        Span<double> a = stackalloc double[k + 1];
+        Span<double> b = stackalloc double[k + 1];
 
         for (int n = 1; n <= k; n++)
         {
-            p *= pp;
+            p *= rInv;
             a[n - 1] = p;
             b[n - 1] = p * n;
         }
 
-        p = 1.0D;
-        double d = 0.0D;
-        double bbr = 0.0D;
-        double bbt = 0.0D;
-        double bbf = 0.0D;
+        p = 1.0;
+        double d = 0.0;
+        double bbr = 0.0;
+        double bbt = 0.0;
+        double bbf = 0.0;
 
-        double x = 0.0D, y = 0.0D;
+        double x = 0.0, y = 0.0;
+
+        // Cache context arrays
+        double[] contextG = context.G;
+        double[] contextH = context.H;
+        double[] contextREC = context.REC;
+
+        bool sIsSmall = s < 1e-10;
 
         for (int m = 1; m <= k; m++)
         {
             if (m == 1)
             {
-                x = 0.0D;
-                y = 1.0D;
+                x = 0.0;
+                y = 1.0;
             }
             else
             {
@@ -84,29 +103,28 @@ internal sealed partial class Geopack
 
             double q = p;
             double z = d;
-            double bi = 0.0D;
-            double p2 = 0.0D;
-            double d2 = 0.0D;
+            double bi = 0.0;
+            double p2 = 0.0;
+            double d2 = 0.0;
 
             for (int n = m; n <= k; n++)
             {
                 double an = a[n - 1];
-                int mn = n * (n - 1) / 2 + m;
-                double e = context.G[mn - 1];
-                double hh = context.H[mn - 1];
+                int mnIdx = n * (n - 1) / 2 + m - 1;
+                double e = contextG[mnIdx];
+                double hh = contextH[mnIdx];
                 double wVal = e * y + hh * x;
-                bbr += b[n - 1] * wVal * q;
+                double bnVal = b[n - 1];
+                bbr += bnVal * wVal * q;
                 bbt -= an * wVal * z;
 
                 if (m != 1)
                 {
-                    double qq = q;
-                    if (s < 1e-10)
-                        qq = z;
+                    double qq = sIsSmall ? z : q;
                     bi += an * (e * x - hh * y) * qq;
                 }
 
-                double xk = context.REC[mn - 1];
+                double xk = contextREC[mnIdx];
                 double dp = c * z - s * q - xk * d2;
                 double pm = c * q - xk * p2;
                 d2 = z;
@@ -118,7 +136,7 @@ internal sealed partial class Geopack
             d = s * d + c * p;
             p = s * p;
 
-            if (m == 1)
+            if (m is 1)
             {
                 continue;
             }
@@ -127,10 +145,7 @@ internal sealed partial class Geopack
             bbf += bi;
         }
 
-        double br = bbr;
-        double bt = bbt;
         double bf;
-
         if (s < 1e-10)
         {
             if (c < 0.0)
@@ -142,10 +157,10 @@ internal sealed partial class Geopack
             bf = bbf / s;
         }
 
-        double he = br * s + bt * c;
+        double he = bbr * s + bbt * c;
         double bx = he * cf - bf * sf;
         double by = he * sf + bf * cf;
-        double bz = br * c - bt * s;
+        double bz = bbr * c - bbt * s;
 
         return GeoToGsw(context, CartesianVector<MagneticField>.New(bx, by, bz, CoordinateSystem.GEO));
     }

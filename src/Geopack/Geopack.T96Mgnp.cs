@@ -25,18 +25,18 @@ internal sealed partial class Geopack
             pd = 1.94e-6 * xnPd * vel * vel;
         }
 
-        if (pd is 0D)
+        if (pd is 0.0)
         {
             throw new InvalidOperationException("Dynamic pressure should not be zero.");
         }
 
-        double rat = pd / 2.0D;
+        double rat = pd / 2.0;
         double rat16 = Math.Pow(rat, 0.14);
 
         // Magnetopause parameters for PD = 2 nPa
-        double a0 = 70.0D;
-        double s00 = 1.08D;
-        double x00 = 5.48D;
+        double a0 = 70.0;
+        double s00 = 1.08;
+        double x00 = 5.48;
 
         // Scaled parameters for actual pressure
         double a = a0 / rat16;
@@ -51,21 +51,26 @@ internal sealed partial class Geopack
         }
         else
         {
-            phi = 0.0D;
+            phi = 0.0;
         }
 
-        double rho = Math.Sqrt(Math.Pow(location.Y, 2) + Math.Pow(location.Z, 2));
+        double y2 = location.Y * location.Y;
+        double z2 = location.Z * location.Z;
+        double rho = Math.Sqrt(y2 + z2);
 
         if (location.X < xm)
         {
             double xMgnp = location.X;
-            double rhomGnp = a * Math.Sqrt(Math.Pow(s0, 2) - 1.0D);
-            double yMgnp = rhomGnp * Math.Sin(phi);
-            double zMgnp = rhomGnp * Math.Cos(phi);
-            double dist = Math.Sqrt(
-                (location.X - xMgnp) * (location.X - xMgnp) +
-                (location.Y - yMgnp) * (location.Y - yMgnp) +
-                (location.Z - zMgnp) * (location.Z - zMgnp));
+            double s02 = s0 * s0;
+            double rhomGnp = a * Math.Sqrt(s02 - 1.0);
+            (double sinPhi, double cosPhi) = Math.SinCos(phi);
+            double yMgnp = rhomGnp * sinPhi;
+            double zMgnp = rhomGnp * cosPhi;
+
+            double dx = location.X - xMgnp;
+            double dy = location.Y - yMgnp;
+            double dz = location.Z - zMgnp;
+            double dist = Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
             MagnetopausePosition position = double.IsNaN(rhomGnp) ? MagnetopausePosition.NotDefined
                 : rhomGnp > rho
@@ -75,29 +80,36 @@ internal sealed partial class Geopack
             return new Magnetopause(CartesianLocation.New(xMgnp, yMgnp, zMgnp, CoordinateSystem.GSW), dist, position);
         }
 
-        double xksi = (location.X - x0) / a + 1.0D;
-        double xdzt = rho / a;
-        double sq1 = Math.Sqrt((1.0D + xksi) * (1.0D + xksi) + xdzt * xdzt);
-        double sq2 = Math.Sqrt((1.0D - xksi) * (1.0D - xksi) + xdzt * xdzt);
-        double sigma = 0.5D * (sq1 + sq2);
-        double tau = 0.5D * (sq1 - sq2);
+        double aInv = 1.0 / a;
+        double xksi = (location.X - x0) * aInv + 1.0;
+        double xdzt = rho * aInv;
+        double xksi1p = 1.0 + xksi;
+        double xksi1m = 1.0 - xksi;
+        double xdzt2 = xdzt * xdzt;
+        double sq1 = Math.Sqrt(xksi1p * xksi1p + xdzt2);
+        double sq2 = Math.Sqrt(xksi1m * xksi1m + xdzt2);
+        double sigma = 0.5 * (sq1 + sq2);
+        double tau = 0.5 * (sq1 - sq2);
 
         // Calculate closest point at magnetopause
-        double xMgnpOut = x0 - a * (1.0D - s0 * tau);
-        double arg = (s0 * s0 - 1.0D) * (1.0D - tau * tau);
+        double xMgnpOut = x0 - a * (1.0 - s0 * tau);
+        double s02_out = s0 * s0;
+        double tau2 = tau * tau;
+        double arg = (s02_out - 1.0) * (1.0 - tau2);
         if (arg < 0.0)
         {
-            arg = 0.0D;
+            arg = 0.0;
         }
 
         double rhomGnpOut = a * Math.Sqrt(arg);
-        double yMgnpOut = rhomGnpOut * Math.Sin(phi);
-        double zMgnpOut = rhomGnpOut * Math.Cos(phi);
+        (double sinPhiOut, double cosPhiOut) = Math.SinCos(phi);
+        double yMgnpOut = rhomGnpOut * sinPhiOut;
+        double zMgnpOut = rhomGnpOut * cosPhiOut;
 
-        double distOut = Math.Sqrt(
-            (location.X - xMgnpOut) * (location.X - xMgnpOut) +
-            (location.Y - yMgnpOut) * (location.Y - yMgnpOut) +
-            (location.Z - zMgnpOut) * (location.Z - zMgnpOut));
+        double dxOut = location.X - xMgnpOut;
+        double dyOut = location.Y - yMgnpOut;
+        double dzOut = location.Z - zMgnpOut;
+        double distOut = Math.Sqrt(dxOut * dxOut + dyOut * dyOut + dzOut * dzOut);
 
         MagnetopausePosition idOut = double.IsNaN(sigma)
             ? MagnetopausePosition.NotDefined
