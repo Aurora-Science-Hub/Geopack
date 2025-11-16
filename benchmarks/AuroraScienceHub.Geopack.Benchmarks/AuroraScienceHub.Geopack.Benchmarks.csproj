@@ -14,7 +14,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1900;</WarningsNotAsErrors>
+<!--    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1900;</WarningsNotAsErrors>-->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BenchmarkDotNet.Artifacts\results\" />
+    <Folder Include="BenchmarkDotNet.Artifacts\" />
   </ItemGroup>
 
 </Project>
