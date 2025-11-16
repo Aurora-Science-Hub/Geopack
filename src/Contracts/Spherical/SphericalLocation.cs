@@ -37,6 +37,7 @@ public readonly record struct SphericalLocation : ISpherical<SphericalLocation>
     {
         (double sinTh, double cosTh) = Math.SinCos(Theta);
         (double sinPhi, double cosPhi) = Math.SinCos(Phi);
+
         double sq = R * sinTh;
         double x = sq * cosPhi;
         double y = sq * sinPhi;
