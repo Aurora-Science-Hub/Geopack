@@ -12,7 +12,8 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 /// Benchmarks for magnetic field calculation performance
 /// </summary>
 [MemoryDiagnoser]
-[SimpleJob(RuntimeMoniker.Net90)]
+[SimpleJob(RuntimeMoniker.Net80)]
+[SimpleJob(RuntimeMoniker.Net10_0)]
 [MarkdownExporterAttribute.GitHub]
 [Config(typeof(NativeAotConfig))]
 public class GeopackBenchmarks
@@ -192,7 +193,7 @@ public class GeopackBenchmarks
         public NativeAotConfig()
         {
             AddJob(Job.Default
-                .WithRuntime(NativeAotRuntime.Net90)
+                .WithRuntime(NativeAotRuntime.Net10_0)
                 .WithId("NativeAOT"));
             ArtifactsPath = Path.Combine(
                 Directory.GetCurrentDirectory(),
