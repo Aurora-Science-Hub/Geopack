@@ -103,8 +103,6 @@ C     Benchmark 0: RECALC_08 (baseline)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *        AVG_TIME_RECALC, STD_DEV_RECALC, ERROR_VAL_RECALC)
-      PRINT *, 'RECALC_08 completed'
-
 C     Benchmark 1: IGRF_GSW_08
       TOTAL_TIME = 0.0D0
       SUM_SQ = 0.0D0
@@ -117,7 +115,6 @@ C     Benchmark 1: IGRF_GSW_08
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'IGRF_GSW_08 output:', HXGSW, HYGSW, HZGSW
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'IGRF_GSW_08         ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -134,7 +131,6 @@ C     Benchmark 2: IGRF_GEO_08
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'IGRF_GEO_08 output:', BR, BTHETA, BPHI
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'IGRF_GEO_08         ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -151,7 +147,6 @@ C     Benchmark 3: DIP_08
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'DIP_08 output:', BXGSW, BYGSW, BZGSW
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'DIP_08             ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -169,7 +164,6 @@ C     Benchmark 4: SUN_08
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'SUN_08 output:', GST, SLONG, SRASN, SDEC
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'SUN_08             ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -186,7 +180,6 @@ C     Benchmark 5: SPHCAR_08 (J>0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'SPHCAR_08 (J>0) output:', X, Y, Z
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'SPHCAR_08 (J>0)    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -203,7 +196,6 @@ C     Benchmark 6: SPHCAR_08 (J<0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'SPHCAR_08 (J<0) output:', R, THETA, PHI
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'SPHCAR_08 (J<0)    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -220,7 +212,6 @@ C     Benchmark 7: BSPCAR_08
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'BSPCAR_08 output:', BX, BY, BZ
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'BSPCAR_08          ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -237,7 +228,6 @@ C     Benchmark 8: BCARSP_08
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'BCARSP_08 output:', BR, BTHETA, BPHI
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'BCARSP_08          ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -257,7 +247,6 @@ C     Benchmark 9: GEOMAG_08 (J>0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'GEOMAG_08 (J>0) output:', XMAG, YMAG, ZMAG
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'GEOMAG_08 (J>0)    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -274,7 +263,6 @@ C     Benchmark 10: GEOMAG_08 (J<0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'GEOMAG_08 (J<0) output:', XGEO, YGEO, ZGEO
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'GEOMAG_08 (J<0)    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -294,7 +282,6 @@ C     Benchmark 11: GEIGEO_08 (J>0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'GEIGEO_08 (J>0) output:', XGEO, YGEO, ZGEO
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'GEIGEO_08 (J>0)    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -311,7 +298,6 @@ C     Benchmark 12: GEIGEO_08 (J<0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'GEIGEO_08 (J<0) output:', XGEI, YGEI, ZGEI
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'GEIGEO_08 (J<0)    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -331,7 +317,6 @@ C     Benchmark 13: MAGSM_08 (J>0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'MAGSM_08 (J>0) output:', XSM, YSM, ZSM
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'MAGSM_08 (J>0)     ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -348,7 +333,6 @@ C     Benchmark 14: MAGSM_08 (J<0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'MAGSM_08 (J<0) output:', XMAG, YMAG, ZMAG
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'MAGSM_08 (J<0)     ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -368,7 +352,6 @@ C     Benchmark 15: SMGSW_08 (J>0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'SMGSW_08 (J>0) output:', XGSW, YGSW, ZGSW
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'SMGSW_08 (J>0)     ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -385,7 +368,6 @@ C     Benchmark 16: SMGSW_08 (J<0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'SMGSW_08 (J<0) output:', XSM, YSM, ZSM
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'SMGSW_08 (J<0)     ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -405,7 +387,6 @@ C     Benchmark 17: GEOGSW_08 (J>0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'GEOGSW_08 (J>0) output:', XGSW, YGSW, ZGSW
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'GEOGSW_08 (J>0)    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -422,7 +403,6 @@ C     Benchmark 18: GEOGSW_08 (J<0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'GEOGSW_08 (J<0) output:', XGEO, YGEO, ZGEO
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'GEOGSW_08 (J<0)    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -439,7 +419,6 @@ C     Benchmark 19: GEODGEO_08 (J>0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'GEODGEO_08 (J>0) output:', R, THETA
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'GEODGEO_08 (J>0)   ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -456,7 +435,6 @@ C     Benchmark 20: GEODGEO_08 (J<0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'GEODGEO_08 (J<0) output:', H, XMU
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'GEODGEO_08 (J<0)   ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -473,7 +451,6 @@ C     Benchmark 21: GSWGSE_08 (J>0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'GSWGSE_08 (J>0) output:', XGSE, YGSE, ZGSE
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'GSWGSE_08 (J>0)    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -490,7 +467,6 @@ C     Benchmark 22: GSWGSE_08 (J<0)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'GSWGSE_08 (J<0) output:', XGSW, YGSW, ZGSW
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'GSWGSE_08 (J<0)    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -508,7 +484,6 @@ C     Benchmark 23: SHUETAL_MGNP_08
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'SHUETAL_MGNP_08 output:', XMGNP, YMGNP, ZMGNP, DIST, ID
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'SHUETAL_MGNP_08    ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -526,7 +501,6 @@ C     Benchmark 24: T96_MGNP_08
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'T96_MGNP_08 output:', XMGNP, YMGNP, ZMGNP, DIST, ID
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'T96_MGNP_08        ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -545,7 +519,6 @@ C     Benchmark 25: TRACE_08 (DIR=-1)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'TRACE_08 (DIR=-1) output:', XF, YF, ZF, M
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'TRACE_08 (DIR=-1)  ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
@@ -564,7 +537,6 @@ C     Benchmark 26: TRACE_08 (DIR=+1)
       END DO
       CALL COMPUTE_STATS(TOTAL_TIME, SUM_SQ, NUM_RUNS, T_VALUE,
      *                   AVG_TIME, STD_DEV, ERROR_VAL)
-      PRINT *, 'TRACE_08 (DIR=+1) output:', XF, YF, ZF, M
       WRITE (*,'(A, F15.3, 2F15.3, F10.3)') 'TRACE_08 (DIR=+1)  ',
      *     AVG_TIME * 1D9, STD_DEV * 1D9, ERROR_VAL * 1D9,
      *     AVG_TIME/AVG_TIME_RECALC
