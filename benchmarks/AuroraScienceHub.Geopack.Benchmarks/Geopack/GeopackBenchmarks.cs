@@ -192,9 +192,6 @@ public class GeopackBenchmarks
     {
         public NativeAotConfig()
         {
-            AddJob(Job.Default
-                .WithRuntime(NativeAotRuntime.Net10_0)
-                .WithId("NativeAOT"));
             ArtifactsPath = Path.Combine(
                 Directory.GetCurrentDirectory(),
                 "BenchmarkDotNet.Artifacts");
