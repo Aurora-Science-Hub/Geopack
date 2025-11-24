@@ -1,5 +1,10 @@
-using AuroraScienceHub.Geopack.Contracts.Interfaces;
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.Engine;
+using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
+using AuroraScienceHub.Geopack.Contracts.Spherical;
 using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
@@ -29,32 +34,27 @@ public class GeopackBenchmarks
     private const double Psi = 1;
     private static readonly double[] s_parmod = new double[10];
     private const int Lmax = 500;
+    private const double Rad = 57.295779513D;
 
-    private const double Vgsex = -304.0D;
-    private const double Vgsey = 14.78D;
-    private const double Vgsez = 4.0D;
+    private static readonly CartesianVector<Velocity> s_gseVelocityVector = CartesianVector<Velocity>.New(-304.0, 14.78, 4.0, CoordinateSystem.GSE);
 
-    private static readonly (double X, double Y, double Z) s_testPointNs = (-0.45455707401565865D, 0.4737969930623606D, 0.7542497890011055D);
-    private static readonly (double X, double Y, double Z) s_testPointSn = (-0.1059965956329907D, 0.41975266827470664D, -0.9014246640527153D);
+    private static readonly CartesianLocation s_testPointNs = CartesianLocation.New(-0.45455707401565865D, 0.4737969930623606D, 0.7542497890011055D, CoordinateSystem.GSW);
+    private static readonly CartesianLocation s_testPointSn = CartesianLocation.New(-0.1059965956329907D, 0.41975266827470664D, -0.9014246640527153D, CoordinateSystem.GSW);
 
-    private const double X = -1.02D;
-    private const double Y = 1.02D;
-    private const double Z = 1.02D;
-    private const double BX = 1.0D;
-    private const double BY = 1.0D;
-    private const double BZ = 1.0D;
+    private static readonly CartesianLocation s_gswCartesian = CartesianLocation.New(-1.02D, -1.02D, 1.02D, CoordinateSystem.GSW);
+    private static readonly CartesianLocation s_geiCartesian = CartesianLocation.New(-1.02D, -1.02D, 1.02D, CoordinateSystem.GEI);
+    private static readonly CartesianLocation s_geoCartesian = CartesianLocation.New(-1.02D, -1.02D, 1.02D, CoordinateSystem.GEO);
+    private static readonly CartesianLocation s_magCartesian = CartesianLocation.New(-1.02D, -1.02D, 1.02D, CoordinateSystem.MAG);
+    private static readonly CartesianLocation s_smCartesian = CartesianLocation.New(-1.02D, -1.02D, 1.02D, CoordinateSystem.SM);
+    private static readonly CartesianVector<MagneticField> s_gswFieldCar = CartesianVector<MagneticField>.New(1.0, 1.0, 1.0, CoordinateSystem.GSW);
 
-    private const double Theta = 0.7D;
-    private const double Phi = 1.4D;
-    private const double R = 1.02D;
-    private const double BR = 1.0D;
-    private const double BTh = 1.0D;
-    private const double BPhi = 1.0D;
+    private static readonly SphericalLocation s_igrfGeoLocation = SphericalLocation.New(1.02, (90.0 - 73.0) / Rad, 45.0 / Rad, CoordinateSystem.GEO);
 
-    private const double H = 100.0D;
-    private const double XMU = 1.04719D;
-    private const double RR = 6462.13176D;
-    private const double THETAR = 0.526464D;
+    private static readonly SphericalLocation s_gswSph = SphericalLocation.New(1.02D, 1.0D, 1.0D, CoordinateSystem.GSW);
+    private static readonly SphericalVector<MagneticField> s_gswFieldSph = SphericalVector<MagneticField>.New(1.0, 1.0, 1.0, CoordinateSystem.GSW);
+
+    private static readonly GeodeticCoordinates s_geodetic = new(1.04719, 100.0);
+    private static readonly GeocentricCoordinates s_geocentric = new(6462.13176, 0.526464);
 
     private const double XnPd = 5.0D;
     private const double Vel = -350.0D;
@@ -62,130 +62,128 @@ public class GeopackBenchmarks
 
     private static readonly DateTime s_testDate = new(1997, 12, 11, 10, 10, 0, DateTimeKind.Utc);
 
-    [GlobalSetup]
-    public void Setup()
-        => s_geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
+    private static readonly ComputationContext s_context = s_geopack.Recalc(s_testDate);
 
     [Benchmark]
     public void ToSphericalVector()
-        => s_geopack.BCarSph_08(X, Y, Z, BX, BY, BZ);
+        => s_gswFieldCar.ToSphericalVector(s_gswCartesian);
 
     [Benchmark]
     public void ToCartesianVector()
-        => s_geopack.BSphCar_08(Theta, Phi, BR, BTh, BPhi);
+        => s_gswFieldSph.ToCartesianVector(s_gswSph);
 
     [Benchmark]
     public void ToSpherical()
-        => s_geopack.CarSph_08(X, Y, Z);
+        => s_gswCartesian.ToSpherical();
 
     [Benchmark]
     public void ToCartesian()
-        => s_geopack.SphCar_08(R, Theta, Phi);
+        => s_gswSph.ToCartesian();
 
     [Benchmark]
     public void GeiToGeo()
-        => s_geopack.GeiGeo_08(X, Y, Z);
+        => s_geopack.GeiToGeo(s_context, s_geiCartesian);
 
     [Benchmark]
     public void GeoToGei()
-        => s_geopack.GeoGei_08(X, Y, Z);
+        => s_geopack.GeoToGei(s_context, s_geoCartesian);
 
     [Benchmark]
     public void ToGeocentric()
-        => s_geopack.GeodGeo_08(H, XMU);
+        => s_geodetic.ToGeocentric();
 
     [Benchmark]
     public void ToGeodetic()
-        => s_geopack.GeoGeod_08(RR, THETAR);
+        => s_geocentric.ToGeodetic();
 
     [Benchmark]
     public void GeoToGsw()
-        => s_geopack.GeoGsw_08(X, Y, Z);
+        => s_geopack.GeoToGsw(s_context, s_geoCartesian);
 
     [Benchmark]
     public void GswToGeo()
-        => s_geopack.GswGeo_08(X, Y, Z);
+        => s_geopack.GswToGeo(s_context, s_gswCartesian);
 
     [Benchmark]
     public void GeoToMag()
-        => s_geopack.GeoMag_08(X, Y, Z);
+        => s_geopack.GeoToMag(s_context, s_geoCartesian);
 
     [Benchmark]
     public void MagToGeo()
-        => s_geopack.MagGeo_08(X, Y, Z);
+        => s_geopack.MagToGeo(s_context, s_magCartesian);
 
     [Benchmark]
     public void GswToGse()
-        => s_geopack.GswGse_08(X, Y, Z);
+        => s_geopack.GswToGse(s_context, s_gswFieldCar);
 
     [Benchmark]
     public void GseToGsw()
-        => s_geopack.GseGsw_08(X, Y, Z);
+        => s_geopack.GseToGsw(s_context, s_gseVelocityVector);
 
     [Benchmark]
     public void MagToSm()
-        => s_geopack.MagSm_08(X, Y, Z);
+        => s_geopack.MagToSm(s_context, s_magCartesian);
 
     [Benchmark]
     public void SmToMag()
-        => s_geopack.SmMag_08(X, Y, Z);
+        => s_geopack.SmToMag(s_context, s_smCartesian);
 
     [Benchmark]
     public void SmToGsw()
-        => s_geopack.SmGsw_08(X, Y, Z);
+        => s_geopack.SmToGsw(s_context, s_smCartesian);
 
     [Benchmark]
     public void GswToSm()
-        => s_geopack.GswSm_08(X, Y, Z);
+        => s_geopack.GswToSm(s_context, s_gswFieldCar);
 
     [Benchmark(Baseline = true)]
     public void Recalc()
-        => s_geopack.Recalc_08(s_testDate, Vgsex, Vgsey, Vgsez);
+        => s_geopack.Recalc(s_testDate, s_gseVelocityVector);
 
     [Benchmark]
     public void ShuMgnp()
-        => s_geopack.ShuMgnp_08(XnPd, Vel, BzImf, X, Y, Z);
+        => s_geopack.ShuMgnp(XnPd, Vel, BzImf, s_gswCartesian);
 
     [Benchmark]
     public void T96Mgnp()
-        => s_geopack.T96Mgnp_08(XnPd, Vel, X, Y, Z);
+        => s_geopack.T96Mgnp(XnPd, Vel, s_gswCartesian);
 
     [Benchmark]
     public void IgrfGeo()
-        => s_geopack.IgrfGeo_08(R, Theta, Phi);
+        => s_geopack.IgrfGeo(s_context, s_igrfGeoLocation);
 
     [Benchmark]
     public void IgrfGsw()
-        => s_geopack.IgrfGsw_08(X, Y, Z);
+        => s_geopack.IgrfGsw(s_context, s_gswCartesian);
 
     [Benchmark]
     public void Dip()
-        => s_geopack.Dip_08(X, Y, Z);
+        => s_geopack.Dip(s_context, s_gswCartesian);
 
     [Benchmark]
     public void Sun()
-        => s_geopack.Sun_08(s_testDate);
+        => s_geopack.Sun(s_testDate);
 
     [Benchmark]
     public void T89()
-        => s_t89.Calculate(Iopt, s_parmod, Psi, X, Y, Z);
+        => s_t89.Calculate(Iopt, s_parmod, Psi, s_gswCartesian);
 
     [Benchmark]
     public void Trace_NS()
-        => s_geopack.Trace_08(
-            s_testPointNs.X, s_testPointNs.Y, s_testPointNs.Z,
+        => s_geopack.Trace(s_context,
+            s_testPointNs,
             TraceDirection.AntiParallel, Dsmax, Err, Rlim, R0,
             Iopt, s_parmod,
-            s_t89, s_geopack.IgrfGsw_08,
+            s_t89, s_geopack.IgrfGsw,
             Lmax);
 
     [Benchmark]
     public void Trace_SN()
-        => s_geopack.Trace_08(
-            s_testPointSn.X, s_testPointSn.Y, s_testPointSn.Z,
+        => s_geopack.Trace(s_context,
+            s_testPointSn,
             TraceDirection.Parallel, Dsmax, Err, Rlim, R0,
             Iopt, s_parmod,
-            s_t89, s_geopack.IgrfGsw_08,
+            s_t89, s_geopack.IgrfGsw,
             Lmax);
 
     private class NativeAotConfig : ManualConfig

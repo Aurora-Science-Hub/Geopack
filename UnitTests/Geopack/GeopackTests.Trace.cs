@@ -1,0 +1,97 @@
+using AuroraScienceHub.Geopack.Contracts;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.Engine;
+using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
+using AuroraScienceHub.Geopack.UnitTests.Extensions;
+using AuroraScienceHub.Geopack.UnitTests.Utils;
+using Shouldly;
+
+namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
+
+public partial class GeopackTests
+{
+    [Fact(DisplayName = "Trace field line from North to South")]
+    public async Task TraceFieldLineFromNorthToSouth()
+    {
+        // Arrange
+        CartesianVector<Velocity> swVelocity = CartesianVector<Velocity>.New(-304.0D, -16.0D + 29.78D, 4.0D, CoordinateSystem.GSE);
+        ComputationContext context = s_geopack.Recalc(fixture.InputData.DateTime, swVelocity);
+        InternalFieldModel internalField = s_geopack.IgrfGsw;
+
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(TraceNSResultFileName);
+        string[] lines = rawData.SplitLines();
+
+        TraceDirection dir = TraceDirection.AntiParallel;
+        double dsmax = 0.1D;
+        double err = 0.0001D;
+        double rlim = 60.0D;
+        double r0 = 1.0D;
+        int iopt = 1;
+        double[] parmod = new double[10];
+        int lmax = 500;
+
+        // Act
+        CartesianLocation startingPoint = CartesianLocation.New(-1.02D, 0.8D, 0.9D, CoordinateSystem.GSW);
+
+        FieldLine fieldLine = s_geopack.Trace(context,
+            startingPoint,
+            dir, dsmax, err, rlim, r0,
+            iopt, parmod,
+            _t89, internalField,
+            lmax);
+
+        // Assert
+        fieldLine.ActualPointCount.ShouldBe(lines.Length);
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string[] pars = lines[i].SplitParametersLine();
+            fieldLine.Points[i].X.ShouldApproximatelyBe(pars[0].ParseDouble());
+            fieldLine.Points[i].Y.ShouldApproximatelyBe(pars[1].ParseDouble());
+            fieldLine.Points[i].Z.ShouldApproximatelyBe(pars[2].ParseDouble());
+        }
+    }
+
+    [Fact(DisplayName = "Trace field line from South to North")]
+    public async Task TraceFieldLineFromSouthToNorth()
+    {
+        // Arrange
+        ComputationContext context = s_geopack.Recalc(fixture.InputData.DateTime);
+        InternalFieldModel internalField = s_geopack.IgrfGsw;
+
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(TraceSNResultFileName);
+        string[] lines = rawData.SplitLines();
+
+        TraceDirection dir = TraceDirection.Parallel;
+        double dsmax = 0.1D;
+        double err = 0.0001D;
+        double rlim = 60.0D;
+        double r0 = 1.0D;
+        int iopt = 1;
+        double[] parmod = new double[10];
+        int lmax = 500;
+
+        // Act
+        CartesianLocation startingPoint = CartesianLocation.New(-1.02D, 0.8D, -0.9D, CoordinateSystem.GSW);
+
+        FieldLine fieldLine = s_geopack.Trace(context,
+            startingPoint,
+            dir, dsmax, err, rlim, r0,
+            iopt, parmod,
+            _t89, internalField,
+            lmax);
+
+        // Assert
+        fieldLine.ActualPointCount.ShouldBe(lines.Length);
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string[] pars = lines[i].SplitParametersLine();
+            fieldLine.Points[i].X.ShouldApproximatelyBe(pars[0].ParseDouble());
+            fieldLine.Points[i].Y.ShouldApproximatelyBe(pars[1].ParseDouble());
+            fieldLine.Points[i].Z.ShouldApproximatelyBe(pars[2].ParseDouble());
+        }
+    }
+}
