@@ -1,5 +1,4 @@
 using AuroraScienceHub.Geopack.Contracts.Engine;
-using Microsoft.Win32.SafeHandles;
 
 namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 
