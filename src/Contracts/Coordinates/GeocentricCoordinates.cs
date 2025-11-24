@@ -1,3 +1,5 @@
+using AuroraScienceHub.Geopack.Contracts.Engine;
+
 namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 
 /// <summary>
@@ -8,6 +10,8 @@ public readonly record struct GeocentricCoordinates
     private const double REq = 6378.137D;
     private const double Beta = 6.73949674228e-3;
     private const double Tol = 1e-6;
+    private const double Ex = 1.0D + Beta;
+    private const double FirstEx = Beta * (2.0D + Beta);
 
     /// <summary>
     /// Geocentric distance (in km, ECEF radial)
@@ -42,22 +46,26 @@ public readonly record struct GeocentricCoordinates
     public GeodeticCoordinates ToGeodetic()
     {
         int n = 0;
-        double phi = 1.570796327D - Theta;
+        double phi = GeopackConstants.HalfPi - Theta;
         double phi1 = phi;
+        double r2 = R * R;
 
-        double xmus, rs, cosfims, h, z, x, rr, dphi;
+        double xmus, h, dphi;
 
         do
         {
             double sp = Math.Sin(phi1);
-            double arg = sp * (1.0D + Beta) / Math.Sqrt(1.0D + Beta * (2.0D + Beta) * sp * sp);
+            double sp2 = sp * sp;
+            double arg = sp * Ex / Math.Sqrt(1.0D + FirstEx * sp2);
+            double rs = REq / Math.Sqrt(1.0D + Beta * sp2);
+            double rs2 = rs * rs;
             xmus = Math.Asin(arg);
-            rs = REq / Math.Sqrt(1.0D + Beta * Math.Sin(phi1) * Math.Sin(phi1));
-            cosfims = Math.Cos(phi1 - xmus);
-            h = Math.Sqrt(rs * cosfims * rs * cosfims + R * R - rs * rs) - rs * cosfims;
-            z = rs * Math.Sin(phi1) + h * Math.Sin(xmus);
-            x = rs * Math.Cos(phi1) + h * Math.Cos(xmus);
-            rr = Math.Sqrt(x * x + z * z);
+
+            double cosfims = Math.Cos(phi1 - xmus);
+            h = Math.Sqrt(rs2 * cosfims * cosfims + r2 - rs2) - rs * cosfims;
+            double z = rs * sp + h * Math.Sin(xmus);
+            double x = rs * Math.Cos(phi1) + h * Math.Cos(xmus);
+            double rr = Math.Sqrt(x * x + z * z);
             dphi = Math.Asin(z / rr) - phi;
             phi1 -= dphi;
             n++;

@@ -11,6 +11,11 @@ public static class GeopackConstants
     public const double Pi = 3.141592654D;
 
     /// <summary>
+    /// PI/2 value from original Geopack (lower precision for compatibility)
+    /// </summary>
+    public const double HalfPi = 1.570796327D;
+
+    /// <summary>
     /// 2π value from original Geopack
     /// </summary>
     public const double TwoPi = 6.283185307D;
