@@ -1,4 +1,5 @@
 using AuroraScienceHub.Geopack.Contracts.Engine;
+using Microsoft.Win32.SafeHandles;
 
 namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 
@@ -54,17 +55,18 @@ public readonly record struct GeocentricCoordinates
 
         do
         {
-            double sp = Math.Sin(phi1);
-            double sp2 = sp * sp;
-            double arg = sp * Ex / Math.Sqrt(1.0D + FirstEx * sp2);
+            (double sinPhi, double cosPhi) = Math.SinCos(phi1);
+            double sp2 = sinPhi * sinPhi;
+            double arg = sinPhi * Ex / Math.Sqrt(1.0D + FirstEx * sp2);
             double rs = REq / Math.Sqrt(1.0D + Beta * sp2);
             double rs2 = rs * rs;
             xmus = Math.Asin(arg);
+            (double sinXmus, double cosXmus) = Math.SinCos(xmus);
 
             double cosfims = Math.Cos(phi1 - xmus);
             h = Math.Sqrt(rs2 * cosfims * cosfims + r2 - rs2) - rs * cosfims;
-            double z = rs * sp + h * Math.Sin(xmus);
-            double x = rs * Math.Cos(phi1) + h * Math.Cos(xmus);
+            double z = rs * sinPhi + h * sinXmus;
+            double x = rs * cosPhi + h * cosXmus;
             double rr = Math.Sqrt(x * x + z * z);
             dphi = Math.Asin(z / rr) - phi;
             phi1 -= dphi;
