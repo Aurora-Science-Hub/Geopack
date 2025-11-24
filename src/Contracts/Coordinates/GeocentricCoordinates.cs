@@ -5,6 +5,10 @@ namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 /// </summary>
 public readonly record struct GeocentricCoordinates
 {
+    private const double REq = 6378.137D;
+    private const double Beta = 6.73949674228e-3;
+    private const double Tol = 1e-6;
+
     /// <summary>
     /// Geocentric distance (in km, ECEF radial)
     /// </summary>
@@ -37,10 +41,6 @@ public readonly record struct GeocentricCoordinates
     /// </remarks>
     public GeodeticCoordinates ToGeodetic()
     {
-        const double r_eq = 6378.137D;
-        const double beta = 6.73949674228e-3;
-        const double tol = 1e-6;
-
         int n = 0;
         double phi = 1.570796327D - Theta;
         double phi1 = phi;
@@ -50,19 +50,19 @@ public readonly record struct GeocentricCoordinates
         do
         {
             double sp = Math.Sin(phi1);
-            double arg = sp * (1.0D + beta) / Math.Sqrt(1.0D + beta * (2.0D + beta) * Math.Pow(sp, 2));
+            double arg = sp * (1.0D + Beta) / Math.Sqrt(1.0D + Beta * (2.0D + Beta) * sp * sp);
             xmus = Math.Asin(arg);
-            rs = r_eq / Math.Sqrt(1.0D + beta * Math.Pow(Math.Sin(phi1), 2));
+            rs = REq / Math.Sqrt(1.0D + Beta * Math.Sin(phi1) * Math.Sin(phi1));
             cosfims = Math.Cos(phi1 - xmus);
             h = Math.Sqrt(rs * cosfims * rs * cosfims + R * R - rs * rs) - rs * cosfims;
             z = rs * Math.Sin(phi1) + h * Math.Sin(xmus);
             x = rs * Math.Cos(phi1) + h * Math.Cos(xmus);
-            rr = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(z, 2));
+            rr = Math.Sqrt(x * x + z * z);
             dphi = Math.Asin(z / rr) - phi;
             phi1 -= dphi;
             n++;
         }
-        while (Math.Abs(dphi) > tol && n < 100);
+        while (Math.Abs(dphi) > Tol && n < 100);
 
         return new GeodeticCoordinates(xmus, h);
     }
