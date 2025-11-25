@@ -60,8 +60,9 @@ internal sealed partial class Geopack
         {
             double xMgnp = location.X;
             double rhomGnp = a * Math.Sqrt(s0 * s0 - 1.0D);
-            double yMgnp = rhomGnp * Math.Sin(phi);
-            double zMgnp = rhomGnp * Math.Cos(phi);
+            (double sinPhi, double cosPhi) = Math.SinCos(phi);
+            double yMgnp = rhomGnp * sinPhi;
+            double zMgnp = rhomGnp * cosPhi;
             double dist = Math.Sqrt(
                 (location.X - xMgnp) * (location.X - xMgnp) +
                 (location.Y - yMgnp) * (location.Y - yMgnp) +
@@ -91,8 +92,9 @@ internal sealed partial class Geopack
         }
 
         double rhomGnpOut = a * Math.Sqrt(arg);
-        double yMgnpOut = rhomGnpOut * Math.Sin(phi);
-        double zMgnpOut = rhomGnpOut * Math.Cos(phi);
+        (double sinPhiOut, double cosPhiOut) = Math.SinCos(phi);
+        double yMgnpOut = rhomGnpOut * sinPhiOut;
+        double zMgnpOut = rhomGnpOut * cosPhiOut;
 
         double distOut = Math.Sqrt(
             (location.X - xMgnpOut) * (location.X - xMgnpOut) +

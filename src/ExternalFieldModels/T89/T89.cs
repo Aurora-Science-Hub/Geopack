@@ -101,8 +101,7 @@ internal sealed partial class T89 : IT89
             YND = 2.0D * YN;
         }
 
-        double SPS = Math.Sin(PS);
-        double CPS = Math.Cos(PS);
+        (double SPS, double CPS) = Math.SinCos(PS);
 
         double X2 = location.X * location.X;
         double Y2 = location.Y * location.Y;

@@ -89,8 +89,7 @@ internal sealed partial class Geopack
 
             r += dr;
             t += dt;
-            st = Math.Sin(t);
-            ct = Math.Cos(t);
+            (st, ct) = Math.SinCos(t);
 
             ds = Math.Sqrt(dr * dr + (r * dt) * (r * dt));
             nit++;
@@ -103,10 +102,12 @@ internal sealed partial class Geopack
         }
         while (ds > 1e-4);
 
-        double xMgnp = r * Math.Cos(t);
-        double rho = r * Math.Sin(t);
-        double yMgnp = rho * Math.Sin(phi);
-        double zMgnp = rho * Math.Cos(phi);
+        (double sinT, double cosT) = Math.SinCos(t);
+        double xMgnp = r * cosT;
+        double rho = r * sinT;
+        (double sinPhi, double cosPhi) = Math.SinCos(phi);
+        double yMgnp = rho * sinPhi;
+        double zMgnp = rho * cosPhi;
 
         double dx = location.X - xMgnp;
         double dy = location.Y - yMgnp;

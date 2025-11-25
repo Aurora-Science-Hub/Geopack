@@ -24,4 +24,9 @@ public static class GeopackConstants
     /// Radians to degrees conversion factor (180/π)
     /// </summary>
     public const double Rad = 57.295779513D;
+
+    /// <summary>
+    /// Equatorial Earth's radius in kilometers
+    /// </summary>
+    public const double REq = 6378.137D;
 }

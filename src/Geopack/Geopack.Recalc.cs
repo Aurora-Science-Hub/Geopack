@@ -126,16 +126,19 @@ internal sealed partial class Geopack
         double CTCL = CT0 * CL0;
 
         Sun sun = Sun(dateTime);
-        double S1 = Math.Cos(sun.Srasn) * Math.Cos(sun.Sdec);
-        double S2 = Math.Sin(sun.Srasn) * Math.Cos(sun.Sdec);
-        double S3 = Math.Sin(sun.Sdec);
+        (double sinSrasn, double cosSrasn) = Math.SinCos(sun.Srasn);
+        (double sinSdec, double cosSdec) = Math.SinCos(sun.Sdec);
+        double S1 = cosSrasn * cosSdec;
+        double S2 = sinSrasn * cosSdec;
+        double S3 = sinSdec;
 
         double DJ = 365d * (IY - 1900) + (IY - 1901) / 4d + IDAY - 0.5d + (IHOUR * 3600 + MIN * 60 + ISEC) / 86400d;
         double T = DJ / 36525d;
         double OBLIQ = (23.45229d - 0.0130125d * T) / 57.2957795d;
+        (double sinOBLIQ, double cosOBLIQ) = Math.SinCos(OBLIQ);
         double DZ1 = 0;
-        double DZ2 = -Math.Sin(OBLIQ);
-        double DZ3 = Math.Cos(OBLIQ);
+        double DZ2 = -sinOBLIQ;
+        double DZ3 = cosOBLIQ;
 
         double DY1 = DZ2 * S3 - DZ3 * S2;
         double DY2 = DZ3 * S1 - DZ1 * S3;
@@ -154,8 +157,7 @@ internal sealed partial class Geopack
         double X2 = DX1 * S2 + DX2 * DY2 + DX3 * DZ2;
         double X3 = DX1 * S3 + DX2 * DY3 + DX3 * DZ3;
 
-        double CGST = Math.Cos(sun.Gst);
-        double SGST = Math.Sin(sun.Gst);
+        (double SGST, double CGST) = Math.SinCos(sun.Gst);
         double DIP1 = STCL * CGST - STSL * SGST;
         double DIP2 = STCL * SGST + STSL * CGST;
         double DIP3 = CT0;

@@ -7,7 +7,6 @@ namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 /// </summary>
 public readonly record struct GeocentricCoordinates
 {
-    private const double REq = 6378.137D;
     private const double Beta = 6.73949674228e-3;
     private const double Tol = 1e-6;
     private const double Ex = 1.0D + Beta;
@@ -57,7 +56,7 @@ public readonly record struct GeocentricCoordinates
             (double sinPhi, double cosPhi) = Math.SinCos(phi1);
             double sp2 = sinPhi * sinPhi;
             double arg = sinPhi * Ex / Math.Sqrt(1.0D + FirstEx * sp2);
-            double rs = REq / Math.Sqrt(1.0D + Beta * sp2);
+            double rs = GeopackConstants.REq / Math.Sqrt(1.0D + Beta * sp2);
             double rs2 = rs * rs;
             xmus = Math.Asin(arg);
             (double sinXmus, double cosXmus) = Math.SinCos(xmus);

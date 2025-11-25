@@ -32,13 +32,14 @@ internal sealed partial class Geopack
         }
 
         double obliq = (23.45229D - 0.0130125D * t) / GeopackConstants.Rad;
-        double sob = Math.Sin(obliq);
+        (double sob, double cob) = Math.SinCos(obliq);
         double slp = slong - 9.924e-5D;
-        double sind = sob * Math.Sin(slp);
+        (double sinSlp, double cosSlp) = Math.SinCos(slp);
+        double sind = sob * sinSlp;
         double cosd = Math.Sqrt(1.0D - sind * sind);
         double sc = sind / cosd;
         double sdec = Math.Atan2(sind, cosd);
-        double srasn = GeopackConstants.Pi - Math.Atan2(Math.Cos(obliq) / sob * sc, -Math.Cos(slp) / cosd);
+        double srasn = GeopackConstants.Pi - Math.Atan2(cob / sob * sc, -cosSlp / cosd);
 
         return new Sun(dateTime, gst, slong, srasn, sdec);
     }
