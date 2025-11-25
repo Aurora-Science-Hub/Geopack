@@ -16,8 +16,8 @@ internal sealed partial class Geopack
 
         CartesianLocation geoLocation = GswToGeo(context, location);
 
-        double rho2 = Math.Pow(geoLocation.X, 2) + Math.Pow(geoLocation.Y, 2);
-        double r = Math.Sqrt(rho2 + Math.Pow(geoLocation.Z, 2));
+        double rho2 = geoLocation.X * geoLocation.X + geoLocation.Y * geoLocation.Y;
+        double r = Math.Sqrt(rho2 + geoLocation.Z * geoLocation.Z);
 
         if (Math.Abs(r) <= double.Epsilon)
         {

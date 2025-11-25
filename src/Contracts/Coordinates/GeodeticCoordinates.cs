@@ -39,13 +39,14 @@ public readonly record struct GeodeticCoordinates
 
         double cosxmu = Math.Cos(Latitude);
         double sinxmu = Math.Sin(Latitude);
-        double den = Math.Sqrt(Math.Pow(cosxmu, 2) + Math.Pow(sinxmu / (1.0D + beta), 2));
+        double sinxmuBeta = sinxmu / (1.0D + beta);
+        double den = Math.Sqrt(cosxmu * cosxmu + sinxmuBeta * sinxmuBeta);
         double coslam = cosxmu / den;
         double sinlam = sinxmu / (den * (1.0D + beta));
-        double rs = r_eq / Math.Sqrt(1.0D + beta * Math.Pow(sinlam, 2));
+        double rs = r_eq / Math.Sqrt(1.0D + beta * sinlam * sinlam);
         double x = rs * coslam + Altitude * cosxmu;
         double z = rs * sinlam + Altitude * sinxmu;
-        double r = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(z, 2));
+        double r = Math.Sqrt(x * x + z * z);
         double theta = Math.Acos(z / r);
 
         return new GeocentricCoordinates(r, theta);

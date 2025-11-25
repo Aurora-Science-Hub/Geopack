@@ -54,12 +54,12 @@ internal sealed partial class Geopack
             phi = 0.0D;
         }
 
-        double rho = Math.Sqrt(Math.Pow(location.Y, 2) + Math.Pow(location.Z, 2));
+        double rho = Math.Sqrt(location.Y * location.Y + location.Z * location.Z);
 
         if (location.X < xm)
         {
             double xMgnp = location.X;
-            double rhomGnp = a * Math.Sqrt(Math.Pow(s0, 2) - 1.0D);
+            double rhomGnp = a * Math.Sqrt(s0 * s0 - 1.0D);
             double yMgnp = rhomGnp * Math.Sin(phi);
             double zMgnp = rhomGnp * Math.Cos(phi);
             double dist = Math.Sqrt(

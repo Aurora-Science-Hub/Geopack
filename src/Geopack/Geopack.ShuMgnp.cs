@@ -31,7 +31,7 @@ internal sealed partial class Geopack
         else
         {
             // Solar wind dynamic pressure in nPa
-            p = 1.94e-6 * xnPd * Math.Pow(vel, 2);
+            p = 1.94e-6 * xnPd * vel * vel;
         }
 
         double phi;
@@ -108,10 +108,10 @@ internal sealed partial class Geopack
         double yMgnp = rho * Math.Sin(phi);
         double zMgnp = rho * Math.Cos(phi);
 
-        double dist = Math.Sqrt(
-            Math.Pow(location.X - xMgnp, 2) +
-            Math.Pow(location.Y - yMgnp, 2) +
-            Math.Pow(location.Z - zMgnp, 2));
+        double dx = location.X - xMgnp;
+        double dy = location.Y - yMgnp;
+        double dz = location.Z - zMgnp;
+        double dist = Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
         return new Magnetopause(CartesianLocation.New(xMgnp, yMgnp, zMgnp, CoordinateSystem.GSW), dist, id);
     }
