@@ -36,14 +36,12 @@ public readonly record struct GeodeticCoordinates
     /// </remarks>
     public GeocentricCoordinates ToGeocentric()
     {
-        const double beta = 6.73949674228e-3;
-
         (double sinxmu, double cosxmu) = Math.SinCos(Latitude);
-        double sinxmuBeta = sinxmu / (1.0D + beta);
+        double sinxmuBeta = sinxmu / GeopackConstants.WGS84Ex;
         double den = Math.Sqrt(cosxmu * cosxmu + sinxmuBeta * sinxmuBeta);
         double coslam = cosxmu / den;
-        double sinlam = sinxmu / (den * (1.0D + beta));
-        double rs = GeopackConstants.REq / Math.Sqrt(1.0D + beta * sinlam * sinlam);
+        double sinlam = sinxmu / (den * GeopackConstants.WGS84Ex);
+        double rs = GeopackConstants.REq / Math.Sqrt(1.0D + GeopackConstants.WGS84Beta * sinlam * sinlam);
         double x = rs * coslam + Altitude * cosxmu;
         double z = rs * sinlam + Altitude * sinxmu;
         double r = Math.Sqrt(x * x + z * z);

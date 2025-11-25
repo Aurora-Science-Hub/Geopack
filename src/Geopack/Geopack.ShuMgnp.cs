@@ -1,5 +1,6 @@
 using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 
 namespace AuroraScienceHub.Geopack;
@@ -31,7 +32,7 @@ internal sealed partial class Geopack
         else
         {
             // Solar wind dynamic pressure in nPa
-            p = 1.94e-6 * xnPd * vel * vel;
+            p = GeopackConstants.SolarWindDynamicPressureFactor * xnPd * vel * vel;
         }
 
         double phi;

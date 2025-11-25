@@ -7,11 +7,6 @@ namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 /// </summary>
 public readonly record struct GeocentricCoordinates
 {
-    private const double Beta = 6.73949674228e-3;
-    private const double Tol = 1e-6;
-    private const double Ex = 1.0D + Beta;
-    private const double FirstEx = Beta * (2.0D + Beta);
-
     /// <summary>
     /// Geocentric distance (in km, ECEF radial)
     /// </summary>
@@ -55,8 +50,8 @@ public readonly record struct GeocentricCoordinates
         {
             (double sinPhi, double cosPhi) = Math.SinCos(phi1);
             double sp2 = sinPhi * sinPhi;
-            double arg = sinPhi * Ex / Math.Sqrt(1.0D + FirstEx * sp2);
-            double rs = GeopackConstants.REq / Math.Sqrt(1.0D + Beta * sp2);
+            double arg = sinPhi * GeopackConstants.WGS84Ex / Math.Sqrt(1.0D + GeopackConstants.WGS84FirstEx * sp2);
+            double rs = GeopackConstants.REq / Math.Sqrt(1.0D + GeopackConstants.WGS84Beta * sp2);
             double rs2 = rs * rs;
             xmus = Math.Asin(arg);
             (double sinXmus, double cosXmus) = Math.SinCos(xmus);
@@ -70,7 +65,7 @@ public readonly record struct GeocentricCoordinates
             phi1 -= dphi;
             n++;
         }
-        while (Math.Abs(dphi) > Tol && n < 100);
+        while (Math.Abs(dphi) > GeopackConstants.CoordinateConvergenceTolerance && n < 100);
 
         return new GeodeticCoordinates(xmus, h);
     }

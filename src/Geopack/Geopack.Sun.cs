@@ -12,26 +12,26 @@ internal sealed partial class Geopack
             return new Sun(dateTime);
         }
 
-        double fday = (dateTime.Hour * 3600 + dateTime.Minute * 60 + dateTime.Second) / 86400.0D;
+        double fday = (dateTime.Hour * GeopackConstants.SecondsPerHour + dateTime.Minute * 60 + dateTime.Second) / GeopackConstants.SecondsPerDay;
         //TODO Ask Tsyganenko if there 4 is really not 4.0D. Here we lose fraction
         double dj = 365 * (dateTime.Year - 1900) + (dateTime.Year - 1901) / 4 + dateTime.DayOfYear - 0.5D + fday;
-        double t = dj / 36525.0D;
-        double vl = (279.696678D + 0.9856473354D * dj) % 360.0D;
-        double gst = (279.690983D + 0.9856473354D * dj + 360.0D * fday + 180.0D) % 360.0D / GeopackConstants.Rad;
-        double g = (358.475845D + 0.985600267D * dj) % 360.0D / GeopackConstants.Rad;
+        double t = dj / GeopackConstants.DaysPerJulianCentury;
+        double vl = (279.696678D + 0.9856473354D * dj) % GeopackConstants.DegreesPerCircle;
+        double gst = (279.690983D + 0.9856473354D * dj + GeopackConstants.DegreesPerCircle * fday + GeopackConstants.DegreesPerSemicircle) % GeopackConstants.DegreesPerCircle / GeopackConstants.Rad;
+        double g = (358.475845D + 0.985600267D * dj) % GeopackConstants.DegreesPerCircle / GeopackConstants.Rad;
         double slong = (vl + (1.91946D - 0.004789D * t) * Math.Sin(g) + 0.020094D * Math.Sin(2.0D * g)) / GeopackConstants.Rad;
 
-        if (slong > 6.2831853D)
+        if (slong > GeopackConstants.TwoPi)
         {
-            slong -= 6.283185307D;
+            slong -= GeopackConstants.TwoPi;
         }
 
         if (slong < 0.0D)
         {
-            slong += 6.283185307D;
+            slong += GeopackConstants.TwoPi;
         }
 
-        double obliq = (23.45229D - 0.0130125D * t) / GeopackConstants.Rad;
+        double obliq = (GeopackConstants.EarthObliquityJ2000 - GeopackConstants.EarthObliquityRatePerCentury * t) / GeopackConstants.Rad;
         (double sob, double cob) = Math.SinCos(obliq);
         double slp = slong - 9.924e-5D;
         (double sinSlp, double cosSlp) = Math.SinCos(slp);
