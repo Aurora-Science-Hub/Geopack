@@ -41,7 +41,7 @@ internal sealed partial class Geopack
         for (int N = 1; N <= 14; N++)
         {
             int N2 = 2 * N - 1;
-            N2 *= (N2 - 2);
+            N2 *= N2 - 2;
             for (int M = 1; M <= N; M++)
             {
                 int MN = N * (N - 1) / 2 + M;
@@ -141,8 +141,8 @@ internal sealed partial class Geopack
         double DZ3 = cosOBLIQ;
 
         double DY1 = DZ2 * S3 - DZ3 * S2;
-        double DY2 = DZ3 * S1;  // DZ1 * S3 = 0
-        double DY3 = -DZ2 * S1; // DZ1 * S2 = 0
+        double DY2 = DZ3 * S1;
+        double DY3 = -DZ2 * S1;
 
         CartesianVector<Velocity> sw = swVelocity.Required();
         double vx = sw.X;
@@ -155,7 +155,7 @@ internal sealed partial class Geopack
         double DX2 = -vy * invV;
         double DX3 = -vz * invV;
 
-        double X1 = DX1 * S1 + DX2 * DY1; // DX3 * DZ1 = 0
+        double X1 = DX1 * S1 + DX2 * DY1;
         double X2 = DX1 * S2 + DX2 * DY2 + DX3 * DZ2;
         double X3 = DX1 * S3 + DX2 * DY3 + DX3 * DZ3;
 
@@ -183,9 +183,9 @@ internal sealed partial class Geopack
         double E21 = DY1 * X1 + DY2 * X2 + DY3 * X3;
         double E22 = DY1 * Y1 + DY2 * Y2 + DY3 * Y3;
         double E23 = DY1 * Z1 + DY2 * Z2 + DY3 * Z3;
-        double E31 = DZ2 * X2 + DZ3 * X3; // DZ1 * X1 = 0
-        double E32 = DZ2 * Y2 + DZ3 * Y3; // DZ1 * Y1 = 0
-        double E33 = DZ2 * Z2 + DZ3 * Z3; // DZ1 * Z1 = 0
+        double E31 = DZ2 * X2 + DZ3 * X3;
+        double E32 = DZ2 * Y2 + DZ3 * Y3;
+        double E33 = DZ2 * Z2 + DZ3 * Z3;
 
         double SPS = DIP1 * X1 + DIP2 * X2 + DIP3 * X3;
         double SPS2 = SPS * SPS;
