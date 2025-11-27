@@ -225,13 +225,10 @@ internal sealed partial class Geopack
     int year1, int IY, int doy,
     double[] G1, double[] G2, double[] H1, double[] H2)
     {
-        const int TOTAL_LENGTH = 105;
+        double[] G = new double[GeopackConstants.IgrfCoefficientCount];
+        double[] H = new double[GeopackConstants.IgrfCoefficientCount];
 
-        double[] G = new double[TOTAL_LENGTH];
-        double[] H = new double[TOTAL_LENGTH];
-
-        double daysInYear = 365.25d;
-        double F2 = (IY + (doy - 1) / daysInYear - year1) * 0.2d;
+        double F2 = (IY + (doy - 1) / GeopackConstants.DaysPerYear - year1) * GeopackConstants.IgrfInterpolationIntervalReciprocal;
         double F1 = 1.0d - F2;
 
         Vector<double> vF1 = new(F1);
@@ -240,7 +237,7 @@ internal sealed partial class Geopack
 
         int i = 0;
 
-        for (; i <= TOTAL_LENGTH - vectorSize; i += vectorSize)
+        for (; i <= GeopackConstants.IgrfCoefficientCount - vectorSize; i += vectorSize)
         {
             Vector<double> vG1 = new(G1, i);
             Vector<double> vG2 = new(G2, i);
@@ -251,12 +248,12 @@ internal sealed partial class Geopack
             (vH1 * vF1 + vH2 * vF2).CopyTo(H, i);
         }
 
-        if (i >= TOTAL_LENGTH)
+        if (i >= GeopackConstants.IgrfCoefficientCount)
         {
             return (G, H);
         }
 
-        int remaining = TOTAL_LENGTH - i;
+        int remaining = GeopackConstants.IgrfCoefficientCount - i;
         if (remaining >= vectorSize / 2)
         {
             Vector<double> vG1 = new(G1, i);
@@ -275,7 +272,7 @@ internal sealed partial class Geopack
         }
         else
         {
-            for (; i < TOTAL_LENGTH; i++)
+            for (; i < GeopackConstants.IgrfCoefficientCount; i++)
             {
                 G[i] = G1[i] * F1 + G2[i] * F2;
                 H[i] = H1[i] * F1 + H2[i] * F2;
@@ -287,14 +284,14 @@ internal sealed partial class Geopack
 
     private static (double[], double[]) Extrapolate(int iy, int iday)
     {
-        double DT = iy + (iday - 1) / 365.25d - 2025;
-        double[] G = new double[105];
-        double[] H = new double[105];
+        double DT = iy + (iday - 1) / GeopackConstants.DaysPerYear - GeopackConstants.IgrfExtrapolationBaseYear;
+        double[] G = new double[GeopackConstants.IgrfCoefficientCount];
+        double[] H = new double[GeopackConstants.IgrfCoefficientCount];
 
         int vectorSize = Vector<double>.Count;
         Vector<double> vDT = new(DT);
 
-        int vectorizedLength = 105;
+        int vectorizedLength = GeopackConstants.IgrfCoefficientCount;
 
         for (int i = 0; i < vectorizedLength; i += vectorSize)
         {
@@ -304,13 +301,13 @@ internal sealed partial class Geopack
             vH25.CopyTo(H, i);
         }
 
-        for (int i = vectorizedLength; i < 105; i++)
+        for (int i = vectorizedLength; i < GeopackConstants.IgrfCoefficientCount; i++)
         {
             G[i] = IgrfCoefficients.G25[i];
             H[i] = IgrfCoefficients.H25[i];
         }
 
-        int deltaVectorizedLength = (45 / vectorSize) * vectorSize;
+        int deltaVectorizedLength = (GeopackConstants.IgrfDeltaCoefficientCount / vectorSize) * vectorSize;
 
         for (int i = 0; i < deltaVectorizedLength; i += vectorSize)
         {
@@ -326,7 +323,7 @@ internal sealed partial class Geopack
             vH.CopyTo(H, i);
         }
 
-        for (int i = deltaVectorizedLength; i < 45; i++)
+        for (int i = deltaVectorizedLength; i < GeopackConstants.IgrfDeltaCoefficientCount; i++)
         {
             G[i] += IgrfCoefficients.DG25[i] * DT;
             H[i] += IgrfCoefficients.DH25[i] * DT;

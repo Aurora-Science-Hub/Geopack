@@ -91,4 +91,29 @@ public static class GeopackConstants
     /// Degrees in a half circle (semicircle)
     /// </summary>
     public const double DegreesPerSemicircle = 180.0;
+
+    /// <summary>
+    /// Average number of days in a year (accounting for leap years)
+    /// </summary>
+    public const double DaysPerYear = 365.25;
+
+    /// <summary>
+    /// Reciprocal of IGRF interpolation interval (1/5 = 0.2) for optimization
+    /// </summary>
+    public const double IgrfInterpolationIntervalReciprocal = 0.2;
+
+    /// <summary>
+    /// Total number of IGRF coefficients
+    /// </summary>
+    public const int IgrfCoefficientCount = 105;
+
+    /// <summary>
+    /// Number of IGRF delta coefficients used in extrapolation
+    /// </summary>
+    public const int IgrfDeltaCoefficientCount = 45;
+
+    /// <summary>
+    /// IGRF extrapolation base year
+    /// </summary>
+    public const int IgrfExtrapolationBaseYear = 2025;
 }
