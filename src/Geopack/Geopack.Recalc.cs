@@ -137,24 +137,25 @@ internal sealed partial class Geopack
         double T = DJ / 36525d;
         double OBLIQ = (23.45229d - 0.0130125d * T) / 57.2957795d;
         (double sinOBLIQ, double cosOBLIQ) = Math.SinCos(OBLIQ);
-        double DZ1 = 0;
         double DZ2 = -sinOBLIQ;
         double DZ3 = cosOBLIQ;
 
         double DY1 = DZ2 * S3 - DZ3 * S2;
-        double DY2 = DZ3 * S1 - DZ1 * S3;
-        double DY3 = DZ1 * S2 - DZ2 * S1;
+        double DY2 = DZ3 * S1;  // DZ1 * S3 = 0
+        double DY3 = -DZ2 * S1; // DZ1 * S2 = 0
 
         CartesianVector<Velocity> sw = swVelocity.Required();
-        double vx = sw.X; double vy = sw.Y; double vz = sw.Z;
-
+        double vx = sw.X;
+        double vy = sw.Y;
+        double vz = sw.Z;
         double V = Math.Sqrt(vx * vx + vy * vy + vz * vz);
+        double invV = 1.0d / V;
 
-        double DX1 = -vx / V;
-        double DX2 = -vy / V;
-        double DX3 = -vz / V;
+        double DX1 = -vx * invV;
+        double DX2 = -vy * invV;
+        double DX3 = -vz * invV;
 
-        double X1 = DX1 * S1 + DX2 * DY1 + DX3 * DZ1;
+        double X1 = DX1 * S1 + DX2 * DY1; // DX3 * DZ1 = 0
         double X2 = DX1 * S2 + DX2 * DY2 + DX3 * DZ2;
         double X3 = DX1 * S3 + DX2 * DY3 + DX3 * DZ3;
 
@@ -167,9 +168,10 @@ internal sealed partial class Geopack
         double Y2 = DIP3 * X1 - DIP1 * X3;
         double Y3 = DIP1 * X2 - DIP2 * X1;
         double Y = Math.Sqrt(Y1 * Y1 + Y2 * Y2 + Y3 * Y3);
-        Y1 /= Y;
-        Y2 /= Y;
-        Y3 /= Y;
+        double invY = 1.0d / Y;
+        Y1 *= invY;
+        Y2 *= invY;
+        Y3 *= invY;
 
         double Z1 = X2 * Y3 - X3 * Y2;
         double Z2 = X3 * Y1 - X1 * Y3;
@@ -181,12 +183,13 @@ internal sealed partial class Geopack
         double E21 = DY1 * X1 + DY2 * X2 + DY3 * X3;
         double E22 = DY1 * Y1 + DY2 * Y2 + DY3 * Y3;
         double E23 = DY1 * Z1 + DY2 * Z2 + DY3 * Z3;
-        double E31 = DZ1 * X1 + DZ2 * X2 + DZ3 * X3;
-        double E32 = DZ1 * Y1 + DZ2 * Y2 + DZ3 * Y3;
-        double E33 = DZ1 * Z1 + DZ2 * Z2 + DZ3 * Z3;
+        double E31 = DZ2 * X2 + DZ3 * X3; // DZ1 * X1 = 0
+        double E32 = DZ2 * Y2 + DZ3 * Y3; // DZ1 * Y1 = 0
+        double E33 = DZ2 * Z2 + DZ3 * Z3; // DZ1 * Z1 = 0
 
         double SPS = DIP1 * X1 + DIP2 * X2 + DIP3 * X3;
-        double CPS = Math.Sqrt(1 - SPS * SPS);
+        double SPS2 = SPS * SPS;
+        double CPS = Math.Sqrt(1.0d - SPS2);
         double PSI = Math.Asin(SPS);
 
         double A11 = X1 * CGST + X2 * SGST;
@@ -288,12 +291,10 @@ internal sealed partial class Geopack
         double[] G = new double[105];
         double[] H = new double[105];
 
-        // SIMD optimization using Vector<double>
         int vectorSize = Vector<double>.Count;
         Vector<double> vDT = new(DT);
 
-        // Phase 1: Copy all 105 elements with SIMD
-        int vectorizedLength = (105 / vectorSize) * vectorSize;
+        int vectorizedLength = 105;
 
         for (int i = 0; i < vectorizedLength; i += vectorSize)
         {
@@ -303,14 +304,12 @@ internal sealed partial class Geopack
             vH25.CopyTo(H, i);
         }
 
-        // Copy remaining elements (scalar fallback)
         for (int i = vectorizedLength; i < 105; i++)
         {
             G[i] = IgrfCoefficients.G25[i];
             H[i] = IgrfCoefficients.H25[i];
         }
 
-        // Phase 2: Add delta for first 45 elements with SIMD
         int deltaVectorizedLength = (45 / vectorSize) * vectorSize;
 
         for (int i = 0; i < deltaVectorizedLength; i += vectorSize)
@@ -320,16 +319,13 @@ internal sealed partial class Geopack
             Vector<double> vDG25 = new(IgrfCoefficients.DG25, i);
             Vector<double> vDH25 = new(IgrfCoefficients.DH25, i);
 
-            // G[i] += DG25[i] * DT
             vG += vDG25 * vDT;
             vG.CopyTo(G, i);
 
-            // H[i] += DH25[i] * DT
             vH += vDH25 * vDT;
             vH.CopyTo(H, i);
         }
 
-        // Add delta for remaining elements (scalar fallback)
         for (int i = deltaVectorizedLength; i < 45; i++)
         {
             G[i] += IgrfCoefficients.DG25[i] * DT;
