@@ -35,8 +35,10 @@ public readonly record struct SphericalLocation : ISpherical<SphericalLocation>
     /// </remarks>
     public CartesianLocation ToCartesian()
     {
-        (double sinTheta, double cosTheta) = Math.SinCos(Theta);
-        (double sinPhi, double cosPhi) = Math.SinCos(Phi);
+        double sinTheta = Math.Sin(Theta);
+        double cosTheta = Math.Cos(Theta);
+        double sinPhi = Math.Sin(Phi);
+        double cosPhi = Math.Cos(Phi);
         double sq = R * sinTheta;
         double x = sq * cosPhi;
         double y = sq * sinPhi;

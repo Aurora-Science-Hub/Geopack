@@ -36,7 +36,8 @@ public readonly record struct GeodeticCoordinates
     /// </remarks>
     public GeocentricCoordinates ToGeocentric()
     {
-        (double sinxmu, double cosxmu) = Math.SinCos(Latitude);
+        double sinxmu = Math.Sin(Latitude);
+        double cosxmu = Math.Cos(Latitude);
         double sinxmuBeta = sinxmu / GeopackConstants.WGS84Ex;
         double den = Math.Sqrt(cosxmu * cosxmu + sinxmuBeta * sinxmuBeta);
         double coslam = cosxmu / den;

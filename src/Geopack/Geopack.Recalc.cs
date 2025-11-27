@@ -1,3 +1,4 @@
+using System.Numerics;
 using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.Engine;
@@ -18,22 +19,22 @@ internal sealed partial class Geopack
             throw new InvalidOperationException("Solar wind velocity must be in GSE coordinate system.");
         }
 
-        int IY = dateTime.Year;
-        int IDAY = dateTime.DayOfYear;
-        int IHOUR = dateTime.Hour;
-        int MIN = dateTime.Minute;
-        int ISEC = dateTime.Second;
+        int year = dateTime.Year;
+        int doy = dateTime.DayOfYear;
+        int hour = dateTime.Hour;
+        int minutes = dateTime.Minute;
+        int seconds = dateTime.Second;
 
-        if (IY < 1965)
+        if (year < 1965)
         {
-            IY = 1965;
-            Console.WriteLine($"Warning: Year {dateTime.Year} is out of range. Using {IY} instead.");
+            year = 1965;
+            Console.WriteLine($"Warning: Year {dateTime.Year} is out of range. Using {year} instead.");
         }
 
-        if (IY > 2030)
+        if (year > 2030)
         {
-            IY = 2030;
-            Console.WriteLine($"Warning: Year {dateTime.Year} is out of range. Using {IY} instead.");
+            year = 2030;
+            Console.WriteLine($"Warning: Year {dateTime.Year} is out of range. Using {year} instead.");
         }
 
         double[] REC = new double[105];
@@ -49,46 +50,46 @@ internal sealed partial class Geopack
         }
 
         double[] G, H;
-        switch (IY)
+        switch (year)
         {
             case < 1970:
-                (G, H) = Interpolate(1965, IY, IDAY, IgrfCoefficients.G65, IgrfCoefficients.G70, IgrfCoefficients.H65, IgrfCoefficients.H70);
+                (G, H) = Interpolate(1965, year, doy, IgrfCoefficients.G65, IgrfCoefficients.G70, IgrfCoefficients.H65, IgrfCoefficients.H70);
                 break;
             case < 1975:
-                (G, H) = Interpolate(1970, IY, IDAY, IgrfCoefficients.G70, IgrfCoefficients.G75, IgrfCoefficients.H70, IgrfCoefficients.H75);
+                (G, H) = Interpolate(1970, year, doy, IgrfCoefficients.G70, IgrfCoefficients.G75, IgrfCoefficients.H70, IgrfCoefficients.H75);
                 break;
             case < 1980:
-                (G, H) = Interpolate(1975, IY, IDAY, IgrfCoefficients.G75, IgrfCoefficients.G80, IgrfCoefficients.H75, IgrfCoefficients.H80);
+                (G, H) = Interpolate(1975, year, doy, IgrfCoefficients.G75, IgrfCoefficients.G80, IgrfCoefficients.H75, IgrfCoefficients.H80);
                 break;
             case < 1985:
-                (G, H) = Interpolate(1980, IY, IDAY, IgrfCoefficients.G80, IgrfCoefficients.G85, IgrfCoefficients.H80, IgrfCoefficients.H85);
+                (G, H) = Interpolate(1980, year, doy, IgrfCoefficients.G80, IgrfCoefficients.G85, IgrfCoefficients.H80, IgrfCoefficients.H85);
                 break;
             case < 1990:
-                (G, H) = Interpolate(1985, IY, IDAY, IgrfCoefficients.G85, IgrfCoefficients.G90, IgrfCoefficients.H85, IgrfCoefficients.H90);
+                (G, H) = Interpolate(1985, year, doy, IgrfCoefficients.G85, IgrfCoefficients.G90, IgrfCoefficients.H85, IgrfCoefficients.H90);
                 break;
             case < 1995:
-                (G, H) = Interpolate(1990, IY, IDAY, IgrfCoefficients.G90, IgrfCoefficients.G95, IgrfCoefficients.H90, IgrfCoefficients.H95);
+                (G, H) = Interpolate(1990, year, doy, IgrfCoefficients.G90, IgrfCoefficients.G95, IgrfCoefficients.H90, IgrfCoefficients.H95);
                 break;
             case < 2000:
-                (G, H) = Interpolate(1995, IY, IDAY, IgrfCoefficients.G95, IgrfCoefficients.G00, IgrfCoefficients.H95, IgrfCoefficients.H00);
+                (G, H) = Interpolate(1995, year, doy, IgrfCoefficients.G95, IgrfCoefficients.G00, IgrfCoefficients.H95, IgrfCoefficients.H00);
                 break;
             case < 2005:
-                (G, H) = Interpolate(2000, IY, IDAY, IgrfCoefficients.G00, IgrfCoefficients.G05, IgrfCoefficients.H00, IgrfCoefficients.H05);
+                (G, H) = Interpolate(2000, year, doy, IgrfCoefficients.G00, IgrfCoefficients.G05, IgrfCoefficients.H00, IgrfCoefficients.H05);
                 break;
             case < 2010:
-                (G, H) = Interpolate(2005, IY, IDAY, IgrfCoefficients.G05, IgrfCoefficients.G10, IgrfCoefficients.H05, IgrfCoefficients.H10);
+                (G, H) = Interpolate(2005, year, doy, IgrfCoefficients.G05, IgrfCoefficients.G10, IgrfCoefficients.H05, IgrfCoefficients.H10);
                 break;
             case < 2015:
-                (G, H) = Interpolate(2010, IY, IDAY, IgrfCoefficients.G10, IgrfCoefficients.G15, IgrfCoefficients.H10, IgrfCoefficients.H15);
+                (G, H) = Interpolate(2010, year, doy, IgrfCoefficients.G10, IgrfCoefficients.G15, IgrfCoefficients.H10, IgrfCoefficients.H15);
                 break;
             case < 2020:
-                (G, H) = Interpolate(2015, IY, IDAY, IgrfCoefficients.G15, IgrfCoefficients.G20, IgrfCoefficients.H15, IgrfCoefficients.H20);
+                (G, H) = Interpolate(2015, year, doy, IgrfCoefficients.G15, IgrfCoefficients.G20, IgrfCoefficients.H15, IgrfCoefficients.H20);
                 break;
             case < 2025:
-                (G, H) = Interpolate(2020, IY, IDAY, IgrfCoefficients.G20, IgrfCoefficients.G25, IgrfCoefficients.H20, IgrfCoefficients.H25);
+                (G, H) = Interpolate(2020, year, doy, IgrfCoefficients.G20, IgrfCoefficients.G25, IgrfCoefficients.H20, IgrfCoefficients.H25);
                 break;
             case >= 2025:
-                (G, H) = Extrapolate(IY, IDAY);
+                (G, H) = Extrapolate(year, doy);
                 break;
         }
 
@@ -132,7 +133,7 @@ internal sealed partial class Geopack
         double S2 = sinSrasn * cosSdec;
         double S3 = sinSdec;
 
-        double DJ = 365d * (IY - 1900) + (IY - 1901) / 4d + IDAY - 0.5d + (IHOUR * 3600 + MIN * 60 + ISEC) / 86400d;
+        double DJ = 365d * (year - 1900) + (year - 1901) / 4d + doy - 0.5d + (hour * 3600 + minutes * 60 + seconds) / 86400d;
         double T = DJ / 36525d;
         double OBLIQ = (23.45229d - 0.0130125d * T) / 57.2957795d;
         (double sinOBLIQ, double cosOBLIQ) = Math.SinCos(OBLIQ);
@@ -144,9 +145,9 @@ internal sealed partial class Geopack
         double DY2 = DZ3 * S1 - DZ1 * S3;
         double DY3 = DZ1 * S2 - DZ2 * S1;
 
-        double vx = swVelocity.Required().X;
-        double vy = swVelocity.Required().Y;
-        double vz = swVelocity.Required().Z;
+        CartesianVector<Velocity> sw = swVelocity.Required();
+        double vx = sw.X; double vy = sw.Y; double vz = sw.Z;
+
         double V = Math.Sqrt(vx * vx + vy * vy + vz * vz);
 
         double DX1 = -vx / V;
@@ -217,19 +218,65 @@ internal sealed partial class Geopack
             H: H, G: G, REC: REC);
     }
 
-    private static (double[], double[]) Interpolate(
-        int year1, int IY, int IDAY,
-        double[] G1, double[] G2, double[] H1, double[] H2)
+    private static (double[] G, double[] H) Interpolate(
+    int year1, int IY, int doy,
+    double[] G1, double[] G2, double[] H1, double[] H2)
     {
-        double[] G = new double[105];
-        double[] H = new double[105];
+        const int TOTAL_LENGTH = 105;
 
-        double F2 = (IY + (IDAY - 1) / 365.25d - year1) / 5d;
+        double[] G = new double[TOTAL_LENGTH];
+        double[] H = new double[TOTAL_LENGTH];
+
+        double daysInYear = 365.25d;
+        double F2 = (IY + (doy - 1) / daysInYear - year1) * 0.2d;
         double F1 = 1.0d - F2;
-        for (int N = 0; N <= 104; N++)
+
+        Vector<double> vF1 = new(F1);
+        Vector<double> vF2 = new(F2);
+        int vectorSize = Vector<double>.Count;
+
+        int i = 0;
+
+        for (; i <= TOTAL_LENGTH - vectorSize; i += vectorSize)
         {
-            G[N] = G1[N] * F1 + G2[N] * F2;
-            H[N] = H1[N] * F1 + H2[N] * F2;
+            Vector<double> vG1 = new(G1, i);
+            Vector<double> vG2 = new(G2, i);
+            Vector<double> vH1 = new(H1, i);
+            Vector<double> vH2 = new(H2, i);
+
+            (vG1 * vF1 + vG2 * vF2).CopyTo(G, i);
+            (vH1 * vF1 + vH2 * vF2).CopyTo(H, i);
+        }
+
+        if (i >= TOTAL_LENGTH)
+        {
+            return (G, H);
+        }
+
+        int remaining = TOTAL_LENGTH - i;
+        if (remaining >= vectorSize / 2)
+        {
+            Vector<double> vG1 = new(G1, i);
+            Vector<double> vG2 = new(G2, i);
+            Vector<double> vH1 = new(H1, i);
+            Vector<double> vH2 = new(H2, i);
+
+            Vector<double> vG = vG1 * vF1 + vG2 * vF2;
+            Vector<double> vH = vH1 * vF1 + vH2 * vF2;
+
+            for (int j = 0; j < remaining; j++)
+            {
+                G[i + j] = vG[j];
+                H[i + j] = vH[j];
+            }
+        }
+        else
+        {
+            for (; i < TOTAL_LENGTH; i++)
+            {
+                G[i] = G1[i] * F1 + G2[i] * F2;
+                H[i] = H1[i] * F1 + H2[i] * F2;
+            }
         }
 
         return (G, H);
@@ -241,20 +288,54 @@ internal sealed partial class Geopack
         double[] G = new double[105];
         double[] H = new double[105];
 
-        for (int N = 0; N <= 104; N++)
-        {
-            G[N] = IgrfCoefficients.G25[N];
-            H[N] = IgrfCoefficients.H25[N];
-            if (N > 44)
-            {
-                continue;
-            }
+        // SIMD optimization using Vector<double>
+        int vectorSize = Vector<double>.Count;
+        Vector<double> vDT = new(DT);
 
-            G[N] += IgrfCoefficients.DG25[N] * DT;
-            H[N] += IgrfCoefficients.DH25[N] * DT;
+        // Phase 1: Copy all 105 elements with SIMD
+        int vectorizedLength = (105 / vectorSize) * vectorSize;
+
+        for (int i = 0; i < vectorizedLength; i += vectorSize)
+        {
+            Vector<double> vG25 = new(IgrfCoefficients.G25, i);
+            Vector<double> vH25 = new(IgrfCoefficients.H25, i);
+            vG25.CopyTo(G, i);
+            vH25.CopyTo(H, i);
+        }
+
+        // Copy remaining elements (scalar fallback)
+        for (int i = vectorizedLength; i < 105; i++)
+        {
+            G[i] = IgrfCoefficients.G25[i];
+            H[i] = IgrfCoefficients.H25[i];
+        }
+
+        // Phase 2: Add delta for first 45 elements with SIMD
+        int deltaVectorizedLength = (45 / vectorSize) * vectorSize;
+
+        for (int i = 0; i < deltaVectorizedLength; i += vectorSize)
+        {
+            Vector<double> vG = new(G, i);
+            Vector<double> vH = new(H, i);
+            Vector<double> vDG25 = new(IgrfCoefficients.DG25, i);
+            Vector<double> vDH25 = new(IgrfCoefficients.DH25, i);
+
+            // G[i] += DG25[i] * DT
+            vG += vDG25 * vDT;
+            vG.CopyTo(G, i);
+
+            // H[i] += DH25[i] * DT
+            vH += vDH25 * vDT;
+            vH.CopyTo(H, i);
+        }
+
+        // Add delta for remaining elements (scalar fallback)
+        for (int i = deltaVectorizedLength; i < 45; i++)
+        {
+            G[i] += IgrfCoefficients.DG25[i] * DT;
+            H[i] += IgrfCoefficients.DH25[i] * DT;
         }
 
         return (G, H);
     }
-
 }
