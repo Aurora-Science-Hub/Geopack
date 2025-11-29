@@ -14,12 +14,15 @@ internal sealed partial class Geopack
             throw new InvalidOperationException("Location must be in GSW coordinate system.");
         }
 
-        double dipmom = Math.Sqrt(Math.Pow(context.G[1], 2) + Math.Pow(context.G[2], 2) + Math.Pow(context.H[2], 2));
+        double g1 = context.G[1];
+        double g2 = context.G[2];
+        double h2 = context.H[2];
+        double dipmom = Math.Sqrt(g1 * g1 + g2 * g2 + h2 * h2);
 
-        double p = Math.Pow(location.X, 2);
-        double u = Math.Pow(location.Z, 2);
+        double p = location.X * location.X;
+        double u = location.Z * location.Z;
         double v = 3.0D * location.Z * location.X;
-        double t = Math.Pow(location.Y, 2);
+        double t = location.Y * location.Y;
 
         if (p + t + u is 0D)
         {

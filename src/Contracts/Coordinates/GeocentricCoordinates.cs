@@ -1,3 +1,5 @@
+using AuroraScienceHub.Geopack.Contracts.Engine;
+
 namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 
 /// <summary>
@@ -37,32 +39,33 @@ public readonly record struct GeocentricCoordinates
     /// </remarks>
     public GeodeticCoordinates ToGeodetic()
     {
-        const double r_eq = 6378.137D;
-        const double beta = 6.73949674228e-3;
-        const double tol = 1e-6;
-
         int n = 0;
-        double phi = 1.570796327D - Theta;
+        double phi = GeopackConstants.HalfPi - Theta;
         double phi1 = phi;
+        double r2 = R * R;
 
-        double xmus, rs, cosfims, h, z, x, rr, dphi;
+        double xmus, h, dphi;
 
         do
         {
-            double sp = Math.Sin(phi1);
-            double arg = sp * (1.0D + beta) / Math.Sqrt(1.0D + beta * (2.0D + beta) * Math.Pow(sp, 2));
+            (double sinPhi, double cosPhi) = Math.SinCos(phi1);
+            double sp2 = sinPhi * sinPhi;
+            double arg = sinPhi * GeopackConstants.WGS84Ex / Math.Sqrt(1.0D + GeopackConstants.WGS84FirstEx * sp2);
+            double rs = GeopackConstants.REq / Math.Sqrt(1.0D + GeopackConstants.WGS84Beta * sp2);
+            double rs2 = rs * rs;
             xmus = Math.Asin(arg);
-            rs = r_eq / Math.Sqrt(1.0D + beta * Math.Pow(Math.Sin(phi1), 2));
-            cosfims = Math.Cos(phi1 - xmus);
-            h = Math.Sqrt(rs * cosfims * rs * cosfims + R * R - rs * rs) - rs * cosfims;
-            z = rs * Math.Sin(phi1) + h * Math.Sin(xmus);
-            x = rs * Math.Cos(phi1) + h * Math.Cos(xmus);
-            rr = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(z, 2));
+            (double sinXmus, double cosXmus) = Math.SinCos(xmus);
+
+            double cosfims = Math.Cos(phi1 - xmus);
+            h = Math.Sqrt(rs2 * cosfims * cosfims + r2 - rs2) - rs * cosfims;
+            double z = rs * sinPhi + h * sinXmus;
+            double x = rs * cosPhi + h * cosXmus;
+            double rr = Math.Sqrt(x * x + z * z);
             dphi = Math.Asin(z / rr) - phi;
             phi1 -= dphi;
             n++;
         }
-        while (Math.Abs(dphi) > tol && n < 100);
+        while (Math.Abs(dphi) > GeopackConstants.CoordinateConvergenceTolerance && n < 100);
 
         return new GeodeticCoordinates(xmus, h);
     }
