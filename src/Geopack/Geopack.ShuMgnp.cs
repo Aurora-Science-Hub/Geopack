@@ -112,6 +112,37 @@ internal sealed partial class Geopack
         double ct = xmt96 / r;
 
         // Newton's iterative method to find nearest boundary point
+        (r, double sinT, double cosT) = FindMagnetopauseBoundaryPoint(r0, alpha, r, st, ct);
+        double xMgnp = r * cosT;
+        double rho = r * sinT;
+        (double sinPhi, double cosPhi) = Math.SinCos(phi);
+        double yMgnp = rho * sinPhi;
+        double zMgnp = rho * cosPhi;
+
+        double dx = location.X - xMgnp;
+        double dy = location.Y - yMgnp;
+        double dz = location.Z - zMgnp;
+        double dist = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+
+        return new Magnetopause(CartesianLocation.New(xMgnp, yMgnp, zMgnp, CoordinateSystem.GSW), dist, id);
+    }
+
+    /// <summary>
+    /// Finds the magnetopause boundary point using Newton's iterative method
+    /// </summary>
+    /// <param name="r0">Base magnetopause standoff distance</param>
+    /// <param name="alpha">Magnetopause shape parameter</param>
+    /// <param name="r">Initial radial distance</param>
+    /// <param name="st">Initial sine of theta</param>
+    /// <param name="ct">Initial cosine of theta</param>
+    /// <returns>Tuple containing final r, sin(theta), and cos(theta)</returns>
+    private static (double r, double sinT, double cosT) FindMagnetopauseBoundaryPoint(
+        double r0,
+        double alpha,
+        double r,
+        double st,
+        double ct)
+    {
         int nit = 0;
         double t, rm_val, f, gradf_r, gradf_t, gradf, dr, dt, ds;
 
@@ -144,17 +175,6 @@ internal sealed partial class Geopack
         while (ds > 1e-4);
 
         (double sinT, double cosT) = Math.SinCos(t);
-        double xMgnp = r * cosT;
-        double rho = r * sinT;
-        (double sinPhi, double cosPhi) = Math.SinCos(phi);
-        double yMgnp = rho * sinPhi;
-        double zMgnp = rho * cosPhi;
-
-        double dx = location.X - xMgnp;
-        double dy = location.Y - yMgnp;
-        double dz = location.Z - zMgnp;
-        double dist = Math.Sqrt(dx * dx + dy * dy + dz * dz);
-
-        return new Magnetopause(CartesianLocation.New(xMgnp, yMgnp, zMgnp, CoordinateSystem.GSW), dist, id);
+        return (r, sinT, cosT);
     }
 }
