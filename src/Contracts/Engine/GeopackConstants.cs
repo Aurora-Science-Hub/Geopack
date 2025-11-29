@@ -116,4 +116,14 @@ public static class GeopackConstants
     /// IGRF extrapolation base year
     /// </summary>
     public const int IgrfExtrapolationBaseYear = 2025;
+
+    /// <summary>
+    /// Maximum iterations for Newton's method convergence
+    /// </summary>
+    public const int NewtonMaxIterations = 1000;
+
+    /// <summary>
+    /// Convergence tolerance for Newton's iterative methods
+    /// </summary>
+    public const double NewtonConvergenceTolerance = 1e-4;
 }

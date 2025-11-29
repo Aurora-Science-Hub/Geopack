@@ -7,6 +7,46 @@ namespace AuroraScienceHub.Geopack;
 
 internal sealed partial class Geopack
 {
+    /// <summary>
+    /// Shu magnetopause model coefficient 1
+    /// </summary>
+    private const double ShuMgnpCoeff1 = 10.22D;
+
+    /// <summary>
+    /// Shu magnetopause model coefficient 2
+    /// </summary>
+    private const double ShuMgnpCoeff2 = 1.29D;
+
+    /// <summary>
+    /// Shu magnetopause model coefficient 3
+    /// </summary>
+    private const double ShuMgnpCoeff3 = 0.184D;
+
+    /// <summary>
+    /// Shu magnetopause model coefficient 4
+    /// </summary>
+    private const double ShuMgnpCoeff4 = 8.14D;
+
+    /// <summary>
+    /// Shu magnetopause model pressure exponent (-1/6.6)
+    /// </summary>
+    private const double ShuMgnpPressureExponent = -0.15151515D;
+
+    /// <summary>
+    /// Shu magnetopause model alpha coefficient 1
+    /// </summary>
+    private const double ShuMgnpAlphaCoeff1 = 0.58D;
+
+    /// <summary>
+    /// Shu magnetopause model alpha coefficient 2
+    /// </summary>
+    private const double ShuMgnpAlphaCoeff2 = 0.007D;
+
+    /// <summary>
+    /// Shu magnetopause model alpha coefficient 3
+    /// </summary>
+    private const double ShuMgnpAlphaCoeff3 = 0.024D;
+
     public Magnetopause ShuMgnp(
         double xnPd,
         double vel,
@@ -46,8 +86,8 @@ internal sealed partial class Geopack
         }
 
         MagnetopausePosition id;
-        double r0 = (10.22D + 1.29D * Math.Tanh(0.184D * (bzImf + 8.14D))) * Math.Pow(p, -0.15151515D);
-        double alpha = (0.58D - 0.007D * bzImf) * (1.0D + 0.024D * Math.Log(p));
+        double r0 = (ShuMgnpCoeff1 + ShuMgnpCoeff2 * Math.Tanh(ShuMgnpCoeff3 * (bzImf + ShuMgnpCoeff4))) * Math.Pow(p, ShuMgnpPressureExponent);
+        double alpha = (ShuMgnpAlphaCoeff1 - ShuMgnpAlphaCoeff2 * bzImf) * (1.0D + ShuMgnpAlphaCoeff3 * Math.Log(p));
         double r = Math.Sqrt(location.X * location.X + location.Y * location.Y + location.Z * location.Z);
         double rm = r0 * Math.Pow(2.0D / (1.0D + location.X / r), alpha);
 
