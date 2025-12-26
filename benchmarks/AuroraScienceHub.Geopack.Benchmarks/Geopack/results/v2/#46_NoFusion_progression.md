@@ -9,7 +9,7 @@ AMD Ryzen 5 5500U with Radeon Graphics 0.40GHz, 1 CPU, 12 logical and 6 physical
 
 
 ```
-| Method            | Job       | Runtime   | Mean       | Error     | StdDev    | Median     | Allocated |
-|------------------ |---------- |---------- |-----------:|----------:|----------:|-----------:|----------:|
+| Method            | Job       | Runtime   |       Mean |     Error |    StdDev |     Median | Allocated |
+|-------------------|-----------|-----------|-----------:|----------:|----------:|-----------:|----------:|
 | ToCartesianVector | .NET 10.0 | .NET 10.0 |  0.0000 ns | 0.0001 ns | 0.0001 ns |  0.0000 ns |         - |
 | ToCartesianVector | .NET 8.0  | .NET 8.0  | 35.8614 ns | 0.0439 ns | 0.0411 ns | 35.8599 ns |         - |
