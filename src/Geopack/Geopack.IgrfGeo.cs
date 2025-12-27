@@ -19,10 +19,8 @@ internal sealed partial class Geopack
             throw new InvalidOperationException("Location must be in GEO coordinate system.");
         }
 
-        double c = Math.Cos(location.Theta);
-        double s = Math.Sin(location.Theta);
-        double cf = Math.Cos(location.Phi);
-        double sf = Math.Sin(location.Phi);
+        (double s, double c) = Math.SinCos(location.Theta);
+        (double sf, double cf) = Math.SinCos(location.Phi);
 
         double pp = 1.0D / location.R;
         double p = pp;

@@ -1,5 +1,6 @@
 using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 
 namespace AuroraScienceHub.Geopack;
@@ -22,7 +23,7 @@ internal sealed partial class Geopack
         }
         else
         {
-            pd = 1.94e-6 * xnPd * vel * vel;
+            pd = GeopackConstants.SolarWindDynamicPressureFactor * xnPd * vel * vel;
         }
 
         if (pd is 0D)
@@ -54,14 +55,15 @@ internal sealed partial class Geopack
             phi = 0.0D;
         }
 
-        double rho = Math.Sqrt(Math.Pow(location.Y, 2) + Math.Pow(location.Z, 2));
+        double rho = Math.Sqrt(location.Y * location.Y + location.Z * location.Z);
 
         if (location.X < xm)
         {
             double xMgnp = location.X;
-            double rhomGnp = a * Math.Sqrt(Math.Pow(s0, 2) - 1.0D);
-            double yMgnp = rhomGnp * Math.Sin(phi);
-            double zMgnp = rhomGnp * Math.Cos(phi);
+            double rhomGnp = a * Math.Sqrt(s0 * s0 - 1.0D);
+            (double sinPhi, double cosPhi) = Math.SinCos(phi);
+            double yMgnp = rhomGnp * sinPhi;
+            double zMgnp = rhomGnp * cosPhi;
             double dist = Math.Sqrt(
                 (location.X - xMgnp) * (location.X - xMgnp) +
                 (location.Y - yMgnp) * (location.Y - yMgnp) +
@@ -91,8 +93,9 @@ internal sealed partial class Geopack
         }
 
         double rhomGnpOut = a * Math.Sqrt(arg);
-        double yMgnpOut = rhomGnpOut * Math.Sin(phi);
-        double zMgnpOut = rhomGnpOut * Math.Cos(phi);
+        (double sinPhiOut, double cosPhiOut) = Math.SinCos(phi);
+        double yMgnpOut = rhomGnpOut * sinPhiOut;
+        double zMgnpOut = rhomGnpOut * cosPhiOut;
 
         double distOut = Math.Sqrt(
             (location.X - xMgnpOut) * (location.X - xMgnpOut) +

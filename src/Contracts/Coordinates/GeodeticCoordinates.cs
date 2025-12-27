@@ -1,3 +1,5 @@
+using AuroraScienceHub.Geopack.Contracts.Engine;
+
 namespace AuroraScienceHub.Geopack.Contracts.Coordinates;
 
 /// <summary>
@@ -34,18 +36,16 @@ public readonly record struct GeodeticCoordinates
     /// </remarks>
     public GeocentricCoordinates ToGeocentric()
     {
-        const double r_eq = 6378.137D;
-        const double beta = 6.73949674228e-3;
-
-        double cosxmu = Math.Cos(Latitude);
         double sinxmu = Math.Sin(Latitude);
-        double den = Math.Sqrt(Math.Pow(cosxmu, 2) + Math.Pow(sinxmu / (1.0D + beta), 2));
+        double cosxmu = Math.Cos(Latitude);
+        double sinxmuBeta = sinxmu / GeopackConstants.WGS84Ex;
+        double den = Math.Sqrt(cosxmu * cosxmu + sinxmuBeta * sinxmuBeta);
         double coslam = cosxmu / den;
-        double sinlam = sinxmu / (den * (1.0D + beta));
-        double rs = r_eq / Math.Sqrt(1.0D + beta * Math.Pow(sinlam, 2));
+        double sinlam = sinxmu / (den * GeopackConstants.WGS84Ex);
+        double rs = GeopackConstants.REq / Math.Sqrt(1.0D + GeopackConstants.WGS84Beta * sinlam * sinlam);
         double x = rs * coslam + Altitude * cosxmu;
         double z = rs * sinlam + Altitude * sinxmu;
-        double r = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(z, 2));
+        double r = Math.Sqrt(x * x + z * z);
         double theta = Math.Acos(z / r);
 
         return new GeocentricCoordinates(r, theta);

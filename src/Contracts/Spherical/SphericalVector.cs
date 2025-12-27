@@ -42,6 +42,7 @@ public readonly record struct SphericalVector<TVector>
         double c = Math.Cos(location.Theta);
         double sf = Math.Sin(location.Phi);
         double cf = Math.Cos(location.Phi);
+
         double be = R * s + Theta * c;
         double bx = be * cf - Phi * sf;
         double by = be * sf + Phi * cf;
