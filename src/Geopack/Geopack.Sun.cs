@@ -26,7 +26,7 @@ internal sealed partial class Geopack
             slong -= GeopackConstants.TwoPi;
         }
 
-        if (slong < 0.0D)
+        if (slong < -double.Epsilon)
         {
             slong += GeopackConstants.TwoPi;
         }
