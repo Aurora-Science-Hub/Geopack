@@ -142,10 +142,10 @@ internal sealed partial class Geopack
             bf = bbf / s;
         }
 
-        double he = br * s + bt * c;
-        double bx = he * cf - bf * sf;
-        double by = he * sf + bf * cf;
-        double bz = br * c - bt * s;
+        double he = Math.FusedMultiplyAdd(br, s, bt * c);
+        double bx = Math.FusedMultiplyAdd(he, cf, -bf * sf);
+        double by = Math.FusedMultiplyAdd(he, sf, bf * cf);
+        double bz = Math.FusedMultiplyAdd(br, c, -bt * s);
 
         return GeoToGsw(context, CartesianVector<MagneticField>.New(bx, by, bz, CoordinateSystem.GEO));
     }

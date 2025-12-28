@@ -187,28 +187,28 @@ internal sealed partial class Geopack
         double E32 = DZ2 * Y2 + DZ3 * Y3;
         double E33 = DZ2 * Z2 + DZ3 * Z3;
 
-        double SPS = DIP1 * X1 + DIP2 * X2 + DIP3 * X3;
+        double SPS = Math.FusedMultiplyAdd(DIP1, X1, Math.FusedMultiplyAdd(DIP2, X2, DIP3 * X3));
         double SPS2 = SPS * SPS;
         double CPS = Math.Sqrt(1.0d - SPS2);
         double PSI = Math.Asin(SPS);
 
-        double A11 = X1 * CGST + X2 * SGST;
-        double A12 = -X1 * SGST + X2 * CGST;
+        double A11 = Math.FusedMultiplyAdd(X1, CGST, X2 * SGST);
+        double A12 = Math.FusedMultiplyAdd(-X1, SGST, X2 * CGST);
         double A13 = X3;
-        double A21 = Y1 * CGST + Y2 * SGST;
-        double A22 = -Y1 * SGST + Y2 * CGST;
+        double A21 = Math.FusedMultiplyAdd(Y1, CGST, Y2 * SGST);
+        double A22 = Math.FusedMultiplyAdd(-Y1, SGST, Y2 * CGST);
         double A23 = Y3;
-        double A31 = Z1 * CGST + Z2 * SGST;
-        double A32 = -Z1 * SGST + Z2 * CGST;
+        double A31 = Math.FusedMultiplyAdd(Z1, CGST, Z2 * SGST);
+        double A32 = Math.FusedMultiplyAdd(-Z1, SGST, Z2 * CGST);
         double A33 = Z3;
 
-        double EXMAGX = CT0 * (CL0 * CGST - SL0 * SGST);
-        double EXMAGY = CT0 * (CL0 * SGST + SL0 * CGST);
+        double EXMAGX = CT0 * (Math.FusedMultiplyAdd(CL0, CGST, -SL0 * SGST));
+        double EXMAGY = CT0 * (Math.FusedMultiplyAdd(CL0, SGST, SL0 * CGST));
         double EXMAGZ = -ST0;
-        double EYMAGX = -(SL0 * CGST + CL0 * SGST);
-        double EYMAGY = -(SL0 * SGST - CL0 * CGST);
-        double CFI = Y1 * EYMAGX + Y2 * EYMAGY;
-        double SFI = Y1 * EXMAGX + Y2 * EXMAGY + Y3 * EXMAGZ;
+        double EYMAGX = -(Math.FusedMultiplyAdd(SL0, CGST, CL0 * SGST));
+        double EYMAGY = -(Math.FusedMultiplyAdd(SL0, SGST, -CL0 * CGST));
+        double CFI = Math.FusedMultiplyAdd(Y1, EYMAGX, Y2 * EYMAGY);
+        double SFI = Math.FusedMultiplyAdd(Y1, EXMAGX, Math.FusedMultiplyAdd(Y2, EXMAGY, Y3 * EXMAGZ));
 
         return new ComputationContext(
             ST0: ST0, CT0: CT0, SL0: SL0, CL0: CL0,
@@ -325,8 +325,8 @@ internal sealed partial class Geopack
 
         for (int i = deltaVectorizedLength; i < GeopackConstants.IgrfDeltaCoefficientCount; i++)
         {
-            G[i] += IgrfCoefficients.DG25[i] * DT;
-            H[i] += IgrfCoefficients.DH25[i] * DT;
+            G[i] = Math.FusedMultiplyAdd(IgrfCoefficients.DG25[i], DT, G[i]);
+            H[i] = Math.FusedMultiplyAdd(IgrfCoefficients.DH25[i], DT, H[i]);
         }
 
         return (G, H);

@@ -248,8 +248,8 @@ internal sealed partial class T89 : IT89
         double FXMN = -location.X * FXYM;
         double FYPL = location.Y * FXYP;
         double FYMN = -location.Y * FXYM;
-        double FZPL = WCSP + XYWC * SZRP;
-        double FZMN = WCSM + XYWC * SZRM;
+        double FZPL = Math.FusedMultiplyAdd(WCSP, 1.0, XYWC * SZRP);
+        double FZMN = Math.FusedMultiplyAdd(WCSM, 1.0, XYWC * SZRM);
         double DER13 = FXPL + FXMN;
         double DER14 = (FXPL - FXMN) * SPS;
         double DER23 = FYPL + FYMN;

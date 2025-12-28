@@ -55,8 +55,8 @@ public readonly record struct CartesianLocation : ICartesian<CartesianLocation>
     {
         double phi;
         double theta;
-        double sq = X * X + Y * Y;
-        double r = Math.Sqrt(sq + Z * Z);
+        double sq = Math.FusedMultiplyAdd(X, X, Y * Y);
+        double r = Math.Sqrt(Math.FusedMultiplyAdd(Z, Z, sq));
 
         if (Math.Abs(sq) > double.Epsilon)
         {

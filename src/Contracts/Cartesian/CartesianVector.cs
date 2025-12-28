@@ -64,9 +64,9 @@ public readonly record struct CartesianVector<TVector>
         double ct = location.Z / r;
         double st = rho / r;
 
-        double br = (location.X * X + location.Y * Y + location.Z * Z) / r;
-        double btheta = (X * cphi + Y * sphi) * ct - Z * st;
-        double bphi = Y * cphi - X * sphi;
+        double br = Math.FusedMultiplyAdd(location.X, X, Math.FusedMultiplyAdd(location.Y, Y, location.Z * Z)) / r;
+        double btheta = Math.FusedMultiplyAdd(Math.FusedMultiplyAdd(X, cphi, Y * sphi), ct, -Z * st);
+        double bphi = Math.FusedMultiplyAdd(Y, cphi, -X * sphi);
 
         return SphericalVector<TVector>.New(br, btheta, bphi, CoordinateSystem);
     }

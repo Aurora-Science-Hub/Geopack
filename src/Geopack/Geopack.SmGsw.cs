@@ -18,17 +18,17 @@ internal sealed partial class Geopack
         {
             OperationType.Direct => components.CoordinateSystem is CoordinateSystem.SM
                 ? T.New(
-                    components.X * context.CPS + components.Z * context.SPS,
+                    Math.FusedMultiplyAdd(components.X, context.CPS, components.Z * context.SPS),
                     components.Y,
-                    components.Z * context.CPS - components.X * context.SPS,
+                    Math.FusedMultiplyAdd(components.Z, context.CPS, -components.X * context.SPS),
                     CoordinateSystem.GSW)
                 : throw new InvalidOperationException("Input coordinates must be in SM system."),
 
             OperationType.Reversed => components.CoordinateSystem is CoordinateSystem.GSW
                 ? T.New(
-                    components.X * context.CPS - components.Z * context.SPS,
+                    Math.FusedMultiplyAdd(components.X, context.CPS, -components.Z * context.SPS),
                     components.Y,
-                    components.X * context.SPS + components.Z * context.CPS,
+                    Math.FusedMultiplyAdd(components.X, context.SPS, components.Z * context.CPS),
                     CoordinateSystem.SM)
                 : throw new InvalidOperationException("Input coordinates must be in GSW system."),
             _ => throw new NotSupportedException($"Specify correct OperationType: {operation}. Available types are Direct and Reversed.")

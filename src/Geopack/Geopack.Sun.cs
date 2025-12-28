@@ -31,12 +31,12 @@ internal sealed partial class Geopack
             slong += GeopackConstants.TwoPi;
         }
 
-        double obliq = (GeopackConstants.EarthObliquityJ2000 - GeopackConstants.EarthObliquityRatePerCentury * t) / GeopackConstants.Rad;
+        double obliq = Math.FusedMultiplyAdd(-GeopackConstants.EarthObliquityRatePerCentury, t, GeopackConstants.EarthObliquityJ2000) / GeopackConstants.Rad;
         (double sob, double cob) = Math.SinCos(obliq);
         double slp = slong - 9.924e-5D;
         (double sinSlp, double cosSlp) = Math.SinCos(slp);
         double sind = sob * sinSlp;
-        double cosd = Math.Sqrt(1.0D - sind * sind);
+        double cosd = Math.Sqrt(Math.FusedMultiplyAdd(-sind, sind, 1.0D));
         double sc = sind / cosd;
         double sdec = Math.Atan2(sind, cosd);
         double srasn = GeopackConstants.Pi - Math.Atan2(cob / sob * sc, -cosSlp / cosd);

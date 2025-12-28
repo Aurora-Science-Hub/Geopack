@@ -18,16 +18,16 @@ internal sealed partial class Geopack
         {
             OperationType.Direct => components.CoordinateSystem is CoordinateSystem.MAG
                 ? T.New(
-                    components.X * context.CFI - components.Y * context.SFI,
-                    components.X * context.SFI + components.Y * context.CFI,
+                    Math.FusedMultiplyAdd(components.X, context.CFI, -components.Y * context.SFI),
+                    Math.FusedMultiplyAdd(components.X, context.SFI, components.Y * context.CFI),
                     components.Z,
                     CoordinateSystem.SM)
                 : throw new InvalidOperationException("Input coordinates must be in MAG system."),
 
             OperationType.Reversed => components.CoordinateSystem is CoordinateSystem.SM
                 ? T.New(
-                    components.X * context.CFI + components.Y * context.SFI,
-                    components.Y * context.CFI - components.X * context.SFI,
+                    Math.FusedMultiplyAdd(components.X, context.CFI, components.Y * context.SFI),
+                    Math.FusedMultiplyAdd(components.Y, context.CFI, -components.X * context.SFI),
                     components.Z,
                     CoordinateSystem.MAG)
                 : throw new InvalidOperationException("Input coordinates must be in SM system."),

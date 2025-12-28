@@ -158,7 +158,7 @@ internal sealed partial class Geopack
         double by = externalField.Y + internalField.Y;
         double bz = externalField.Z + internalField.Z;
 
-        double b = ds3 / Math.Sqrt(bx * bx + by * by + bz * bz);
+        double b = ds3 / Math.Sqrt(Math.FusedMultiplyAdd(bx, bx, Math.FusedMultiplyAdd(by, by, bz * bz)));
 
         double r1 = bx * b;
         double r2 = by * b;
