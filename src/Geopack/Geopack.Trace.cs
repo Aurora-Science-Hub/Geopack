@@ -40,7 +40,7 @@ internal sealed partial class Geopack
         FieldLineRhsVector initialRhs = Rhand(context, x, y, z, iopt, parmod, exName, inName, ds3);
         double ad = 0.01D;
         double dotProduct = x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3;
-        if (dotProduct < -double.Epsilon)
+        if (dotProduct < 0.0D)
         {
             ad = -0.01D;
         }
@@ -102,8 +102,7 @@ internal sealed partial class Geopack
             r = Math.Sqrt(x * x + y * y + z * z);
             double dr = r - rr;
 
-            double product = drp * dr;
-            if (Math.Abs(product) > double.Epsilon && product < 0.0D)
+            if (drp * dr < 0.0D)
             {
                 nrev++;
             }
