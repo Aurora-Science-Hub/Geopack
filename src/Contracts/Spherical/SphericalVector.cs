@@ -42,10 +42,11 @@ public readonly record struct SphericalVector<TVector>
         double c = Math.Cos(location.Theta);
         double sf = Math.Sin(location.Phi);
         double cf = Math.Cos(location.Phi);
-        double be = R * s + Theta * c;
-        double bx = be * cf - Phi * sf;
-        double by = be * sf + Phi * cf;
-        double bz = R * c - Theta * s;
+
+        double be = Math.FusedMultiplyAdd(R, s, Theta * c);
+        double bx = Math.FusedMultiplyAdd(be, cf, -Phi * sf);
+        double by = Math.FusedMultiplyAdd(be, sf, Phi * cf);
+        double bz = Math.FusedMultiplyAdd(R, c, -Theta * s);
 
         return CartesianVector<TVector>.New(bx, by, bz, CoordinateSystem);
     }

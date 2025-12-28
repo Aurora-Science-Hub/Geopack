@@ -16,8 +16,8 @@ internal sealed partial class Geopack
 
         CartesianLocation geoLocation = GswToGeo(context, location);
 
-        double rho2 = Math.Pow(geoLocation.X, 2) + Math.Pow(geoLocation.Y, 2);
-        double r = Math.Sqrt(rho2 + Math.Pow(geoLocation.Z, 2));
+        double rho2 = geoLocation.X * geoLocation.X + geoLocation.Y * geoLocation.Y;
+        double r = Math.Sqrt(rho2 + geoLocation.Z * geoLocation.Z);
 
         if (Math.Abs(r) <= double.Epsilon)
         {
@@ -142,10 +142,10 @@ internal sealed partial class Geopack
             bf = bbf / s;
         }
 
-        double he = br * s + bt * c;
-        double bx = he * cf - bf * sf;
-        double by = he * sf + bf * cf;
-        double bz = br * c - bt * s;
+        double he = Math.FusedMultiplyAdd(br, s, bt * c);
+        double bx = Math.FusedMultiplyAdd(he, cf, -bf * sf);
+        double by = Math.FusedMultiplyAdd(he, sf, bf * cf);
+        double bz = Math.FusedMultiplyAdd(br, c, -bt * s);
 
         return GeoToGsw(context, CartesianVector<MagneticField>.New(bx, by, bz, CoordinateSystem.GEO));
     }

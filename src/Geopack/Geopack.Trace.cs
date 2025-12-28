@@ -23,7 +23,7 @@ internal sealed partial class Geopack
             throw new InvalidOperationException("Location must be in GSW system.");
         }
 
-        List<CartesianLocation> points = new();
+        List<CartesianLocation> points = new(lMax + 1);
         double direction = (double)dir;
 
         int l = 0;
@@ -39,7 +39,8 @@ internal sealed partial class Geopack
 
         FieldLineRhsVector initialRhs = Rhand(context, x, y, z, iopt, parmod, exName, inName, ds3);
         double ad = 0.01D;
-        if (x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3 < 0.0D)
+        double dotProduct = x * initialRhs.R1 + y * initialRhs.R2 + z * initialRhs.R3;
+        if (dotProduct < 0.0D)
         {
             ad = -0.01D;
         }
@@ -147,14 +148,16 @@ internal sealed partial class Geopack
         InternalFieldModel inName,
         double ds3)
     {
-        CartesianVector<MagneticField> externalField = exName.Calculate(iopt, parmod, context.PSI, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
-        CartesianVector<MagneticField> internalField = inName(context, CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
+        CartesianLocation location = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
+
+        CartesianVector<MagneticField> externalField = exName.Calculate(iopt, parmod, context.PSI, location);
+        CartesianVector<MagneticField> internalField = inName(context, location);
 
         double bx = externalField.X + internalField.X;
         double by = externalField.Y + internalField.Y;
         double bz = externalField.Z + internalField.Z;
 
-        double b = ds3 / Math.Sqrt(bx * bx + by * by + bz * bz);
+        double b = ds3 / Math.Sqrt(Math.FusedMultiplyAdd(bx, bx, Math.FusedMultiplyAdd(by, by, bz * bz)));
 
         double r1 = bx * b;
         double r2 = by * b;
@@ -177,7 +180,10 @@ internal sealed partial class Geopack
         {
             ds3 = -currentDs / 3.0D;
 
+            // First Runge-Kutta stage
             FieldLineRhsVector r1 = Rhand(context, x, y, z, iopt, parmod, exName, inName, ds3);
+
+            // Second stage
             FieldLineRhsVector r2 = Rhand(context, x + r1.R1, y + r1.R2, z + r1.R3, iopt, parmod, exName, inName, ds3);
             FieldLineRhsVector r3 = Rhand(context,
                 x + 0.5D * (r1.R1 + r2.R1),

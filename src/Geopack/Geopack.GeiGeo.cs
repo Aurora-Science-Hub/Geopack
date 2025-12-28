@@ -18,16 +18,16 @@ internal sealed partial class Geopack
         {
             OperationType.Direct => components.CoordinateSystem is CoordinateSystem.GEI
                 ? T.New(
-                    components.X * context.CGST + components.Y * context.SGST,
-                    components.Y * context.CGST - components.X * context.SGST,
+                    Math.FusedMultiplyAdd(components.X, context.CGST, components.Y * context.SGST),
+                    Math.FusedMultiplyAdd(components.Y, context.CGST, -components.X * context.SGST),
                     components.Z,
                     CoordinateSystem.GEO)
                 : throw new InvalidOperationException("Input coordinates must be in GEI system."),
 
             OperationType.Reversed => components.CoordinateSystem is CoordinateSystem.GEO
                 ? T.New(
-                    components.X * context.CGST - components.Y * context.SGST,
-                    components.Y * context.CGST + components.X * context.SGST,
+                    Math.FusedMultiplyAdd(components.X, context.CGST, -components.Y * context.SGST),
+                    Math.FusedMultiplyAdd(components.Y, context.CGST, components.X * context.SGST),
                     components.Z,
                     CoordinateSystem.GEI)
                 : throw new InvalidOperationException("Input coordinates must be in GEO system."),

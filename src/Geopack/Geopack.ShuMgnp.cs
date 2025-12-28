@@ -1,11 +1,52 @@
 using AuroraScienceHub.Geopack.Contracts.Cartesian;
 using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 
 namespace AuroraScienceHub.Geopack;
 
 internal sealed partial class Geopack
 {
+    /// <summary>
+    /// Shu magnetopause model coefficient 1
+    /// </summary>
+    private const double ShuMgnpCoeff1 = 10.22D;
+
+    /// <summary>
+    /// Shu magnetopause model coefficient 2
+    /// </summary>
+    private const double ShuMgnpCoeff2 = 1.29D;
+
+    /// <summary>
+    /// Shu magnetopause model coefficient 3
+    /// </summary>
+    private const double ShuMgnpCoeff3 = 0.184D;
+
+    /// <summary>
+    /// Shu magnetopause model coefficient 4
+    /// </summary>
+    private const double ShuMgnpCoeff4 = 8.14D;
+
+    /// <summary>
+    /// Shu magnetopause model pressure exponent (-1/6.6)
+    /// </summary>
+    private const double ShuMgnpPressureExponent = -0.15151515D;
+
+    /// <summary>
+    /// Shu magnetopause model alpha coefficient 1
+    /// </summary>
+    private const double ShuMgnpAlphaCoeff1 = 0.58D;
+
+    /// <summary>
+    /// Shu magnetopause model alpha coefficient 2
+    /// </summary>
+    private const double ShuMgnpAlphaCoeff2 = 0.007D;
+
+    /// <summary>
+    /// Shu magnetopause model alpha coefficient 3
+    /// </summary>
+    private const double ShuMgnpAlphaCoeff3 = 0.024D;
+
     public Magnetopause ShuMgnp(
         double xnPd,
         double vel,
@@ -31,7 +72,7 @@ internal sealed partial class Geopack
         else
         {
             // Solar wind dynamic pressure in nPa
-            p = 1.94e-6 * xnPd * Math.Pow(vel, 2);
+            p = GeopackConstants.SolarWindDynamicPressureFactor * xnPd * vel * vel;
         }
 
         double phi;
@@ -45,8 +86,8 @@ internal sealed partial class Geopack
         }
 
         MagnetopausePosition id;
-        double r0 = (10.22D + 1.29D * Math.Tanh(0.184D * (bzImf + 8.14D))) * Math.Pow(p, -0.15151515D);
-        double alpha = (0.58D - 0.007D * bzImf) * (1.0D + 0.024D * Math.Log(p));
+        double r0 = (ShuMgnpCoeff1 + ShuMgnpCoeff2 * Math.Tanh(ShuMgnpCoeff3 * (bzImf + ShuMgnpCoeff4))) * Math.Pow(p, ShuMgnpPressureExponent);
+        double alpha = (ShuMgnpAlphaCoeff1 - ShuMgnpAlphaCoeff2 * bzImf) * (1.0D + ShuMgnpAlphaCoeff3 * Math.Log(p));
         double r = Math.Sqrt(location.X * location.X + location.Y * location.Y + location.Z * location.Z);
         double rm = r0 * Math.Pow(2.0D / (1.0D + location.X / r), alpha);
 
@@ -71,6 +112,37 @@ internal sealed partial class Geopack
         double ct = xmt96 / r;
 
         // Newton's iterative method to find nearest boundary point
+        (r, double sinT, double cosT) = FindMagnetopauseBoundaryPoint(r0, alpha, r, st, ct);
+        double xMgnp = r * cosT;
+        double rho = r * sinT;
+        (double sinPhi, double cosPhi) = Math.SinCos(phi);
+        double yMgnp = rho * sinPhi;
+        double zMgnp = rho * cosPhi;
+
+        double dx = location.X - xMgnp;
+        double dy = location.Y - yMgnp;
+        double dz = location.Z - zMgnp;
+        double dist = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+
+        return new Magnetopause(CartesianLocation.New(xMgnp, yMgnp, zMgnp, CoordinateSystem.GSW), dist, id);
+    }
+
+    /// <summary>
+    /// Finds the magnetopause boundary point using Newton's iterative method
+    /// </summary>
+    /// <param name="r0">Base magnetopause standoff distance</param>
+    /// <param name="alpha">Magnetopause shape parameter</param>
+    /// <param name="r">Initial radial distance</param>
+    /// <param name="st">Initial sine of theta</param>
+    /// <param name="ct">Initial cosine of theta</param>
+    /// <returns>Tuple containing final r, sin(theta), and cos(theta)</returns>
+    private static (double r, double sinT, double cosT) FindMagnetopauseBoundaryPoint(
+        double r0,
+        double alpha,
+        double r,
+        double st,
+        double ct)
+    {
         int nit = 0;
         double t, rm_val, f, gradf_r, gradf_t, gradf, dr, dt, ds;
 
@@ -89,8 +161,7 @@ internal sealed partial class Geopack
 
             r += dr;
             t += dt;
-            st = Math.Sin(t);
-            ct = Math.Cos(t);
+            (st, ct) = Math.SinCos(t);
 
             ds = Math.Sqrt(dr * dr + (r * dt) * (r * dt));
             nit++;
@@ -103,16 +174,7 @@ internal sealed partial class Geopack
         }
         while (ds > 1e-4);
 
-        double xMgnp = r * Math.Cos(t);
-        double rho = r * Math.Sin(t);
-        double yMgnp = rho * Math.Sin(phi);
-        double zMgnp = rho * Math.Cos(phi);
-
-        double dist = Math.Sqrt(
-            Math.Pow(location.X - xMgnp, 2) +
-            Math.Pow(location.Y - yMgnp, 2) +
-            Math.Pow(location.Z - zMgnp, 2));
-
-        return new Magnetopause(CartesianLocation.New(xMgnp, yMgnp, zMgnp, CoordinateSystem.GSW), dist, id);
+        (double sinT, double cosT) = Math.SinCos(t);
+        return (r, sinT, cosT);
     }
 }

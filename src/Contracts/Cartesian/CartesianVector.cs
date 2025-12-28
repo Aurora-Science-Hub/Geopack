@@ -37,10 +37,10 @@ public readonly record struct CartesianVector<TVector>
     /// </remarks>
     public SphericalVector<TVector> ToSphericalVector(CartesianLocation location)
     {
-        double rho2 = Math.Pow(location.X, 2.0D) + Math.Pow(location.Y, 2.0D);
+        double rho2 = location.X * location.X + location.Y * location.Y;
         double rho = Math.Sqrt(rho2);
 
-        double r = Math.Sqrt(rho2 + Math.Pow(location.Z, 2.0D));
+        double r = Math.Sqrt(rho2 + location.Z * location.Z);
 
         if (Math.Abs(r) <= double.Epsilon)
         {
@@ -64,9 +64,9 @@ public readonly record struct CartesianVector<TVector>
         double ct = location.Z / r;
         double st = rho / r;
 
-        double br = (location.X * X + location.Y * Y + location.Z * Z) / r;
-        double btheta = (X * cphi + Y * sphi) * ct - Z * st;
-        double bphi = Y * cphi - X * sphi;
+        double br = Math.FusedMultiplyAdd(location.X, X, Math.FusedMultiplyAdd(location.Y, Y, location.Z * Z)) / r;
+        double btheta = Math.FusedMultiplyAdd(Math.FusedMultiplyAdd(X, cphi, Y * sphi), ct, -Z * st);
+        double bphi = Math.FusedMultiplyAdd(Y, cphi, -X * sphi);
 
         return SphericalVector<TVector>.New(br, btheta, bphi, CoordinateSystem);
     }
