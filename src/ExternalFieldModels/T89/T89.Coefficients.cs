@@ -1,6 +1,6 @@
 namespace AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 
-public sealed partial class T89
+internal sealed partial class T89
 {
     private static readonly double[,] PARAM =
     {
