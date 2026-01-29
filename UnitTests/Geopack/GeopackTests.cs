@@ -5,6 +5,8 @@ using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using AuroraScienceHub.Geopack.UnitTests.Geopack.Fixtures;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace AuroraScienceHub.Geopack.UnitTests.Geopack;
 
@@ -14,7 +16,8 @@ public class TestDataCollection : ICollectionFixture<TestDataFixture>;
 [Collection("Geopack")]
 public partial class GeopackTests(TestDataFixture fixture)
 {
-    private static readonly AuroraScienceHub.Geopack.Geopack s_geopack = new();
+    private static readonly ILogger<AuroraScienceHub.Geopack.Geopack> s_logger = NullLogger<AuroraScienceHub.Geopack.Geopack>.Instance;
+    private static readonly AuroraScienceHub.Geopack.Geopack s_geopack = new(s_logger);
 
     private readonly ComputationContext _context = s_geopack.Recalc(
         fixture.InputData.DateTime, CartesianVector<Velocity>.New(-304.0D, 13.0D, 4.0D, CoordinateSystem.GSE));

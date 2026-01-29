@@ -4,6 +4,7 @@ using AuroraScienceHub.Geopack.Contracts.Coordinates;
 using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
+using Microsoft.Extensions.Logging;
 
 namespace AuroraScienceHub.Geopack;
 
@@ -115,8 +116,7 @@ internal sealed partial class Geopack
 
         if (l > lMax)
         {
-            Console.WriteLine(
-                "**** COMPUTATIONS IN THE SUBROUTINE TRACE_08 ARE TERMINATED: THE NUMBER OF POINTS EXCEEDED LMAX ****");
+            _logger.LogWarning("Computations in the Trace method are terminated: the number of points exceeded LMax={LMax}.", lMax);
             maxPointsExceeded = true;
 
             if (points.Count > lMax)
