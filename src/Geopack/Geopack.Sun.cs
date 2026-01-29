@@ -13,7 +13,7 @@ internal sealed partial class Geopack
         }
 
         double fday = (dateTime.Hour * GeopackConstants.SecondsPerHour + dateTime.Minute * 60 + dateTime.Second) / GeopackConstants.SecondsPerDay;
-        //TODO Ask Tsyganenko if there 4 is really not 4.0D. Here we lose fraction
+        // Integer division is intentional here - calculates number of leap years since 1901
         double dj = 365 * (dateTime.Year - 1900) + (dateTime.Year - 1901) / 4 + dateTime.DayOfYear - 0.5D + fday;
         double t = dj / GeopackConstants.DaysPerJulianCentury;
         double vl = (279.696678D + 0.9856473354D * dj) % GeopackConstants.DegreesPerCircle;
