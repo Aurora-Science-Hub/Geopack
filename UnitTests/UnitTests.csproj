@@ -34,10 +34,4 @@
     <EmbeddedResource Include="Geopack\TestData\*.dat" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
-      <HintPath>..\..\..\.nuget\packages\microsoft.extensions.logging.abstractions\6.0.0\lib\net6.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
