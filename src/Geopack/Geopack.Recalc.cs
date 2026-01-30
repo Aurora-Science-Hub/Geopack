@@ -5,6 +5,7 @@ using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using AuroraScienceHub.Geopack.Utilities;
+using Microsoft.Extensions.Logging;
 
 namespace AuroraScienceHub.Geopack;
 
@@ -28,13 +29,13 @@ internal sealed partial class Geopack
         if (year < 1965)
         {
             year = 1965;
-            Console.WriteLine($"Warning: Year {dateTime.Year} is out of range. Using {year} instead.");
+            _logger.LogWarning("Year {Year} is out of range. Using {AdjustedYear} instead.", dateTime.Year, year);
         }
 
         if (year > 2030)
         {
             year = 2030;
-            Console.WriteLine($"Warning: Year {dateTime.Year} is out of range. Using {year} instead.");
+            _logger.LogWarning("Year {Year} is out of range. Using {AdjustedYear} instead.", dateTime.Year, year);
         }
 
         double[] REC = new double[105];

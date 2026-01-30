@@ -8,8 +8,9 @@ using AuroraScienceHub.Geopack.Contracts.Spherical;
 using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 
@@ -23,7 +24,8 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 [Config(typeof(NativeAotConfig))]
 public class GeopackBenchmarks
 {
-    private static readonly AuroraScienceHub.Geopack.Geopack s_geopack = new();
+    private static readonly ILogger<AuroraScienceHub.Geopack.Geopack> s_logger = NullLogger<AuroraScienceHub.Geopack.Geopack>.Instance;
+    private static readonly AuroraScienceHub.Geopack.Geopack s_geopack = new(s_logger);
     private static readonly IExternalFieldModel s_t89 = new T89();
 
     private const double Dsmax = 0.1D;

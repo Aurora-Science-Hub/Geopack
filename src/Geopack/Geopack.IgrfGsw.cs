@@ -50,8 +50,8 @@ internal sealed partial class Geopack
             nm = 13;
 
         int k = nm + 1;
-        double[] a = new double[k + 1];
-        double[] b = new double[k + 1];
+        Span<double> a = stackalloc double[k + 1];
+        Span<double> b = stackalloc double[k + 1];
 
         for (int n = 1; n <= k; n++)
         {
