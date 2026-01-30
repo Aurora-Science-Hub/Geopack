@@ -7,9 +7,9 @@ namespace AuroraScienceHub.Geopack;
 /// </summary>
 internal sealed partial class Geopack : IGeopack
 {
-    private readonly ILogger<IGeopack> _logger;
+    private readonly ILogger<Geopack> _logger;
 
-    public Geopack(ILogger<IGeopack> logger)
+    public Geopack(ILogger<Geopack> logger)
     {
         _logger = logger;
     }
