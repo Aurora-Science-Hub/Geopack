@@ -237,8 +237,7 @@ internal sealed partial class Geopack
         int vectorSize = Vector<double>.Count;
 
         int i = 0;
-
-        for (; i <= GeopackConstants.IgrfCoefficientCount - vectorSize; i += vectorSize)
+        while (GeopackConstants.IgrfCoefficientCount - i >= vectorSize)
         {
             Vector<double> vG1 = new(G1, i);
             Vector<double> vG2 = new(G2, i);
@@ -247,6 +246,8 @@ internal sealed partial class Geopack
 
             (vG1 * vF1 + vG2 * vF2).CopyTo(G, i);
             (vH1 * vF1 + vH2 * vF2).CopyTo(H, i);
+
+            i += vectorSize;
         }
 
         if (i >= GeopackConstants.IgrfCoefficientCount)
