@@ -236,49 +236,26 @@ internal sealed partial class Geopack
         Vector<double> vF2 = new(F2);
         int vectorSize = Vector<double>.Count;
 
-        int i = 0;
-        while (GeopackConstants.IgrfCoefficientCount - i >= vectorSize)
+        int vectorizationStartPosition = 0;
+        while (GeopackConstants.IgrfCoefficientCount - vectorizationStartPosition >= vectorSize)
         {
-            Vector<double> vG1 = new(G1, i);
-            Vector<double> vG2 = new(G2, i);
-            Vector<double> vH1 = new(H1, i);
-            Vector<double> vH2 = new(H2, i);
+            Vector<double> vG1 = new(G1, vectorizationStartPosition);
+            Vector<double> vG2 = new(G2, vectorizationStartPosition);
+            Vector<double> vH1 = new(H1, vectorizationStartPosition);
+            Vector<double> vH2 = new(H2, vectorizationStartPosition);
 
-            (vG1 * vF1 + vG2 * vF2).CopyTo(G, i);
-            (vH1 * vF1 + vH2 * vF2).CopyTo(H, i);
+            (vG1 * vF1 + vG2 * vF2).CopyTo(G, vectorizationStartPosition);
+            (vH1 * vF1 + vH2 * vF2).CopyTo(H, vectorizationStartPosition);
 
-            i += vectorSize;
+            vectorizationStartPosition += vectorSize;
         }
 
-        if (i >= GeopackConstants.IgrfCoefficientCount)
+        while (vectorizationStartPosition < GeopackConstants.IgrfCoefficientCount)
         {
-            return (G, H);
-        }
+            G[vectorizationStartPosition] = G1[vectorizationStartPosition] * F1 + G2[vectorizationStartPosition] * F2;
+            H[vectorizationStartPosition] = H1[vectorizationStartPosition] * F1 + H2[vectorizationStartPosition] * F2;
 
-        int remaining = GeopackConstants.IgrfCoefficientCount - i;
-        if (remaining >= vectorSize / 2)
-        {
-            Vector<double> vG1 = new(G1, i);
-            Vector<double> vG2 = new(G2, i);
-            Vector<double> vH1 = new(H1, i);
-            Vector<double> vH2 = new(H2, i);
-
-            Vector<double> vG = vG1 * vF1 + vG2 * vF2;
-            Vector<double> vH = vH1 * vF1 + vH2 * vF2;
-
-            for (int j = 0; j < remaining; j++)
-            {
-                G[i + j] = vG[j];
-                H[i + j] = vH[j];
-            }
-        }
-        else
-        {
-            for (; i < GeopackConstants.IgrfCoefficientCount; i++)
-            {
-                G[i] = G1[i] * F1 + G2[i] * F2;
-                H[i] = H1[i] * F1 + H2[i] * F2;
-            }
+            vectorizationStartPosition++;
         }
 
         return (G, H);
