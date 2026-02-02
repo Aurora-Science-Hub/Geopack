@@ -16,15 +16,9 @@ internal sealed partial class Geopack
             throw new InvalidOperationException("Location must be in GSW system.");
         }
 
-        double pd;
-        if (vel < 0.0)
-        {
-            pd = xnPd;
-        }
-        else
-        {
-            pd = GeopackConstants.SolarWindDynamicPressureFactor * xnPd * vel * vel;
-        }
+        double pd = vel < 0.0
+            ? xnPd
+            : GeopackConstants.SolarWindDynamicPressureFactor * xnPd * vel * vel;
 
         if (pd is 0D)
         {
@@ -45,15 +39,9 @@ internal sealed partial class Geopack
         double x0 = x00 / rat16;
         double xm = x0 - a;
 
-        double phi;
-        if (location.Y is not 0.0 || location.Z is not 0.0)
-        {
-            phi = Math.Atan2(location.Y, location.Z);
-        }
-        else
-        {
-            phi = 0.0D;
-        }
+        double phi = location.Y is not 0.0 || location.Z is not 0.0
+            ? Math.Atan2(location.Y, location.Z)
+            : 0.0D;
 
         double rho = Math.Sqrt(location.Y * location.Y + location.Z * location.Z);
 
