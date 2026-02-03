@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>AuroraScienceHub.Geopack.Benchmarks.Geopack.GeopackBenchmarks-20260203-160747</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.15.8, Linux Ubuntu 24.04.3 LTS (Noble Numbat)
+AMD Ryzen 5 5500U with Radeon Graphics 0.40GHz, 1 CPU, 12 logical and 6 physical cores
+.NET SDK 10.0.100
+  [Host]   : .NET 10.0.0 (10.0.0, 10.0.25.52411), X64 RyuJIT x86-64-v3
+  .NET 8.0 : .NET 8.0.22 (8.0.22, 8.0.2225.52707), X64 RyuJIT x86-64-v3
+</code></pre>
+<pre><code>Job=.NET 8.0  Runtime=.NET 8.0  Concurrent=True  
+Force=False  Server=True  IterationCount=15  
+LaunchCount=2  WarmupCount=10  
+</code></pre>
+
+<table>
+<thead><tr><th>Method     </th><th>Mean    </th><th>Error  </th><th>StdDev </th><th>Median  </th><th>Ratio    </th><th>RatioSD</th><th>Gen0</th><th>Allocated</th><th>Alloc Ratio</th>
+</tr>
+</thead><tbody><tr><td>ToSphericalVector</td><td>9.569 ns</td><td>0.0166 ns</td><td>0.0248 ns</td><td>9.569 ns</td><td>132.857x faster</td><td>0.39x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>ToCartesianVector</td><td>36.038 ns</td><td>0.0557 ns</td><td>0.0834 ns</td><td>36.044 ns</td><td>35.277x faster</td><td>0.10x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>ToSpherical</td><td>35.608 ns</td><td>0.0799 ns</td><td>0.1146 ns</td><td>35.607 ns</td><td>35.704x faster</td><td>0.12x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>ToCartesian</td><td>33.532 ns</td><td>0.0612 ns</td><td>0.0897 ns</td><td>33.502 ns</td><td>37.914x faster</td><td>0.11x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>GeiToGeo</td><td>5.651 ns</td><td>0.0892 ns</td><td>0.1335 ns</td><td>5.651 ns</td><td>225.099x faster</td><td>5.24x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>GeoToGei</td><td>5.779 ns</td><td>0.0145 ns</td><td>0.0218 ns</td><td>5.773 ns</td><td>219.982x faster</td><td>0.87x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>ToGeocentric</td><td>59.685 ns</td><td>0.1057 ns</td><td>0.1516 ns</td><td>59.619 ns</td><td>21.300x faster</td><td>0.06x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>ToGeodetic</td><td>190.788 ns</td><td>0.1280 ns</td><td>0.1915 ns</td><td>190.741 ns</td><td>6.664x faster</td><td>0.01x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>GeoToGsw</td><td>6.487 ns</td><td>0.0545 ns</td><td>0.0816 ns</td><td>6.490 ns</td><td>195.994x faster</td><td>2.45x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>GswToGeo</td><td>6.673 ns</td><td>0.0610 ns</td><td>0.0912 ns</td><td>6.660 ns</td><td>190.551x faster</td><td>2.56x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>GeoToMag</td><td>6.751 ns</td><td>0.0097 ns</td><td>0.0137 ns</td><td>6.751 ns</td><td>188.328x faster</td><td>0.46x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>MagToGeo</td><td>6.275 ns</td><td>0.0142 ns</td><td>0.0204 ns</td><td>6.270 ns</td><td>202.604x faster</td><td>0.71x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>GswToGse</td><td>6.535 ns</td><td>0.0340 ns</td><td>0.0498 ns</td><td>6.532 ns</td><td>194.562x faster</td><td>1.48x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>GseToGsw</td><td>6.851 ns</td><td>0.1049 ns</td><td>0.1569 ns</td><td>6.860 ns</td><td>185.652x faster</td><td>4.20x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>MagToSm</td><td>5.647 ns</td><td>0.0826 ns</td><td>0.1103 ns</td><td>5.568 ns</td><td>225.208x faster</td><td>4.32x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>SmToMag</td><td>5.761 ns</td><td>0.0088 ns</td><td>0.0129 ns</td><td>5.760 ns</td><td>220.683x faster</td><td>0.58x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>SmToGsw</td><td>5.521 ns</td><td>0.0082 ns</td><td>0.0120 ns</td><td>5.519 ns</td><td>230.252x faster</td><td>0.60x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>GswToSm</td><td>5.790 ns</td><td>0.0161 ns</td><td>0.0242 ns</td><td>5.786 ns</td><td>219.565x faster</td><td>0.96x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>Recalc</td><td>1,271.315 ns</td><td>1.2880 ns</td><td>1.8880 ns</td><td>1,271.169 ns</td><td>baseline</td><td></td><td>0.0954</td><td>2896 B</td><td></td>
+</tr><tr><td>ShuMgnp</td><td>405.452 ns</td><td>0.5093 ns</td><td>0.7623 ns</td><td>405.547 ns</td><td>3.136x faster</td><td>0.01x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>T96Mgnp</td><td>63.268 ns</td><td>0.1398 ns</td><td>0.2093 ns</td><td>63.269 ns</td><td>20.094x faster</td><td>0.07x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>IgrfGeo</td><td>412.969 ns</td><td>0.7409 ns</td><td>1.0861 ns</td><td>413.123 ns</td><td>3.078x faster</td><td>0.01x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>IgrfGsw</td><td>412.366 ns</td><td>0.7928 ns</td><td>1.1621 ns</td><td>412.351 ns</td><td>3.083x faster</td><td>0.01x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>Dip</td><td>25.012 ns</td><td>0.0517 ns</td><td>0.0725 ns</td><td>25.005 ns</td><td>50.829x faster</td><td>0.16x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>Sun</td><td>138.191 ns</td><td>0.2595 ns</td><td>0.3638 ns</td><td>138.188 ns</td><td>9.200x faster</td><td>0.03x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>T89</td><td>125.317 ns</td><td>0.1032 ns</td><td>0.1513 ns</td><td>125.323 ns</td><td>10.145x faster</td><td>0.02x</td><td>-</td><td>-</td><td>NA</td>
+</tr><tr><td>Trace_NS</td><td>353,113.281 ns</td><td>3,121.2016 ns</td><td>4,575.0171 ns</td><td>356,251.762 ns</td><td>277.755x slower</td><td>3.56x</td><td>0.4883</td><td>16224 B</td><td>5.60x more</td>
+</tr><tr><td>Trace_SN</td><td>341,034.045 ns</td><td>1,399.1409 ns</td><td>2,006.6063 ns</td><td>341,351.123 ns</td><td>268.254x slower</td><td>1.60x</td><td>0.4883</td><td>16224 B</td><td>5.60x more</td>
+</tr></tbody></table>
+</body>
+</html>
