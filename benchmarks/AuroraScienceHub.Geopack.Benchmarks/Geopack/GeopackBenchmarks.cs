@@ -8,6 +8,8 @@ using AuroraScienceHub.Geopack.Contracts.Spherical;
 using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -18,10 +20,8 @@ namespace AuroraScienceHub.Geopack.Benchmarks.Geopack;
 /// Benchmarks for magnetic field calculation performance
 /// </summary>
 [MemoryDiagnoser]
-[SimpleJob(RuntimeMoniker.Net80)]
-[SimpleJob(RuntimeMoniker.Net10_0)]
 [MarkdownExporterAttribute.GitHub]
-[Config(typeof(NativeAotConfig))]
+[Config(typeof(AntiThrottlingConfig))]
 public class GeopackBenchmarks
 {
     private static readonly ILogger<AuroraScienceHub.Geopack.Geopack> s_logger = NullLogger<AuroraScienceHub.Geopack.Geopack>.Instance;
@@ -188,13 +188,31 @@ public class GeopackBenchmarks
             s_t89, s_geopack.IgrfGsw,
             Lmax);
 
-    private class NativeAotConfig : ManualConfig
+    private class AntiThrottlingConfig : ManualConfig
     {
-        public NativeAotConfig()
+        public AntiThrottlingConfig()
         {
+            // Set custom artifacts path
             ArtifactsPath = Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "BenchmarkDotNet.Artifacts");
+            Directory.GetCurrentDirectory(),
+            "BenchmarkDotNet.Artifacts");
+
+            // Add jobs for different runtimes with optimized settings
+            // .NET 10.0
+            AddJob(Job.MediumRun
+                .WithRuntime(CoreRuntime.Core80)
+                .WithGcServer(true) // Server GC for better throughput
+                .WithGcConcurrent(true) // Concurrent GC
+                .WithGcForce(false) // Don't force GC between benchmarks
+                .WithId(".NET 8.0"));
+
+            // Add memory diagnostics
+            AddDiagnoser(MemoryDiagnoser.Default);
+
+            // Set options to reduce noise
+            WithOptions(ConfigOptions.DisableOptimizationsValidator);
+            WithSummaryStyle(BenchmarkDotNet.Reports.SummaryStyle.Default
+                .WithRatioStyle(BenchmarkDotNet.Columns.RatioStyle.Trend));
         }
     }
 }
