@@ -64,26 +64,13 @@ internal sealed partial class Geopack
             throw new InvalidOperationException("Location must be in GSW system.");
         }
 
-        double p;
-        if (vel < 0.0)
-        {
-            p = xnPd;
-        }
-        else
-        {
-            // Solar wind dynamic pressure in nPa
-            p = GeopackConstants.SolarWindDynamicPressureFactor * xnPd * vel * vel;
-        }
+        double p = vel < 0.0
+            ? xnPd
+            : GeopackConstants.SolarWindDynamicPressureFactor * xnPd * vel * vel;
 
-        double phi;
-        if (location.Y is not 0.0 || location.Z is not 0.0)
-        {
-            phi = Math.Atan2(location.Y, location.Z);
-        }
-        else
-        {
-            phi = 0.0D;
-        }
+        double phi = location.Y is not 0.0 || location.Z is not 0.0
+            ? Math.Atan2(location.Y, location.Z)
+            : 0.0D;
 
         MagnetopausePosition id;
         double r0 = (ShuMgnpCoeff1 + ShuMgnpCoeff2 * Math.Tanh(ShuMgnpCoeff3 * (bzImf + ShuMgnpCoeff4))) * Math.Pow(p, ShuMgnpPressureExponent);
