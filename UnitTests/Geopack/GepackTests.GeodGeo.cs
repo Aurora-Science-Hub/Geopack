@@ -14,9 +14,10 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeodGeoDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        foreach (string line in lines)
+        IEnumerable<string[]> coordinateStrings = lines.Select(line => line.SplitParametersLine());
+
+        foreach (string[] coordinatesString in coordinateStrings)
         {
-            string[] coordinatesString = line.SplitParametersLine();
             GeodeticCoordinates testLocation = new(coordinatesString[3].ParseDouble(), coordinatesString[1].ParseDouble());
             GeocentricCoordinates approvedLocation = new(coordinatesString[5].ParseDouble(), coordinatesString[7].ParseDouble());
 
@@ -36,9 +37,10 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GeoGeodDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        foreach (string line in lines)
+        IEnumerable<string[]> coordinateStrings = lines.Select(line => line.SplitParametersLine());
+
+        foreach (string[] coordinatesString in coordinateStrings)
         {
-            string[] coordinatesString = line.SplitParametersLine();
             GeocentricCoordinates testLocation = new(coordinatesString[1].ParseDouble(), coordinatesString[3].ParseDouble());
             GeodeticCoordinates approvedLocation = new(coordinatesString[7].ParseDouble(), coordinatesString[5].ParseDouble());
 

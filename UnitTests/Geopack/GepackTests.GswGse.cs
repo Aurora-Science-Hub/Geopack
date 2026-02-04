@@ -15,9 +15,10 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GswGseDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        foreach (string line in lines)
+        IEnumerable<string[]> coordinateStrings = lines.Select(line => line.SplitParametersLine());
+
+        foreach (string[] coordinatesString in coordinateStrings)
         {
-            string[] coordinatesString = line.SplitParametersLine();
             CartesianLocation gswLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
             coordinatesString[3].ParseDouble(),
             coordinatesString[5].ParseDouble(),
@@ -45,9 +46,10 @@ public partial class GeopackTests
         string rawData = await EmbeddedResourceReader.ReadTextAsync(GseGswDatasetFileName);
         string[] lines = rawData.SplitLines();
 
-        foreach (string line in lines)
+        IEnumerable<string[]> coordinateStrings = lines.Select(line => line.SplitParametersLine());
+
+        foreach (string[] coordinatesString in coordinateStrings)
         {
-            string[] coordinatesString = line.SplitParametersLine();
             CartesianLocation gseLocation = CartesianLocation.New(coordinatesString[1].ParseDouble(),
                 coordinatesString[3].ParseDouble(),
                 coordinatesString[5].ParseDouble(),
