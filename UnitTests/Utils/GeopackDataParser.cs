@@ -81,18 +81,14 @@ public static class GeopackDataParser
         result.E33 = common1string[35].ParseDouble();
 
         // Parse coordinates
-        while (lineIndex < lines.Length)
-        {
-            string[] ghrec = lines[lineIndex++].Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            if (ghrec.Length != 3)
-            {
-                continue;
-            }
+        List<string[]> ghrecLines = lines.Skip(lineIndex)
+            .Select(line => line.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries))
+            .Where(ghrec => ghrec.Length == 3)
+            .ToList();
 
-            result.G?.Add(ghrec[0].ParseDouble());
-            result.H?.Add(ghrec[1].ParseDouble());
-            result.REC?.Add(ghrec[2].ParseDouble());
-        }
+        result.G = ghrecLines.Select(ghrec => ghrec[0].ParseDouble()).ToList();
+        result.H = ghrecLines.Select(ghrec => ghrec[1].ParseDouble()).ToList();
+        result.REC = ghrecLines.Select(ghrec => ghrec[2].ParseDouble()).ToList();
 
         return result;
     }

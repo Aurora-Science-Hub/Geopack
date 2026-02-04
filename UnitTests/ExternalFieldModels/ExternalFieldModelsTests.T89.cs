@@ -1,4 +1,6 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using Shouldly;
 
 namespace AuroraScienceHub.Geopack.UnitTests.ExternalFieldModels;
@@ -20,12 +22,15 @@ public partial class TModelsTests
         double x, double y, double z,
         double expectedBx, double expectedBy, double expectedBz)
     {
+        // Arrange
+        CartesianLocation location = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
+
         // Act
-        CartesianFieldVector resultField = _t89.Calculate(iopt, new double[10], ps, x, y, z);
+        CartesianVector<MagneticField> resultField = _t89.Calculate(iopt, new double[10], ps, location);
 
         // Assert
-        resultField.Bx.ShouldBe(expectedBx, MinimalTestsPrecision);
-        resultField.By.ShouldBe(expectedBy, MinimalTestsPrecision);
-        resultField.Bz.ShouldBe(expectedBz, MinimalTestsPrecision);
+        resultField.X.ShouldBe(expectedBx, MinimalTestsPrecision);
+        resultField.Y.ShouldBe(expectedBy, MinimalTestsPrecision);
+        resultField.Z.ShouldBe(expectedBz, MinimalTestsPrecision);
     }
 }

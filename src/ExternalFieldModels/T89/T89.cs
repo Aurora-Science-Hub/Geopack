@@ -1,9 +1,10 @@
-using AuroraScienceHub.Geopack.Contracts.Models;
-using AuroraScienceHub.Geopack.ExternalFieldModels.Interfaces;
+using AuroraScienceHub.Geopack.Contracts.Cartesian;
+using AuroraScienceHub.Geopack.Contracts.Coordinates;
+using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 
 namespace AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 
-public sealed partial class T89 : IT89
+internal sealed partial class T89 : IT89
 {
     private static double[] A = new double[30];
     private static int IOP = 10;
@@ -14,8 +15,13 @@ public sealed partial class T89 : IT89
     private static double AK13, AK14, AK15, AK16, AK17, SXA, SYA, SZA, AK610, AK711, AK812;
     private static double AK913, RDXL, HRDXL, A6H, A9T, YNP, YND;
 
-    public CartesianFieldVector Calculate(int IOPT, double[] PARMOD, double PS, double X, double Y, double Z)
+    public CartesianVector<MagneticField> Calculate(int IOPT, double[] PARMOD, double PS, CartesianLocation location)
     {
+        if (location.CoordinateSystem is not (CoordinateSystem.GSM or CoordinateSystem.GSW))
+        {
+            throw new InvalidOperationException("Location must be in GSM or GSW coordinate system.");
+        }
+
         double A02 = 25D, XLW2 = 170D, YN = 30D, RPI = 0.31830989D, RT = 30D;
         double XD = 0D, XLD2 = 40D;
         double SXC = 4D, XLWC2 = 50D;
@@ -95,17 +101,16 @@ public sealed partial class T89 : IT89
             YND = 2.0D * YN;
         }
 
-        double SPS = Math.Sin(PS);
-        double CPS = Math.Cos(PS);
+        (double SPS, double CPS) = Math.SinCos(PS);
 
-        double X2 = X * X;
-        double Y2 = Y * Y;
-        double Z2 = Z * Z;
+        double X2 = location.X * location.X;
+        double Y2 = location.Y * location.Y;
+        double Z2 = location.Z * location.Z;
         double TPS = SPS / CPS;
         double HTP = TPS * 0.5D;
         double GSP = G * SPS;
-        double XSM = X * CPS - Z * SPS;
-        double ZSM = X * SPS + Z * CPS;
+        double XSM = location.X * CPS - location.Z * SPS;
+        double ZSM = location.X * SPS + location.Z * CPS;
 
         double XRC = XSM + RC;
         double XRC16 = XRC * XRC + 16.0D;
@@ -117,7 +122,7 @@ public sealed partial class T89 : IT89
         double ZS1 = HTP * (XRC - SXRC);
         double DZSX = -ZS1 / SXRC;
         double ZS = ZS1 - GSY4 * Y4;
-        double D2ZSGY = -SY4 / Y410 * 40000.0D * Y2 * Y;
+        double D2ZSGY = -SY4 / Y410 * 40000.0D * Y2 * location.Y;
         double DZSY = G * D2ZSGY;
 
         double XSM2 = XSM * XSM;
@@ -136,10 +141,10 @@ public sealed partial class T89 : IT89
         double FC = FK * FK * DSFC;
         double FACXY = 3.0D * ADRT * FC * RTR;
         double XZR = XSM * ZR;
-        double YZR = Y * ZR;
+        double YZR = location.Y * ZR;
         double DBXDP = FACXY * XZR;
         double DER25 = FACXY * YZR;
-        double XZYZ = XSM * DZSX + Y * DZSY;
+        double XZYZ = XSM * DZSX + location.Y * DZSY;
         double FAQ = ZR * XZYZ - DDR * DD * DFA0 * XSM;
         double DBZDP = FC * (2.0D * ADRT2 - RO2) + FACXY * FAQ;
         double DER15 = DBXDP * CPS + DBZDP * SPS;
@@ -185,7 +190,7 @@ public sealed partial class T89 : IT89
         double FYDY = FYPR * FY;
         double DWX = DVX * FY + FYDY * Q * OMSV;
         double YDWY = -V * YFY1 * FY;
-        double DDY = DBLDEL * Y;
+        double DDY = DBLDEL * location.Y;
         double ATT = AT + T;
         double S1 = Math.Sqrt(ATT * ATT + RO2);
         double F5 = 1.0D / S1;
@@ -193,7 +198,7 @@ public sealed partial class T89 : IT89
         double F1 = F5 * F7;
         double F3 = F5 * F5 * F5;
         double F9 = ATT * F3;
-        double FS = ZR * XZYZ - D * Y * DDY + ADSL;
+        double FS = ZR * XZYZ - D * location.Y * DDY + ADSL;
         double XDWX = XSM * DWX + YDWY;
         double RTT = 1.0D / T;
         double WT = W * RTT;
@@ -220,31 +225,31 @@ public sealed partial class T89 : IT89
         double DER316 = DER31 * TLT2;
         double DER317 = DER32 * TLT2;
 
-        double ZPL = Z + RT;
-        double ZMN = Z - RT;
+        double ZPL = location.Z + RT;
+        double ZMN = location.Z - RT;
         double ROGSM2 = X2 + Y2;
         double SPL = Math.Sqrt(ZPL * ZPL + ROGSM2);
         double SMN = Math.Sqrt(ZMN * ZMN + ROGSM2);
-        double XSXC = X - SXC;
+        double XSXC = location.X - SXC;
         double RQC2 = 1.0D / (XSXC * XSXC + XLWC2);
         double RQC = Math.Sqrt(RQC2);
         double FYC = 1.0D / (1.0D + Y2 * RDYC2);
         double WC = 0.5D * (1.0D - XSXC * RQC) * FYC;
         double DWCX = HLWC2M * RQC2 * RQC * FYC;
-        double DWCY = DRDYC2 * WC * FYC * Y;
+        double DWCY = DRDYC2 * WC * FYC * location.Y;
         double SZRP = 1.0D / (SPL + ZPL);
         double SZRM = 1.0D / (SMN - ZMN);
-        double XYWC = X * DWCX + Y * DWCY;
+        double XYWC = location.X * DWCX + location.Y * DWCY;
         double WCSP = WC / SPL;
         double WCSM = WC / SMN;
         double FXYP = WCSP * SZRP;
         double FXYM = WCSM * SZRM;
-        double FXPL = X * FXYP;
-        double FXMN = -X * FXYM;
-        double FYPL = Y * FXYP;
-        double FYMN = -Y * FXYM;
-        double FZPL = WCSP + XYWC * SZRP;
-        double FZMN = WCSM + XYWC * SZRM;
+        double FXPL = location.X * FXYP;
+        double FXMN = -location.X * FXYM;
+        double FYPL = location.Y * FXYP;
+        double FYMN = -location.Y * FXYM;
+        double FZPL = Math.FusedMultiplyAdd(WCSP, 1.0, XYWC * SZRP);
+        double FZMN = Math.FusedMultiplyAdd(WCSM, 1.0, XYWC * SZRM);
         double DER13 = FXPL + FXMN;
         double DER14 = (FXPL - FXMN) * SPS;
         double DER23 = FYPL + FYMN;
@@ -252,18 +257,18 @@ public sealed partial class T89 : IT89
         double DER33 = FZPL + FZMN;
         double DER34 = (FZPL - FZMN) * SPS;
 
-        double EX = Math.Exp(X / DX);
+        double EX = Math.Exp(location.X / DX);
         double EC = EX * CPS;
         double ES = EX * SPS;
-        double ECZ = EC * Z;
-        double ESZ = ES * Z;
+        double ECZ = EC * location.Z;
+        double ESZ = ES * location.Z;
         double ESZY2 = ESZ * Y2;
         double ESZZ2 = ESZ * Z2;
-        double ECZ2 = ECZ * Z;
-        double ESY = ES * Y;
+        double ECZ2 = ECZ * location.Z;
+        double ESY = ES * location.Y;
 
-        double SX1 = AK6 * ECZ + AK7 * ES + AK8 * ESY * Y + AK9 * ESZ * Z;
-        double SY1 = AK10 * ECZ * Y + AK11 * ESY + AK12 * ESY * Y2 + AK13 * ESY * Z2;
+        double SX1 = AK6 * ECZ + AK7 * ES + AK8 * ESY * location.Y + AK9 * ESZ * location.Z;
+        double SY1 = AK10 * ECZ * location.Y + AK11 * ESY + AK12 * ESY * Y2 + AK13 * ESY * Z2;
         double SZ1 = AK14 * EC + AK15 * EC * Y2 + AK610 * ECZ2 + AK711 * ESZ + AK812 * ESZY2 + AK913 * ESZZ2;
         double BXCL = AK3 * DER13 + AK4 * DER14;
         double BYCL = AK3 * DER23 + AK4 * DER24;
@@ -275,6 +280,6 @@ public sealed partial class T89 : IT89
         double BY = BYT + AK5 * DER25 + SY1 + SYA;
         double BZ = BZT + AK5 * DER35 + SZ1 + SZA;
 
-        return new CartesianFieldVector(BX, BY, BZ, CoordinateSystem.GSM);
+        return CartesianVector<MagneticField>.New(BX, BY, BZ, CoordinateSystem.GSM);
     }
 }
