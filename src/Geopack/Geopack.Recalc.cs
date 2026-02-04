@@ -46,7 +46,7 @@ internal sealed partial class Geopack
             for (int M = 1; M <= N; M++)
             {
                 int MN = N * (N - 1) / 2 + M;
-                REC[MN - 1] = (double)((N - M) * (N + M - 2)) / N2;
+                REC[MN - 1] = (N - M) * (N + M - 2.0D) / N2;
             }
         }
 
@@ -98,7 +98,7 @@ internal sealed partial class Geopack
         for (int N = 2; N <= 14; N++)
         {
             int MN = N * (N - 1) / 2 + 1;
-            S *= (2 * N - 3) / (double)(N - 1);
+            S *= (2 * N - 3.0D) / (N - 1.0D);
             G[MN - 1] *= S;
             H[MN - 1] *= S;
             double P = S;
@@ -134,7 +134,7 @@ internal sealed partial class Geopack
         double S2 = sinSrasn * cosSdec;
         double S3 = sinSdec;
 
-        double DJ = 365d * (year - 1900) + (year - 1901) / 4d + doy - 0.5d + (hour * 3600 + minutes * 60 + seconds) / 86400d;
+        double DJ = 365d * (year - 1900) + (year - 1901) / 4d + doy - 0.5d + ((double)hour * 3600 + minutes * 60 + seconds) / 86400d;
         double T = DJ / 36525d;
         double OBLIQ = (23.45229d - 0.0130125d * T) / 57.2957795d;
         (double sinOBLIQ, double cosOBLIQ) = Math.SinCos(OBLIQ);

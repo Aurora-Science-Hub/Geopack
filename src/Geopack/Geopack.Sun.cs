@@ -12,9 +12,10 @@ internal sealed partial class Geopack
             return new Sun(dateTime);
         }
 
-        double fday = (dateTime.Hour * GeopackConstants.SecondsPerHour + dateTime.Minute * 60 + dateTime.Second) / GeopackConstants.SecondsPerDay;
+        double fday = (dateTime.Hour * GeopackConstants.SecondsPerHour + (double)dateTime.Minute * 60 + dateTime.Second) / GeopackConstants.SecondsPerDay;
         // Integer division is intentional here - calculates number of leap years since 1901
-        double dj = 365 * (dateTime.Year - 1900) + (dateTime.Year - 1901) / 4 + dateTime.DayOfYear - 0.5D + fday;
+        // ReSharper disable once PossibleLossOfFraction
+        double dj = 365.0D * (dateTime.Year - 1900) + (dateTime.Year - 1901) / 4 + dateTime.DayOfYear - 0.5D + fday;
         double t = dj / GeopackConstants.DaysPerJulianCentury;
         double vl = (279.696678D + 0.9856473354D * dj) % GeopackConstants.DegreesPerCircle;
         double gst = (279.690983D + 0.9856473354D * dj + GeopackConstants.DegreesPerCircle * fday + GeopackConstants.DegreesPerSemicircle) % GeopackConstants.DegreesPerCircle / GeopackConstants.Rad;
