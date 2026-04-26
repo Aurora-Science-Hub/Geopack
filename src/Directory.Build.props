@@ -10,6 +10,13 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
+      Version 2.0.1 - Documentation and tooling update
+
+      CHANGED:
+      - Updated AGENTS.md with accurate, repo-specific guidance for AI coding agents
+
+      ---
+
       Version 2.0.0 - Complete API redesign with breaking changes
 
       BREAKING CHANGES:

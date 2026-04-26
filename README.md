@@ -114,7 +114,11 @@ see the [benchmarks documentation](benchmarks/AuroraScienceHub.Geopack.Benchmark
 
 ## Changelog
 
-### Version 2.0.0 (Latest)
+### Version 2.0.1 (Latest)
+
+- Updated `AGENTS.md` with accurate, repo-specific guidance for AI coding agents
+
+### Version 2.0.0
 
 This is a major release with significant architectural improvements and breaking changes. Key updates include:
 
