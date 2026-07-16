@@ -270,7 +270,7 @@ internal sealed partial class Geopack
         int vectorSize = Vector<double>.Count;
         Vector<double> vDT = new(DT);
 
-        int vectorizedLength = GeopackConstants.IgrfCoefficientCount;
+        int vectorizedLength = (GeopackConstants.IgrfCoefficientCount / vectorSize) * vectorSize;
 
         for (int i = 0; i < vectorizedLength; i += vectorSize)
         {
