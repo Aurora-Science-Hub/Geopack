@@ -66,6 +66,21 @@ public partial class GeopackTests
         context.E33.ShouldApproximatelyBe(approvedData.E33);
     }
 
+    [Fact(DisplayName = "Recalc with year >= 2025 should not throw (regression: SIMD bounds in Extrapolate)")]
+    public void RecalcExtrapolate_ShouldNotThrow()
+    {
+        DateTime futureDate = new DateTime(2026, 6, 15, 12, 0, 0, DateTimeKind.Utc);
+
+        ComputationContext context = s_geopack.Recalc(futureDate);
+
+        foreach (double g in context.G)
+            double.IsFinite(g).ShouldBeTrue();
+        foreach (double h in context.H)
+            double.IsFinite(h).ShouldBeTrue();
+        foreach (double rec in context.REC)
+            double.IsFinite(rec).ShouldBeTrue();
+    }
+
     [Fact(DisplayName = "Recalc should throw if incorrect sw velocity coordinate system")]
     public void Recalc_Throw()
     {
