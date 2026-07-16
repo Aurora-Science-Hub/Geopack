@@ -11,10 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Out-of-bounds array access in `Extrapolate` method when using SIMD vectorisation for IGRF coefficients for years >= 2025. The `vectorizedLength` was not aligned to `Vector<double>.Count`, causing the last SIMD iteration to read past the coefficient array.
 
-### Added
-
-- `PackageIcon` and `PackageReadmeFile` metadata to NuGet packages
-
 ---
 
 ## [2.0.1] - 2026-04-26
