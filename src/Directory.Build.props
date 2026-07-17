@@ -10,6 +10,14 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
+      Version 2.0.2 - Bug fix for IGRF extrapolation for years >= 2025
+
+      FIXED:
+      - Fixed out-of-bounds array access in Extrapolate() method when using SIMD vectorisation
+        for IGRF coefficients with years >= 2025
+
+      ---
+
       Version 2.0.1 - Documentation and tooling update
 
       CHANGED:
