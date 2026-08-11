@@ -10,6 +10,18 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
+      Version 2.0.3 - SourceLink and packaging improvements
+
+      ADDED:
+      - SourceLink support for GitHub (Microsoft.SourceLink.GitHub): NuGet packages now map to source in the repository
+      - ContinuousIntegrationBuild enabled on CI builds for deterministic PDBs
+
+      CHANGED:
+      - Package metadata consolidated into src/Directory.Build.props, removing duplicates
+      - Fixed per-package tags being overwritten by the shared build
+
+      ---
+
       Version 2.0.2 - Bug fix for IGRF extrapolation for years >= 2025
 
       FIXED:
@@ -57,6 +69,7 @@
     <PackageProjectUrl>https://github.com/Aurora-Science-Hub/Geopack</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Aurora-Science-Hub/Geopack.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>True</PublishRepositoryUrl>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIcon>Gp_icon.png</PackageIcon>

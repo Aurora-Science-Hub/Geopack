@@ -16,19 +16,21 @@
     <EmbedAllSources>true</EmbedAllSources>
     <DebugType>embedded</DebugType>
     <DebugSymbols>true</DebugSymbols>
+
+    <!-- SourceLink: deterministic, portable source maps to GitHub (https://aka.ms/sourcelink) -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true' or '$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <PropertyGroup>
-    <CompanyName>AuroraScienceHub</CompanyName>
+    <CompanyName>Aurora Science Hub</CompanyName>
     <CurrentYear>$([System.DateTime]::Now.ToString(yyyy))</CurrentYear>
 
-    <Copyright>Copyright $(CurrentYear) © $(CompanyName). All rights reserved</Copyright>
-    <Authors>$(CompanyName)</Authors>
     <Company>$(CompanyName)</Company>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageBaseVersion>2.0.2</PackageBaseVersion>
+    <PackageBaseVersion>2.0.3</PackageBaseVersion>
     <MinVerTagPrefix></MinVerTagPrefix>
   </PropertyGroup>
 
@@ -48,6 +50,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers">
       <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 </Project>
