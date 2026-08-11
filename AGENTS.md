@@ -18,7 +18,8 @@ This is a **library repository** — no runnable app. License: GPL-3.0-or-later.
 src/
 ├── Contracts/              # AuroraScienceHub.Geopack.Contracts
 ├── Geopack/                # AuroraScienceHub.Geopack (depends on Contracts)
-└── ExternalFieldModels/    # AuroraScienceHub.Geopack.ExternalFieldModels (depends on Contracts)
+├── ExternalFieldModels/    # AuroraScienceHub.Geopack.ExternalFieldModels (depends on Contracts)
+└── Directory.Build.props   # Shared package metadata (IsPackable=True, authors, license, repo URLs)
 UnitTests/                  # Single test project at ROOT — not under tests/
 benchmarks/                 # BenchmarkDotNet project, not part of CI
 Geopack.slnx                # Solution file
@@ -58,6 +59,8 @@ Source of truth is `Directory.Build.props` and `global.json`, not README or CI w
 - **SDK pin:** `10.0.100`, roll-forward `patch` (`global.json`) — CI currently uses 9.0.x (discrepancy in workflow, local dev requires .NET 10 SDK)
 - **Nullable:** enabled; **TreatWarningsAsErrors:** enabled
 - **Versioning:** `PackageBaseVersion` in root `Directory.Build.props` + `MinVerVersionOverride` injected by CI bash script. Do **not** set `<Version>` or `<PackageVersion>` in any `.csproj`.
+- **PDB:** embedded in assemblies
+- **SourceLink:** enabled for GitHub (`Microsoft.SourceLink.GitHub`); maps embedded PDBs to source
 
 ---
 
@@ -140,6 +143,7 @@ Published packages have downstream consumers. Treat any public API change as a p
 - ✅ Write tests for new functionality before or alongside implementation
 - ✅ Keep functions small and focused
 - ✅ Keep packages focused — one responsibility per package
+- ✅ Update the package changelog (`PackageReleaseNotes` in `src/Directory.Build.props`) once per branch/release with user-visible changes — not per commit or individual change
 
 ### Don't
 
