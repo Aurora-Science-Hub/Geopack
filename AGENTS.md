@@ -10,6 +10,8 @@
 
 This is a **library repository** — no runnable app. License: GPL-3.0-or-later.
 
+**Language:** English is the official language of the repository — write commit messages, PR descriptions, documentation, and code comments in English.
+
 ---
 
 ## Project Structure
