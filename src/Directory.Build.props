@@ -70,7 +70,6 @@
     <RepositoryUrl>https://github.com/Aurora-Science-Hub/Geopack.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>True</PublishRepositoryUrl>
-    <PackageTags>Geopack;AuroraScienceHub;Science</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIcon>Gp_icon.png</PackageIcon>
