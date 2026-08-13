@@ -60,9 +60,14 @@ Source of truth is `Directory.Build.props` and `global.json`, not README or CI w
 - **Target frameworks:** `net8.0;net10.0` (multi-targeted)
 - **SDK pin:** `10.0.100`, roll-forward `patch` (`global.json`) — CI currently uses 9.0.x (discrepancy in workflow, local dev requires .NET 10 SDK)
 - **Nullable:** enabled; **TreatWarningsAsErrors:** enabled
-- **Versioning:** `PackageBaseVersion` in root `Directory.Build.props` + `MinVerVersionOverride` injected by CI bash script. Do **not** set `<Version>` or `<PackageVersion>` in any `.csproj`.
 - **PDB:** embedded in assemblies
 - **SourceLink:** enabled for GitHub (`Microsoft.SourceLink.GitHub`); maps embedded PDBs to source
+
+## Versioning
+
+- The base version lives in **one place**: root `Directory.Build.props` → `<PackageBaseVersion>2.0.3</PackageBaseVersion>`.
+- In CI the version is pinned via `-p:MinVerVersionOverride` (computed by the CI bash script from `PackageBaseVersion`): pre-release on non-`main` branches, stable on `main`/semver tags.
+- **To bump the version, change `PackageBaseVersion` in root `Directory.Build.props` — nothing else.** Never set `<Version>` or `<PackageVersion>` in a `.csproj`.
 
 ---
 
