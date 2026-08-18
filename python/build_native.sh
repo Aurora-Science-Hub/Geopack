@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Builds the NativeAOT shared library for the current platform.
 #
-#   ./deploy/build_native.sh              # auto-detect RID from the host
-#   RID=linux-x64 ./deploy/build_native.sh
+#   ./python/build_native.sh              # auto-detect RID from the host
+#   RID=linux-x64 ./python/build_native.sh
 #
-# Output: deploy/out/<rid>/geopack.{dylib,so,dll}
+# Output: python/out/<rid>/geopack.{dylib,so,dll}
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

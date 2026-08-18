@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Builds the native library, bundles it into the Python package, and produces a
-# platform-specific wheel in deploy/dist/.
+# platform-specific wheel in python/dist/.
 #
-#   ./deploy/build_wheel.sh
-#   pip install deploy/dist/geopack-*.whl
+#   ./python/build_wheel.sh
+#   pip install python/dist/geopack-*.whl
 #
 # Requires: .NET SDK 10, a C toolchain (for NativeAOT), and Python 3.8+.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PY_DIR="$SCRIPT_DIR/python"
+PY_DIR="$SCRIPT_DIR"
 PKG_DIR="$PY_DIR/geopack"
 DIST_DIR="$SCRIPT_DIR/dist"
 
@@ -46,8 +46,8 @@ fi
 cp "$LIB" "$PKG_DIR/"
 
 # 3. Build the wheel --------------------------------------------------------
+rm -rf "$PY_DIR/build" "$DIST_DIR" "$PY_DIR"/*.egg-info
 mkdir -p "$DIST_DIR"
-rm -rf "$PY_DIR/build" "$PY_DIR/dist" "$PY_DIR"/*.egg-info
 
 if python3 -m build --version &>/dev/null; then
   python3 -m build --wheel --outdir "$DIST_DIR" "$PY_DIR"
@@ -56,6 +56,5 @@ else
   python3 -m pip wheel --no-deps --wheel-dir "$DIST_DIR" "$PY_DIR"
 fi
 
-echo
 echo "Wheel:"
 ls -1 "$DIST_DIR"/*.whl

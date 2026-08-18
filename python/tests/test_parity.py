@@ -19,8 +19,8 @@ Intentionally NOT mirrored — they exercise API surface the C ABI does not expo
   * Rec* internals (G/H/REC finiteness)     — replaced by the observable
     RecalcExtrapolate_2026 test below
 
-Run standalone:  python3 deploy/python/tests/test_parity.py
-or with pytest:  pytest deploy/python/tests/test_parity.py
+Run standalone:  python3 python/tests/test_parity.py
+or with pytest:  pytest python/tests/test_parity.py
 """
 
 from __future__ import annotations
@@ -47,7 +47,7 @@ _RAD = 57.295779513
 YEAR, MONTH, DAY, HOUR, MINUTE, SECOND = 1997, 12, 16, 21, 0, 0
 VX, VY, VZ = -304.0, 13.0, 4.0
 
-_TESTDATA_DIR = Path(__file__).resolve().parents[3] / "UnitTests" / "Geopack" / "TestData"
+_TESTDATA_DIR = Path(__file__).resolve().parents[2] / "UnitTests" / "Geopack" / "TestData"
 
 
 def _assert_approx(actual, expected, label="", tol=TOL):

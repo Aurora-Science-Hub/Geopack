@@ -16,8 +16,8 @@
       - src/Geopack.Native: a C ABI layer over the Geopack core, compiled with NativeAOT
         into a self-contained shared library (geopack.dylib / geopack.so / geopack.dll)
         loadable from Python via ctypes without a .NET runtime
-      - deploy/: local build tooling (deploy/build_native.sh, deploy/build_wheel.sh) and
-        a pure-Python package (deploy/python) exposing recalc(), sun(), coordinate
+      - python/: local build tooling (python/build_native.sh, python/build_wheel.sh) and
+        a pure-Python package (python/geopack) exposing recalc(), sun(), coordinate
         transforms, field models and magnetopause models; CI/CD pipeline untouched
       - InternalsVisibleTo for the native export project
       - Python test suite mirrors the C# unit tests 1:1 (same cases, reference data and

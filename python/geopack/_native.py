@@ -52,7 +52,7 @@ def _find_library_path() -> str:
             return name
 
     raise ImportError(
-        "Native geopack library not found. Build it with deploy/build_native.sh "
+        "Native geopack library not found. Build it with python/build_native.sh "
         f"and place it next to this module. Tried: {', '.join(candidates)}"
     )
 

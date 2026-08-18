@@ -157,7 +157,7 @@ dotnet publish --framework net10.0 -c Release -r osx-x64
 
 The library is also available from Python as a self-contained native package with
 **no .NET runtime required**. A NativeAOT build (`src/Geopack.Native`) exports a flat
-C ABI over the Geopack core, and a pure-Python package (`deploy/python/geopack`)
+C ABI over the Geopack core, and a pure-Python package (`python/geopack`)
 loads it through `ctypes` (stdlib only, zero dependencies).
 
 ```python
@@ -171,16 +171,16 @@ x, y, z = ctx.geo_to_gsw(1.0, 2.0, 3.0)
 The Python test suite mirrors the C# unit tests **1:1 for every observable
 behaviour** — the same test cases, the same reference data, and the same `8E-12`
 precision tolerance — so accuracy matches the original Fortran code to the same
-12 decimal digits. See `deploy/python/tests/` and
-[deploy/README.md](deploy/README.md) for details.
+12 decimal digits. See `python/tests/` and
+[python/BUILDING.md](python/BUILDING.md) for details.
 
 ### Building
 
-Local build tooling lives in `deploy/` (CI/CD is intentionally untouched):
+Local build tooling lives in `python/` (CI/CD is intentionally untouched):
 
 ```bash
-./deploy/build_native.sh      # NativeAOT publish -> deploy/out/<rid>/geopack.dylib
-./deploy/build_wheel.sh       # platform-specific wheel -> deploy/dist/
+./python/build_native.sh      # NativeAOT publish -> python/out/<rid>/geopack.dylib
+./python/build_wheel.sh       # platform-specific wheel -> python/dist/
 ```
 
 ## Licensing

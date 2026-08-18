@@ -11,26 +11,26 @@ required at run time.
    magnetopause models; no `Trace` yet).
 2. NativeAOT (`PublishAot=true`, `NativeLib=Shared`) compiles it into
    `geopack.dylib` / `geopack.so` / `geopack.dll`.
-3. `deploy/python/` — a pure-Python package that loads the library through
+3. `python/` — a pure-Python package that loads the library through
    `ctypes` (stdlib only) and wraps it in an object API.
-4. `deploy/build_wheel.sh` packages both into a **platform-specific wheel**
+4. `python/build_wheel.sh` packages both into a **platform-specific wheel**
    (the `setup.py` shim forces a platform tag; wheels for other OS/arch must be
    built on that OS/arch).
 
 ## Commands
 
 ```bash
-./deploy/build_native.sh          # -> deploy/out/<rid>/geopack.dylib
-./deploy/build_wheel.sh           # -> deploy/dist/geopack-<ver>-...-macosx_*_arm64.whl
+./python/build_native.sh          # -> python/out/<rid>/geopack.dylib
+./python/build_wheel.sh           # -> python/dist/geopack-<ver>-...-macosx_*_arm64.whl
 
 # run the tests (library must be built/copied first)
-python3 deploy/python/tests/test_api.py
-python3 deploy/python/tests/test_parity.py
+python3 python/tests/test_api.py
+python3 python/tests/test_parity.py
 ```
 
 ## Tests
 
-The Python suite (`deploy/python/tests/`) mirrors the C# unit tests in
+The Python suite (`python/tests/`) mirrors the C# unit tests in
 `UnitTests/Geopack/GeopackTests.cs` **1:1 for every observable behaviour** —
 the same test cases, the same reference data (`UnitTests/Geopack/TestData`),
 and the same precision tolerance (`8E-12`). Numerical accuracy therefore

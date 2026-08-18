@@ -14,8 +14,8 @@ Build the wheel for your platform (requires .NET SDK 10 + a C toolchain) and
 `pip install` it:
 
 ```bash
-./deploy/build_wheel.sh
-pip install deploy/dist/geopack-*.whl
+./python/build_wheel.sh
+pip install python/dist/geopack-*.whl
 ```
 
 ## Usage

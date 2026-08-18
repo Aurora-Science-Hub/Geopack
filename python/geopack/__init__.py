@@ -17,7 +17,7 @@ Typical usage::
 from __future__ import annotations
 
 from datetime import datetime
-from typing import NamedTuple, Optional
+from typing import NamedTuple, Optional, Union
 
 from . import _native
 from ._enums import CoordinateSystem, MagnetopausePosition
@@ -41,7 +41,13 @@ DEFAULT_SOLAR_WIND = (-400.0, 0.0, 0.0)
 
 
 class Vector3(NamedTuple):
-    """A Cartesian vector in Earth radii (positions) or nT (fields)."""
+    """A Cartesian vector in Earth radii (positions) or nT (fields).
+    
+    Attributes:
+        x: X component.
+        y: Y component.
+        z: Z component.
+    """
 
     x: float
     y: float
@@ -49,20 +55,33 @@ class Vector3(NamedTuple):
 
 
 class Sun(NamedTuple):
-    """Position of the Sun for a given UTC date/time."""
+    """Position of the Sun for a given UTC date/time.
+    
+    Attributes:
+        gst: Greenwich mean sidereal time in radians.
+        slong: Ecliptic longitude of the Sun in radians.
+        srasn: Right ascension of the Sun in radians.
+        sdec: Declination of the Sun in radians.
+    """
 
-    gst: float    # Greenwich mean sidereal time, radians
-    slong: float  # ecliptic longitude of the Sun, radians
-    srasn: float  # right ascension of the Sun, radians
-    sdec: float   # declination of the Sun, radians
+    gst: float
+    slong: float
+    srasn: float
+    sdec: float
 
 
 class MagnetopauseResult(NamedTuple):
-    """Result of a magnetopause model evaluation."""
+    """Result of a magnetopause model evaluation.
+    
+    Attributes:
+        boundary: Nearest boundary point in GSW (Earth radii).
+        dist: Distance from the input point to the boundary (Earth radii).
+        position: Relative position of the point (Inside, Outside, NotDefined).
+    """
 
-    boundary: Vector3            # nearest boundary point, GSW, Earth radii
-    dist: float                  # distance from the input point to the boundary, Earth radii
-    position: MagnetopausePosition  # NotDefined / Inside / Outside
+    boundary: Vector3
+    dist: float
+    position: MagnetopausePosition
 
 
 class Context:
@@ -127,39 +146,51 @@ class Context:
     # -- coordinate transforms (in -> out, Earth radii) ---------------------
 
     def gsw_to_gse(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from GSW to GSE."""
         return self._transform(_native.gsw_to_gse, x, y, z)
 
     def gse_to_gsw(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from GSE to GSW."""
         return self._transform(_native.gse_to_gsw, x, y, z)
 
     def geo_to_mag(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from GEO to MAG."""
         return self._transform(_native.geo_to_mag, x, y, z)
 
     def mag_to_geo(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from MAG to GEO."""
         return self._transform(_native.mag_to_geo, x, y, z)
 
     def gei_to_geo(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from GEI to GEO."""
         return self._transform(_native.gei_to_geo, x, y, z)
 
     def geo_to_gei(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from GEO to GEI."""
         return self._transform(_native.geo_to_gei, x, y, z)
 
     def mag_to_sm(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from MAG to SM."""
         return self._transform(_native.mag_to_sm, x, y, z)
 
     def sm_to_mag(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from SM to MAG."""
         return self._transform(_native.sm_to_mag, x, y, z)
 
     def sm_to_gsw(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from SM to GSW."""
         return self._transform(_native.sm_to_gsw, x, y, z)
 
     def gsw_to_sm(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from GSW to SM."""
         return self._transform(_native.gsw_to_sm, x, y, z)
 
     def geo_to_gsw(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from GEO to GSW."""
         return self._transform(_native.geo_to_gsw, x, y, z)
 
     def gsw_to_geo(self, x: float, y: float, z: float) -> Vector3:
+        """Transform Cartesian (x, y, z) from GSW to GEO."""
         return self._transform(_native.gsw_to_geo, x, y, z)
 
     def _transform(self, fn, x: float, y: float, z: float) -> Vector3:
@@ -168,7 +199,7 @@ class Context:
 
 
 def recalc(
-    date_or_year,
+    date_or_year: Union[datetime, int],
     month: Optional[int] = None,
     day: Optional[int] = None,
     hour: int = 0,
@@ -201,7 +232,7 @@ def recalc(
     return Context(handle)
 
 
-def sun(date_or_year, month: Optional[int] = None, day: Optional[int] = None,
+def sun(date_or_year: Union[datetime, int], month: Optional[int] = None, day: Optional[int] = None,
         hour: int = 0, minute: int = 0, second: int = 0) -> Sun:
     """Position of the Sun for a UTC date/time (see :func:`recalc`)."""
     if isinstance(date_or_year, datetime):

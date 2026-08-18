@@ -11,6 +11,25 @@
   <Folder Name="/GitHub/workflows/">
     <File Path=".github/workflows/dotnet.yml" />
   </Folder>
+  <Folder Name="/python/">
+    <File Path="python\.gitignore" />
+    <File Path="python\BUILDING.md" />
+    <File Path="python\build_native.sh" />
+    <File Path="python\build_wheel.sh" />
+    <File Path="python\example.py" />
+    <File Path="python\pyproject.toml" />
+    <File Path="python\README.md" />
+    <File Path="python\setup.py" />
+  </Folder>
+  <Folder Name="/python/geopack/">
+    <File Path="python\geopack\__init__.py" />
+    <File Path="python\geopack\_enums.py" />
+    <File Path="python\geopack\_native.py" />
+  </Folder>
+  <Folder Name="/python/tests/">
+    <File Path="python\tests\test_api.py" />
+    <File Path="python\tests\test_parity.py" />
+  </Folder>
   <Folder Name="/Solution items/">
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />

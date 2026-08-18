@@ -2,12 +2,12 @@
 
 Run from the repository root after a native build::
 
-    deploy/python/geopack/geopack.dylib  must exist
-    python -m pytest deploy/python/tests/test_api.py
+    python/geopack/geopack.dylib  must exist
+    python -m pytest python/tests/test_api.py
 
 or standalone::
 
-    python deploy/python/tests/test_api.py
+    python python/tests/test_api.py
 
 The suite mirrors the C# unit tests (see test_parity.py for the full parity set).
 """
