@@ -55,7 +55,7 @@ public static unsafe class GeopackNative
         try
         {
             DateTime dateTime = new(year, month, day, hour, minute, second, DateTimeKind.Utc);
-            var velocity = CartesianVector<Velocity>.New(vx, vy, vz, CoordinateSystem.GSE);
+CartesianVector<Velocity> velocity = CartesianVector<Velocity>.New(vx, vy, vz, CoordinateSystem.GSE);
             ComputationContext context = s_geopack.Recalc(dateTime, velocity);
 
             long id = Interlocked.Increment(ref s_nextHandle);
