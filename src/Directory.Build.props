@@ -10,7 +10,7 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
-      Version 2.0.4 - Python bindings via NativeAOT
+      Version 2.1.0 - Python bindings via NativeAOT
 
       ADDED:
       - src/Geopack.Native: a C ABI layer over the Geopack core, compiled with NativeAOT
@@ -20,6 +20,15 @@
         a pure-Python package (deploy/python) exposing recalc(), sun(), coordinate
         transforms, field models and magnetopause models; CI/CD pipeline untouched
       - InternalsVisibleTo for the native export project
+      - Python test suite mirrors the C# unit tests 1:1 (same cases, reference data and
+        8E-12 tolerance): IgrfGsw/IgrfGeo/Dip/Sun/ShuMgnp/T96Mgnp plus 2592 transform
+        assertions; internal ComputationContext fields intentionally not exposed
+
+      FIXED:
+      - gp_last_error no longer throws on an undersized buffer and keeps the message
+        pending until the whole message has been read
+      - opaque handles typed as c_int64 in the ctypes layer (c_long is 32-bit on Windows)
+      - build_wheel.sh also accepts the lib-prefixed NativeAOT library name on Unix
 
       ---
 

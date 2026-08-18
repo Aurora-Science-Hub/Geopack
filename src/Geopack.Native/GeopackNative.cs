@@ -13,6 +13,11 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace AuroraScienceHub.Geopack.Native;
 
+// The unmanaged boundary must never let an exception cross into C code: every
+// catch-all handler below translates an exception into an error code plus a
+// thread-local message. Broad "catch (Exception)" blocks are intentional here.
+#pragma warning disable CA1031 // Do not catch general exception types
+
 /// <summary>
 /// Flat C ABI over Geopack for consumption from Python (ctypes) and other languages.
 /// Compiled with NativeAOT (NativeLib=Shared) into libgeopack.{dylib,so,dll}.
@@ -49,7 +54,7 @@ public static unsafe class GeopackNative
     {
         try
         {
-            var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+            DateTime dateTime = new(year, month, day, hour, minute, second, DateTimeKind.Utc);
             var velocity = CartesianVector<Velocity>.New(vx, vy, vz, CoordinateSystem.GSE);
             ComputationContext context = s_geopack.Recalc(dateTime, velocity);
 
@@ -87,16 +92,26 @@ public static unsafe class GeopackNative
             return 0;
         }
 
-        // A call with a null buffer / zero capacity is a probe that asks for the message length.
-        // The error is only cleared when the caller actually reads it into a buffer.
+        int needed = Encoding.UTF8.GetByteCount(error);
+
+        // A call with a null buffer / zero capacity is a probe that asks for the
+        // message length. The error is only cleared when the caller actually reads
+        // the whole message into a sufficiently large buffer.
         if (buffer is null || capacity <= 0)
         {
-            return Encoding.UTF8.GetByteCount(error);
+            return needed;
         }
 
-        s_lastError = null;
+        // Buffer too small: report the required size and keep the message pending
+        // so the caller can retry with a larger buffer (never throws, never loses it).
+        if (capacity - 1 < needed)
+        {
+            return needed;
+        }
+
         int written = Encoding.UTF8.GetBytes(error, new Span<byte>(buffer, capacity - 1));
         buffer[written] = 0;
+        s_lastError = null;
         return written;
     }
 
@@ -122,7 +137,7 @@ public static unsafe class GeopackNative
                 return Fail("Invalid context handle.");
             }
 
-            var location = SphericalLocation.New(r, theta, phi, CoordinateSystem.GEO);
+            SphericalLocation location = SphericalLocation.New(r, theta, phi, CoordinateSystem.GEO);
             SphericalVector<MagneticField> field = s_geopack.IgrfGeo(context, location);
 
             *br = field.R;
@@ -143,7 +158,7 @@ public static unsafe class GeopackNative
     {
         try
         {
-            var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+            DateTime dateTime = new(year, month, day, hour, minute, second, DateTimeKind.Utc);
             Sun sun = s_geopack.Sun(dateTime);
 
             *gst = sun.Gst;
@@ -248,7 +263,7 @@ public static unsafe class GeopackNative
                 return Fail("Invalid context handle.");
             }
 
-            var location = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
+            CartesianLocation location = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
             CartesianVector<MagneticField> result = field(context, location);
 
             *bx = result.X;
@@ -274,7 +289,7 @@ public static unsafe class GeopackNative
                 return Fail("Invalid context handle.");
             }
 
-            var location = CartesianLocation.New(x, y, z, source);
+            CartesianLocation location = CartesianLocation.New(x, y, z, source);
             CartesianLocation result = transform(context, location);
 
             *ox = result.X;
@@ -296,7 +311,7 @@ public static unsafe class GeopackNative
     {
         try
         {
-            var location = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
+            CartesianLocation location = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
             Magnetopause result = model(null!, location);
 
             *mx = result.BoundaryLocation.X;
@@ -314,7 +329,6 @@ public static unsafe class GeopackNative
 
     // The exception is converted into the last-error message; the concrete exception type
     // is irrelevant to the C ABI consumer, which only sees the error code + message.
-#pragma warning disable CA1031
     private static int Fail(Exception exception)
         => Fail(exception.Message);
 
@@ -323,5 +337,4 @@ public static unsafe class GeopackNative
         s_lastError = message;
         return 1;
     }
-#pragma warning restore CA1031
 }

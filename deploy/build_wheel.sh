@@ -27,7 +27,11 @@ esac
 
 OUT_DIR="$SCRIPT_DIR/out/$RID"
 LIB=""
-for _candidate in "$OUT_DIR"/geopack.dylib "$OUT_DIR"/geopack.so "$OUT_DIR"/geopack.dll; do
+# Accept both the plain name and the lib-prefixed name NativeAOT may produce on Unix.
+for _candidate in \
+  "$OUT_DIR"/geopack.dylib "$OUT_DIR"/libgeopack.dylib \
+  "$OUT_DIR"/geopack.so "$OUT_DIR"/libgeopack.so \
+  "$OUT_DIR"/geopack.dll; do
   if [[ -f "$_candidate" ]]; then
     LIB="$_candidate"
     break

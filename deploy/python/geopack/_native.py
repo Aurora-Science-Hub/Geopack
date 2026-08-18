@@ -63,29 +63,29 @@ _lib = ctypes.CDLL(_find_library_path())
 # Prototypes
 # ---------------------------------------------------------------------------
 
-_c_long = ctypes.c_long
+_c_handle = ctypes.c_int64
 _c_double = ctypes.c_double
 _c_int = ctypes.c_int
-_p_long = ctypes.POINTER(ctypes.c_long)
+_p_handle = ctypes.POINTER(ctypes.c_int64)
 _p_double = ctypes.POINTER(ctypes.c_double)
 _p_byte = ctypes.POINTER(ctypes.c_byte)
 
 _lib.gp_context_create.argtypes = [
     _c_int, _c_int, _c_int, _c_int, _c_int, _c_int,  # y mo d h mi s
     _c_double, _c_double, _c_double,                  # vx vy vz
-    _p_long,                                          # out handle
+    _p_handle,                                        # out handle
 ]
 _lib.gp_context_create.restype = _c_int
 
-_lib.gp_context_release.argtypes = [_c_long]
+_lib.gp_context_release.argtypes = [_c_handle]
 _lib.gp_context_release.restype = None
 
 _lib.gp_last_error.argtypes = [_p_byte, _c_int]
 _lib.gp_last_error.restype = _c_int
 
-# Field models + transforms: (long ctx, double x, y, z, double* o1, o2, o3)
+# Field models + transforms: (i64 ctx, double x, y, z, double* o1, o2, o3)
 _TRANSFORM_ARGTYPES = [
-    _c_long,
+    _c_handle,
     _c_double, _c_double, _c_double,
     _p_double, _p_double, _p_double,
 ]
@@ -96,7 +96,7 @@ _lib.gp_dip.argtypes = _TRANSFORM_ARGTYPES
 _lib.gp_dip.restype = _c_int
 
 _lib.gp_igrf_geo.argtypes = [
-    _c_long,
+    _c_handle,
     _c_double, _c_double, _c_double,  # r theta phi
     _p_double, _p_double, _p_double,  # out br bt bp
 ]
@@ -176,7 +176,7 @@ def context_create(
     year: int, month: int, day: int, hour: int, minute: int, second: int,
     vx: float, vy: float, vz: float,
 ) -> int:
-    handle = ctypes.c_long()
+    handle = ctypes.c_int64()
     rc = _lib.gp_context_create(
         year, month, day, hour, minute, second, vx, vy, vz, ctypes.byref(handle)
     )

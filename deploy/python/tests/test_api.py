@@ -116,6 +116,33 @@ def test_use_after_close_raises() -> None:
         raise AssertionError("expected RuntimeError after close")
 
 
+def test_last_error_undersized_buffer_keeps_message() -> None:
+    # C ABI contract: gp_last_error must never throw on an undersized buffer and
+    # must keep the message pending until the whole message has been read.
+    import ctypes
+    from geopack import _native
+
+    # Set a fresh error without reading it (recalc() would auto-clear it via _check).
+    handle = ctypes.c_int64()
+    rc = _native._lib.gp_context_create(
+        1997, 2, 30, 0, 0, 0, -400.0, 0.0, 0.0, ctypes.byref(handle)
+    )
+    assert rc != 0  # invalid day -> error set, still pending
+
+    needed = _native._lib.gp_last_error(None, 0)
+    assert needed > 0
+
+    # An undersized buffer reports the required size and does NOT clear the message.
+    small = ctypes.create_string_buffer(4)
+    got = _native._lib.gp_last_error(ctypes.cast(small, _native._p_byte), 4)
+    assert got == needed
+
+    # The message is still pending, so a full-size read retrieves it.
+    full = ctypes.create_string_buffer(needed + 1)
+    _native._lib.gp_last_error(ctypes.cast(full, _native._p_byte), needed + 1)
+    assert full.value
+
+
 def _main() -> int:
     failures = 0
     for name, fn in sorted(globals().items()):
