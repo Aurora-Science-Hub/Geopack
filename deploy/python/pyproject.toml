@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geopack"
+version = "2.0.4"
+description = "Geopack-2008 magnetospheric field model and solar-terrestrial coordinate transforms (NativeAOT bindings)"
+readme = "README.md"
+license = { text = "GPL-3.0-or-later" }
+requires-python = ">=3.8"
+keywords = ["geopack", "geophysics", "magnetosphere", "igrf", "tsyganenko", "coordinate-transforms"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[tool.setuptools]
+packages = ["geopack"]
+
+[tool.setuptools.package-data]
+geopack = ["*.dylib", "*.so", "*.dll"]

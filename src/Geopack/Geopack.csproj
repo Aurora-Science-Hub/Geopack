@@ -22,6 +22,8 @@
   <ItemGroup>
     <InternalsVisibleTo Include="AuroraScienceHub.Geopack.UnitTests" />
     <InternalsVisibleTo Include="AuroraScienceHub.Geopack.Benchmarks" />
+    <!-- Native AOT export layer (src/Geopack.Native) -->
+    <InternalsVisibleTo Include="geopack" />
   </ItemGroup>
 
   <ItemGroup>
