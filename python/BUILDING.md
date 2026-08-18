@@ -13,11 +13,13 @@ required at run time.
    `geopack.dylib` / `geopack.so` / `geopack.dll`.
 3. `python/` — a pure-Python package that loads the library through
    `ctypes` (stdlib only) and wraps it in an object API.
-4. `python/build_wheel.sh` packages both into a **platform-specific wheel**
-   (the `setup.py` shim forces a platform tag; wheels for other OS/arch must be
-   built on that OS/arch).
+4. `python/build_wheel.sh` / `build_wheel.bat` packages both into a
+   **platform-specific wheel** (the `setup.py` shim forces a platform tag; wheels
+   for other OS/arch must be built on that OS/arch).
 
 ## Commands
+
+**macOS / Linux:**
 
 ```bash
 ./python/build_native.sh          # -> python/out/<rid>/geopack.dylib
@@ -26,6 +28,17 @@ required at run time.
 # run the tests (library must be built/copied first)
 python3 python/tests/test_api.py
 python3 python/tests/test_parity.py
+```
+
+**Windows (cmd):**
+
+```bat
+.\python\build_native.bat         :: -> python\out\win-x64\geopack.dll
+.\python\build_wheel.bat          :: -> python\dist\geopack-<ver>-...-win_amd64.whl
+
+:: run the tests (library must be built/copied first)
+python python\tests\test_api.py
+python python\tests\test_parity.py
 ```
 
 ## Tests
@@ -55,9 +68,6 @@ opaque-handle design over the C ABI is preserved.
 
 ## Notes
 
-* This tooling is **local-only by design**: the CI/CD pipeline
-  (`.github/workflows/dotnet.yml`) is intentionally untouched. `src/Geopack.Native`
-  is not part of `Geopack.slnx`.
 * Only builds for the host platform. Cross-platform wheels require building on
   each target OS/arch (NativeAOT does not cross-compile).
 * The wheel is self-contained: the .NET runtime is statically linked in, so end

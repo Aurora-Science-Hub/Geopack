@@ -21,9 +21,11 @@ src/
 ├── Contracts/              # AuroraScienceHub.Geopack.Contracts
 ├── Geopack/                # AuroraScienceHub.Geopack (depends on Contracts)
 ├── ExternalFieldModels/    # AuroraScienceHub.Geopack.ExternalFieldModels (depends on Contracts)
+├── Geopack.Native/         # C ABI export layer for the Python bindings (NativeAOT, not packed)
 └── Directory.Build.props   # Shared package metadata (IsPackable=True, authors, license, repo URLs)
 UnitTests/                  # Single test project at ROOT — not under tests/
 benchmarks/                 # BenchmarkDotNet project, not part of CI
+python/                     # Python bindings: geopack package, tests, local build tooling
 Geopack.slnx                # Solution file
 ```
 
@@ -68,6 +70,7 @@ Source of truth is `Directory.Build.props` and `global.json`, not README or CI w
 - The base version lives in **one place**: root `Directory.Build.props` → `<PackageBaseVersion>2.0.3</PackageBaseVersion>`.
 - In CI the version is pinned via `-p:MinVerVersionOverride` (computed by the CI bash script from `PackageBaseVersion`): pre-release on non-`main` branches, stable on `main`/semver tags.
 - **To bump the version, change `PackageBaseVersion` in root `Directory.Build.props` — nothing else.** Never set `<Version>` or `<PackageVersion>` in a `.csproj`.
+- The Python package mirrors the same version: bump `python/pyproject.toml` and `python/geopack/__init__.py` (`__version__`) together with `PackageBaseVersion`.
 
 ---
 
@@ -136,6 +139,25 @@ Published packages have downstream consumers. Treat any public API change as a p
 - All public types and members require XML doc comments
 - Use `internal sealed` by default; expose only what consumers need
 
+## Python Bindings
+
+The repository also ships Python bindings (`python/`) that load a NativeAOT-built
+shared library (`src/Geopack.Native`) through `ctypes` (stdlib only). The bindings
+are part of the public surface — see `python/README.md` for usage.
+
+- The flat C ABI (`gp_*` entry points in `src/Geopack.Native/GeopackNative.cs`) is an
+  **external contract**. Any change to a method's inputs/outputs, reference values,
+  precision tolerance, or the error-code mapping MUST be reflected in the Python
+  wrapper (`python/geopack/_native.py` prototypes and `python/geopack/__init__.py`) —
+  otherwise the wrapper silently breaks.
+- Tests of external contracts must have **1:1 Python mirrors** in
+  `python/tests/test_parity.py`: the same test cases, the same reference data, and the
+  same `8E-12` tolerance as the C# tests. Internal `ComputationContext` fields are
+  intentionally not mirrored (the opaque-handle design is preserved).
+- Build tooling lives in `python/` (`build_native.sh`/`build_wheel.sh` on macOS/Linux,
+  `build_native.bat`/`build_wheel.bat` on Windows). Wheels are platform-specific and
+  must be built on each target OS/arch.
+
 ## Do's and Don'ts
 
 ### Do
@@ -150,7 +172,8 @@ Published packages have downstream consumers. Treat any public API change as a p
 - ✅ Write tests for new functionality before or alongside implementation
 - ✅ Keep functions small and focused
 - ✅ Keep packages focused — one responsibility per package
-- ✅ Update the package changelog (`PackageReleaseNotes` in `src/Directory.Build.props`) once per branch/release with user-visible changes — not per commit or individual change
+- ✅ Update `CHANGELOG.md` and the package changelog (`PackageReleaseNotes` in `src/Directory.Build.props`) once per branch/release with user-visible changes — not per commit or individual change
+- ✅ Mirror any external-contract change (API surface, reference values, tolerance, C ABI) in the Python wrapper and update the corresponding 1:1 Python parity tests
 
 ### Don't
 

@@ -2,10 +2,10 @@
 
   <!--
     Native AOT export layer for Geopack.
-    Builds a C-compatible shared library (libgeopack.dylib / libgeopack.so / geopack.dll)
+    Builds a C-compatible shared library (geopack.dylib / geopack.so / geopack.dll)
     loadable from Python via ctypes without a .NET runtime on the target machine.
-    This project is intentionally NOT part of Geopack.slnx: CI builds/packs the solution,
-    and AOT publish is only performed locally by deploy/build_native.sh.
+    IsPackable=false: this is a build-time export layer, not a NuGet package.
+    NativeAOT publish is performed by python/build_native.sh / build_native.bat.
   -->
 
   <PropertyGroup>

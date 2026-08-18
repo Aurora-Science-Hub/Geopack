@@ -115,21 +115,7 @@ see the [benchmarks documentation](benchmarks/AuroraScienceHub.Geopack.Benchmark
 
 ## Changelog
 
-### Version 2.0.1 (Latest)
-
-- Updated `AGENTS.md` with accurate, repo-specific guidance for AI coding agents
-
-### Version 2.0.0
-
-This is a major release with significant architectural improvements and breaking changes. Key updates include:
-
-- **Thread-Safety**: Replaced mutable shared state with immutable ComputationContext pattern
-- **Strongly-Typed API**: Generic vector quantities (CartesianVector<T>, SphericalVector<T>)
-- **Performance**: SIMD vectorization, Math.SinCos, optimized mathematical operations
-- **Data Models**: Converted to readonly record structs for better performance
-- **Dependency Injection**: Full DI support with ServiceCollectionExtensions
-
-⚠️ **Breaking Changes**: Method signatures have changed. See [CHANGELOG.md](CHANGELOG.md) for detailed migration guide.
+The full changelog is maintained in [CHANGELOG.md](CHANGELOG.md). Current version: **2.1.0** — Python bindings via NativeAOT.
 
 ## Tech Stack
 - Supported .NET versions:

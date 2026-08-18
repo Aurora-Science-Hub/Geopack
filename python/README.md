@@ -11,12 +11,22 @@ No .NET runtime is required at runtime.
 ## Install
 
 Build the wheel for your platform (requires .NET SDK 10 + a C toolchain) and
-`pip install` it:
+`pip install` it. On macOS/Linux:
 
 ```bash
 ./python/build_wheel.sh
 pip install python/dist/geopack-*.whl
 ```
+
+On Windows (cmd):
+
+```bat
+.\python\build_wheel.bat
+pip install python\dist\geopack-*.whl
+```
+
+The scripts build the native library for the host platform only; for another
+OS/arch, build the wheel on that machine (NativeAOT does not cross-compile).
 
 ## Usage
 
@@ -36,6 +46,14 @@ s = geopack.sun(1997, 12, 16, 21, 0, 0)   # (gst, slong, srasn, sdec), radians
 
 mp = geopack.shu_mgnp(xn_pd=2.0, vel=400.0, bz_imf=0.0, x=10, y=0, z=0)
 print(mp.boundary, mp.dist, mp.position)  # Vector3, float, MagnetopausePosition
+```
+
+A runnable example with all of the above (sun position, IGRF/dipole fields,
+coordinate transforms, magnetopause models) is in
+[`python/example.py`](example.py):
+
+```bash
+python3 python/example.py
 ```
 
 ## API
