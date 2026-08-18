@@ -10,6 +10,19 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
+      Version 2.0.4 - Python bindings via NativeAOT
+
+      ADDED:
+      - src/Geopack.Native: a C ABI layer over the Geopack core, compiled with NativeAOT
+        into a self-contained shared library (geopack.dylib / geopack.so / geopack.dll)
+        loadable from Python via ctypes without a .NET runtime
+      - deploy/: local build tooling (deploy/build_native.sh, deploy/build_wheel.sh) and
+        a pure-Python package (deploy/python) exposing recalc(), sun(), coordinate
+        transforms, field models and magnetopause models; CI/CD pipeline untouched
+      - InternalsVisibleTo for the native export project
+
+      ---
+
       Version 2.0.3 - SourceLink and packaging improvements
 
       ADDED:
