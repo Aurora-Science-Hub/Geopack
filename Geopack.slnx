@@ -26,6 +26,7 @@
   <Folder Name="/src/">
     <Project Path="src/Contracts/Contracts.csproj" />
     <Project Path="src/ExternalFieldModels/ExternalFieldModels.csproj" />
+    <Project Path="src/Geopack.Native/Geopack.Native.csproj" />
     <Project Path="src/Geopack/Geopack.csproj" />
     <File Path="src\Directory.Build.props" />
   </Folder>
