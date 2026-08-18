@@ -32,6 +32,7 @@
 <a href="#changelog">Changelog</a> •
 <a href="#tech-stack">Tech Stack</a> •
 <a href="#native-aot-compilation">Native AOT</a> •
+<a href="#python-bindings">Python Bindings</a> •
 <a href="#licensing">Licensing</a> •
 <a href="#how-to-cite">How to Cite</a> •
 <a href="#references">References</a>
@@ -50,7 +51,7 @@ For external magnetic field models, accuracy is raised to 13 digits (`1E-13D`).
 - **Performance Optimized**: SIMD vectorization, Math.SinCos, and optimized mathematical operations
 - **Modern .NET**: Native AOT compilation support, nullable reference types, C# 13 features
 - **Dependency Injection**: Built-in DI support with ServiceCollectionExtensions
-- **Comprehensive Testing**: 100+ unit tests validated against original Fortran implementation
+- **Comprehensive Testing**: 100+ unit tests validated against original Fortran implementation, plus a Python suite mirroring them 1:1 at the same `8E-12` precision
 - **Well Documented**: Clear API documentation and extensive benchmarks
 
 ## Installation
@@ -150,6 +151,36 @@ dotnet publish --framework net10.0 -c Release -r win-x64
 ```
 ```shell
 dotnet publish --framework net10.0 -c Release -r osx-x64
+```
+
+## Python Bindings
+
+The library is also available from Python as a self-contained native package with
+**no .NET runtime required**. A NativeAOT build (`src/Geopack.Native`) exports a flat
+C ABI over the Geopack core, and a pure-Python package (`deploy/python/geopack`)
+loads it through `ctypes` (stdlib only, zero dependencies).
+
+```python
+import geopack
+
+ctx = geopack.recalc(1997, 12, 16, 21, 0, 0, vx=-304, vy=13, vz=4)
+bx, by, bz = ctx.igrf_gsw(1.0, 1.0, 1.0)   # (-5474.5721, -3598.5022, 1833.2153) nT
+x, y, z = ctx.geo_to_gsw(1.0, 2.0, 3.0)
+```
+
+The Python test suite mirrors the C# unit tests **1:1 for every observable
+behaviour** — the same test cases, the same reference data, and the same `8E-12`
+precision tolerance — so accuracy matches the original Fortran code to the same
+12 decimal digits. See `deploy/python/tests/` and
+[deploy/README.md](deploy/README.md) for details.
+
+### Building
+
+Local build tooling lives in `deploy/` (CI/CD is intentionally untouched):
+
+```bash
+./deploy/build_native.sh      # NativeAOT publish -> deploy/out/<rid>/geopack.dylib
+./deploy/build_wheel.sh       # platform-specific wheel -> deploy/dist/
 ```
 
 ## Licensing

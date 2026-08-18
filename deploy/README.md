@@ -23,9 +23,30 @@ required at run time.
 ./deploy/build_native.sh          # -> deploy/out/<rid>/geopack.dylib
 ./deploy/build_wheel.sh           # -> deploy/dist/geopack-<ver>-...-macosx_*_arm64.whl
 
-# smoke-test the source package directly (library must be built/copied first)
-python3 deploy/python/tests/test_smoke.py
+# run the tests (library must be built/copied first)
+python3 deploy/python/tests/test_api.py
+python3 deploy/python/tests/test_parity.py
 ```
+
+## Tests
+
+The Python suite (`deploy/python/tests/`) mirrors the C# unit tests in
+`UnitTests/Geopack/GeopackTests.cs` **1:1 for every observable behaviour** —
+the same test cases, the same reference data (`UnitTests/Geopack/TestData`),
+and the same precision tolerance (`8E-12`). Numerical accuracy therefore
+matches the original Fortran code to the same 12 decimal digits as the C#
+library:
+
+* `test_api.py` — the end-to-end API tests: reference IGRF value, round-trip
+  transforms, `sun()`, field and magnetopause models, datetime input,
+  error reporting via `gp_last_error`.
+* `test_parity.py` — the full parity suite: `IgrfGsw` (7 cases), `IgrfGeo`
+  (12 cases, incl. near-pole `Bphi ≈ 4.17e9 nT` matching bit-for-bit),
+  `Dip` (7), `Sun` (4), `ShuMgnp` (8), `T96Mgnp` (8), and all **12 coordinate
+  transforms** × 216 reference rows = **2592 assertions**.
+
+Internal `ComputationContext` fields are intentionally not tested — the
+opaque-handle design over the C ABI is preserved.
 
 ## Requirements
 

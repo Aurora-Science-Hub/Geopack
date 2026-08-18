@@ -1,13 +1,15 @@
-"""Smoke tests for the geopack Python package.
+"""API tests for the geopack Python package.
 
 Run from the repository root after a native build::
 
     deploy/python/geopack/geopack.dylib  must exist
-    python -m pytest deploy/python/tests/test_smoke.py
+    python -m pytest deploy/python/tests/test_api.py
 
 or standalone::
 
-    python deploy/python/tests/test_smoke.py
+    python deploy/python/tests/test_api.py
+
+The suite mirrors the C# unit tests (see test_parity.py for the full parity set).
 """
 
 from __future__ import annotations
