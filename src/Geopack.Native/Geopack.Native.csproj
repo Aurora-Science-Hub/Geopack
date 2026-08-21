@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Native AOT export layer for Geopack.
+    Builds a C-compatible shared library (geopack.dylib / geopack.so / geopack.dll)
+    loadable from Python via ctypes without a .NET runtime on the target machine.
+    IsPackable=false: this is a build-time export layer, not a NuGet package.
+    NativeAOT publish is performed by python/build_native.sh / build_native.bat.
+  -->
+
+  <PropertyGroup>
+    <!-- Single TFM. Must also clear the inherited TargetFrameworks list from the root
+         Directory.Build.props, otherwise the plural property wins and the project
+         silently multi-targets, which breaks NativeAOT publishing. -->
+    <TargetFrameworks></TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>geopack</AssemblyName>
+    <RootNamespace>AuroraScienceHub.Geopack.Native</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- Not a NuGet package: build-time AOT layer only -->
+    <IsPackable>false</IsPackable>
+
+    <!-- Produce a shared library instead of an executable. PublishAot/IsAotCompatible come from src/Directory.Build.props -->
+    <NativeLib>Shared</NativeLib>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Geopack\Geopack.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+</Project>

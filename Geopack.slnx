@@ -11,6 +11,27 @@
   <Folder Name="/GitHub/workflows/">
     <File Path=".github/workflows/dotnet.yml" />
   </Folder>
+  <Folder Name="/python/">
+    <File Path="python\.gitignore" />
+    <File Path="python\BUILDING.md" />
+    <File Path="python\build_native.bat" />
+    <File Path="python\build_native.sh" />
+    <File Path="python\build_wheel.bat" />
+    <File Path="python\build_wheel.sh" />
+    <File Path="python\example.py" />
+    <File Path="python\pyproject.toml" />
+    <File Path="python\README.md" />
+    <File Path="python\setup.py" />
+  </Folder>
+  <Folder Name="/python/geopack/">
+    <File Path="python\geopack\__init__.py" />
+    <File Path="python\geopack\_enums.py" />
+    <File Path="python\geopack\_native.py" />
+  </Folder>
+  <Folder Name="/python/tests/">
+    <File Path="python\tests\test_api.py" />
+    <File Path="python\tests\test_parity.py" />
+  </Folder>
   <Folder Name="/Solution items/">
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
@@ -21,11 +42,14 @@
     <File Path="global.json" />
     <File Path="NuGet.Config" />
     <File Path="README.md" />
+    <File Path="AGENTS.md" />
+    <File Path="CHANGELOG.md" />
     <File Path="CITATION.cff" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Contracts/Contracts.csproj" />
     <Project Path="src/ExternalFieldModels/ExternalFieldModels.csproj" />
+    <Project Path="src/Geopack.Native/Geopack.Native.csproj" />
     <Project Path="src/Geopack/Geopack.csproj" />
     <File Path="src\Directory.Build.props" />
   </Folder>

@@ -5,6 +5,45 @@ All notable changes to the AuroraScienceHub.Geopack project will be documented i
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-08-18
+
+### Added
+
+- `src/Geopack.Native` — a C ABI layer over the Geopack core, compiled with NativeAOT
+  into a self-contained shared library (`geopack.dylib` / `geopack.so` / `geopack.dll`)
+  loadable from Python via `ctypes` without a .NET runtime
+- Python package `python/geopack` exposing `recalc()`, `sun()`, coordinate transforms,
+  field models and magnetopause models, plus local build tooling
+  (`python/build_native.sh` / `build_wheel.sh` on macOS/Linux,
+  `build_native.bat` / `build_wheel.bat` on Windows)
+- Python test suite mirroring the C# unit tests 1:1 (same cases, reference data,
+  `8E-12` tolerance): `IgrfGsw` / `IgrfGeo` / `Dip` / `Sun` / `ShuMgnp` / `T96Mgnp`
+  plus 2592 coordinate-transform assertions
+
+### Fixed
+
+- `gp_last_error` no longer throws on an undersized buffer and keeps the message
+  pending until the whole message has been read
+- opaque handles typed as `c_int64` in the ctypes layer (`c_long` is 32-bit on Windows)
+- `build_wheel.sh` also accepts the lib-prefixed NativeAOT library name on Unix
+
+---
+
+## [2.0.3] - 2026-08-13
+
+### Added
+
+- SourceLink support for GitHub (`Microsoft.SourceLink.GitHub`): NuGet packages now
+  map to source in the repository
+- ContinuousIntegrationBuild enabled on CI builds for deterministic PDBs
+
+### Changed
+
+- Package metadata consolidated into `src/Directory.Build.props`, removing duplicates
+- Per-package tags no longer overwritten by the shared build
+
+---
+
 ## [2.0.2] - 2026-07-16
 
 ### Fixed

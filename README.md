@@ -6,18 +6,19 @@
       <img src="docs/logo/logo-black.png" style="width:400px;">
     </picture>
     <br>
-    Geopack-2008 C# .NET  implementation
+    Geopack-2008 — C# .NET & Python implementation
     <br>
 </h1>
 
 <div align="center">
-    High-performance C# implementation of the Geopack-2008 geomagnetic field model with double-precision accuracy.
+    High-performance C# and Python implementation of the Geopack-2008 geomagnetic field model and solar-terrestrial coordinate transforms with double-precision accuracy.
     <br><br>
 
 [![NuGet Version](https://img.shields.io/nuget/v/AuroraScienceHub.Geopack?logo=nuget&label=NuGet)](https://www.nuget.org/packages/AuroraScienceHub.Geopack/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/AuroraScienceHub.Geopack?logo=nuget&label=Downloads)](https://www.nuget.org/packages/AuroraScienceHub.Geopack/)
 [![](https://img.shields.io/badge/.NET-8.0%20%7C%2010.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![](https://img.shields.io/badge/C%23-13.0-239120?logo=csharp)](https://learn.microsoft.com/en-us/dotnet/csharp/)
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&label=Python)](https://www.python.org/)
 <br>
 [![Build & Test](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml)
 [![License: GPL v3+](https://img.shields.io/badge/License-GPLv3+-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -32,6 +33,7 @@
 <a href="#changelog">Changelog</a> •
 <a href="#tech-stack">Tech Stack</a> •
 <a href="#native-aot-compilation">Native AOT</a> •
+<a href="#python-bindings">Python Bindings</a> •
 <a href="#licensing">Licensing</a> •
 <a href="#how-to-cite">How to Cite</a> •
 <a href="#references">References</a>
@@ -42,6 +44,8 @@
 This library provides numerical accuracy matching the original Fortran code by N. A. Tsyganenko to within 12 decimal digits (`8E-12D`).
 For external magnetic field models, accuracy is raised to 13 digits (`1E-13D`).
 
+Available both as a .NET library (NuGet) and as a self-contained Python package — see [Python Bindings](#python-bindings).
+
 ## Features
 
 - **High Precision**: Numerical accuracy matching original Fortran code to 12-13 decimal digits
@@ -50,7 +54,8 @@ For external magnetic field models, accuracy is raised to 13 digits (`1E-13D`).
 - **Performance Optimized**: SIMD vectorization, Math.SinCos, and optimized mathematical operations
 - **Modern .NET**: Native AOT compilation support, nullable reference types, C# 13 features
 - **Dependency Injection**: Built-in DI support with ServiceCollectionExtensions
-- **Comprehensive Testing**: 100+ unit tests validated against original Fortran implementation
+- **Python Bindings**: NativeAOT-compiled shared library loadable from Python via `ctypes` — stdlib only, no .NET runtime required
+- **Comprehensive Testing**: 100+ unit tests validated against original Fortran implementation, plus a Python suite mirroring them 1:1 at the same `8E-12` precision
 - **Well Documented**: Clear API documentation and extensive benchmarks
 
 ## Installation
@@ -114,21 +119,7 @@ see the [benchmarks documentation](benchmarks/AuroraScienceHub.Geopack.Benchmark
 
 ## Changelog
 
-### Version 2.0.1 (Latest)
-
-- Updated `AGENTS.md` with accurate, repo-specific guidance for AI coding agents
-
-### Version 2.0.0
-
-This is a major release with significant architectural improvements and breaking changes. Key updates include:
-
-- **Thread-Safety**: Replaced mutable shared state with immutable ComputationContext pattern
-- **Strongly-Typed API**: Generic vector quantities (CartesianVector<T>, SphericalVector<T>)
-- **Performance**: SIMD vectorization, Math.SinCos, optimized mathematical operations
-- **Data Models**: Converted to readonly record structs for better performance
-- **Dependency Injection**: Full DI support with ServiceCollectionExtensions
-
-⚠️ **Breaking Changes**: Method signatures have changed. See [CHANGELOG.md](CHANGELOG.md) for detailed migration guide.
+The full changelog is maintained in [CHANGELOG.md](CHANGELOG.md). Current version: **2.1.0** — Python bindings via NativeAOT.
 
 ## Tech Stack
 - Supported .NET versions:
@@ -150,6 +141,36 @@ dotnet publish --framework net10.0 -c Release -r win-x64
 ```
 ```shell
 dotnet publish --framework net10.0 -c Release -r osx-x64
+```
+
+## Python Bindings
+
+The library is also available from Python as a self-contained native package with
+**no .NET runtime required**. A NativeAOT build (`src/Geopack.Native`) exports a flat
+C ABI over the Geopack core, and a pure-Python package (`python/geopack`)
+loads it through `ctypes` (stdlib only, zero dependencies).
+
+```python
+import geopack
+
+ctx = geopack.recalc(1997, 12, 16, 21, 0, 0, vx=-304, vy=13, vz=4)
+bx, by, bz = ctx.igrf_gsw(1.0, 1.0, 1.0)   # (-5474.5721, -3598.5022, 1833.2153) nT
+x, y, z = ctx.geo_to_gsw(1.0, 2.0, 3.0)
+```
+
+The Python test suite mirrors the C# unit tests **1:1 for every observable
+behaviour** — the same test cases, the same reference data, and the same `8E-12`
+precision tolerance — so accuracy matches the original Fortran code to the same
+12 decimal digits. See `python/tests/` and
+[python/BUILDING.md](python/BUILDING.md) for details.
+
+### Building
+
+Local build tooling lives in `python/` (CI/CD is intentionally untouched):
+
+```bash
+./python/build_native.sh      # NativeAOT publish -> python/out/<rid>/geopack.dylib
+./python/build_wheel.sh       # platform-specific wheel -> python/dist/
 ```
 
 ## Licensing
