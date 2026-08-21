@@ -6,18 +6,19 @@
       <img src="docs/logo/logo-black.png" style="width:400px;">
     </picture>
     <br>
-    Geopack-2008 C# .NET  implementation
+    Geopack-2008 — C# .NET & Python implementation
     <br>
 </h1>
 
 <div align="center">
-    High-performance C# implementation of the Geopack-2008 geomagnetic field model with double-precision accuracy.
+    High-performance C# and Python implementation of the Geopack-2008 geomagnetic field model and solar-terrestrial coordinate transforms with double-precision accuracy.
     <br><br>
 
 [![NuGet Version](https://img.shields.io/nuget/v/AuroraScienceHub.Geopack?logo=nuget&label=NuGet)](https://www.nuget.org/packages/AuroraScienceHub.Geopack/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/AuroraScienceHub.Geopack?logo=nuget&label=Downloads)](https://www.nuget.org/packages/AuroraScienceHub.Geopack/)
 [![](https://img.shields.io/badge/.NET-8.0%20%7C%2010.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![](https://img.shields.io/badge/C%23-13.0-239120?logo=csharp)](https://learn.microsoft.com/en-us/dotnet/csharp/)
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&label=Python)](https://www.python.org/)
 <br>
 [![Build & Test](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml)
 [![License: GPL v3+](https://img.shields.io/badge/License-GPLv3+-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -43,6 +44,8 @@
 This library provides numerical accuracy matching the original Fortran code by N. A. Tsyganenko to within 12 decimal digits (`8E-12D`).
 For external magnetic field models, accuracy is raised to 13 digits (`1E-13D`).
 
+Available both as a .NET library (NuGet) and as a self-contained Python package — see [Python Bindings](#python-bindings).
+
 ## Features
 
 - **High Precision**: Numerical accuracy matching original Fortran code to 12-13 decimal digits
@@ -51,6 +54,7 @@ For external magnetic field models, accuracy is raised to 13 digits (`1E-13D`).
 - **Performance Optimized**: SIMD vectorization, Math.SinCos, and optimized mathematical operations
 - **Modern .NET**: Native AOT compilation support, nullable reference types, C# 13 features
 - **Dependency Injection**: Built-in DI support with ServiceCollectionExtensions
+- **Python Bindings**: NativeAOT-compiled shared library loadable from Python via `ctypes` — stdlib only, no .NET runtime required
 - **Comprehensive Testing**: 100+ unit tests validated against original Fortran implementation, plus a Python suite mirroring them 1:1 at the same `8E-12` precision
 - **Well Documented**: Clear API documentation and extensive benchmarks
 

@@ -1,8 +1,8 @@
 # geopack (Python)
 
 Python bindings for the [Aurora-Science-Hub/Geopack](https://github.com/Aurora-Science-Hub/Geopack)
-library — a C# port of the GEOPACK-2008 (double precision) magnetospheric field
-model and solar-terrestrial coordinate transforms.
+library — a C# port of the GEOPACK-2008 (double precision) magnetospheric field model
+(IGRF / dipole) and solar-terrestrial coordinate transforms (GEO, GSE, GSW, SM, MAG, GEI).
 
 The bindings load a NativeAOT-built shared library (`geopack.dylib` /
 `geopack.so` / `geopack.dll`) via `ctypes` from the Python standard library.
