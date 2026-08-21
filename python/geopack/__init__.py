@@ -254,8 +254,11 @@ def shu_mgnp(
 ) -> MagnetopauseResult:
     """Shue et al. (1998) magnetopause model. Input in GSW (Re).
 
-    ``xn_pd`` is the solar wind dynamic pressure in nPa, ``vel`` the velocity in
-    km/s, ``bz_imf`` the IMF Bz in nT. ``(x, y, z)`` is the probe point in GSW.
+    ``xn_pd`` is either the solar wind proton number density (per cm3) if
+    ``vel > 0``, or the solar wind ram pressure in nPa if ``vel < 0``.
+    ``vel`` is the velocity in km/s (a negative value signals that ``xn_pd``
+    is a pressure, not a density). ``bz_imf`` is the IMF Bz in nT.
+    ``(x, y, z)`` is the probe point in GSW.
     """
     mx, my, mz, dist, position = _native.shu_mgnp(xn_pd, vel, bz_imf, x, y, z)
     return MagnetopauseResult(Vector3(mx, my, mz), dist, MagnetopausePosition(position))
@@ -264,8 +267,10 @@ def shu_mgnp(
 def t96_mgnp(xn_pd: float, vel: float, x: float, y: float, z: float) -> MagnetopauseResult:
     """Tsyganenko 1996 magnetopause model. Input in GSW (Re).
 
-    ``xn_pd`` is the solar wind dynamic pressure in nPa, ``vel`` the velocity in
-    km/s. ``(x, y, z)`` is the probe point in GSW.
+    ``xn_pd`` is either the solar wind proton number density (per cm3) if
+    ``vel > 0``, or the solar wind ram pressure in nPa if ``vel < 0``.
+    ``vel`` is the velocity in km/s (a negative value signals that ``xn_pd``
+    is a pressure, not a density). ``(x, y, z)`` is the probe point in GSW.
     """
     mx, my, mz, dist, position = _native.t96_mgnp(xn_pd, vel, x, y, z)
     return MagnetopauseResult(Vector3(mx, my, mz), dist, MagnetopausePosition(position))
