@@ -51,16 +51,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Latest 10.0.x; global.json (rollForward: latestMinor) accepts any 10.x.
       - name: Setup .NET SDK 10.0.x
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
 
       - name: Setup Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 
@@ -113,7 +113,7 @@ jobs:
           ls -la python/dist
 
       - name: Upload wheel artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: geopack-wheel-${{ matrix.rid }}
           path: python/dist/*.whl
