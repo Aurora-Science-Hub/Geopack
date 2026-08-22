@@ -8,8 +8,9 @@ version = "2.2.0"
 description = "Geopack-2008 magnetospheric field model and solar-terrestrial coordinate transforms (NativeAOT bindings)"
 readme = "README.md"
 license = { text = "GPL-3.0-or-later" }
+authors = [{ name = "Aurora Science Hub" }]
 requires-python = ">=3.8"
-keywords = ["geopack", "geophysics", "magnetosphere", "igrf", "tsyganenko", "coordinate-transforms"]
+keywords = ["geopack", "space physics", "geophysics", "magnetosphere", "magnetic field", "igrf", "tsyganenko", "t89", "magnetopause", "solar wind", "coordinate-transforms"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
@@ -17,13 +18,24 @@ classifiers = [
     "Operating System :: MacOS",
     "Operating System :: POSIX :: Linux",
     "Operating System :: Microsoft :: Windows",
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Astronomy",
     "Topic :: Scientific/Engineering :: Physics",
 ]
+
+[project.urls]
+Homepage = "https://github.com/Aurora-Science-Hub/Geopack"
+Repository = "https://github.com/Aurora-Science-Hub/Geopack"
+Issues = "https://github.com/Aurora-Science-Hub/Geopack/issues"
+Changelog = "https://github.com/Aurora-Science-Hub/Geopack/blob/main/CHANGELOG.md"
 
 [tool.setuptools]
 packages = ["geopack"]
 
 [tool.setuptools.package-data]
-geopack = ["*.dylib", "*.so", "*.dll"]
+geopack = ["*.dylib", "*.so", "*.dll", "py.typed"]

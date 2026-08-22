@@ -30,8 +30,14 @@ __all__ = [
     "Vector3",
     "Sun",
     "MagnetopauseResult",
+    "Context",
+    "DEFAULT_SOLAR_WIND",
     "recalc",
     "sun",
+    "shu_mgnp",
+    "t96_mgnp",
+    "t89",
+    "__version__",
 ]
 
 __version__ = "2.2.0"
