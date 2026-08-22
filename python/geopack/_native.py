@@ -143,6 +143,17 @@ _lib.gp_t96_mgnp.argtypes = [
 ]
 _lib.gp_t96_mgnp.restype = _c_int
 
+# External field models (context-free, input GSW, output GSM)
+_lib.gp_t89.argtypes = [
+    _c_int, _c_double, _c_double, _c_double, _c_double,  # iopt psi x y z
+    _p_double, _p_double, _p_double,                     # out bx by bz
+]
+_lib.gp_t89.restype = _c_int
+
+# Context dipole tilt (radians), computed by Recalc
+_lib.gp_context_psi.argtypes = [_c_handle, _p_double]
+_lib.gp_context_psi.restype = _c_int
+
 del _name  # loop variable cleanup
 
 # ---------------------------------------------------------------------------
@@ -293,3 +304,19 @@ def _call_mgnp(fn, *args: float) -> Tuple[float, float, float, float, int]:
     )
     _check(rc)
     return mx.value, my.value, mz.value, dist.value, position.value
+
+
+def t89(iopt: int, psi: float, x: float, y: float, z: float) -> Tuple[float, float, float]:
+    """Tsyganenko (1989) external field at (x, y, z) in GSW, GSM components in nT."""
+    bx, by, bz = ctypes.c_double(), ctypes.c_double(), ctypes.c_double()
+    rc = _lib.gp_t89(iopt, psi, x, y, z, ctypes.byref(bx), ctypes.byref(by), ctypes.byref(bz))
+    _check(rc)
+    return bx.value, by.value, bz.value
+
+
+def context_psi(handle: int) -> float:
+    """Dipole tilt (radians) for the given context, as computed by Recalc."""
+    psi = ctypes.c_double()
+    rc = _lib.gp_context_psi(handle, ctypes.byref(psi))
+    _check(rc)
+    return psi.value

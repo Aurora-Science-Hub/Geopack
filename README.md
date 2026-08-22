@@ -119,7 +119,7 @@ see the [benchmarks documentation](benchmarks/AuroraScienceHub.Geopack.Benchmark
 
 ## Changelog
 
-The full changelog is maintained in [CHANGELOG.md](CHANGELOG.md). Current version: **2.1.0** — Python bindings via NativeAOT.
+The full changelog is maintained in [CHANGELOG.md](CHANGELOG.md). Current version: **2.2.0** — T89 external field model in Python bindings.
 
 ## Tech Stack
 - Supported .NET versions:
@@ -156,6 +156,11 @@ import geopack
 ctx = geopack.recalc(1997, 12, 16, 21, 0, 0, vx=-304, vy=13, vz=4)
 bx, by, bz = ctx.igrf_gsw(1.0, 1.0, 1.0)   # (-5474.5721, -3598.5022, 1833.2153) nT
 x, y, z = ctx.geo_to_gsw(1.0, 2.0, 3.0)
+
+# Tsyganenko (1989) external field: context-free module function and context
+# variant (psi defaults to the context's dipole tilt, in radians):
+bx, by, bz = geopack.t89(iopt=3, psi=ctx.psi, x=-6.6, y=0, z=0)   # nT, GSM
+bx, by, bz = ctx.t89(iopt=3, x=-6.6, y=0, z=0)
 ```
 
 The Python test suite mirrors the C# unit tests **1:1 for every observable

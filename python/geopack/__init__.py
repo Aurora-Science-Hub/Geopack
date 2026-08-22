@@ -17,7 +17,7 @@ Typical usage::
 from __future__ import annotations
 
 from datetime import datetime
-from typing import NamedTuple, Optional, Union
+from typing import NamedTuple, Optional, Sequence, Union
 
 from . import _native
 from ._enums import CoordinateSystem, MagnetopausePosition
@@ -34,7 +34,7 @@ __all__ = [
     "sun",
 ]
 
-__version__ = "2.1.0"
+__version__ = "2.2.0"
 
 #: Default solar wind velocity (GSE, km/s) used when the caller does not provide one.
 DEFAULT_SOLAR_WIND = (-400.0, 0.0, 0.0)
@@ -142,6 +142,27 @@ class Context:
         """
         self._check_open()
         return Vector3(*_native.igrf_geo(self._handle, r, theta, phi))
+
+    # -- external field models ----------------------------------------------
+
+    @property
+    def psi(self) -> float:
+        """Dipole tilt angle (radians) for this context's date/time, as computed by Recalc."""
+        self._check_open()
+        return _native.context_psi(self._handle)
+
+    def t89(self, iopt: int, x: float, y: float, z: float, psi: Optional[float] = None) -> Vector3:
+        """Tsyganenko (1989) external field at ``(x, y, z)`` in GSW.
+
+        ``iopt`` is the disturbance-level index (1..7, maps to Kp intervals).
+        ``psi`` is the dipole tilt in radians and defaults to this context's tilt.
+        Returns the field vector in GSM (nT). Calls are serialized natively
+        because the model keeps static state (not thread-safe).
+        """
+        self._check_open()
+        if psi is None:
+            psi = self.psi
+        return Vector3(*_native.t89(iopt, psi, x, y, z))
 
     # -- coordinate transforms (in -> out, Earth radii) ---------------------
 
@@ -274,3 +295,22 @@ def t96_mgnp(xn_pd: float, vel: float, x: float, y: float, z: float) -> Magnetop
     """
     mx, my, mz, dist, position = _native.t96_mgnp(xn_pd, vel, x, y, z)
     return MagnetopauseResult(Vector3(mx, my, mz), dist, MagnetopausePosition(position))
+
+
+def t89(
+    iopt: int,
+    psi: float,
+    x: float,
+    y: float,
+    z: float,
+    parmod: Optional[Sequence[float]] = None,
+) -> Vector3:
+    """Tsyganenko (1989) external field model. Input in GSW (Re).
+
+    ``iopt`` is the disturbance-level index (1..7, maps to Kp intervals).
+    ``psi`` is the dipole tilt angle in radians.
+    ``parmod`` is a dummy parameter array accepted for parity with the .NET
+    ``IT89.Calculate`` contract; it is not used by T89 and defaults to ``None``.
+    ``(x, y, z)`` is the probe point in GSW. Returns the field vector in GSM (nT).
+    """
+    return Vector3(*_native.t89(iopt, psi, x, y, z))

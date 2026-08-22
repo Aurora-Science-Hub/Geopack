@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "geopack"
-version = "2.1.0"
+version = "2.2.0"
 description = "Geopack-2008 magnetospheric field model and solar-terrestrial coordinate transforms (NativeAOT bindings)"
 readme = "README.md"
 license = { text = "GPL-3.0-or-later" }

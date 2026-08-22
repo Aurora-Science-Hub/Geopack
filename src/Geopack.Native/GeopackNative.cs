@@ -9,6 +9,7 @@ using AuroraScienceHub.Geopack.Contracts.Engine;
 using AuroraScienceHub.Geopack.Contracts.PhysicalObjects;
 using AuroraScienceHub.Geopack.Contracts.PhysicalQuantities;
 using AuroraScienceHub.Geopack.Contracts.Spherical;
+using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace AuroraScienceHub.Geopack.Native;
@@ -246,6 +247,68 @@ public static unsafe class GeopackNative
         => Magnetopause(xnPd, vel, 0, x, y, z,
             (_, loc) => s_geopack.T96Mgnp(xnPd, vel, loc),
             mx, my, mz, dist, position);
+
+    // ------------------------------------------------------------------
+    // External field models
+    // ------------------------------------------------------------------
+
+    // T89 keeps internal static mutable state (coefficient cache), so it is not
+    // thread-safe; every call is serialized through s_t89Lock. Its computational
+    // code is not modified by the wrapper.
+    private static readonly T89 s_t89 = new();
+    private static readonly object s_t89Lock = new();
+
+    /// <summary>
+    /// Evaluates the Tsyganenko (1989) external field model at (x, y, z) in GSW.
+    /// Returns the GSM components in nT. The context-free model is invoked directly
+    /// (as IT89.Calculate); parmod is a documented dummy, so a zeroed array is passed.
+    /// </summary>
+    [UnmanagedCallersOnly(EntryPoint = "gp_t89", CallConvs = new[] { typeof(CallConvCdecl) })]
+    public static int T89(
+        int iopt, double psi, double x, double y, double z,
+        double* bx, double* by, double* bz)
+    {
+        try
+        {
+            CartesianLocation location = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
+            CartesianVector<MagneticField> result;
+            lock (s_t89Lock)
+            {
+                result = s_t89.Calculate(iopt, new double[10], psi, location);
+            }
+
+            *bx = result.X;
+            *by = result.Y;
+            *bz = result.Z;
+            return 0;
+        }
+        catch (Exception e)
+        {
+            return Fail(e);
+        }
+    }
+
+    /// <summary>
+    /// Returns the dipole tilt angle (radians) computed for the given context by Recalc.
+    /// </summary>
+    [UnmanagedCallersOnly(EntryPoint = "gp_context_psi", CallConvs = new[] { typeof(CallConvCdecl) })]
+    public static int ContextPsi(long handle, double* psi)
+    {
+        try
+        {
+            if (!s_contexts.TryGetValue(handle, out ComputationContext? context))
+            {
+                return Fail("Invalid context handle.");
+            }
+
+            *psi = context.PSI;
+            return 0;
+        }
+        catch (Exception e)
+        {
+            return Fail(e);
+        }
+    }
 
     // ------------------------------------------------------------------
     // Shared plumbing

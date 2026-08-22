@@ -26,6 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ExternalFieldModels\ExternalFieldModels.csproj" />
     <ProjectReference Include="..\Geopack\Geopack.csproj" />
   </ItemGroup>
 
