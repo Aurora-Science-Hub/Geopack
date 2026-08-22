@@ -1,11 +1,11 @@
-# geopack — GEOPACK-2008 geomagnetic field model for Python
+# Geopack-2008 — GEOPACK-2008 geomagnetic field model for Python
 
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&label=Python)](https://www.python.org/)
 [![Python Package](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/python-package.yml/badge.svg)](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/python-package.yml)
 [![License: GPL v3+](https://img.shields.io/badge/License-GPLv3+-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub Stars](https://img.shields.io/github/stars/Aurora-Science-Hub/Geopack?style=social)](https://github.com/Aurora-Science-Hub/Geopack)
 
-**`geopack`** is a self-contained, zero-dependency Python package for the
+**Geopack-2008** (imported as `geopack`) is a self-contained, zero-dependency Python package for the
 **GEOPACK-2008** geomagnetic field model: the **International Geomagnetic
 Reference Field (IGRF)**, the **dipole field**, the **Tsyganenko (1989)
 external field model (T89)**, the **Shue et al. (1998) and Tsyganenko (1996)
@@ -30,14 +30,14 @@ Build the wheel for your platform (requires .NET SDK 10 + a C toolchain) and
 
 ```bash
 ./python/build_wheel.sh
-pip install python/dist/geopack-*.whl
+pip install python/dist/geopack_2008-*.whl
 ```
 
 On Windows (cmd):
 
 ```bat
 .\python\build_wheel.bat
-pip install python\dist\geopack-*.whl
+pip install python\dist\geopack_2008-*.whl
 ```
 
 The scripts build the native library for the host platform only; for another

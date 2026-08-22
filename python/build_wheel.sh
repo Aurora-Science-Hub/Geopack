@@ -3,7 +3,7 @@
 # platform-specific wheel in python/dist/.
 #
 #   ./python/build_wheel.sh
-#   pip install python/dist/geopack-*.whl
+#   pip install python/dist/geopack_2008-*.whl
 #
 # Requires: .NET SDK 10, a C toolchain (for NativeAOT), and Python 3.8+.
 set -euo pipefail

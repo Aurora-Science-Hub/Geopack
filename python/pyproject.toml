@@ -3,7 +3,7 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "geopack"
+name = "Geopack-2008"
 version = "2.2.0"
 description = "Geopack-2008 magnetospheric field model and solar-terrestrial coordinate transforms (NativeAOT bindings)"
 readme = "README.md"
