@@ -21,6 +21,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&label=Python)](https://www.python.org/)
 <br>
 [![Build & Test](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml)
+[![Python Package](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/python-package.yml/badge.svg)](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/python-package.yml)
 [![License: GPL v3+](https://img.shields.io/badge/License-GPLv3+-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![DOI](https://zenodo.org/badge/782457774.svg)](https://doi.org/10.5281/zenodo.17437549)
 [![GitHub Stars](https://img.shields.io/github/stars/Aurora-Science-Hub/Geopack?style=social)](https://github.com/Aurora-Science-Hub/Geopack)

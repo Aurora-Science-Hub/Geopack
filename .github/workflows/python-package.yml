@@ -1,0 +1,120 @@
+name: Python Package (wheels)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# No PyPI publishing — only artifacts; upload-artifact uses
+# ACTIONS_RUNTIME_TOKEN, so no write permissions are needed.
+permissions:
+  contents: read
+
+# Prevent concurrent runs for the same PR/branch from doing redundant work.
+concurrency:
+  group: python-package-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+  build:
+    name: wheel ${{ matrix.rid }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # A failing RID (e.g. pytest) does not cancel the other four: jobs are
+      # independent and successful RIDs still upload their artifacts.
+      fail-fast: false
+      matrix:
+        include:
+          # NativeAOT does not cross-compile — each RID must build on a native
+          # runner for the same OS/arch.
+          - rid: linux-x64
+            os: ubuntu-latest
+          - rid: linux-arm64
+            os: ubuntu-24.04-arm
+          - rid: win-x64
+            os: windows-latest
+          - rid: win-arm64
+            os: windows-11-arm
+          - rid: osx-arm64
+            os: macos-14
+
+    # One bash shell for every OS: Windows runners ship Git Bash.
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Latest 10.0.x; global.json (rollForward: latestMinor) accepts any 10.x.
+      - name: Setup .NET SDK 10.0.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # NativeAOT on Linux needs clang + zlib1g-dev (not guaranteed on arm64).
+      - name: Install NativeAOT prerequisites (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends clang zlib1g-dev
+
+      - name: Install Python build/test tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest build
+
+      - name: Publish NativeAOT library (${{ matrix.rid }})
+        run: |
+          dotnet publish src/Geopack.Native/Geopack.Native.csproj \
+            -c Release -r "${{ matrix.rid }}" -o "python/out/${{ matrix.rid }}"
+
+      # Exact names (not a geopack.* glob) so geopack.pdb is not picked up on
+      # Windows.
+      - name: Copy native library into the Python package
+        run: |
+          OUT_DIR="python/out/${{ matrix.rid }}"
+          LIB="$(find "$OUT_DIR" -maxdepth 1 -type f \
+            \( -name 'geopack.dll' -o -name 'geopack.so' -o -name 'libgeopack.so' \
+               -o -name 'geopack.dylib' -o -name 'libgeopack.dylib' \) \
+            | head -n1)"
+          if [[ -z "$LIB" ]]; then
+            echo "::error::No native library found in $OUT_DIR"
+            ls -la "$OUT_DIR"
+            exit 1
+          fi
+          cp "$LIB" python/geopack/
+          echo "Copied: $LIB -> python/geopack/"
+
+      # Tests import the package via the python/ path and need the native
+      # library in python/geopack/ (it is gitignored, so the copy is required).
+      - name: Run Python tests
+        run: python -m pytest python/tests -q
+
+      # No second publish: the library is already in python/geopack/. We do not
+      # call build_wheel.sh — it would trigger another NativeAOT build.
+      - name: Build wheel
+        run: |
+          rm -rf python/build python/dist python/*.egg-info
+          mkdir -p python/dist
+          python -m build --wheel --outdir python/dist python
+          ls -la python/dist
+
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: geopack-wheel-${{ matrix.rid }}
+          path: python/dist/*.whl
+          if-no-files-found: error

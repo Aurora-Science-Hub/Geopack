@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `Context.t89(iopt, x, y, z, psi=None)` plus the `Context.psi` property
 - Python parity tests mirroring `ExternalFieldModelsTests.T89.cs` 1:1 (same 8
   cases, same `new double[10]` parmod dummy, `1e-13` tolerance)
+- GitHub Actions workflow `python-package.yml`: builds the Python package and
+  runs its tests on 5 RIDs (linux-x64/arm64, win-x64/arm64, osx-arm64),
+  uploading the wheels as artifacts (PyPI publishing deferred)
 
 ---
 
