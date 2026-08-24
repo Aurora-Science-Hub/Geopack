@@ -6,7 +6,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/Aurora-Science-Hub/Geopack?style=social)](https://github.com/Aurora-Science-Hub/Geopack)
 [![PyPI](https://img.shields.io/pypi/v/geopack-2008)](https://pypi.org/project/geopack-2008/)
 
-**Geopack-2008** (imported as `geopack`) is a self-contained, zero-dependency Python package for the
+**Geopack-2008** (imported as `geopack`) is a high-performance, self-contained, zero-dependency Python package for the
 **GEOPACK-2008** geomagnetic field model: the **International Geomagnetic
 Reference Field (IGRF)**, the **dipole field**, the **Tsyganenko (1989)
 external field model (T89)**, the **Shue et al. (1998) and Tsyganenko (1996)
@@ -19,6 +19,8 @@ compiled ahead-of-time with NativeAOT into a shared library (`geopack.dylib` /
 library. No .NET runtime is required at runtime, and there are no Python
 dependencies (no NumPy/SciPy).
 
+- **High performance**: SIMD vectorization, `Math.SinCos`, and other optimized
+  mathematical operations relative to the original Fortran code
 - **Double precision**: accuracy matches the original Fortran code to 12–13 decimal digits
 - **Standard library only** — no third-party runtime dependencies
 - **Thread-safe** immutable computation contexts
