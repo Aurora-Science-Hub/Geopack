@@ -10,6 +10,18 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
+      Version 2.2.0 - T89 external field model in Python bindings
+
+      ADDED:
+      - T89 (Tsyganenko 1989) external field model in the Python bindings: gp_t89
+        C export (context-free, input GSW, output GSM, serialized natively) and
+        gp_context_psi exposing the dipole tilt computed by Recalc; wrapped as
+        geopack.t89() and Context.t89()
+      - Python parity tests mirror ExternalFieldModelsTests.T89.cs 1:1 (same 8
+        cases, same new double[10] parmod dummy, 1e-13 tolerance)
+
+      ---
+
       Version 2.1.0 - Python bindings via NativeAOT
 
       ADDED:

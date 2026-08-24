@@ -143,6 +143,25 @@ def test_last_error_undersized_buffer_keeps_message() -> None:
     assert full.value
 
 
+def test_t89_module_finite() -> None:
+    # Module-level t89: explicit psi, context-free. iopt 3 = moderate disturbance.
+    b = geopack.t89(iopt=3, psi=0.5, x=-6.6, y=0.0, z=0.0)
+    assert isinstance(b, geopack.Vector3)
+    assert all(math.isfinite(v) for v in b)
+
+
+def test_t89_context_psi() -> None:
+    # Context.t89 defaults psi to the context's dipole tilt. In northern winter
+    # (December) the tilt is negative — the northern dipole is tilted away from
+    # the Sun.
+    with geopack.recalc(YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, vx=VX, vy=VY, vz=VZ) as ctx:
+        assert isinstance(ctx.psi, float)
+        assert ctx.psi < 0.0
+        b = ctx.t89(iopt=3, x=-6.6, y=0.0, z=0.0)
+    assert isinstance(b, geopack.Vector3)
+    assert all(math.isfinite(v) for v in b)
+
+
 def _main() -> int:
     failures = 0
     for name, fn in sorted(globals().items()):

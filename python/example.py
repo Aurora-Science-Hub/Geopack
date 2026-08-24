@@ -5,7 +5,7 @@ This script demonstrates how to use the `geopack` library to:
 1. Initialize a computation context for a specific date and time.
 2. Calculate the position of the Sun.
 3. Perform coordinate transformations (e.g., GEO to GSW).
-4. Calculate Earth's magnetic field using IGRF and Dipole models.
+4. Calculate Earth's magnetic field using IGRF, Dipole, and Tsyganenko T89 models.
 5. Evaluate magnetopause boundary models (Shue et al. 1998, Tsyganenko 1996).
 """
 
@@ -40,6 +40,12 @@ def main():
         # Calculate Dipole field in GSW (outputs nT)
         dip = ctx.dip(1.0, 1.0, 1.0)
         print(f"  Dipole (GSW): Bx={dip.x:8.2f}, By={dip.y:8.2f}, Bz={dip.z:8.2f} nT")
+
+        # Calculate Tsyganenko (1989) external field (input GSW, output GSM, nT).
+        # iopt is the disturbance level index (1..7); psi defaults to the context's
+        # tilt, and the same model is available context-free as geopack.t89(iopt, psi, x, y, z).
+        t89 = ctx.t89(iopt=3, x=1.0, y=1.0, z=1.0)
+        print(f"  T89 (GSM):    Bx={t89.x:8.2f}, By={t89.y:8.2f}, Bz={t89.z:8.2f} nT")
 
         # 4. Coordinate Transformations
         # All transforms take (x, y, z) in Earth radii and return (x, y, z).

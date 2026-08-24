@@ -3,7 +3,7 @@ REM Builds the native library, bundles it into the Python package, and produces 
 REM platform-specific wheel in python\dist\.
 REM
 REM   .\python\build_wheel.bat
-REM   pip install python\dist\geopack-*.whl
+REM   pip install python\dist\geopack_2008-*.whl
 REM
 REM Requires: .NET SDK 10, a C toolchain (for NativeAOT), and Python 3.8+.
 setlocal

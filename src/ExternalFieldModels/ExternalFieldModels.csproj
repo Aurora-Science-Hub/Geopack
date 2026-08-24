@@ -22,6 +22,7 @@
   <ItemGroup>
     <InternalsVisibleTo Include="AuroraScienceHub.Geopack.UnitTests" />
     <InternalsVisibleTo Include="AuroraScienceHub.Geopack.Benchmarks" />
+    <InternalsVisibleTo Include="geopack" />
   </ItemGroup>
 
   <ItemGroup>

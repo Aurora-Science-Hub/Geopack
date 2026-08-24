@@ -23,7 +23,7 @@ required at run time.
 
 ```bash
 ./python/build_native.sh          # -> python/out/<rid>/geopack.dylib
-./python/build_wheel.sh           # -> python/dist/geopack-<ver>-...-macosx_*_arm64.whl
+./python/build_wheel.sh           # -> python/dist/geopack_2008-<ver>-...-macosx_*_arm64.whl
 
 # run the tests (library must be built/copied first)
 python3 python/tests/test_api.py
@@ -34,7 +34,7 @@ python3 python/tests/test_parity.py
 
 ```bat
 .\python\build_native.bat         :: -> python\out\win-x64\geopack.dll
-.\python\build_wheel.bat          :: -> python\dist\geopack-<ver>-...-win_amd64.whl
+.\python\build_wheel.bat          :: -> python\dist\geopack_2008-<ver>-...-win_amd64.whl
 
 :: run the tests (library must be built/copied first)
 python python\tests\test_api.py
