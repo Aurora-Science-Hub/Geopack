@@ -19,7 +19,15 @@ export PATH="$HOME/.dotnet:$PATH"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
 # NativeAOT prerequisites (clang + zlib + libicu for the .NET SDK).
-yum install -y clang zlib-devel libicu
+# manylinux_2_28 is AlmaLinux 8 (dnf); older manylinux images use yum.
+if command -v dnf >/dev/null 2>&1; then
+  dnf install -y clang zlib-devel libicu
+elif command -v yum >/dev/null 2>&1; then
+  yum install -y clang zlib-devel libicu
+else
+  echo "no supported package manager found" >&2
+  exit 1
+fi
 
 # The .NET SDK needs ICU at startup; run invariant so it doesn't depend on a
 # specific ICU version (our library is pure numeric — no culture use).
