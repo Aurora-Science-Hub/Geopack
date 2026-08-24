@@ -6,6 +6,8 @@ modules, so it must be tagged ``py3-none-<platform>`` (installable on every
 Python 3.8+) rather than ``py3-none-any`` or a CPython-specific tag.
 """
 
+import platform
+
 from setuptools import setup
 from setuptools.dist import Distribution
 from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
@@ -33,6 +35,12 @@ class BinaryBdistWheel(_bdist_wheel):
 
     def get_tag(self):
         _, _, plat = super().get_tag()
+        # The macOS runner's universal2 Python tags the wheel `universal2`, but
+        # the NativeAOT dylib is built for a single architecture. Emit the
+        # matching arch-specific tag instead.
+        if plat.endswith("universal2"):
+            arch = "arm64" if platform.machine() == "arm64" else "x86_64"
+            plat = plat[: -len("universal2")] + arch
         return "py3", "none", plat
 
 
