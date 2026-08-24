@@ -30,7 +30,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageBaseVersion>2.3.0</PackageBaseVersion>
+    <PackageBaseVersion>2.3.1</PackageBaseVersion>
     <MinVerTagPrefix></MinVerTagPrefix>
   </PropertyGroup>
 
