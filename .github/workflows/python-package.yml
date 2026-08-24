@@ -1,13 +1,14 @@
 name: Python Package (wheels)
 
 on:
-  pull_request:
+  # Build/test on every push; publish is gated to main (see the publish job).
   push:
-    branches: [main]
+  pull_request:
   workflow_dispatch:
 
-# No PyPI publishing — only artifacts; upload-artifact uses
-# ACTIONS_RUNTIME_TOKEN, so no write permissions are needed.
+# Top-level permissions are read-only. The publish job below opts into
+# `id-token: write` (OpenID Connect) for trusted PyPI publishing, so no PyPI
+# token is stored in secrets.
 permissions:
   contents: read
 
@@ -26,17 +27,14 @@ jobs:
     name: wheel ${{ matrix.rid }}
     runs-on: ${{ matrix.os }}
     strategy:
-      # A failing RID (e.g. pytest) does not cancel the other four: jobs are
-      # independent and successful RIDs still upload their artifacts.
+      # A failing RID does not cancel the others: jobs are independent and
+      # successful RIDs still upload their artifacts.
       fail-fast: false
       matrix:
         include:
-          # NativeAOT does not cross-compile — each RID must build on a native
-          # runner for the same OS/arch.
-          - rid: linux-x64
-            os: ubuntu-latest
-          - rid: linux-arm64
-            os: ubuntu-24.04-arm
+          # NativeAOT does not cross-compile — each RID builds on a native
+          # runner for the same OS/arch. Linux is built in build-linux below
+          # (inside a manylinux container).
           - rid: win-x64
             os: windows-latest
           - rid: win-arm64
@@ -63,13 +61,6 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-
-      # NativeAOT on Linux needs clang + zlib1g-dev (not guaranteed on arm64).
-      - name: Install NativeAOT prerequisites (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends clang zlib1g-dev
 
       - name: Install Python build/test tools
         run: |
@@ -118,3 +109,111 @@ jobs:
           name: geopack-wheel-${{ matrix.rid }}
           path: python/dist/*.whl
           if-no-files-found: error
+
+  # Linux wheels must be tagged manylinux* for PyPI, so they are built inside a
+  # manylinux container via cibuildwheel (native ARM64 runner for aarch64 — no
+  # qemu emulation).
+  build-linux:
+    name: wheel ${{ matrix.arch }} (manylinux)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64
+            os: ubuntu-latest
+          - arch: aarch64
+            os: ubuntu-24.04-arm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Build manylinux wheel
+        uses: pypa/cibuildwheel@v2.23.1
+        with:
+          package-dir: python
+        env:
+          # Our wheel is py3-none-<platform> (one wheel for all Python 3.8+),
+          # so build for a single interpreter. Restrict to manylinux (glibc);
+          # musllinux is not built.
+          CIBW_BUILD: "cp312-manylinux_*"
+          CIBW_ARCHS: ${{ matrix.arch }}
+          # Install .NET and build the NativeAOT library inside the container.
+          # {project} is /project (the copied workspace root), so the script
+          # lives at /project/python/build_manylinux_pre.sh.
+          CIBW_BEFORE_ALL: "bash {project}/python/build_manylinux_pre.sh"
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
+          CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
+
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: geopack-wheel-linux-${{ matrix.arch }}
+          path: wheelhouse/*.whl
+          if-no-files-found: error
+
+  # Trusted publishing: authenticated via OpenID Connect (id-token: write), so
+  # no PyPI token is needed. Runs on push to main, after all wheel jobs have
+  # built and passed.
+  publish:
+    name: publish to PyPI
+    needs: [build, build-linux]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      # The .NET and Python base versions must stay in sync at publish time.
+      - name: Verify .NET and Python versions match
+        run: |
+          PYVER="$(python -c "import tomllib; print(tomllib.load(open('python/pyproject.toml','rb'))['project']['version'])")"
+          NETVER="$(grep -oP '(?<=<PackageBaseVersion>)[^<]+' Directory.Build.props | head -n1)"
+          echo "pyproject=$PYVER  PackageBaseVersion=$NETVER"
+          if [[ "$PYVER" != "$NETVER" ]]; then
+            echo "::error::pyproject version ($PYVER) does not match .NET PackageBaseVersion ($NETVER)"
+            exit 1
+          fi
+
+      # PyPI versions are immutable — skip if this version is already published.
+      - name: Check whether version is already on PyPI
+        id: pypi_check
+        run: |
+          VERSION="$(python -c "import tomllib; print(tomllib.load(open('python/pyproject.toml','rb'))['project']['version'])")"
+          CODE="$(curl -s -o /dev/null -w '%{http_code}' "https://pypi.org/pypi/geopack-2008/${VERSION}/json")"
+          echo "version=$VERSION  pypi_http=$CODE"
+          if [ "$CODE" = "200" ]; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+          elif [ "$CODE" = "404" ]; then
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::Unexpected PyPI response ($CODE)"
+            exit 1
+          fi
+
+      - name: Download all wheels
+        if: steps.pypi_check.outputs.already_published == 'false'
+        uses: actions/download-artifact@v7
+        with:
+          pattern: geopack-wheel-*
+          merge-multiple: true
+          path: dist
+
+      - name: Publish to PyPI
+        if: steps.pypi_check.outputs.already_published == 'false'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist

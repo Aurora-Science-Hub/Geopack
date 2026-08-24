@@ -19,6 +19,7 @@
 [![](https://img.shields.io/badge/.NET-8.0%20%7C%2010.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![](https://img.shields.io/badge/C%23-13.0-239120?logo=csharp)](https://learn.microsoft.com/en-us/dotnet/csharp/)
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&label=Python)](https://www.python.org/)
+[![PyPI Version](https://img.shields.io/pypi/v/geopack-2008?logo=pypi&label=PyPI)](https://pypi.org/project/geopack-2008/)
 <br>
 [![Build & Test](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/dotnet.yml)
 [![Python Package](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/python-package.yml/badge.svg)](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/python-package.yml)

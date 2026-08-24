@@ -4,8 +4,9 @@
 [![Python Package](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/python-package.yml/badge.svg)](https://github.com/Aurora-Science-Hub/Geopack/actions/workflows/python-package.yml)
 [![License: GPL v3+](https://img.shields.io/badge/License-GPLv3+-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub Stars](https://img.shields.io/github/stars/Aurora-Science-Hub/Geopack?style=social)](https://github.com/Aurora-Science-Hub/Geopack)
+[![PyPI](https://img.shields.io/pypi/v/geopack-2008)](https://pypi.org/project/geopack-2008/)
 
-**Geopack-2008** (imported as `geopack`) is a self-contained, zero-dependency Python package for the
+**Geopack-2008** (imported as `geopack`) is a high-performance, self-contained, zero-dependency Python package for the
 **GEOPACK-2008** geomagnetic field model: the **International Geomagnetic
 Reference Field (IGRF)**, the **dipole field**, the **Tsyganenko (1989)
 external field model (T89)**, the **Shue et al. (1998) and Tsyganenko (1996)
@@ -18,6 +19,8 @@ compiled ahead-of-time with NativeAOT into a shared library (`geopack.dylib` /
 library. No .NET runtime is required at runtime, and there are no Python
 dependencies (no NumPy/SciPy).
 
+- **High performance**: native compiled code with SIMD vectorization and other
+  optimized mathematical operations
 - **Double precision**: accuracy matches the original Fortran code to 12–13 decimal digits
 - **Standard library only** — no third-party runtime dependencies
 - **Thread-safe** immutable computation contexts
@@ -25,23 +28,15 @@ dependencies (no NumPy/SciPy).
 
 ## Install
 
-Build the wheel for your platform (requires .NET SDK 10 + a C toolchain) and
-`pip install` it. On macOS/Linux:
-
 ```bash
-./python/build_wheel.sh
-pip install python/dist/geopack_2008-*.whl
+pip install geopack-2008
 ```
 
-On Windows (cmd):
+Pre-built wheels are published to PyPI for Linux (x64/arm64, `manylinux`),
+Windows (x64/arm64) and macOS (arm64) — no .NET SDK or C toolchain required.
 
-```bat
-.\python\build_wheel.bat
-pip install python\dist\geopack_2008-*.whl
-```
-
-The scripts build the native library for the host platform only; for another
-OS/arch, build the wheel on that machine (NativeAOT does not cross-compile).
+To build the wheel from source (e.g. for another platform or during
+development), see [`BUILDING.md`](BUILDING.md).
 
 ## Usage
 

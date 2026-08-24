@@ -67,10 +67,11 @@ Source of truth is `Directory.Build.props` and `global.json`, not README or CI w
 
 ## Versioning
 
-- The base version lives in **one place**: root `Directory.Build.props` → `<PackageBaseVersion>2.0.3</PackageBaseVersion>`.
+- The base version lives in **one place**: root `Directory.Build.props` → `<PackageBaseVersion>2.2.0</PackageBaseVersion>`.
 - In CI the version is pinned via `-p:MinVerVersionOverride` (computed by the CI bash script from `PackageBaseVersion`): pre-release on non-`main` branches, stable on `main`/semver tags.
 - **To bump the version, change `PackageBaseVersion` in root `Directory.Build.props` — nothing else.** Never set `<Version>` or `<PackageVersion>` in a `.csproj`.
 - The Python package mirrors the same version: bump `python/pyproject.toml` and `python/geopack/__init__.py` (`__version__`) together with `PackageBaseVersion`.
+- **At publish time the .NET and Python versions MUST match.** `PackageBaseVersion` (`Directory.Build.props`), `version` (`python/pyproject.toml`) and `__version__` (`python/geopack/__init__.py`) must be equal. The PyPI publish guard in `python-package.yml` fails the publish if they drift apart.
 
 ---
 
@@ -128,6 +129,12 @@ All versions managed centrally in `Directory.Packages.props`. Never add `Version
 | Semver tag (`*.*.*`) | Stable `{base}` → NuGet.org |
 
 Version is computed via bash script in CI using `MinVerVersionOverride`, not MinVer git-tag discovery. Do not rely on `git tag` for versioning locally.
+
+`.github/workflows/python-package.yml` builds the 5 platform wheels (linux-x64/arm64,
+win-x64/arm64, osx-arm64) on every push and, on a push to `main`, publishes them to
+PyPI as `geopack-2008` via **trusted publishing** (OpenID Connect — no PyPI token in
+secrets). The publish guard requires the .NET and Python versions to match, and skips
+uploading a version already on PyPI.
 
 ---
 

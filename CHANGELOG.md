@@ -5,21 +5,23 @@ All notable changes to the AuroraScienceHub.Geopack project will be documented i
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.2.0] - 2026-08-22
+## [2.3.0] - 2026-08-24
 
 ### Added
 
-- T89 (Tsyganenko 1989) external field model in the Python bindings: new `gp_t89`
-  C export (context-free, input GSW, output GSM, serialized natively because the
-  model keeps static state) and `gp_context_psi` exposing the dipole tilt computed
-  by `Recalc`
-- Python API: module-level `geopack.t89(iopt, psi, x, y, z, parmod=None)` and
-  `Context.t89(iopt, x, y, z, psi=None)` plus the `Context.psi` property
-- Python parity tests mirroring `ExternalFieldModelsTests.T89.cs` 1:1 (same 8
-  cases, same `new double[10]` parmod dummy, `1e-13` tolerance)
-- GitHub Actions workflow `python-package.yml`: builds the Python package and
-  runs its tests on 5 RIDs (linux-x64/arm64, win-x64/arm64, osx-arm64),
-  uploading the wheels as artifacts (PyPI publishing deferred)
+- Python distribution `geopack-2008` published to PyPI (trusted publishing) with
+  pre-built `py3-none` wheels for Linux (manylinux x64/arm64), Windows (x64/arm64)
+  and macOS (arm64)
+- Tsyganenko (1989) external field model (T89) in the Python bindings
+
+### Changed
+
+- Python bindings are a high-performance NativeAOT-compiled shared library
+  loaded via `ctypes` (stdlib-only, no .NET runtime)
+
+### Fixed
+
+- macOS wheel tagged `arm64` (not `universal2`) to match the native library
 
 ---
 
