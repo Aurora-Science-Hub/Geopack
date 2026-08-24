@@ -12,6 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README describes the package as a high-performance implementation (SIMD
   vectorization, `Math.SinCos`) of GEOPACK-2008
 
+## [2.2.5] - 2026-08-24
+
+### Changed
+
+- README: drop the C#-specific `Math.SinCos` reference from the Python-facing
+  performance note
+
 ## [2.2.3] - 2026-08-24
 
 ### Fixed

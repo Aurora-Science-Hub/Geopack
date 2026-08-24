@@ -19,8 +19,8 @@ compiled ahead-of-time with NativeAOT into a shared library (`geopack.dylib` /
 library. No .NET runtime is required at runtime, and there are no Python
 dependencies (no NumPy/SciPy).
 
-- **High performance**: SIMD vectorization, `Math.SinCos`, and other optimized
-  mathematical operations relative to the original Fortran code
+- **High performance**: native compiled code with SIMD vectorization and other
+  optimized mathematical operations
 - **Double precision**: accuracy matches the original Fortran code to 12–13 decimal digits
 - **Standard library only** — no third-party runtime dependencies
 - **Thread-safe** immutable computation contexts
