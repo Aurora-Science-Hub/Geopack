@@ -136,6 +136,8 @@ jobs:
 
       - name: Build manylinux wheel
         uses: pypa/cibuildwheel@v2.23.1
+        with:
+          package-dir: python
         env:
           # Our wheel is py3-none-<platform> (one wheel for all Python 3.8+),
           # so build for a single interpreter.
