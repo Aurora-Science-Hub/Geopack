@@ -72,6 +72,7 @@ Source of truth is `Directory.Build.props` and `global.json`, not README or CI w
 - **To bump the version, change `PackageBaseVersion` in root `Directory.Build.props` — nothing else.** Never set `<Version>` or `<PackageVersion>` in a `.csproj`.
 - The Python package mirrors the same version: bump `python/pyproject.toml` and `python/geopack/__init__.py` (`__version__`) together with `PackageBaseVersion`.
 - **At publish time the .NET and Python versions MUST match.** `PackageBaseVersion` (`Directory.Build.props`), `version` (`python/pyproject.toml`) and `__version__` (`python/geopack/__init__.py`) must be equal. The PyPI publish guard in `python-package.yml` fails the publish if they drift apart.
+- Version badges (PyPI, NuGet) are dynamic — they show the latest published version automatically; no manual update is needed.
 
 ---
 
@@ -135,6 +136,10 @@ win-x64/arm64, osx-arm64) on every push and, on a push to `main`, publishes them
 PyPI as `geopack-2008` via **trusted publishing** (OpenID Connect — no PyPI token in
 secrets). The publish guard requires the .NET and Python versions to match, and skips
 uploading a version already on PyPI.
+
+`.github/workflows/release.yml` creates a GitHub Release on push to `main` (tag
+`vX.Y.Z`, release notes from the matching `## [X.Y.Z]` CHANGELOG section). The top
+CHANGELOG entry must match the release version, or the release fails.
 
 ---
 

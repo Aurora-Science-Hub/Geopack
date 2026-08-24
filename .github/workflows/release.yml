@@ -1,0 +1,65 @@
+name: GitHub Release
+
+on:
+  push:
+    branches: [main]
+
+# The release is a project-level event (shared by the .NET and Python packages),
+# so it lives in its own workflow rather than in dotnet.yml or python-package.yml.
+permissions:
+  contents: write   # create the tag + release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # need tags for the idempotency check
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Get version
+        id: version
+        run: |
+          echo "version=$(python -c "import tomllib; print(tomllib.load(open('python/pyproject.toml','rb'))['project']['version'])")" >> "$GITHUB_OUTPUT"
+
+      # Idempotent: only create the release once per version.
+      - name: Check whether tag already exists
+        id: tag_check
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if git rev-parse -q --verify "refs/tags/v$VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The top CHANGELOG entry must match the version, or the release fails —
+      # this guarantees the release notes are always present and correct.
+      - name: Extract release notes from CHANGELOG
+        if: steps.tag_check.outputs.exists == 'false'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          awk -v v="$VERSION" '
+            $0 ~ ("^## \\[" v "\\]") {found=1}
+            found && /^## \[/ && $0 !~ ("^## \\[" v "\\]") {exit}
+            found {print}
+          ' CHANGELOG.md > /tmp/release_notes.md
+          if [[ ! -s /tmp/release_notes.md ]]; then
+            echo "::error::CHANGELOG.md has no '## [$VERSION]' section; add an entry before releasing"
+            exit 1
+          fi
+
+      - name: Create release
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          body_path: /tmp/release_notes.md

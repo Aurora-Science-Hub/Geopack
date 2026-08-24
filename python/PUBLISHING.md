@@ -30,10 +30,10 @@ there is no separate "create project" step.
    - `python/geopack/__init__.py` → `__version__`
 2. Add a `CHANGELOG.md` entry.
 3. Commit, merge into `main`, and push.
-4. `python-package.yml` builds the 5 platform wheels on every push and, on a
-   push to `main`, publishes the new version to PyPI. The publish job verifies
-   that the .NET and Python versions match, and skips uploading if the version
-   is already on PyPI (versions are immutable — bump the version to release again).
+4. On a push to `main`: `python-package.yml` publishes the new version to PyPI,
+   `dotnet.yml` publishes to NuGet.org, and `release.yml` creates a GitHub
+   Release (`vX.Y.Z`, notes from the matching CHANGELOG section). Bump the
+   version to release again.
 
 ## Result
 
