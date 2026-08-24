@@ -140,8 +140,9 @@ jobs:
           package-dir: python
         env:
           # Our wheel is py3-none-<platform> (one wheel for all Python 3.8+),
-          # so build for a single interpreter.
-          CIBW_BUILD: "cp312-*"
+          # so build for a single interpreter. Restrict to manylinux (glibc);
+          # musllinux is not built.
+          CIBW_BUILD: "cp312-manylinux_*"
           CIBW_ARCHS: ${{ matrix.arch }}
           # Install .NET and build the NativeAOT library inside the container.
           # {project} is /project (the copied workspace root), so the script
