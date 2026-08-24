@@ -18,8 +18,12 @@ curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 10.0
 export PATH="$HOME/.dotnet:$PATH"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
-# NativeAOT prerequisites (clang + zlib).
-yum install -y clang zlib-devel
+# NativeAOT prerequisites (clang + zlib + libicu for the .NET SDK).
+yum install -y clang zlib-devel libicu
+
+# The .NET SDK needs ICU at startup; run invariant so it doesn't depend on a
+# specific ICU version (our library is pure numeric — no culture use).
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 dotnet publish /project/src/Geopack.Native/Geopack.Native.csproj \
   -c Release -r "$RID" -o /tmp/native-out
