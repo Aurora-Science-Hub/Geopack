@@ -13,25 +13,28 @@ case "$(uname -m)" in
   *) echo "unsupported arch: $(uname -m)" >&2; exit 1 ;;
 esac
 
-# .NET SDK 10 (glibc >= 2.27; manylinux_2_28 provides 2.28).
+# .NET SDK 10 (glibc >= 2.27; manylinux_2_28 provides 2.28). Invariant
+# globalization avoids an ICU dependency (our library is pure numeric).
 curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 10.0
 export PATH="$HOME/.dotnet:$PATH"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
-
-# NativeAOT prerequisites (clang + zlib + libicu for the .NET SDK).
-# manylinux_2_28 is AlmaLinux 8 (dnf); older manylinux images use yum.
-if command -v dnf >/dev/null 2>&1; then
-  dnf install -y clang zlib-devel libicu
-elif command -v yum >/dev/null 2>&1; then
-  yum install -y clang zlib-devel libicu
-else
-  echo "no supported package manager found" >&2
-  exit 1
-fi
-
-# The .NET SDK needs ICU at startup; run invariant so it doesn't depend on a
-# specific ICU version (our library is pure numeric — no culture use).
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+
+# NativeAOT needs clang; the manylinux image ships gcc but not clang. Resolve
+# the package manager by absolute path — cibuildwheel's PATH may not include
+# /usr/bin, so `command -v` can miss dnf/yum.
+if ! command -v clang >/dev/null 2>&1; then
+  PKG=""
+  for cand in /usr/bin/dnf /usr/bin/yum /bin/dnf /bin/yum; do
+    if [ -x "$cand" ]; then PKG="$cand"; break; fi
+  done
+  [ -z "$PKG" ] && PKG="$(command -v dnf 2>/dev/null || command -v yum 2>/dev/null || true)"
+  if [ -z "$PKG" ]; then
+    echo "no package manager found to install clang" >&2
+    exit 1
+  fi
+  "$PKG" install -y clang
+fi
 
 dotnet publish /project/src/Geopack.Native/Geopack.Native.csproj \
   -c Release -r "$RID" -o /tmp/native-out
