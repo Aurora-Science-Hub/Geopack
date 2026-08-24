@@ -1,8 +1,7 @@
 name: Python Package (wheels)
 
 on:
-  # Publishes on any push for now; tighten to `branches: [main]` once the
-  # PyPI pipeline is verified.
+  # Build/test on every push; publish is gated to main (see the publish job).
   push:
   pull_request:
   workflow_dispatch:
@@ -159,12 +158,12 @@ jobs:
           if-no-files-found: error
 
   # Trusted publishing: authenticated via OpenID Connect (id-token: write), so
-  # no PyPI token is needed. Runs on every push (any branch for now), after all
-  # wheel jobs have built and passed.
+  # no PyPI token is needed. Runs on push to main, after all wheel jobs have
+  # built and passed.
   publish:
     name: publish to PyPI
     needs: [build, build-linux]
-    if: github.event_name == 'push'   # TODO: restrict to refs/heads/main once verified
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read

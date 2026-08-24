@@ -5,64 +5,23 @@ All notable changes to the AuroraScienceHub.Geopack project will be documented i
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.2.4] - 2026-08-24
-
-### Changed
-
-- README describes the package as a high-performance implementation (SIMD
-  vectorization, `Math.SinCos`) of GEOPACK-2008
-
-## [2.2.5] - 2026-08-24
-
-### Changed
-
-- README: drop the C#-specific `Math.SinCos` reference from the Python-facing
-  performance note
-
-## [2.2.3] - 2026-08-24
-
-### Fixed
-
-- macOS wheel is now tagged `macosx_*_arm64` (not `universal2`) to match the
-  arm64-only NativeAOT dylib
-
-## [2.2.2] - 2026-08-24
-
-### Changed
-
-- README install instructions now use `pip install geopack-2008` (pre-built
-  wheels on PyPI); local build instructions moved to `python/BUILDING.md`
-
-## [2.2.1] - 2026-08-24
+## [2.3.0] - 2026-08-24
 
 ### Added
 
-- PyPI trusted publishing for the Python distribution `geopack-2008`
-  (`python-package.yml` publishes wheels via OpenID Connect, no API token)
+- Python distribution `geopack-2008` published to PyPI (trusted publishing) with
+  pre-built `py3-none` wheels for Linux (manylinux x64/arm64), Windows (x64/arm64)
+  and macOS (arm64)
+- Tsyganenko (1989) external field model (T89) in the Python bindings
+
+### Changed
+
+- Python bindings are a high-performance NativeAOT-compiled shared library
+  loaded via `ctypes` (stdlib-only, no .NET runtime)
 
 ### Fixed
 
-- Linux wheels are now tagged `manylinux_2_28_*` (built via cibuildwheel inside a
-  manylinux container), so PyPI accepts them; the bare `linux_*` platform tag was
-  previously rejected
-- Wheels are now `py3-none-<platform>` so a single wheel installs on every
-  Python 3.8+ (previously tied to the build CPython version)
-
-## [2.2.0] - 2026-08-22
-
-### Added
-
-- T89 (Tsyganenko 1989) external field model in the Python bindings: new `gp_t89`
-  C export (context-free, input GSW, output GSM, serialized natively because the
-  model keeps static state) and `gp_context_psi` exposing the dipole tilt computed
-  by `Recalc`
-- Python API: module-level `geopack.t89(iopt, psi, x, y, z, parmod=None)` and
-  `Context.t89(iopt, x, y, z, psi=None)` plus the `Context.psi` property
-- Python parity tests mirroring `ExternalFieldModelsTests.T89.cs` 1:1 (same 8
-  cases, same `new double[10]` parmod dummy, `1e-13` tolerance)
-- GitHub Actions workflow `python-package.yml`: builds the Python package and
-  runs its tests on 5 RIDs (linux-x64/arm64, win-x64/arm64, osx-arm64),
-  uploading the wheels as artifacts (PyPI publishing deferred)
+- macOS wheel tagged `arm64` (not `universal2`) to match the native library
 
 ---
 

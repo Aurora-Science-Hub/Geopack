@@ -131,10 +131,10 @@ All versions managed centrally in `Directory.Packages.props`. Never add `Version
 Version is computed via bash script in CI using `MinVerVersionOverride`, not MinVer git-tag discovery. Do not rely on `git tag` for versioning locally.
 
 `.github/workflows/python-package.yml` builds the 5 platform wheels (linux-x64/arm64,
-win-x64/arm64, osx-arm64) and, on a push (any branch for now; `main` once verified),
-publishes them to PyPI as `geopack-2008` via **trusted publishing** (OpenID Connect —
-no PyPI token in secrets). The publish guard requires the .NET and Python versions
-to match, and skips uploading a version already on PyPI.
+win-x64/arm64, osx-arm64) on every push and, on a push to `main`, publishes them to
+PyPI as `geopack-2008` via **trusted publishing** (OpenID Connect — no PyPI token in
+secrets). The publish guard requires the .NET and Python versions to match, and skips
+uploading a version already on PyPI.
 
 ---
 
