@@ -144,8 +144,9 @@ jobs:
           CIBW_BUILD: "cp312-*"
           CIBW_ARCHS: ${{ matrix.arch }}
           # Install .NET and build the NativeAOT library inside the container.
-          CIBW_BEFORE_ALL: "bash {project}/build_manylinux_pre.sh"
-          CIBW_ENVIRONMENT: "REPO_ROOT=/host/$GITHUB_WORKSPACE"
+          # {project} is /project (the copied workspace root), so the script
+          # lives at /project/python/build_manylinux_pre.sh.
+          CIBW_BEFORE_ALL: "bash {project}/python/build_manylinux_pre.sh"
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
 
