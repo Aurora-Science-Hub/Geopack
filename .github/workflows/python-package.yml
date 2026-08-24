@@ -1,13 +1,15 @@
 name: Python Package (wheels)
 
 on:
-  pull_request:
+  # Publishes on any push for now; tighten to `branches: [main]` once the
+  # PyPI pipeline is verified.
   push:
-    branches: [main]
+  pull_request:
   workflow_dispatch:
 
-# No PyPI publishing — only artifacts; upload-artifact uses
-# ACTIONS_RUNTIME_TOKEN, so no write permissions are needed.
+# Top-level permissions are read-only. The publish job below opts into
+# `id-token: write` (OpenID Connect) for trusted PyPI publishing, so no PyPI
+# token is stored in secrets.
 permissions:
   contents: read
 
@@ -118,3 +120,64 @@ jobs:
           name: geopack-wheel-${{ matrix.rid }}
           path: python/dist/*.whl
           if-no-files-found: error
+
+  # Trusted publishing: authenticated via OpenID Connect (id-token: write), so
+  # no PyPI token is needed. Runs on every push (any branch for now), after all
+  # wheel RIDs have built and passed their tests.
+  publish:
+    name: publish to PyPI
+    needs: build
+    if: github.event_name == 'push'   # TODO: restrict to refs/heads/main once verified
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      # The .NET and Python base versions must stay in sync at publish time.
+      - name: Verify .NET and Python versions match
+        run: |
+          PYVER="$(python -c "import tomllib; print(tomllib.load(open('python/pyproject.toml','rb'))['project']['version'])")"
+          NETVER="$(grep -oP '(?<=<PackageBaseVersion>)[^<]+' Directory.Build.props | head -n1)"
+          echo "pyproject=$PYVER  PackageBaseVersion=$NETVER"
+          if [[ "$PYVER" != "$NETVER" ]]; then
+            echo "::error::pyproject version ($PYVER) does not match .NET PackageBaseVersion ($NETVER)"
+            exit 1
+          fi
+
+      # PyPI versions are immutable — skip if this version is already published.
+      - name: Check whether version is already on PyPI
+        id: pypi_check
+        run: |
+          VERSION="$(python -c "import tomllib; print(tomllib.load(open('python/pyproject.toml','rb'))['project']['version'])")"
+          CODE="$(curl -s -o /dev/null -w '%{http_code}' "https://pypi.org/pypi/geopack-2008/${VERSION}/json")"
+          echo "version=$VERSION  pypi_http=$CODE"
+          if [ "$CODE" = "200" ]; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+          elif [ "$CODE" = "404" ]; then
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::Unexpected PyPI response ($CODE)"
+            exit 1
+          fi
+
+      - name: Download all wheels
+        if: steps.pypi_check.outputs.already_published == 'false'
+        uses: actions/download-artifact@v7
+        with:
+          pattern: geopack-wheel-*
+          merge-multiple: true
+          path: dist
+
+      - name: Publish to PyPI
+        if: steps.pypi_check.outputs.already_published == 'false'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
