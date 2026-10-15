@@ -13,7 +13,7 @@
          Directory.Build.props, otherwise the plural property wins and the project
          silently multi-targets, which breaks NativeAOT publishing. -->
     <TargetFrameworks></TargetFrameworks>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <AssemblyName>geopack</AssemblyName>
     <RootNamespace>AuroraScienceHub.Geopack.Native</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -28,10 +28,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ExternalFieldModels\ExternalFieldModels.csproj" />
     <ProjectReference Include="..\Geopack\Geopack.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 
 </Project>

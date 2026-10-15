@@ -13,9 +13,9 @@ case "$(uname -m)" in
   *) echo "unsupported arch: $(uname -m)" >&2; exit 1 ;;
 esac
 
-# .NET SDK 10 (glibc >= 2.27; manylinux_2_28 provides 2.28). Invariant
+# .NET SDK 11 (glibc >= 2.27; manylinux_2_28 provides 2.28). Invariant
 # globalization avoids an ICU dependency (our library is pure numeric).
-curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 10.0
+curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --version 11.0.100-rc.2.26504.105
 export PATH="$HOME/.dotnet:$PATH"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1

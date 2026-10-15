@@ -16,7 +16,7 @@
 
 [![NuGet Version](https://img.shields.io/nuget/v/AuroraScienceHub.Geopack?logo=nuget&label=NuGet)](https://www.nuget.org/packages/AuroraScienceHub.Geopack/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/AuroraScienceHub.Geopack?logo=nuget&label=Downloads)](https://www.nuget.org/packages/AuroraScienceHub.Geopack/)
-[![](https://img.shields.io/badge/.NET-8.0%20%7C%2010.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![](https://img.shields.io/badge/.NET-8.0%20%7C%2010.0%20%7C%2011.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![](https://img.shields.io/badge/C%23-13.0-239120?logo=csharp)](https://learn.microsoft.com/en-us/dotnet/csharp/)
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&label=Python)](https://www.python.org/)
 [![PyPI Version](https://img.shields.io/pypi/v/geopack-2008?logo=pypi&label=PyPI)](https://pypi.org/project/geopack-2008/)
@@ -127,6 +127,7 @@ The full changelog is maintained in [CHANGELOG.md](CHANGELOG.md). Current versio
 - Supported .NET versions:
     - [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
     - [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+    - [.NET 11](https://dotnet.microsoft.com/en-us/download/dotnet/11.0)
 - [Native AOT compilation](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/)
 - [Nullable reference types](https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references)
 - [Central package management](https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management)
@@ -136,13 +137,13 @@ The full changelog is maintained in [CHANGELOG.md](CHANGELOG.md). Current versio
 To build the project with native AOT compilation, execute the following command (depending on the target platform):
 
 ```shell
-dotnet publish --framework net10.0 -c Release -r linux-x64
+dotnet publish --framework net11.0 -c Release -r linux-x64
 ```
 ```shell
-dotnet publish --framework net10.0 -c Release -r win-x64
+dotnet publish --framework net11.0 -c Release -r win-x64
 ```
 ```shell
-dotnet publish --framework net10.0 -c Release -r osx-x64
+dotnet publish --framework net11.0 -c Release -r osx-x64
 ```
 
 ## Python Bindings
