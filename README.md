@@ -125,7 +125,6 @@ The full changelog is maintained in [CHANGELOG.md](CHANGELOG.md). Current versio
 
 ## Tech Stack
 - Supported .NET versions:
-    - [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
     - [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
     - [.NET 11](https://dotnet.microsoft.com/en-us/download/dotnet/11.0)
 - [Native AOT compilation](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/)

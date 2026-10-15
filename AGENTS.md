@@ -59,7 +59,7 @@ dotnet test --filter "FullyQualifiedName~Recalc"
 
 Source of truth is `Directory.Build.props` and `global.json`, not README or CI workflow.
 
-- **Target frameworks:** `net8.0;net10.0;net11.0` (multi-targeted libraries); tests, benchmarks and `Geopack.Native` target `net11.0` only
+- **Target frameworks:** `net10.0;net11.0` (multi-targeted libraries); tests, benchmarks and `Geopack.Native` target `net11.0` only
 - **SDK pin:** `11.0.100-rc.2.26504.105`, roll-forward `latestMinor`, prerelease allowed (`global.json`); CI installs the SDK from `global.json`. Tests run via Microsoft.Testing.Platform (`test.runner` in `global.json`)
 - **Nullable:** enabled; **TreatWarningsAsErrors:** enabled
 - **PDB:** embedded in assemblies
