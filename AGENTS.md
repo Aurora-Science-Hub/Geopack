@@ -129,6 +129,8 @@ All versions managed centrally in `Directory.Packages.props`. Never add `Version
 | Push to `main` | `{base}.{runNumber}` → NuGet.org |
 | Semver tag (`*.*.*`) | Stable `{base}` → NuGet.org |
 
+Publishing to NuGet.org uses Trusted Publishing (GitHub OIDC via `NuGet/login`, secret `NUGET_USER` holds the nuget.org profile name); there is no long-lived API key.
+
 Version is computed via bash script in CI using `MinVerVersionOverride`, not MinVer git-tag discovery. Do not rely on `git tag` for versioning locally.
 
 `.github/workflows/python-package.yml` builds the 5 platform wheels (linux-x64/arm64,
