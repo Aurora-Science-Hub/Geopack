@@ -5,7 +5,7 @@ All notable changes to the AuroraScienceHub.Geopack project will be documented i
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0] - 2026-10-15
+## [2.4.0] - 2026-10-16
 
 ### Added
 
@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- **Breaking:** `net8.0` target framework; the libraries now target `net10.0` and `net11.0`
+- `net8.0` target framework; the libraries now target `net10.0` and `net11.0`
 
 ## [2.3.1] - 2026-08-24
 
