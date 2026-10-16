@@ -1,8 +1,9 @@
 <Project>
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
+    <Features Condition="'$(TargetFramework)' == 'net11.0'">$(Features);runtime-async=on</Features>
     <IsPackable>False</IsPackable>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -30,7 +31,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageBaseVersion>2.3.1</PackageBaseVersion>
+    <PackageBaseVersion>2.4.0</PackageBaseVersion>
     <MinVerTagPrefix></MinVerTagPrefix>
   </PropertyGroup>
 

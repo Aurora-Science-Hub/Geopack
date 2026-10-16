@@ -51,11 +51,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      # Latest 10.0.x; global.json (rollForward: latestMinor) accepts any 10.x.
-      - name: Setup .NET SDK 10.0.x
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
 
       - name: Setup Python 3.12
         uses: actions/setup-python@v7

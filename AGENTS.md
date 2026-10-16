@@ -59,8 +59,8 @@ dotnet test --filter "FullyQualifiedName~Recalc"
 
 Source of truth is `Directory.Build.props` and `global.json`, not README or CI workflow.
 
-- **Target frameworks:** `net8.0;net10.0` (multi-targeted)
-- **SDK pin:** `10.0.100`, roll-forward `patch` (`global.json`) — CI currently uses 9.0.x (discrepancy in workflow, local dev requires .NET 10 SDK)
+- **Target frameworks:** `net10.0;net11.0` (multi-targeted libraries); tests, benchmarks and `Geopack.Native` target `net11.0` only
+- **SDK pin:** `11.0.100-rc.2.26504.105`, roll-forward `latestMinor`, prerelease allowed (`global.json`); CI installs the SDK from `global.json`. Tests run via Microsoft.Testing.Platform (`test.runner` in `global.json`)
 - **Nullable:** enabled; **TreatWarningsAsErrors:** enabled
 - **PDB:** embedded in assemblies
 - **SourceLink:** enabled for GitHub (`Microsoft.SourceLink.GitHub`); maps embedded PDBs to source
@@ -128,6 +128,8 @@ All versions managed centrally in `Directory.Packages.props`. Never add `Version
 | Push to any non-`main` branch | Pre-release → GitHub Packages |
 | Push to `main` | `{base}.{runNumber}` → NuGet.org |
 | Semver tag (`*.*.*`) | Stable `{base}` → NuGet.org |
+
+Publishing to NuGet.org uses Trusted Publishing (GitHub OIDC via `NuGet/login`, secret `NUGET_USER` holds the nuget.org profile name); there is no long-lived API key.
 
 Version is computed via bash script in CI using `MinVerVersionOverride`, not MinVer git-tag discovery. Do not rely on `git tag` for versioning locally.
 
