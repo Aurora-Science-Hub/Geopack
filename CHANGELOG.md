@@ -5,6 +5,22 @@ All notable changes to the AuroraScienceHub.Geopack project will be documented i
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] - 2026-10-22
+
+### Fixed
+
+- T89 is thread-safe: concurrent `IT89.Calculate` calls on the shared singleton no longer
+  race and return wrong field values. The model keeps no mutable static state: the
+  coefficients of each `IOPT` are precomputed once, and per-call values are locals.
+  Results stay bitwise identical to 2.4.0
+- T89 throws `ArgumentOutOfRangeException` for `IOPT` outside 1..7. Before, it threw
+  `IndexOutOfRangeException`, or returned NaN or stale coefficients, depending on the
+  previous call
+
+### Changed
+
+- `gp_t89` (Python bindings) no longer serializes T89 calls through a lock
+
 ## [2.4.0] - 2026-10-16
 
 ### Added

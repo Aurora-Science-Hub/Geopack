@@ -40,7 +40,7 @@ __all__ = [
     "__version__",
 ]
 
-__version__ = "2.4.0"
+__version__ = "2.4.1"
 
 #: Default solar wind velocity (GSE, km/s) used when the caller does not provide one.
 DEFAULT_SOLAR_WIND = (-400.0, 0.0, 0.0)
@@ -162,8 +162,7 @@ class Context:
 
         ``iopt`` is the disturbance-level index (1..7, maps to Kp intervals).
         ``psi`` is the dipole tilt in radians and defaults to this context's tilt.
-        Returns the field vector in GSM (nT). Calls are serialized natively
-        because the model keeps static state (not thread-safe).
+        Returns the field vector in GSM (nT). The model is thread-safe.
         """
         self._check_open()
         if psi is None:

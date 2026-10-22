@@ -44,4 +44,134 @@ internal sealed partial class T89
             20.0E0
         }
     };
+
+    private static readonly Coefficients[] s_coefficients = CreateCoefficients();
+
+    private static Coefficients[] CreateCoefficients()
+    {
+        Coefficients[] coefficients = new Coefficients[PARAM.GetLength(0)];
+        for (int i = 0; i < coefficients.Length; i++)
+        {
+            coefficients[i] = new Coefficients(i);
+        }
+
+        return coefficients;
+    }
+
+    /// <summary>
+    /// Immutable T89 coefficients of one IOPT, derived from a row of <see cref="PARAM"/>
+    /// </summary>
+    /// <remarks>
+    /// Each value is computed with the same expression as the IOPT branch of the Fortran
+    /// subroutine T89C, so the field values stay bitwise identical to the original port
+    /// </remarks>
+    private sealed class Coefficients
+    {
+        public Coefficients(int row)
+        {
+            double[] A = new double[30];
+            for (int i = 0; i < 30; i++)
+            {
+                A[i] = PARAM[row, i];
+            }
+
+            double DYC = A[29];
+            double DYC2 = DYC * DYC;
+            DX = A[17];
+            HA02 = 0.5D * A02;
+            RDYC2 = 1.0D / DYC2;
+            HLWC2M = -0.5D * XLWC2;
+            DRDYC2 = -2.0D * RDYC2;
+            HXLW2M = -0.5D * XLW2;
+            ADR = A[18];
+            D0 = A[19];
+            DD = A[20];
+            RC = A[21];
+            G = A[22];
+            AT = A[23];
+            DT = D0;
+            DEL = A[25];
+            P = A[24];
+            Q = A[26];
+            SX = A[27];
+            GAM = A[28];
+            HXLD2M = -0.5D * XLD2;
+            double W1 = -0.5D / DX;
+            DBLDEL = 2.0D * DEL;
+            double W2 = W1 * 2.0D;
+            double W4 = -1.0D / 3.0D;
+            double W3 = W4 / DX;
+            double W5 = -0.5D;
+            double W6 = -3.0D;
+            AK1 = A[0];
+            AK2 = A[1];
+            AK3 = A[2];
+            AK4 = A[3];
+            AK5 = A[4];
+            AK6 = A[5];
+            AK7 = A[6];
+            AK8 = A[7];
+            AK9 = A[8];
+            AK10 = A[9];
+            AK11 = A[10];
+            AK12 = A[11];
+            AK13 = A[12];
+            AK14 = A[13];
+            AK15 = A[14];
+            AK16 = A[15];
+            AK17 = A[16];
+            SXA = 0.0D;
+            SYA = 0.0D;
+            SZA = 0.0D;
+            AK610 = AK6 * W1 + AK10 * W5;
+            AK711 = AK7 * W2 - AK11;
+            AK812 = AK8 * W2 + AK12 * W6;
+            AK913 = AK9 * W3 + AK13 * W4;
+        }
+
+        public double DX { get; }
+        public double HA02 { get; }
+        public double RDYC2 { get; }
+        public double HLWC2M { get; }
+        public double DRDYC2 { get; }
+        public double HXLW2M { get; }
+        public double ADR { get; }
+        public double D0 { get; }
+        public double DD { get; }
+        public double RC { get; }
+        public double G { get; }
+        public double AT { get; }
+        public double DT { get; }
+        public double DEL { get; }
+        public double P { get; }
+        public double Q { get; }
+        public double SX { get; }
+        public double GAM { get; }
+        public double HXLD2M { get; }
+        public double DBLDEL { get; }
+        public double AK1 { get; }
+        public double AK2 { get; }
+        public double AK3 { get; }
+        public double AK4 { get; }
+        public double AK5 { get; }
+        public double AK6 { get; }
+        public double AK7 { get; }
+        public double AK8 { get; }
+        public double AK9 { get; }
+        public double AK10 { get; }
+        public double AK11 { get; }
+        public double AK12 { get; }
+        public double AK13 { get; }
+        public double AK14 { get; }
+        public double AK15 { get; }
+        public double AK16 { get; }
+        public double AK17 { get; }
+        public double SXA { get; }
+        public double SYA { get; }
+        public double SZA { get; }
+        public double AK610 { get; }
+        public double AK711 { get; }
+        public double AK812 { get; }
+        public double AK913 { get; }
+    }
 }
