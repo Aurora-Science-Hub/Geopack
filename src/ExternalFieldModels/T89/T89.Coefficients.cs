@@ -2,7 +2,7 @@ namespace AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 
 internal sealed partial class T89
 {
-    private static readonly double[,] PARAM =
+    private static readonly double[,] s_parameters =
     {
         {
             -116.53E0, -10719.0E0, 42.375E0, 59.753E0, -11363.0E0, 1.7844E0, 30.268E0, -0.35372E-01, -0.66832E-01,
@@ -49,7 +49,7 @@ internal sealed partial class T89
 
     private static Coefficients[] CreateCoefficients()
     {
-        Coefficients[] coefficients = new Coefficients[PARAM.GetLength(0)];
+        Coefficients[] coefficients = new Coefficients[s_parameters.GetLength(0)];
         for (int i = 0; i < coefficients.Length; i++)
         {
             coefficients[i] = new Coefficients(i);
@@ -59,7 +59,7 @@ internal sealed partial class T89
     }
 
     /// <summary>
-    /// Immutable T89 coefficients of one IOPT, derived from a row of <see cref="PARAM"/>
+    /// Immutable T89 coefficients of one IOPT, derived from a row of <see cref="s_parameters"/>
     /// </summary>
     /// <remarks>
     /// Each value is computed with the same expression as the IOPT branch of the Fortran
@@ -69,32 +69,26 @@ internal sealed partial class T89
     {
         public Coefficients(int row)
         {
-            double[] A = new double[30];
-            for (int i = 0; i < 30; i++)
-            {
-                A[i] = PARAM[row, i];
-            }
-
-            double DYC = A[29];
+            double DYC = s_parameters[row, 29];
             double DYC2 = DYC * DYC;
-            DX = A[17];
+            DX = s_parameters[row, 17];
             HA02 = 0.5D * A02;
             RDYC2 = 1.0D / DYC2;
             HLWC2M = -0.5D * XLWC2;
             DRDYC2 = -2.0D * RDYC2;
             HXLW2M = -0.5D * XLW2;
-            ADR = A[18];
-            D0 = A[19];
-            DD = A[20];
-            RC = A[21];
-            G = A[22];
-            AT = A[23];
+            ADR = s_parameters[row, 18];
+            D0 = s_parameters[row, 19];
+            DD = s_parameters[row, 20];
+            RC = s_parameters[row, 21];
+            G = s_parameters[row, 22];
+            AT = s_parameters[row, 23];
             DT = D0;
-            DEL = A[25];
-            P = A[24];
-            Q = A[26];
-            SX = A[27];
-            GAM = A[28];
+            DEL = s_parameters[row, 25];
+            P = s_parameters[row, 24];
+            Q = s_parameters[row, 26];
+            SX = s_parameters[row, 27];
+            GAM = s_parameters[row, 28];
             HXLD2M = -0.5D * XLD2;
             double W1 = -0.5D / DX;
             DBLDEL = 2.0D * DEL;
@@ -103,23 +97,23 @@ internal sealed partial class T89
             double W3 = W4 / DX;
             double W5 = -0.5D;
             double W6 = -3.0D;
-            AK1 = A[0];
-            AK2 = A[1];
-            AK3 = A[2];
-            AK4 = A[3];
-            AK5 = A[4];
-            AK6 = A[5];
-            AK7 = A[6];
-            AK8 = A[7];
-            AK9 = A[8];
-            AK10 = A[9];
-            AK11 = A[10];
-            AK12 = A[11];
-            AK13 = A[12];
-            AK14 = A[13];
-            AK15 = A[14];
-            AK16 = A[15];
-            AK17 = A[16];
+            AK1 = s_parameters[row, 0];
+            AK2 = s_parameters[row, 1];
+            AK3 = s_parameters[row, 2];
+            AK4 = s_parameters[row, 3];
+            AK5 = s_parameters[row, 4];
+            AK6 = s_parameters[row, 5];
+            AK7 = s_parameters[row, 6];
+            AK8 = s_parameters[row, 7];
+            AK9 = s_parameters[row, 8];
+            AK10 = s_parameters[row, 9];
+            AK11 = s_parameters[row, 10];
+            AK12 = s_parameters[row, 11];
+            AK13 = s_parameters[row, 12];
+            AK14 = s_parameters[row, 13];
+            AK15 = s_parameters[row, 14];
+            AK16 = s_parameters[row, 15];
+            AK17 = s_parameters[row, 16];
             SXA = 0.0D;
             SYA = 0.0D;
             SZA = 0.0D;

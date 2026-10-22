@@ -10,7 +10,7 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
-      Version 2.4.1 - Thread-safe T89
+      Version 2.5.0 - Thread-safe T89
 
       FIXED:
       - T89 is thread-safe: concurrent IT89.Calculate calls no longer race; the
