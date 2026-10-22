@@ -2,7 +2,7 @@ namespace AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 
 internal sealed partial class T89
 {
-    private static readonly double[,] PARAM =
+    private static readonly double[,] s_parameters =
     {
         {
             -116.53E0, -10719.0E0, 42.375E0, 59.753E0, -11363.0E0, 1.7844E0, 30.268E0, -0.35372E-01, -0.66832E-01,
@@ -44,4 +44,128 @@ internal sealed partial class T89
             20.0E0
         }
     };
+
+    private static readonly Coefficients[] s_coefficients = CreateCoefficients();
+
+    private static Coefficients[] CreateCoefficients()
+    {
+        Coefficients[] coefficients = new Coefficients[s_parameters.GetLength(0)];
+        for (int i = 0; i < coefficients.Length; i++)
+        {
+            coefficients[i] = new Coefficients(i);
+        }
+
+        return coefficients;
+    }
+
+    /// <summary>
+    /// Immutable T89 coefficients of one IOPT, derived from a row of <see cref="s_parameters"/>
+    /// </summary>
+    /// <remarks>
+    /// Each value is computed with the same expression as the IOPT branch of the Fortran
+    /// subroutine T89C, so the field values stay bitwise identical to the original port
+    /// </remarks>
+    private sealed class Coefficients
+    {
+        public Coefficients(int row)
+        {
+            double DYC = s_parameters[row, 29];
+            double DYC2 = DYC * DYC;
+            DX = s_parameters[row, 17];
+            HA02 = 0.5D * A02;
+            RDYC2 = 1.0D / DYC2;
+            HLWC2M = -0.5D * XLWC2;
+            DRDYC2 = -2.0D * RDYC2;
+            HXLW2M = -0.5D * XLW2;
+            ADR = s_parameters[row, 18];
+            D0 = s_parameters[row, 19];
+            DD = s_parameters[row, 20];
+            RC = s_parameters[row, 21];
+            G = s_parameters[row, 22];
+            AT = s_parameters[row, 23];
+            DT = D0;
+            DEL = s_parameters[row, 25];
+            P = s_parameters[row, 24];
+            Q = s_parameters[row, 26];
+            SX = s_parameters[row, 27];
+            GAM = s_parameters[row, 28];
+            HXLD2M = -0.5D * XLD2;
+            double W1 = -0.5D / DX;
+            DBLDEL = 2.0D * DEL;
+            double W2 = W1 * 2.0D;
+            double W4 = -1.0D / 3.0D;
+            double W3 = W4 / DX;
+            double W5 = -0.5D;
+            double W6 = -3.0D;
+            AK1 = s_parameters[row, 0];
+            AK2 = s_parameters[row, 1];
+            AK3 = s_parameters[row, 2];
+            AK4 = s_parameters[row, 3];
+            AK5 = s_parameters[row, 4];
+            AK6 = s_parameters[row, 5];
+            AK7 = s_parameters[row, 6];
+            AK8 = s_parameters[row, 7];
+            AK9 = s_parameters[row, 8];
+            AK10 = s_parameters[row, 9];
+            AK11 = s_parameters[row, 10];
+            AK12 = s_parameters[row, 11];
+            AK13 = s_parameters[row, 12];
+            AK14 = s_parameters[row, 13];
+            AK15 = s_parameters[row, 14];
+            AK16 = s_parameters[row, 15];
+            AK17 = s_parameters[row, 16];
+            SXA = 0.0D;
+            SYA = 0.0D;
+            SZA = 0.0D;
+            AK610 = AK6 * W1 + AK10 * W5;
+            AK711 = AK7 * W2 - AK11;
+            AK812 = AK8 * W2 + AK12 * W6;
+            AK913 = AK9 * W3 + AK13 * W4;
+        }
+
+        public double DX { get; }
+        public double HA02 { get; }
+        public double RDYC2 { get; }
+        public double HLWC2M { get; }
+        public double DRDYC2 { get; }
+        public double HXLW2M { get; }
+        public double ADR { get; }
+        public double D0 { get; }
+        public double DD { get; }
+        public double RC { get; }
+        public double G { get; }
+        public double AT { get; }
+        public double DT { get; }
+        public double DEL { get; }
+        public double P { get; }
+        public double Q { get; }
+        public double SX { get; }
+        public double GAM { get; }
+        public double HXLD2M { get; }
+        public double DBLDEL { get; }
+        public double AK1 { get; }
+        public double AK2 { get; }
+        public double AK3 { get; }
+        public double AK4 { get; }
+        public double AK5 { get; }
+        public double AK6 { get; }
+        public double AK7 { get; }
+        public double AK8 { get; }
+        public double AK9 { get; }
+        public double AK10 { get; }
+        public double AK11 { get; }
+        public double AK12 { get; }
+        public double AK13 { get; }
+        public double AK14 { get; }
+        public double AK15 { get; }
+        public double AK16 { get; }
+        public double AK17 { get; }
+        public double SXA { get; }
+        public double SYA { get; }
+        public double SZA { get; }
+        public double AK610 { get; }
+        public double AK711 { get; }
+        public double AK812 { get; }
+        public double AK913 { get; }
+    }
 }

@@ -252,16 +252,16 @@ public static unsafe class GeopackNative
     // External field models
     // ------------------------------------------------------------------
 
-    // T89 keeps internal static mutable state (coefficient cache), so it is not
-    // thread-safe; every call is serialized through s_t89Lock. Its computational
-    // code is not modified by the wrapper.
+    // T89 holds no mutable state, so concurrent gp_t89 calls share one instance without a lock.
     private static readonly T89 s_t89 = new();
-    private static readonly object s_t89Lock = new();
+
+    // T89 ignores PARMOD, so all calls share one zeroed array instead of allocating per call.
+    private static readonly double[] s_t89Parmod = new double[10];
 
     /// <summary>
     /// Evaluates the Tsyganenko (1989) external field model at (x, y, z) in GSW.
     /// Returns the GSM components in nT. The context-free model is invoked directly
-    /// (as IT89.Calculate); parmod is a documented dummy, so a zeroed array is passed.
+    /// (as IT89.Calculate); parmod is a documented dummy, so a shared zeroed array is passed.
     /// </summary>
     [UnmanagedCallersOnly(EntryPoint = "gp_t89", CallConvs = new[] { typeof(CallConvCdecl) })]
     public static int T89(
@@ -271,11 +271,7 @@ public static unsafe class GeopackNative
         try
         {
             CartesianLocation location = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
-            CartesianVector<MagneticField> result;
-            lock (s_t89Lock)
-            {
-                result = s_t89.Calculate(iopt, new double[10], psi, location);
-            }
+            CartesianVector<MagneticField> result = s_t89.Calculate(iopt, s_t89Parmod, psi, location);
 
             *bx = result.X;
             *by = result.Y;

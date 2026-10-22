@@ -10,6 +10,19 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
+      Version 2.5.0 - Thread-safe T89
+
+      FIXED:
+      - T89 is thread-safe: concurrent IT89.Calculate calls no longer race; the
+        coefficients of each IOPT are precomputed once and per-call values are locals.
+        Results are bitwise identical to 2.4.0
+      - T89 throws ArgumentOutOfRangeException for IOPT outside 1..7
+
+      CHANGED:
+      - gp_t89 (Python bindings) no longer serializes T89 calls through a lock
+
+      ---
+
       Version 2.2.0 - T89 external field model in Python bindings
 
       ADDED:
