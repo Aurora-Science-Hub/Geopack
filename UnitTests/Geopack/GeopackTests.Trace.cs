@@ -94,4 +94,52 @@ public partial class GeopackTests
             fieldLine.Points[i].Z.ShouldApproximatelyBe(pars[2].ParseDouble());
         }
     }
+
+    [Fact(DisplayName = "Trace stopped by the point limit keeps every computed point up to the limit")]
+    public async Task Trace_WhenPointLimitReached_ReturnsLeadingPointsOfFullLine()
+    {
+        // Arrange
+        CartesianVector<Velocity> swVelocity = CartesianVector<Velocity>.New(-304.0D, -16.0D + 29.78D, 4.0D, CoordinateSystem.GSE);
+        ComputationContext context = s_geopack.Recalc(fixture.InputData.DateTime, swVelocity);
+        InternalFieldModel internalField = s_geopack.IgrfGsw;
+
+        string rawData = await EmbeddedResourceReader.ReadTextAsync(TraceNSResultFileName);
+        string[] lines = rawData.SplitLines();
+
+        TraceDirection dir = TraceDirection.AntiParallel;
+        double dsmax = 0.1D;
+        double err = 0.0001D;
+        double rlim = 60.0D;
+        double r0 = 1.0D;
+        int iopt = 1;
+        double[] parmod = new double[10];
+        int lmax = 20;
+
+        // Act
+        CartesianLocation startingPoint = CartesianLocation.New(-1.02D, 0.8D, 0.9D, CoordinateSystem.GSW);
+
+        FieldLine fieldLine = s_geopack.Trace(context,
+            startingPoint,
+            dir, dsmax, err, rlim, r0,
+            iopt, parmod,
+            _t89, internalField,
+            lmax);
+
+        // Assert
+        fieldLine.TerminationReason.ShouldBe("Maximum points exceeded");
+        fieldLine.ActualPointCount.ShouldBe(lmax);
+        fieldLine.Points.Count.ShouldBe(lmax);
+
+        for (int i = 0; i < lmax; i++)
+        {
+            string[] pars = lines[i].SplitParametersLine();
+            fieldLine.Points[i].X.ShouldApproximatelyBe(pars[0].ParseDouble());
+            fieldLine.Points[i].Y.ShouldApproximatelyBe(pars[1].ParseDouble());
+            fieldLine.Points[i].Z.ShouldApproximatelyBe(pars[2].ParseDouble());
+        }
+
+        fieldLine.EndPoint.X.ShouldBe(fieldLine.Points[^1].X);
+        fieldLine.EndPoint.Y.ShouldBe(fieldLine.Points[^1].Y);
+        fieldLine.EndPoint.Z.ShouldBe(fieldLine.Points[^1].Z);
+    }
 }

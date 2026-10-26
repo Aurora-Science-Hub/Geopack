@@ -27,7 +27,6 @@ internal sealed partial class Geopack
         List<CartesianLocation> points = new(lMax + 1);
         double direction = (double)dir;
 
-        int l = 0;
         int nrev = 0;
         double ds3 = direction;
 
@@ -49,10 +48,8 @@ internal sealed partial class Geopack
         double rr = Math.Sqrt(x * x + y * y + z * z) + ad;
         bool maxPointsExceeded = false;
 
-        while (l <= lMax)
+        while (true)
         {
-            l++;
-
             points.Add(CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
             double ryz = y * y + z * z;
@@ -72,6 +69,13 @@ internal sealed partial class Geopack
                 x -= (x - xr) * r1;
                 y -= (y - yr) * r1;
                 z -= (z - zr) * r1;
+                break;
+            }
+
+            // The last stored point is the end of the line: no step is made past it
+            if (points.Count >= lMax)
+            {
+                maxPointsExceeded = true;
                 break;
             }
 
@@ -114,25 +118,12 @@ internal sealed partial class Geopack
             }
         }
 
-        if (l > lMax)
+        if (maxPointsExceeded)
         {
             _logger.LogWarning("Computations in the Trace method are terminated: the number of points exceeded LMax={LMax}.", lMax);
-            maxPointsExceeded = true;
-
-            if (points.Count > lMax)
-            {
-                points.RemoveAt(points.Count - 1);
-            }
         }
 
-        if (points.Count > 0)
-        {
-            points[^1] = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
-        }
-        else
-        {
-            points.Add(CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
-        }
+        points[^1] = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
 
         return new FieldLine(
             points,

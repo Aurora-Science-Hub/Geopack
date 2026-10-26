@@ -5,6 +5,15 @@ All notable changes to the AuroraScienceHub.Geopack project will be documented i
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.1] - 2026-10-26
+
+### Fixed
+
+- `Trace` stopped by the `lMax` point limit no longer drops the last two computed points.
+  Before, it replaced them with a position two steps past the limit, so the final segment
+  of the line was about three times `dsMax` long. Now it returns the first `lMax` points
+  of the line, and `EndPoint` is the last of them
+
 ## [2.5.0] - 2026-10-22
 
 ### Fixed

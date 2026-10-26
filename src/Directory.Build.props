@@ -10,6 +10,15 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
+      Version 2.5.1 - Trace keeps every point up to LMax
+
+      FIXED:
+      - Trace stopped by the LMax point limit no longer drops the last two computed
+        points and no longer joins the line to a position past the limit. It returns
+        the first LMax points of the line, and EndPoint is the last of them
+
+      ---
+
       Version 2.5.0 - Thread-safe T89
 
       FIXED:
