@@ -10,6 +10,15 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
+      Version 2.5.1 - Trace stops at LMax steps
+
+      FIXED:
+      - Trace stopped by the LMax point limit no longer ends one step too far: the
+        last point and EndPoint are the position after LMax steps, not LMax + 1
+      - Trace throws ArgumentOutOfRangeException for LMax below 1
+
+      ---
+
       Version 2.5.0 - Thread-safe T89
 
       FIXED:

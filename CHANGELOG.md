@@ -5,6 +5,18 @@ All notable changes to the AuroraScienceHub.Geopack project will be documented i
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.1] - 2026-10-29
+
+### Fixed
+
+- `Trace` stopped by the `lMax` point limit no longer ends one step too far. The loop ran
+  one iteration past the limit, so the last point and `EndPoint` were the position after
+  `lMax + 1` steps, and the final segment was about three times `dsMax` long. Now they are
+  the position after `lMax` steps, which replaces point `lMax - 1`
+- `Trace` throws `ArgumentOutOfRangeException` for `lMax` below 1. Before, `lMax` of 0 or -1
+  returned one point, and smaller values threw from the internal list with a message that
+  did not name the argument
+
 ## [2.5.0] - 2026-10-22
 
 ### Fixed

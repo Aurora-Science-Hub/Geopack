@@ -268,7 +268,7 @@ public interface IGeopack
     /// (either DIP_08 or IGRF_GSW_08).</param>
     /// <param name="lMax">Maximal length of the arrays XX,YY,ZZ, in which coordinates of the field
     /// line points are stored. LMAX should be set equal to the actual length of
-    /// the arrays, defined in the main program as actual arguments of this subroutine.</param>
+    /// the arrays, defined in the main program as actual arguments of this subroutine. Must be positive.</param>
     FieldLine Trace(ComputationContext context,
         CartesianLocation startingPoint,
         TraceDirection dir,
