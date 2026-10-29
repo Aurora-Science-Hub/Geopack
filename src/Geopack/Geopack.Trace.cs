@@ -24,7 +24,9 @@ internal sealed partial class Geopack
             throw new InvalidOperationException("Location must be in GSW system.");
         }
 
-        List<CartesianLocation> points = new(lMax + 1);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(lMax);
+
+        List<CartesianLocation> points = new(lMax);
         double direction = (double)dir;
 
         int nrev = 0;
@@ -50,6 +52,14 @@ internal sealed partial class Geopack
 
         while (true)
         {
+            // The point limit is reached one step past the last stored point,
+            // which is then replaced with the current position below
+            if (points.Count >= lMax)
+            {
+                maxPointsExceeded = true;
+                break;
+            }
+
             points.Add(CartesianLocation.New(x, y, z, CoordinateSystem.GSW));
 
             double ryz = y * y + z * z;
@@ -69,13 +79,6 @@ internal sealed partial class Geopack
                 x -= (x - xr) * r1;
                 y -= (y - yr) * r1;
                 z -= (z - zr) * r1;
-                break;
-            }
-
-            // The last stored point is the end of the line: no step is made past it
-            if (points.Count >= lMax)
-            {
-                maxPointsExceeded = true;
                 break;
             }
 
