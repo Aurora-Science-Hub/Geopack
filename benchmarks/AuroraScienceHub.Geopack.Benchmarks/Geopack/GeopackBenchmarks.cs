@@ -9,8 +9,8 @@ using AuroraScienceHub.Geopack.ExternalFieldModels.T89;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Diagnosers;
-using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -67,111 +67,111 @@ public class GeopackBenchmarks
     private static readonly ComputationContext s_context = s_geopack.Recalc(s_testDate);
 
     [Benchmark]
-    public void ToSphericalVector()
+    public SphericalVector<MagneticField> ToSphericalVector()
         => s_gswFieldCar.ToSphericalVector(s_gswCartesian);
 
     [Benchmark]
-    public void ToCartesianVector()
+    public CartesianVector<MagneticField> ToCartesianVector()
         => s_gswFieldSph.ToCartesianVector(s_gswSph);
 
     [Benchmark]
-    public void ToSpherical()
+    public SphericalLocation ToSpherical()
         => s_gswCartesian.ToSpherical();
 
     [Benchmark]
-    public void ToCartesian()
+    public CartesianLocation ToCartesian()
         => s_gswSph.ToCartesian();
 
     [Benchmark]
-    public void GeiToGeo()
+    public CartesianLocation GeiToGeo()
         => s_geopack.GeiToGeo(s_context, s_geiCartesian);
 
     [Benchmark]
-    public void GeoToGei()
+    public CartesianLocation GeoToGei()
         => s_geopack.GeoToGei(s_context, s_geoCartesian);
 
     [Benchmark]
-    public void ToGeocentric()
+    public GeocentricCoordinates ToGeocentric()
         => s_geodetic.ToGeocentric();
 
     [Benchmark]
-    public void ToGeodetic()
+    public GeodeticCoordinates ToGeodetic()
         => s_geocentric.ToGeodetic();
 
     [Benchmark]
-    public void GeoToGsw()
+    public CartesianLocation GeoToGsw()
         => s_geopack.GeoToGsw(s_context, s_geoCartesian);
 
     [Benchmark]
-    public void GswToGeo()
+    public CartesianLocation GswToGeo()
         => s_geopack.GswToGeo(s_context, s_gswCartesian);
 
     [Benchmark]
-    public void GeoToMag()
+    public CartesianLocation GeoToMag()
         => s_geopack.GeoToMag(s_context, s_geoCartesian);
 
     [Benchmark]
-    public void MagToGeo()
+    public CartesianLocation MagToGeo()
         => s_geopack.MagToGeo(s_context, s_magCartesian);
 
     [Benchmark]
-    public void GswToGse()
+    public CartesianVector<MagneticField> GswToGse()
         => s_geopack.GswToGse(s_context, s_gswFieldCar);
 
     [Benchmark]
-    public void GseToGsw()
+    public CartesianVector<Velocity> GseToGsw()
         => s_geopack.GseToGsw(s_context, s_gseVelocityVector);
 
     [Benchmark]
-    public void MagToSm()
+    public CartesianLocation MagToSm()
         => s_geopack.MagToSm(s_context, s_magCartesian);
 
     [Benchmark]
-    public void SmToMag()
+    public CartesianLocation SmToMag()
         => s_geopack.SmToMag(s_context, s_smCartesian);
 
     [Benchmark]
-    public void SmToGsw()
+    public CartesianLocation SmToGsw()
         => s_geopack.SmToGsw(s_context, s_smCartesian);
 
     [Benchmark]
-    public void GswToSm()
+    public CartesianVector<MagneticField> GswToSm()
         => s_geopack.GswToSm(s_context, s_gswFieldCar);
 
     [Benchmark(Baseline = true)]
-    public void Recalc()
+    public ComputationContext Recalc()
         => s_geopack.Recalc(s_testDate, s_gseVelocityVector);
 
     [Benchmark]
-    public void ShuMgnp()
+    public Magnetopause ShuMgnp()
         => s_geopack.ShuMgnp(XnPd, Vel, BzImf, s_gswCartesian);
 
     [Benchmark]
-    public void T96Mgnp()
+    public Magnetopause T96Mgnp()
         => s_geopack.T96Mgnp(XnPd, Vel, s_gswCartesian);
 
     [Benchmark]
-    public void IgrfGeo()
+    public SphericalVector<MagneticField> IgrfGeo()
         => s_geopack.IgrfGeo(s_context, s_igrfGeoLocation);
 
     [Benchmark]
-    public void IgrfGsw()
+    public CartesianVector<MagneticField> IgrfGsw()
         => s_geopack.IgrfGsw(s_context, s_gswCartesian);
 
     [Benchmark]
-    public void Dip()
+    public CartesianVector<MagneticField> Dip()
         => s_geopack.Dip(s_context, s_gswCartesian);
 
     [Benchmark]
-    public void Sun()
+    public Sun Sun()
         => s_geopack.Sun(s_testDate);
 
     [Benchmark]
-    public void T89()
+    public CartesianVector<MagneticField> T89()
         => s_t89.Calculate(Iopt, s_parmod, Psi, s_gswCartesian);
 
     [Benchmark]
-    public void Trace_NS()
+    public FieldLine Trace_NS()
         => s_geopack.Trace(s_context,
             s_testPointNs,
             TraceDirection.AntiParallel, Dsmax, Err, Rlim, R0,
@@ -180,7 +180,7 @@ public class GeopackBenchmarks
             Lmax);
 
     [Benchmark]
-    public void Trace_SN()
+    public FieldLine Trace_SN()
         => s_geopack.Trace(s_context,
             s_testPointSn,
             TraceDirection.Parallel, Dsmax, Err, Rlim, R0,
@@ -198,13 +198,13 @@ public class GeopackBenchmarks
             "BenchmarkDotNet.Artifacts");
 
             // Add jobs for different runtimes with optimized settings
-            // .NET 10.0
-            AddJob(Job.MediumRun
-                .WithRuntime(CoreRuntime.Core80)
-                .WithGcServer(true) // Server GC for better throughput
+            // .NET 11.0
+            AddJob(Job.ShortRun
+                .WithToolchain(InProcessNoEmitToolchain.Instance)
+                .WithGcServer(false) // In-process benchmarks use the workstation GC
                 .WithGcConcurrent(true) // Concurrent GC
                 .WithGcForce(false) // Don't force GC between benchmarks
-                .WithId(".NET 8.0"));
+                .WithId(".NET 11.0"));
 
             // Add memory diagnostics
             AddDiagnoser(MemoryDiagnoser.Default);

@@ -75,11 +75,11 @@ internal sealed partial class Geopack
             double bi = 0.0D;
             double p2 = 0.0D;
             double d2 = 0.0D;
+            int mn = m * (m + 1) / 2;
 
             for (int n = m; n <= k; n++)
             {
                 double an = a[n - 1];
-                int mn = n * (n - 1) / 2 + m;
                 double e = context.G[mn - 1];
                 double hh = context.H[mn - 1];
                 double xk = context.REC[mn - 1];
@@ -102,6 +102,7 @@ internal sealed partial class Geopack
                 p2 = q;
                 z = dp;
                 q = pm;
+                mn += n;
             }
 
             d = s * d + c * p;

@@ -29,7 +29,8 @@ internal sealed partial class Geopack
             throw new InvalidOperationException("Location radius should not be zero.");
         }
 
-        double q = dipmom / Math.Pow(p + t + u, 2.5);
+        double r2 = p + t + u;
+        double q = dipmom / (r2 * r2 * Math.Sqrt(r2));
 
         double bxgsw = q * ((t + u - 2.0D * p) * context.SPS - v * context.CPS);
         double bygsw = -3.0D * location.Y * q * (location.X * context.SPS + location.Z * context.CPS);

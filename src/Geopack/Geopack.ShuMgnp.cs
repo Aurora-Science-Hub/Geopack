@@ -131,7 +131,7 @@ internal sealed partial class Geopack
         double ct)
     {
         int nit = 0;
-        double t, rm_val, f, gradf_r, gradf_t, gradf, dr, dt, ds;
+        double t, rm_val, f, gradf_t, dr, dt, ds2;
 
         do
         {
@@ -139,18 +139,18 @@ internal sealed partial class Geopack
             rm_val = r0 * Math.Pow(2.0D / (1.0D + ct), alpha);
 
             f = r - rm_val;
-            gradf_r = 1.0D;
             gradf_t = -alpha / r * rm_val * st / (1.0D + ct);
-            gradf = Math.Sqrt(gradf_r * gradf_r + gradf_t * gradf_t);
+            double gradf2 = 1.0D + gradf_t * gradf_t;
 
-            dr = -f / (gradf * gradf);
+            dr = -f / gradf2;
             dt = dr / r * gradf_t;
 
             r += dr;
             t += dt;
             (st, ct) = Math.SinCos(t);
 
-            ds = Math.Sqrt(dr * dr + (r * dt) * (r * dt));
+            double rDt = r * dt;
+            ds2 = dr * dr + rDt * rDt;
             nit++;
 
             if (nit > 1000)
@@ -159,9 +159,8 @@ internal sealed partial class Geopack
                     "BOUNDARY POINT COULD NOT BE FOUND; ITERATIONS DO NOT CONVERGE");
             }
         }
-        while (ds > 1e-4);
+        while (ds2 > 1e-8D);
 
-        (double sinT, double cosT) = Math.SinCos(t);
-        return (r, sinT, cosT);
+        return (r, st, ct);
     }
 }
