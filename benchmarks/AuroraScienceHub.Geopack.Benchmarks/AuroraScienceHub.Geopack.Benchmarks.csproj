@@ -11,6 +11,7 @@
 
     <!-- Important settings for BenchmarkDotNet -->
     <LangVersion>latest</LangVersion>
+    <TieredCompilation>false</TieredCompilation>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>

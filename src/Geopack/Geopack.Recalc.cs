@@ -11,6 +11,9 @@ namespace AuroraScienceHub.Geopack;
 
 internal sealed partial class Geopack
 {
+    private static readonly double[] s_recCoefficients = CreateRecCoefficients();
+    private static readonly double[] s_normalizationFactors = CreateNormalizationFactors();
+
     public ComputationContext Recalc(DateTime dateTime, CartesianVector<Velocity>? swVelocity = null)
     {
         swVelocity ??= CartesianVector<Velocity>.New(-400D, 0D, 0D, CoordinateSystem.GSE);
@@ -38,17 +41,7 @@ internal sealed partial class Geopack
             _logger.LogWarning("Year {Year} is out of range. Using {AdjustedYear} instead.", dateTime.Year, year);
         }
 
-        double[] REC = new double[105];
-        for (int N = 1; N <= 14; N++)
-        {
-            int N2 = 2 * N - 1;
-            N2 *= N2 - 2;
-            for (int M = 1; M <= N; M++)
-            {
-                int MN = N * (N - 1) / 2 + M;
-                REC[MN - 1] = (N - M) * (N + M - 2.0D) / N2;
-            }
-        }
+        double[] REC = (double[])s_recCoefficients.Clone();
 
         double[] G, H;
         switch (year)
@@ -94,22 +87,10 @@ internal sealed partial class Geopack
                 break;
         }
 
-        double S = 1;
-        for (int N = 2; N <= 14; N++)
+        for (int i = 0; i < GeopackConstants.IgrfCoefficientCount; i++)
         {
-            int MN = N * (N - 1) / 2 + 1;
-            S *= (2 * N - 3.0D) / (N - 1.0D);
-            G[MN - 1] *= S;
-            H[MN - 1] *= S;
-            double P = S;
-            for (int M = 2; M <= N; M++)
-            {
-                double aa = M == 2 ? 2 : 1;
-                P *= Math.Sqrt(aa * (N - M + 1) / (N + M - 2));
-                int MNN = MN + M - 1;
-                G[MNN - 1] *= P;
-                H[MNN - 1] *= P;
-            }
+            G[i] *= s_normalizationFactors[i];
+            H[i] *= s_normalizationFactors[i];
         }
 
         double G_10 = -G[1];
@@ -220,6 +201,47 @@ internal sealed partial class Geopack
             A11: A11, A21: A21, A31: A31, A12: A12, A22: A22, A32: A32, A13: A13, A23: A23, A33: A33,
             E11: E11, E21: E21, E31: E31, E12: E12, E22: E22, E32: E32, E13: E13, E23: E23, E33: E33,
             H: H, G: G, REC: REC);
+    }
+
+    private static double[] CreateRecCoefficients()
+    {
+        double[] rec = new double[GeopackConstants.IgrfCoefficientCount];
+        for (int n = 1; n <= 14; n++)
+        {
+            int n2 = 2 * n - 1;
+            n2 *= n2 - 2;
+            for (int m = 1; m <= n; m++)
+            {
+                int mn = n * (n - 1) / 2 + m;
+                rec[mn - 1] = (n - m) * (n + m - 2.0D) / n2;
+            }
+        }
+
+        return rec;
+    }
+
+    private static double[] CreateNormalizationFactors()
+    {
+        double[] factors = new double[GeopackConstants.IgrfCoefficientCount];
+        Array.Fill(factors, 1.0D);
+
+        double s = 1;
+        for (int n = 2; n <= 14; n++)
+        {
+            int mn = n * (n - 1) / 2 + 1;
+            s *= (2 * n - 3.0D) / (n - 1.0D);
+            factors[mn - 1] = s;
+            double p = s;
+            for (int m = 2; m <= n; m++)
+            {
+                double aa = m == 2 ? 2 : 1;
+                p *= Math.Sqrt(aa * (n - m + 1) / (n + m - 2));
+                int mnn = mn + m - 1;
+                factors[mnn - 1] = p;
+            }
+        }
+
+        return factors;
     }
 
     private static (double[] G, double[] H) Interpolate(
