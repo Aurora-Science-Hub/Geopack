@@ -60,14 +60,14 @@ dotnet test --filter "FullyQualifiedName~Recalc"
 Source of truth is `Directory.Build.props` and `global.json`, not README or CI workflow.
 
 - **Target frameworks:** `net10.0;net11.0` (multi-targeted libraries); tests, benchmarks and `Geopack.Native` target `net11.0` only
-- **SDK pin:** `11.0.100-rc.2.26504.105`, roll-forward `latestMinor`, prerelease allowed (`global.json`); CI installs the SDK from `global.json`. Tests run via Microsoft.Testing.Platform (`test.runner` in `global.json`)
+- **SDK pin:** `11.0.100`, roll-forward `latestMinor` (`global.json`); CI installs the SDK from `global.json`. Tests run via Microsoft.Testing.Platform (`test.runner` in `global.json`)
 - **Nullable:** enabled; **TreatWarningsAsErrors:** enabled
 - **PDB:** embedded in assemblies
 - **SourceLink:** enabled for GitHub (`Microsoft.SourceLink.GitHub`); maps embedded PDBs to source
 
 ## Versioning
 
-- The base version lives in **one place**: root `Directory.Build.props` → `<PackageBaseVersion>2.2.0</PackageBaseVersion>`.
+- The base version lives in **one place**: root `Directory.Build.props` → `<PackageBaseVersion>2.6.0</PackageBaseVersion>`.
 - In CI the version is pinned via `-p:MinVerVersionOverride` (computed by the CI bash script from `PackageBaseVersion`): pre-release on non-`main` branches, stable on `main`/semver tags.
 - **To bump the version, change `PackageBaseVersion` in root `Directory.Build.props` — nothing else.** Never set `<Version>` or `<PackageVersion>` in a `.csproj`.
 - The Python package mirrors the same version: bump `python/pyproject.toml` and `python/geopack/__init__.py` (`__version__`) together with `PackageBaseVersion`.
