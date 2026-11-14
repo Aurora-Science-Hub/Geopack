@@ -3,16 +3,25 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
 
   <!--
-    Point PackageReleaseNotes at the CHANGELOG.md of the exact packed commit when
-    SourceLink provides the revision, instead of the static main-branch link.
-    The release history itself lives only in CHANGELOG.md.
+    PackageReleaseNotes contains only the CHANGELOG.md section of the version
+    being packed; the full history stays in CHANGELOG.md. The static link in
+    Directory.Build.props is only a fallback when the changelog is unavailable.
   -->
-  <Target Name="SetPackageReleaseNotesPermalink"
+  <Target Name="SetPackageReleaseNotesFromChangelog"
           BeforeTargets="GenerateNuspec"
-          DependsOnTargets="InitializeSourceControlInformationFromSourceControlManager"
-          Condition="'$(SourceRevisionId)' != ''">
+          Condition="Exists('$(MSBuildThisFileDirectory)../CHANGELOG.md')">
     <PropertyGroup>
-      <PackageReleaseNotes>See CHANGELOG.md: https://github.com/Aurora-Science-Hub/Geopack/blob/$(SourceRevisionId)/CHANGELOG.md</PackageReleaseNotes>
+      <_ChangelogPath>$(MSBuildThisFileDirectory)../CHANGELOG.md</_ChangelogPath>
+      <_ChangelogVersionPattern>$(PackageBaseVersion.Replace('.', '[.]'))</_ChangelogVersionPattern>
+      <_ChangelogText>$([System.IO.File]::ReadAllText('$(_ChangelogPath)'))</_ChangelogText>
+      <_ReleaseNotes>$([System.Text.RegularExpressions.Regex]::Match($(_ChangelogText), '(?ms)^## \[$(_ChangelogVersionPattern)\].*?(?=^## \[|\z)').Value.Trim())</_ReleaseNotes>
+    </PropertyGroup>
+
+    <Error Condition="'$(_ReleaseNotes)' == ''"
+           Text="CHANGELOG.md has no '## [$(PackageBaseVersion)]' section. Add it before packing." />
+
+    <PropertyGroup>
+      <PackageReleaseNotes>$(_ReleaseNotes)</PackageReleaseNotes>
     </PropertyGroup>
   </Target>
 

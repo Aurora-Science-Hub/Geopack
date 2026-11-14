@@ -71,10 +71,31 @@ Source of truth is `Directory.Build.props` and `global.json`, not README or CI w
 - In CI the version is pinned via `-p:MinVerVersionOverride` (computed by the CI bash script from `PackageBaseVersion`): pre-release on non-`main` branches, stable on `main`/semver tags.
 - **To bump the version, change `PackageBaseVersion` in root `Directory.Build.props` — nothing else.** Never set `<Version>` or `<PackageVersion>` in a `.csproj`.
 - **Never add an `[Unreleased]` CHANGELOG section.** Add the concrete version heading (e.g. `## [2.7.0] - 2026-11-14`) to `CHANGELOG.md` in the same change.
-- **`PackageReleaseNotes` is a link, not a changelog archive.** It points at `CHANGELOG.md` (a commit permalink in CI, the `main` link locally). Never paste release history into `src/Directory.Build.props`; update `CHANGELOG.md` instead.
+- **`PackageReleaseNotes` is generated from `CHANGELOG.md` at pack time.** Only the `## [$(PackageBaseVersion)]` section is embedded; never paste release history into `src/Directory.Build.props`. `dotnet pack` fails when that section is missing.
 - The Python package mirrors the same version: bump `python/pyproject.toml` and `python/geopack/__init__.py` (`__version__`) together with `PackageBaseVersion`.
 - **At publish time the .NET and Python versions MUST match.** `PackageBaseVersion` (`Directory.Build.props`), `version` (`python/pyproject.toml`) and `__version__` (`python/geopack/__init__.py`) must be equal. The PyPI publish guard in `python-package.yml` fails the publish if they drift apart.
 - Version badges (PyPI, NuGet) are dynamic — they show the latest published version automatically; no manual update is needed.
+
+---
+
+## CHANGELOG
+
+`CHANGELOG.md` is the single source of truth for release notes. `PackageReleaseNotes`
+is generated from it at pack time by `src/Directory.Build.targets`; do not maintain a
+second copy.
+
+Hard rules:
+
+- One `## [X.Y.Z] - YYYY-MM-DD` section per release, newest first. Never use `[Unreleased]`.
+- `X.Y.Z` must equal `PackageBaseVersion`, the `version` in `python/pyproject.toml`, and
+  `__version__` in `python/geopack/__init__.py`.
+- Use Keep a Changelog headings: `### Added`, `### Changed`, `### Deprecated`,
+  `### Removed`, `### Fixed`, `### Security`.
+- List only user-visible changes: one bullet per change; no internal tests, refactoring,
+  or step-by-step implementation details.
+- A version bump and its `## [X.Y.Z]` section land in the same change.
+- `dotnet pack` fails if the `## [$(PackageBaseVersion)]` section is missing. The release
+  workflow uses the same section for the GitHub Release.
 
 ---
 
@@ -189,7 +210,7 @@ are part of the public surface — see `python/README.md` for usage.
 - ✅ Write tests for new functionality before or alongside implementation
 - ✅ Keep functions small and focused
 - ✅ Keep packages focused — one responsibility per package
-- ✅ Update `CHANGELOG.md` once per branch/release with user-visible changes — not per commit or individual change; `PackageReleaseNotes` links to it
+- ✅ Update `CHANGELOG.md` once per branch/release with user-visible changes — not per commit or individual change; `PackageReleaseNotes` is generated from it
 - ✅ Keep changelog entries concise: user-visible behavior only (no internal tests, refactoring or step-by-step implementation details), one bullet per user-facing change
 - ✅ Mirror any external-contract change (API surface, reference values, tolerance, C ABI) in the Python wrapper and update the corresponding 1:1 Python parity tests
 
