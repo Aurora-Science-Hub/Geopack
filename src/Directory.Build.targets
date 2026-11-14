@@ -1,0 +1,19 @@
+<Project>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
+
+  <!--
+    Point PackageReleaseNotes at the CHANGELOG.md of the exact packed commit when
+    SourceLink provides the revision, instead of the static main-branch link.
+    The release history itself lives only in CHANGELOG.md.
+  -->
+  <Target Name="SetPackageReleaseNotesPermalink"
+          BeforeTargets="GenerateNuspec"
+          DependsOnTargets="InitializeSourceControlInformationFromSourceControlManager"
+          Condition="'$(SourceRevisionId)' != ''">
+    <PropertyGroup>
+      <PackageReleaseNotes>See CHANGELOG.md: https://github.com/Aurora-Science-Hub/Geopack/blob/$(SourceRevisionId)/CHANGELOG.md</PackageReleaseNotes>
+    </PropertyGroup>
+  </Target>
+
+</Project>
