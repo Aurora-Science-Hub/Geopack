@@ -40,7 +40,7 @@ jobs:
           - rid: win-arm64
             os: windows-11-arm
           - rid: osx-arm64
-            os: macos-14
+            os: macos-latest
 
     # One bash shell for every OS: Windows runners ship Git Bash.
     defaults:
