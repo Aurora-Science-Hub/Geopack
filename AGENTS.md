@@ -167,9 +167,10 @@ are part of the public surface — see `python/README.md` for usage.
   wrapper (`python/geopack/_native.py` prototypes and `python/geopack/__init__.py`) —
   otherwise the wrapper silently breaks.
 - Tests of external contracts must have **1:1 Python mirrors** in
-  `python/tests/test_parity.py`: the same test cases, the same reference data, and the
-  same `8E-12` tolerance as the C# tests. Internal `ComputationContext` fields are
-  intentionally not mirrored (the opaque-handle design is preserved).
+  `python/tests/` (`test_parity.py` for the shared suite, plus focused files such as
+  `test_trace.py` and `test_helpers.py`): the same test cases, the same reference data,
+  and the same `8E-12` tolerance as the C# tests. Internal `ComputationContext` fields
+  are intentionally not mirrored (the opaque-handle design is preserved).
 - Build tooling lives in `python/` (`build_native.sh`/`build_wheel.sh` on macOS/Linux,
   `build_native.bat`/`build_wheel.bat` on Windows). Wheels are platform-specific and
   must be built on each target OS/arch.

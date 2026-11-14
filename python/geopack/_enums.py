@@ -1,8 +1,11 @@
 """Enumerations shared with the native Geopack ABI.
 
-The numeric values mirror the C# ``CoordinateSystem`` and
-``MagnetopausePosition`` enums so the integer codes crossing the C ABI stay
-unambiguous.
+The numeric values mirror the C# enums behind the fixed integer codes of the
+``gp_*`` entry points: ``CoordinateSystem``, ``MagnetopausePosition``,
+``TraceDirection``, ``TraceTermination``, ``ExternalFieldModel`` and
+``InternalFieldModel``.
+
+Members keep the C# spelling (CamelCase) so the codes map 1:1 to the .NET enums.
 """
 
 from __future__ import annotations

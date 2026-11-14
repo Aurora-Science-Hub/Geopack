@@ -15,10 +15,9 @@ user-facing API lives in :mod:`geopack`.
 from __future__ import annotations
 
 import ctypes
-import ctypes.util
 import os
 import sys
-from typing import NamedTuple, Optional, Sequence, Tuple
+from typing import Optional, Sequence, Tuple
 
 #: Filenames to try, in order, per platform. The native build produces
 #: ``geopack.dylib`` on macOS, ``geopack.so`` on Linux and ``geopack.dll`` on
@@ -69,6 +68,10 @@ _c_int = ctypes.c_int
 _p_handle = ctypes.POINTER(ctypes.c_int64)
 _p_double = ctypes.POINTER(ctypes.c_double)
 _p_byte = ctypes.POINTER(ctypes.c_byte)
+_p_int = ctypes.POINTER(ctypes.c_int)
+
+#: Upper bound for the trace point buffer (l_max * 3 doubles, about 24 MB).
+_MAX_TRACE_POINTS = 1_000_000
 
 _lib.gp_context_create.argtypes = [
     _c_int, _c_int, _c_int, _c_int, _c_int, _c_int,  # y mo d h mi s
@@ -130,7 +133,7 @@ _lib.gp_shu_mgnp.argtypes = [
     _c_double, _c_double, _c_double,  # x y z
     _p_double, _p_double, _p_double,  # out mx my mz
     _p_double,                        # out dist
-    _p_int := ctypes.POINTER(ctypes.c_int),
+    _p_int,
 ]
 _lib.gp_shu_mgnp.restype = _c_int
 
@@ -139,7 +142,7 @@ _lib.gp_t96_mgnp.argtypes = [
     _c_double, _c_double, _c_double,  # x y z
     _p_double, _p_double, _p_double,  # out mx my mz
     _p_double,                        # out dist
-    ctypes.POINTER(ctypes.c_int),
+    _p_int,
 ]
 _lib.gp_t96_mgnp.restype = _c_int
 
@@ -164,9 +167,9 @@ _lib.gp_trace.argtypes = [
     _p_double,                                    # parmod (may be NULL)
     _c_int, _c_int, _c_int,                       # exModel inModel lMax
     _p_double,                                    # points (lMax * 3)
-    ctypes.POINTER(ctypes.c_int),                 # pointCount
+    _p_int,                                       # pointCount
     _p_double, _p_double, _p_double,              # end x y z
-    ctypes.POINTER(ctypes.c_int),                 # terminationReason
+    _p_int,                                       # terminationReason
 ]
 _lib.gp_trace.restype = _c_int
 
@@ -389,18 +392,24 @@ def trace(
     Tuple[Tuple[float, float, float], ...],
     Tuple[float, float, float],
     int,
-    int,
 ]:
-    """Trace a field line; returns (points, end_point, point_count, termination)."""
+    """Trace a field line; returns (points, end_point, termination)."""
     if l_max <= 0:
         raise ValueError("l_max must be positive")
+    if l_max > _MAX_TRACE_POINTS:
+        raise ValueError(
+            f"l_max must not exceed {_MAX_TRACE_POINTS}, got {l_max}"
+        )
 
     parmod_buffer = None
     if parmod is not None:
         values = list(parmod)
         if len(values) != 10:
-            raise ValueError("parmod must contain exactly 10 elements")
-        parmod_buffer = (ctypes.c_double * 10)(*values)
+            raise ValueError("parmod must contain exactly 10 numbers")
+        try:
+            parmod_buffer = (ctypes.c_double * 10)(*values)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("parmod must contain exactly 10 numbers") from exc
 
     points = (ctypes.c_double * (l_max * 3))()
     point_count = ctypes.c_int()
@@ -429,7 +438,6 @@ def trace(
             for i in range(count)
         ),
         (end_x.value, end_y.value, end_z.value),
-        count,
         termination.value,
     )
 

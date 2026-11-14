@@ -205,6 +205,31 @@ def test_trace_parmod_length_raises():
             raise AssertionError("expected ValueError for a short parmod")
 
 
+def test_trace_excessive_lmax_raises():
+    with geopack.recalc(YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, vx=NS_VX, vy=NS_VY, vz=NS_VZ) as ctx:
+        try:
+            ctx.trace(-1.02, 0.8, 0.9, l_max=1_000_001)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("expected ValueError for an excessive l_max")
+
+
+def test_trace_parmod_non_numeric_raises():
+    with geopack.recalc(YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, vx=NS_VX, vy=NS_VY, vz=NS_VZ) as ctx:
+        try:
+            ctx.trace(-1.02, 0.8, 0.9, parmod=[0.0] * 9 + ["x"], l_max=10)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("expected ValueError for a non-numeric parmod element")
+
+
+def test_trace_result_point_count_matches_points():
+    result = _trace((-1.02, 0.8, 0.9), geopack.TraceDirection.AntiParallel, 10)
+    assert result.actual_point_count == len(result.points)
+
+
 def test_trace_unknown_models_raise():
     with geopack.recalc(YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, vx=NS_VX, vy=NS_VY, vz=NS_VZ) as ctx:
         for kwargs in ({"ex_model": 99}, {"in_model": 99}):

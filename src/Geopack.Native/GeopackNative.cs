@@ -414,10 +414,16 @@ public static unsafe class GeopackNative
             *endX = fieldLine.EndPoint.X;
             *endY = fieldLine.EndPoint.Y;
             *endZ = fieldLine.EndPoint.Z;
-            *terminationReason = string.Equals(
-                fieldLine.TerminationReason, "Maximum points exceeded", StringComparison.Ordinal)
-                ? 1
-                : 0;
+            // Trace exposes the termination as a human-readable message. Pin the two
+            // known values here and fail loudly on anything else so a reword cannot
+            // silently change the meaning of the ABI enum.
+            *terminationReason = fieldLine.TerminationReason switch
+            {
+                "Maximum points exceeded" => 1,
+                "Boundary reached" => 0,
+                _ => throw new InvalidOperationException(
+                    $"Unknown trace termination reason: {fieldLine.TerminationReason}.")
+            };
             return 0;
         }
         catch (Exception e)

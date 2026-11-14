@@ -158,14 +158,17 @@ class TraceResult(NamedTuple):
     Attributes:
         points: Traced field-line points in GSW (Earth radii).
         end_point: Final point (boundary crossing or point-limit position).
-        actual_point_count: Number of points written to ``points``.
         termination_reason: Why the tracing stopped.
     """
 
     points: Tuple[Vector3, ...]
     end_point: Vector3
-    actual_point_count: int
     termination_reason: TraceTermination
+
+    @property
+    def actual_point_count(self) -> int:
+        """Number of traced points (always ``len(points)``)."""
+        return len(self.points)
 
 
 class Context:
@@ -185,7 +188,10 @@ class Context:
     # -- lifecycle ----------------------------------------------------------
 
     def close(self) -> None:
-        """Release the native computation context. Idempotent."""
+        """Release the native computation context. Idempotent.
+
+        Call it only when no other thread is using this context.
+        """
         if not self._closed:
             _native.context_release(self._handle)
             self._closed = True
@@ -274,10 +280,11 @@ class Context:
         ``parmod`` is a 10-element sequence (``None`` means all zeros).
         ``ex_model`` selects the external field model (only T89 is available)
         and ``in_model`` the internal one (IGRF in GSW, or DIP). ``l_max`` is
-        the maximum number of traced points.
+        the maximum number of traced points (at most 1,000,000; the output
+        buffer is ``l_max * 3`` doubles, 8 bytes each).
         """
         self._check_open()
-        points, end_point, count, termination = _native.trace(
+        points, end_point, termination = _native.trace(
             self._handle,
             x, y, z, int(direction),
             ds_max, err, r_lim, r0, iopt,
@@ -287,7 +294,6 @@ class Context:
         return TraceResult(
             tuple(Vector3(*point) for point in points),
             Vector3(*end_point),
-            count,
             TraceTermination(termination),
         )
 
