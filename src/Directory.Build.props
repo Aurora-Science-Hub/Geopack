@@ -13,13 +13,12 @@
       Version 2.7.0 - Python bindings: Trace and coordinate helpers
 
       ADDED (Python bindings):
-      - Context.trace exposes IGeopack.Trace with T89 as the external model and
-        IGRF_GSW or DIP as the internal one, plus TraceDirection, TraceTermination,
-        ExternalFieldModel, InternalFieldModel and TraceResult
-      - Coordinate helpers location_to_spherical, location_to_cartesian,
-        vector_to_spherical, vector_to_cartesian, geodetic_to_geocentric and
-        geocentric_to_geodetic, backed by new gp_* C ABI entry points in Geopack.Native
-      - SphericalVector3, GeocentricCoordinates and GeodeticCoordinates result types
+      - Context.trace exposes field-line tracing (IGeopack.Trace) with T89 and
+        IGRF/DIP, plus TraceDirection, TraceTermination, ExternalFieldModel,
+        InternalFieldModel and TraceResult
+      - Cartesian/spherical and WGS84 geodetic coordinate helpers
+        (location_to_*, vector_to_*, geodetic_to_*), backed by new gp_* C ABI
+        entry points in Geopack.Native
 
       CHANGED (Python bindings):
       - Context.igrf_geo returns SphericalVector3 (r, theta, phi) instead of
@@ -28,6 +27,16 @@
       NOTE:
       - The .NET package public API is unchanged in this release; the version is
         shared with the Python package (geopack-2008 2.7.0)
+
+      ---
+
+      Version 2.6.0 - .NET 11 GA packages
+
+      CHANGED:
+      - Built against the stable .NET 11 release (SDK 11.0.100); the Microsoft
+        packages move from 11.0.0-rc.2 to 11.0.0
+      - The NU5104 suppression is removed: the packages no longer carry prerelease
+        dependencies
 
       ---
 
