@@ -70,6 +70,7 @@ Source of truth is `Directory.Build.props` and `global.json`, not README or CI w
 - The base version lives in **one place**: root `Directory.Build.props` → `<PackageBaseVersion>2.7.0</PackageBaseVersion>`.
 - In CI the version is pinned via `-p:MinVerVersionOverride` (computed by the CI bash script from `PackageBaseVersion`): pre-release on non-`main` branches, stable on `main`/semver tags.
 - **To bump the version, change `PackageBaseVersion` in root `Directory.Build.props` — nothing else.** Never set `<Version>` or `<PackageVersion>` in a `.csproj`.
+- **Never add an `[Unreleased]` CHANGELOG section.** Add the concrete version heading (e.g. `## [2.7.0] - 2026-11-14`) to `CHANGELOG.md` and the matching `PackageReleaseNotes` entry in the same change.
 - The Python package mirrors the same version: bump `python/pyproject.toml` and `python/geopack/__init__.py` (`__version__`) together with `PackageBaseVersion`.
 - **At publish time the .NET and Python versions MUST match.** `PackageBaseVersion` (`Directory.Build.props`), `version` (`python/pyproject.toml`) and `__version__` (`python/geopack/__init__.py`) must be equal. The PyPI publish guard in `python-package.yml` fails the publish if they drift apart.
 - Version badges (PyPI, NuGet) are dynamic — they show the latest published version automatically; no manual update is needed.
@@ -187,6 +188,7 @@ are part of the public surface — see `python/README.md` for usage.
 - ✅ Keep functions small and focused
 - ✅ Keep packages focused — one responsibility per package
 - ✅ Update `CHANGELOG.md` and the package changelog (`PackageReleaseNotes` in `src/Directory.Build.props`) once per branch/release with user-visible changes — not per commit or individual change
+- ✅ Keep changelog entries concise: user-visible behavior only (no internal tests, refactoring or step-by-step implementation details), one bullet per user-facing change
 - ✅ Mirror any external-contract change (API surface, reference values, tolerance, C ABI) in the Python wrapper and update the corresponding 1:1 Python parity tests
 
 ### Don't
