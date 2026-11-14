@@ -5,6 +5,34 @@ All notable changes to the AuroraScienceHub.Geopack project will be documented i
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Python bindings: `Context.trace` exposes `IGeopack.Trace` (field-line tracing)
+  with T89 as the external model and IGRF_GSW or DIP as the internal one, plus
+  `TraceDirection`, `TraceTermination`, `ExternalFieldModel`,
+  `InternalFieldModel` and `TraceResult`
+- Python bindings: coordinate helpers `location_to_spherical`,
+  `location_to_cartesian`, `vector_to_spherical`, `vector_to_cartesian`,
+  `geodetic_to_geocentric` and `geocentric_to_geodetic`, backed by new `gp_*`
+  C ABI entry points in `Geopack.Native`
+- Python bindings: `SphericalVector3`, `GeocentricCoordinates` and
+  `GeodeticCoordinates` result types
+
+### Changed
+
+- Python bindings: `Context.igrf_geo` now returns `SphericalVector3`
+  (`r`, `theta`, `phi`) instead of `Vector3` (`x`, `y`, `z`); indexing and
+  iteration are unchanged
+- Python tests: added `test_trace.py` and `test_helpers.py`, mirroring the C#
+  `Trace`, `ToCartesian`, `ToSpherical`, `ToSphericalVector`,
+  `ToCartesianVector` and `GeodGeo` suites at the same `8e-12` tolerance
+
+### Notes
+
+- No changes to the public surface of the .NET packages.
+
 ## [2.6.0] - 2026-11-13
 
 ### Changed

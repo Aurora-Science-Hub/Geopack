@@ -18,7 +18,7 @@ import ctypes
 import ctypes.util
 import os
 import sys
-from typing import NamedTuple, Optional, Tuple
+from typing import NamedTuple, Optional, Sequence, Tuple
 
 #: Filenames to try, in order, per platform. The native build produces
 #: ``geopack.dylib`` on macOS, ``geopack.so`` on Linux and ``geopack.dll`` on
@@ -153,6 +153,61 @@ _lib.gp_t89.restype = _c_int
 # Context dipole tilt (radians), computed by Recalc
 _lib.gp_context_psi.argtypes = [_c_handle, _p_double]
 _lib.gp_context_psi.restype = _c_int
+
+# Field-line tracing. The caller provides a buffer of l_max * 3 doubles.
+_lib.gp_trace.argtypes = [
+    _c_handle,
+    _c_double, _c_double, _c_double,             # start x y z
+    _c_int,                                       # direction
+    _c_double, _c_double, _c_double, _c_double,  # dsMax err rLim r0
+    _c_int,                                       # iopt
+    _p_double,                                    # parmod (may be NULL)
+    _c_int, _c_int, _c_int,                       # exModel inModel lMax
+    _p_double,                                    # points (lMax * 3)
+    ctypes.POINTER(ctypes.c_int),                 # pointCount
+    _p_double, _p_double, _p_double,              # end x y z
+    ctypes.POINTER(ctypes.c_int),                 # terminationReason
+]
+_lib.gp_trace.restype = _c_int
+
+# Coordinate conversion helpers (context-free)
+_lib.gp_location_to_spherical.argtypes = [
+    _c_double, _c_double, _c_double,  # x y z
+    _p_double, _p_double, _p_double,  # r theta phi
+]
+_lib.gp_location_to_spherical.restype = _c_int
+
+_lib.gp_location_to_cartesian.argtypes = [
+    _c_double, _c_double, _c_double,  # r theta phi
+    _p_double, _p_double, _p_double,  # x y z
+]
+_lib.gp_location_to_cartesian.restype = _c_int
+
+_lib.gp_vector_to_spherical.argtypes = [
+    _c_double, _c_double, _c_double,  # bx by bz
+    _c_double, _c_double, _c_double,  # x y z
+    _p_double, _p_double, _p_double,  # br btheta bphi
+]
+_lib.gp_vector_to_spherical.restype = _c_int
+
+_lib.gp_vector_to_cartesian.argtypes = [
+    _c_double, _c_double, _c_double,  # br btheta bphi
+    _c_double, _c_double, _c_double,  # r theta phi
+    _p_double, _p_double, _p_double,  # bx by bz
+]
+_lib.gp_vector_to_cartesian.restype = _c_int
+
+_lib.gp_geodetic_to_geocentric.argtypes = [
+    _c_double, _c_double,  # latitude altitude
+    _p_double, _p_double,  # r theta
+]
+_lib.gp_geodetic_to_geocentric.restype = _c_int
+
+_lib.gp_geocentric_to_geodetic.argtypes = [
+    _c_double, _c_double,  # r theta
+    _p_double, _p_double,  # latitude altitude
+]
+_lib.gp_geocentric_to_geodetic.restype = _c_int
 
 del _name  # loop variable cleanup
 
@@ -320,3 +375,146 @@ def context_psi(handle: int) -> float:
     rc = _lib.gp_context_psi(handle, ctypes.byref(psi))
     _check(rc)
     return psi.value
+
+
+def trace(
+    handle: int,
+    start_x: float, start_y: float, start_z: float,
+    direction: int,
+    ds_max: float, err: float, r_lim: float, r0: float,
+    iopt: int,
+    parmod: Optional[Sequence[float]],
+    ex_model: int, in_model: int, l_max: int,
+) -> Tuple[
+    Tuple[Tuple[float, float, float], ...],
+    Tuple[float, float, float],
+    int,
+    int,
+]:
+    """Trace a field line; returns (points, end_point, point_count, termination)."""
+    if l_max <= 0:
+        raise ValueError("l_max must be positive")
+
+    parmod_buffer = None
+    if parmod is not None:
+        values = list(parmod)
+        if len(values) != 10:
+            raise ValueError("parmod must contain exactly 10 elements")
+        parmod_buffer = (ctypes.c_double * 10)(*values)
+
+    points = (ctypes.c_double * (l_max * 3))()
+    point_count = ctypes.c_int()
+    end_x = ctypes.c_double()
+    end_y = ctypes.c_double()
+    end_z = ctypes.c_double()
+    termination = ctypes.c_int()
+
+    rc = _lib.gp_trace(
+        handle,
+        start_x, start_y, start_z, direction,
+        ds_max, err, r_lim, r0, iopt,
+        parmod_buffer,
+        ex_model, in_model, l_max,
+        points,
+        ctypes.byref(point_count),
+        ctypes.byref(end_x), ctypes.byref(end_y), ctypes.byref(end_z),
+        ctypes.byref(termination),
+    )
+    _check(rc)
+
+    count = point_count.value
+    return (
+        tuple(
+            (points[3 * i], points[3 * i + 1], points[3 * i + 2])
+            for i in range(count)
+        ),
+        (end_x.value, end_y.value, end_z.value),
+        count,
+        termination.value,
+    )
+
+
+def location_to_spherical(
+    x: float, y: float, z: float,
+) -> Tuple[float, float, float]:
+    """CARSPH_08: Cartesian location -> (r, theta, phi)."""
+    r = ctypes.c_double()
+    theta = ctypes.c_double()
+    phi = ctypes.c_double()
+    rc = _lib.gp_location_to_spherical(
+        x, y, z, ctypes.byref(r), ctypes.byref(theta), ctypes.byref(phi)
+    )
+    _check(rc)
+    return r.value, theta.value, phi.value
+
+
+def location_to_cartesian(
+    r: float, theta: float, phi: float,
+) -> Tuple[float, float, float]:
+    """SPHCAR_08: (r, theta, phi) -> Cartesian location."""
+    x = ctypes.c_double()
+    y = ctypes.c_double()
+    z = ctypes.c_double()
+    rc = _lib.gp_location_to_cartesian(
+        r, theta, phi, ctypes.byref(x), ctypes.byref(y), ctypes.byref(z)
+    )
+    _check(rc)
+    return x.value, y.value, z.value
+
+
+def vector_to_spherical(
+    bx: float, by: float, bz: float,
+    x: float, y: float, z: float,
+) -> Tuple[float, float, float]:
+    """BCARSP_08: Cartesian field at a Cartesian location -> (br, btheta, bphi)."""
+    br = ctypes.c_double()
+    btheta = ctypes.c_double()
+    bphi = ctypes.c_double()
+    rc = _lib.gp_vector_to_spherical(
+        bx, by, bz, x, y, z,
+        ctypes.byref(br), ctypes.byref(btheta), ctypes.byref(bphi),
+    )
+    _check(rc)
+    return br.value, btheta.value, bphi.value
+
+
+def vector_to_cartesian(
+    br: float, btheta: float, bphi: float,
+    r: float, theta: float, phi: float,
+) -> Tuple[float, float, float]:
+    """BSPCAR_08: local spherical field at a spherical location -> Cartesian."""
+    bx = ctypes.c_double()
+    by = ctypes.c_double()
+    bz = ctypes.c_double()
+    rc = _lib.gp_vector_to_cartesian(
+        br, btheta, bphi, r, theta, phi,
+        ctypes.byref(bx), ctypes.byref(by), ctypes.byref(bz),
+    )
+    _check(rc)
+    return bx.value, by.value, bz.value
+
+
+def geodetic_to_geocentric(
+    latitude: float, altitude: float,
+) -> Tuple[float, float]:
+    """GEODGEO_08: geodetic latitude/altitude -> (r, theta)."""
+    r = ctypes.c_double()
+    theta = ctypes.c_double()
+    rc = _lib.gp_geodetic_to_geocentric(
+        latitude, altitude, ctypes.byref(r), ctypes.byref(theta)
+    )
+    _check(rc)
+    return r.value, theta.value
+
+
+def geocentric_to_geodetic(
+    r: float, theta: float,
+) -> Tuple[float, float]:
+    """GEODGEO_08: (r, theta) -> geodetic (latitude, altitude)."""
+    latitude = ctypes.c_double()
+    altitude = ctypes.c_double()
+    rc = _lib.gp_geocentric_to_geodetic(
+        r, theta, ctypes.byref(latitude), ctypes.byref(altitude)
+    )
+    _check(rc)
+    return latitude.value, altitude.value

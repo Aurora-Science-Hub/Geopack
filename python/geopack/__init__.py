@@ -17,19 +17,34 @@ Typical usage::
 from __future__ import annotations
 
 from datetime import datetime
-from typing import NamedTuple, Optional, Sequence, Union
+from typing import NamedTuple, Optional, Sequence, Tuple, Union
 
 from . import _native
-from ._enums import CoordinateSystem, MagnetopausePosition
+from ._enums import (
+    CoordinateSystem,
+    ExternalFieldModel,
+    InternalFieldModel,
+    MagnetopausePosition,
+    TraceDirection,
+    TraceTermination,
+)
 from ._native import GeopackError
 
 __all__ = [
     "GeopackError",
     "CoordinateSystem",
     "MagnetopausePosition",
+    "TraceDirection",
+    "TraceTermination",
+    "ExternalFieldModel",
+    "InternalFieldModel",
     "Vector3",
+    "SphericalVector3",
+    "GeocentricCoordinates",
+    "GeodeticCoordinates",
     "Sun",
     "MagnetopauseResult",
+    "TraceResult",
     "Context",
     "DEFAULT_SOLAR_WIND",
     "recalc",
@@ -37,6 +52,12 @@ __all__ = [
     "shu_mgnp",
     "t96_mgnp",
     "t89",
+    "location_to_spherical",
+    "location_to_cartesian",
+    "vector_to_spherical",
+    "vector_to_cartesian",
+    "geodetic_to_geocentric",
+    "geocentric_to_geodetic",
     "__version__",
 ]
 
@@ -58,6 +79,47 @@ class Vector3(NamedTuple):
     x: float
     y: float
     z: float
+
+
+class SphericalVector3(NamedTuple):
+    """A vector in spherical components.
+
+    For a location the components are ``(r, theta, phi)`` (radius, colatitude,
+    longitude); for a field they are ``(Br, Btheta, Bphi)``.
+
+    Attributes:
+        r: Radial component (Earth radii for a location, nT for a field).
+        theta: Colatitude (radians).
+        phi: Longitude (radians).
+    """
+
+    r: float
+    theta: float
+    phi: float
+
+
+class GeocentricCoordinates(NamedTuple):
+    """Geocentric radius and colatitude.
+
+    Attributes:
+        r: Geocentric radius (km).
+        theta: Colatitude (radians).
+    """
+
+    r: float
+    theta: float
+
+
+class GeodeticCoordinates(NamedTuple):
+    """Geodetic latitude and altitude above the WGS84 ellipsoid.
+
+    Attributes:
+        latitude: Geodetic latitude (radians).
+        altitude: Altitude above the ellipsoid (km).
+    """
+
+    latitude: float
+    altitude: float
 
 
 class Sun(NamedTuple):
@@ -88,6 +150,22 @@ class MagnetopauseResult(NamedTuple):
     boundary: Vector3
     dist: float
     position: MagnetopausePosition
+
+
+class TraceResult(NamedTuple):
+    """Result of :meth:`Context.trace`.
+
+    Attributes:
+        points: Traced field-line points in GSW (Earth radii).
+        end_point: Final point (boundary crossing or point-limit position).
+        actual_point_count: Number of points written to ``points``.
+        termination_reason: Why the tracing stopped.
+    """
+
+    points: Tuple[Vector3, ...]
+    end_point: Vector3
+    actual_point_count: int
+    termination_reason: TraceTermination
 
 
 class Context:
@@ -140,14 +218,15 @@ class Context:
         self._check_open()
         return Vector3(*_native.dip(self._handle, x, y, z))
 
-    def igrf_geo(self, r: float, theta: float, phi: float) -> Vector3:
+    def igrf_geo(self, r: float, theta: float, phi: float) -> SphericalVector3:
         """IGRF field in GEO spherical coordinates at radius ``r`` (Re),
         colatitude ``theta`` and longitude ``phi`` (radians).
 
-        Returns the spherical components ``(Br, Btheta, Bphi)`` in nT.
+        Returns the spherical components ``(Br, Btheta, Bphi)`` in nT as a
+        :class:`SphericalVector3`.
         """
         self._check_open()
-        return Vector3(*_native.igrf_geo(self._handle, r, theta, phi))
+        return SphericalVector3(*_native.igrf_geo(self._handle, r, theta, phi))
 
     # -- external field models ----------------------------------------------
 
@@ -168,6 +247,49 @@ class Context:
         if psi is None:
             psi = self.psi
         return Vector3(*_native.t89(iopt, psi, x, y, z))
+
+    # -- field-line tracing -------------------------------------------------
+
+    def trace(
+        self,
+        x: float,
+        y: float,
+        z: float,
+        direction: Union[TraceDirection, int] = TraceDirection.AntiParallel,
+        ds_max: float = 0.1,
+        err: float = 0.0001,
+        r_lim: float = 60.0,
+        r0: float = 1.0,
+        iopt: int = 1,
+        parmod: Optional[Sequence[float]] = None,
+        ex_model: Union[ExternalFieldModel, int] = ExternalFieldModel.T89,
+        in_model: Union[InternalFieldModel, int] = InternalFieldModel.IgrfGsw,
+        l_max: int = 500,
+    ) -> TraceResult:
+        """Trace a field line starting at ``(x, y, z)`` in GSW (Earth radii).
+
+        ``direction`` selects tracing antiparallel (north to south) or parallel
+        to the total field. ``ds_max``, ``err``, ``r_lim``, ``r0``, ``iopt`` and
+        ``parmod`` have the same meaning as in the C# ``Trace`` method;
+        ``parmod`` is a 10-element sequence (``None`` means all zeros).
+        ``ex_model`` selects the external field model (only T89 is available)
+        and ``in_model`` the internal one (IGRF in GSW, or DIP). ``l_max`` is
+        the maximum number of traced points.
+        """
+        self._check_open()
+        points, end_point, count, termination = _native.trace(
+            self._handle,
+            x, y, z, int(direction),
+            ds_max, err, r_lim, r0, iopt,
+            parmod,
+            int(ex_model), int(in_model), l_max,
+        )
+        return TraceResult(
+            tuple(Vector3(*point) for point in points),
+            Vector3(*end_point),
+            count,
+            TraceTermination(termination),
+        )
 
     # -- coordinate transforms (in -> out, Earth radii) ---------------------
 
@@ -319,3 +441,54 @@ def t89(
     ``(x, y, z)`` is the probe point in GSW. Returns the field vector in GSM (nT).
     """
     return Vector3(*_native.t89(iopt, psi, x, y, z))
+
+
+# ---------------------------------------------------------------------------
+# Coordinate conversion helpers (context-free, coordinate-system agnostic)
+# ---------------------------------------------------------------------------
+
+
+def location_to_spherical(x: float, y: float, z: float) -> SphericalVector3:
+    """Convert Cartesian location components to ``(r, theta, phi)`` (CARSPH_08)."""
+    return SphericalVector3(*_native.location_to_spherical(x, y, z))
+
+
+def location_to_cartesian(r: float, theta: float, phi: float) -> Vector3:
+    """Convert spherical location components to Cartesian ``(x, y, z)`` (SPHCAR_08)."""
+    return Vector3(*_native.location_to_cartesian(r, theta, phi))
+
+
+def vector_to_spherical(
+    bx: float,
+    by: float,
+    bz: float,
+    x: float,
+    y: float,
+    z: float,
+) -> SphericalVector3:
+    """Convert a Cartesian field at ``(x, y, z)`` to ``(Br, Btheta, Bphi)`` (BCARSP_08)."""
+    return SphericalVector3(*_native.vector_to_spherical(bx, by, bz, x, y, z))
+
+
+def vector_to_cartesian(
+    br: float,
+    btheta: float,
+    bphi: float,
+    r: float,
+    theta: float,
+    phi: float,
+) -> Vector3:
+    """Convert ``(Br, Btheta, Bphi)`` at ``(r, theta, phi)`` to Cartesian (BSPCAR_08)."""
+    return Vector3(*_native.vector_to_cartesian(br, btheta, bphi, r, theta, phi))
+
+
+def geodetic_to_geocentric(
+    latitude: float, altitude: float
+) -> GeocentricCoordinates:
+    """Convert geodetic latitude (radians) and altitude (km) to geocentric (GEODGEO_08)."""
+    return GeocentricCoordinates(*_native.geodetic_to_geocentric(latitude, altitude))
+
+
+def geocentric_to_geodetic(r: float, theta: float) -> GeodeticCoordinates:
+    """Convert geocentric radius (km) and colatitude (radians) to geodetic (GEODGEO_08)."""
+    return GeodeticCoordinates(*_native.geocentric_to_geodetic(r, theta))
