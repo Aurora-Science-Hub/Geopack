@@ -16,7 +16,7 @@
 
 [![NuGet Version](https://img.shields.io/nuget/v/AuroraScienceHub.Geopack?logo=nuget&label=NuGet)](https://www.nuget.org/packages/AuroraScienceHub.Geopack/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/AuroraScienceHub.Geopack?logo=nuget&label=Downloads)](https://www.nuget.org/packages/AuroraScienceHub.Geopack/)
-[![](https://img.shields.io/badge/.NET-8.0%20%7C%2010.0%20%7C%2011.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![](https://img.shields.io/badge/.NET-10.0%20%7C%2011.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![](https://img.shields.io/badge/C%23-13.0-239120?logo=csharp)](https://learn.microsoft.com/en-us/dotnet/csharp/)
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&label=Python)](https://www.python.org/)
 [![PyPI Version](https://img.shields.io/pypi/v/geopack-2008?logo=pypi&label=PyPI)](https://pypi.org/project/geopack-2008/)

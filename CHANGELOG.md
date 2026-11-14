@@ -5,6 +5,15 @@ All notable changes to the AuroraScienceHub.Geopack project will be documented i
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2026-11-13
+
+### Changed
+
+- Built against the stable .NET 11 release: the SDK in `global.json` is `11.0.100`
+  without `allowPrerelease`, and the Microsoft packages move from `11.0.0-rc.2.26504.105`
+  to `11.0.0` (`Microsoft.SourceLink.GitHub` to `11.0.100`)
+- The `NU5104` suppression is removed: the packages no longer carry prerelease dependencies
+
 ## [2.5.1] - 2026-10-29
 
 ### Fixed
