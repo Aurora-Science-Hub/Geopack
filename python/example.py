@@ -47,6 +47,16 @@ def main():
         t89 = ctx.t89(iopt=3, x=1.0, y=1.0, z=1.0)
         print(f"  T89 (GSM):    Bx={t89.x:8.2f}, By={t89.y:8.2f}, Bz={t89.z:8.2f} nT")
 
+        # Field-line tracing (TRACE_08): T89 external + IGRF internal.
+        line = ctx.trace(
+            -1.02, 0.8, 0.9,
+            direction=geopack.TraceDirection.AntiParallel,
+            ds_max=0.1, err=0.0001, r_lim=60.0, r0=1.0,
+            iopt=1, l_max=500,
+        )
+        print(f"  Trace:        {line.actual_point_count} points, "
+              f"termination={line.termination_reason.name}, end={line.end_point}")
+
         # 4. Coordinate Transformations
         # All transforms take (x, y, z) in Earth radii and return (x, y, z).
         print("\nCoordinate Transformations:")
@@ -59,8 +69,17 @@ def main():
         sm = ctx.gsw_to_sm(*gsw)
         print(f"  -> SM:     ({sm.x:.4f}, {sm.y:.4f}, {sm.z:.4f})")
 
-    # 5. Magnetopause Models
-    # Magnetopause models do not require a context because they depend on 
+    # 5. Coordinate Helpers
+    # These are context-free conversions between cartesian, spherical and
+    # WGS84 geodetic representations.
+    print("\nCoordinate Helpers:")
+    sph = geopack.location_to_spherical(1.0, 1.0, 1.0)
+    print(f"  (1, 1, 1) -> r={sph.r:.6f}, theta={sph.theta:.6f}, phi={sph.phi:.6f}")
+    geo = geopack.geodetic_to_geocentric(0.0, 0.0)
+    print(f"  geodetic (0 rad, 0 km) -> r={geo.r:.3f} km, theta={geo.theta:.6f} rad")
+
+    # 6. Magnetopause Models
+    # Magnetopause models do not require a context because they depend on
     # solar wind parameters passed directly to the function.
     print("\nMagnetopause Models (Input: x=10, y=0, z=0 in GSW):")
     

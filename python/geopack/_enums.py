@@ -1,8 +1,11 @@
 """Enumerations shared with the native Geopack ABI.
 
-The numeric values mirror the C# ``CoordinateSystem`` and
-``MagnetopausePosition`` enums so the integer codes crossing the C ABI stay
-unambiguous.
+The numeric values mirror the C# enums behind the fixed integer codes of the
+``gp_*`` entry points: ``CoordinateSystem``, ``MagnetopausePosition``,
+``TraceDirection``, ``TraceTermination``, ``ExternalFieldModel`` and
+``InternalFieldModel``.
+
+Members keep the C# spelling (CamelCase) so the codes map 1:1 to the .NET enums.
 """
 
 from __future__ import annotations
@@ -28,3 +31,30 @@ class MagnetopausePosition(IntEnum):
     NotDefined = 0
     Inside = 1
     Outside = 2
+
+
+class TraceDirection(IntEnum):
+    """Direction of field-line tracing relative to the main magnetic field."""
+
+    Parallel = -1
+    AntiParallel = 1
+
+
+class TraceTermination(IntEnum):
+    """Reason why field-line tracing stopped."""
+
+    BoundaryReached = 0
+    MaximumPointsExceeded = 1
+
+
+class ExternalFieldModel(IntEnum):
+    """External field models selectable for field-line tracing."""
+
+    T89 = 1
+
+
+class InternalFieldModel(IntEnum):
+    """Internal field models selectable for field-line tracing."""
+
+    IgrfGsw = 1
+    Dip = 2

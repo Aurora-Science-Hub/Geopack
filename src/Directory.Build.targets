@@ -1,0 +1,38 @@
+<Project>
+
+  <PropertyGroup>
+    <_ParentDirectoryBuildTargets>$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))</_ParentDirectoryBuildTargets>
+  </PropertyGroup>
+
+  <Import Project="$(_ParentDirectoryBuildTargets)" Condition="'$(_ParentDirectoryBuildTargets)' != ''" />
+
+  <!--
+    PackageReleaseNotes contains only the CHANGELOG.md section of the version
+    being packed; the full history stays in CHANGELOG.md.
+
+    Missing CHANGELOG.md: keep the static link from Directory.Build.props.
+    Missing section: fail the pack, because the version was bumped without a
+    changelog entry (see AGENTS.md, "CHANGELOG").
+
+    Keep the section extraction in sync with the awk block in
+    .github/workflows/release.yml.
+  -->
+  <Target Name="SetPackageReleaseNotesFromChangelog"
+          BeforeTargets="GenerateNuspec"
+          Condition="Exists('$(MSBuildThisFileDirectory)../CHANGELOG.md')">
+    <PropertyGroup>
+      <_ChangelogPath>$(MSBuildThisFileDirectory)../CHANGELOG.md</_ChangelogPath>
+      <_ChangelogVersionPattern>$(PackageBaseVersion.Replace('.', '[.]'))</_ChangelogVersionPattern>
+      <_ChangelogText>$([System.IO.File]::ReadAllText('$(_ChangelogPath)'))</_ChangelogText>
+      <_ReleaseNotes>$([System.Text.RegularExpressions.Regex]::Match($(_ChangelogText), '(?ms)^## \[$(_ChangelogVersionPattern)\].*?(?=^## \[|\z)').Value.Trim())</_ReleaseNotes>
+    </PropertyGroup>
+
+    <Error Condition="'$(_ReleaseNotes)' == ''"
+           Text="CHANGELOG.md has no '## [$(PackageBaseVersion)]' section. Add it before packing." />
+
+    <PropertyGroup>
+      <PackageReleaseNotes>$(_ReleaseNotes)</PackageReleaseNotes>
+    </PropertyGroup>
+  </Target>
+
+</Project>
