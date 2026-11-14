@@ -90,12 +90,15 @@ Hard rules:
 - `X.Y.Z` must equal `PackageBaseVersion`, the `version` in `python/pyproject.toml`, and
   `__version__` in `python/geopack/__init__.py`.
 - Use Keep a Changelog headings: `### Added`, `### Changed`, `### Deprecated`,
-  `### Removed`, `### Fixed`, `### Security`.
+  `### Removed`, `### Fixed`, `### Security`; use `### Notes` for cross-cutting
+  remarks (for example, "the .NET API is unchanged").
 - List only user-visible changes: one bullet per change; no internal tests, refactoring,
   or step-by-step implementation details.
 - A version bump and its `## [X.Y.Z]` section land in the same change.
 - `dotnet pack` fails if the `## [$(PackageBaseVersion)]` section is missing. The release
-  workflow uses the same section for the GitHub Release.
+  workflow uses the same section for the GitHub Release; keep the MSBuild regex in
+  `src/Directory.Build.targets` and the `awk` step in `.github/workflows/release.yml`
+  in sync.
 
 ---
 

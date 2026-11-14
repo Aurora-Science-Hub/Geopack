@@ -1,11 +1,21 @@
 <Project>
 
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
+  <PropertyGroup>
+    <_ParentDirectoryBuildTargets>$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))</_ParentDirectoryBuildTargets>
+  </PropertyGroup>
+
+  <Import Project="$(_ParentDirectoryBuildTargets)" Condition="'$(_ParentDirectoryBuildTargets)' != ''" />
 
   <!--
     PackageReleaseNotes contains only the CHANGELOG.md section of the version
-    being packed; the full history stays in CHANGELOG.md. The static link in
-    Directory.Build.props is only a fallback when the changelog is unavailable.
+    being packed; the full history stays in CHANGELOG.md.
+
+    Missing CHANGELOG.md: keep the static link from Directory.Build.props.
+    Missing section: fail the pack, because the version was bumped without a
+    changelog entry (see AGENTS.md, "CHANGELOG").
+
+    Keep the section extraction in sync with the awk block in
+    .github/workflows/release.yml.
   -->
   <Target Name="SetPackageReleaseNotesFromChangelog"
           BeforeTargets="GenerateNuspec"
