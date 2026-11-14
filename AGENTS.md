@@ -67,7 +67,7 @@ Source of truth is `Directory.Build.props` and `global.json`, not README or CI w
 
 ## Versioning
 
-- The base version lives in **one place**: root `Directory.Build.props` → `<PackageBaseVersion>2.6.0</PackageBaseVersion>`.
+- The base version lives in **one place**: root `Directory.Build.props` → `<PackageBaseVersion>2.7.0</PackageBaseVersion>`.
 - In CI the version is pinned via `-p:MinVerVersionOverride` (computed by the CI bash script from `PackageBaseVersion`): pre-release on non-`main` branches, stable on `main`/semver tags.
 - **To bump the version, change `PackageBaseVersion` in root `Directory.Build.props` — nothing else.** Never set `<Version>` or `<PackageVersion>` in a `.csproj`.
 - The Python package mirrors the same version: bump `python/pyproject.toml` and `python/geopack/__init__.py` (`__version__`) together with `PackageBaseVersion`.

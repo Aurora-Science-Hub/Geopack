@@ -61,7 +61,7 @@ __all__ = [
     "__version__",
 ]
 
-__version__ = "2.6.0"
+__version__ = "2.7.0"
 
 #: Default solar wind velocity (GSE, km/s) used when the caller does not provide one.
 DEFAULT_SOLAR_WIND = (-400.0, 0.0, 0.0)

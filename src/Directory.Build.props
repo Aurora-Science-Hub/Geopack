@@ -10,6 +10,27 @@
 
   <PropertyGroup Label="Package info">
     <PackageReleaseNotes>
+      Version 2.7.0 - Python bindings: Trace and coordinate helpers
+
+      ADDED (Python bindings):
+      - Context.trace exposes IGeopack.Trace with T89 as the external model and
+        IGRF_GSW or DIP as the internal one, plus TraceDirection, TraceTermination,
+        ExternalFieldModel, InternalFieldModel and TraceResult
+      - Coordinate helpers location_to_spherical, location_to_cartesian,
+        vector_to_spherical, vector_to_cartesian, geodetic_to_geocentric and
+        geocentric_to_geodetic, backed by new gp_* C ABI entry points in Geopack.Native
+      - SphericalVector3, GeocentricCoordinates and GeodeticCoordinates result types
+
+      CHANGED (Python bindings):
+      - Context.igrf_geo returns SphericalVector3 (r, theta, phi) instead of
+        Vector3 (x, y, z); indexing and iteration are unchanged
+
+      NOTE:
+      - The .NET package public API is unchanged in this release; the version is
+        shared with the Python package (geopack-2008 2.7.0)
+
+      ---
+
       Version 2.5.1 - Trace stops at LMax steps
 
       FIXED:
