@@ -26,6 +26,13 @@ esac
 OUT_DIR="$SCRIPT_DIR/out/$RID"
 mkdir -p "$OUT_DIR"
 
+# NativeAOT may emit either geopack.{dylib,so,dll} or libgeopack.{dylib,so}.
+# Remove a leftover file with the other name so it cannot shadow the fresh
+# build in the listing below or in build_wheel.sh's candidate search.
+rm -f "$OUT_DIR"/geopack.dylib "$OUT_DIR"/libgeopack.dylib \
+      "$OUT_DIR"/geopack.so "$OUT_DIR"/libgeopack.so \
+      "$OUT_DIR"/geopack.dll
+
 # PublishAot/IsAotCompatible come from src/Directory.Build.props,
 # NativeLib=Shared from src/Geopack.Native/Geopack.Native.csproj.
 dotnet publish "$REPO_ROOT/src/Geopack.Native/Geopack.Native.csproj" \
@@ -35,4 +42,12 @@ dotnet publish "$REPO_ROOT/src/Geopack.Native/Geopack.Native.csproj" \
 
 echo
 echo "Native library ($RID):"
-ls -1 "$OUT_DIR"/geopack.* 2>/dev/null || ls -1 "$OUT_DIR"
+library="$(find "$OUT_DIR" -maxdepth 1 -type f \
+  \( -name 'geopack.dylib' -o -name 'libgeopack.dylib' \
+     -o -name 'geopack.so' -o -name 'libgeopack.so' \
+     -o -name 'geopack.dll' \) -print -quit)"
+if [[ -z "$library" ]]; then
+  echo "No native library found in $OUT_DIR" >&2
+  exit 1
+fi
+echo "$library"
