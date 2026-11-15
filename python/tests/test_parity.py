@@ -10,14 +10,14 @@ The context used by every case matches the C# fixture::
 
     Recalc(1997-12-16 21:00:00 UTC, VGSE = (-304, 13, 4))
 
-Intentionally NOT mirrored — they exercise API surface the C ABI does not expose:
+Intentionally NOT mirrored here — they exercise API surface the C ABI does not expose:
   * RecalcCommonBlocks_ShouldBeCorrect      — internal ComputationContext fields
   * Recalc_Throw (velocity in wrong CS)     — the ABI hardcodes GSE velocity
-  * BSphCar/CarSph/SphCar/ToCartesian/...   — cartesian<->spherical helpers
-  * GeoGeod/GeodGeo (geodetic)              — not part of the 12 transforms
-  * Trace (field-line tracing)              — out of scope for the native layer
   * Rec* internals (G/H/REC finiteness)     — replaced by the observable
     RecalcExtrapolate_2026 test below
+
+The cartesian<->spherical helpers, geodetic conversions and Trace are mirrored
+separately in test_helpers.py and test_trace.py.
 
 Run standalone:  python3 python/tests/test_parity.py
 or with pytest:  pytest python/tests/test_parity.py

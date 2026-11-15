@@ -307,6 +307,282 @@ public static unsafe class GeopackNative
     }
 
     // ------------------------------------------------------------------
+    // Field-line tracing
+    // ------------------------------------------------------------------
+
+    private const int ParmodLength = 10;
+
+    /// <summary>
+    /// Traces a field line from <paramref name="startX"/>, <paramref name="startY"/>,
+    /// <paramref name="startZ"/> (GSW).
+    /// </summary>
+    /// <remarks>
+    /// <paramref name="direction"/> is +1 to trace antiparallel to the total field and -1 to
+    /// trace parallel to it. <paramref name="parmod"/> is a 10-element array and may be null
+    /// (treated as zeros). <paramref name="exModel"/> selects the external model (1 = T89);
+    /// <paramref name="inModel"/> selects the internal model (1 = IGRF_GSW, 2 = DIP).
+    /// <paramref name="points"/> must have room for <paramref name="lMax"/> * 3 doubles.
+    /// On success <paramref name="terminationReason"/> is 0 for a boundary and 1 for the
+    /// point limit.
+    /// </remarks>
+    [UnmanagedCallersOnly(EntryPoint = "gp_trace", CallConvs = new[] { typeof(CallConvCdecl) })]
+    public static int Trace(
+        long handle,
+        double startX, double startY, double startZ,
+        int direction,
+        double dsMax, double err, double rLim, double r0,
+        int iopt,
+        double* parmod,
+        int exModel,
+        int inModel,
+        int lMax,
+        double* points,
+        int* pointCount,
+        double* endX, double* endY, double* endZ,
+        int* terminationReason)
+    {
+        try
+        {
+            if (!s_contexts.TryGetValue(handle, out ComputationContext? context))
+            {
+                return Fail("Invalid context handle.");
+            }
+
+            if (lMax <= 0)
+            {
+                return Fail("lMax must be positive.");
+            }
+
+            if (points == null)
+            {
+                return Fail("Points buffer must not be null.");
+            }
+
+            TraceDirection traceDirection = direction switch
+            {
+                1 => TraceDirection.AntiParallel,
+                -1 => TraceDirection.Parallel,
+                _ => throw new ArgumentOutOfRangeException(
+                    nameof(direction), direction, "Trace direction must be 1 or -1.")
+            };
+
+            IExternalFieldModel externalField = exModel switch
+            {
+                1 => s_t89,
+                _ => throw new ArgumentOutOfRangeException(
+                    nameof(exModel), exModel, "Unknown external field model.")
+            };
+
+            InternalFieldModel internalField = inModel switch
+            {
+                1 => s_geopack.IgrfGsw,
+                2 => s_geopack.Dip,
+                _ => throw new ArgumentOutOfRangeException(
+                    nameof(inModel), inModel, "Unknown internal field model.")
+            };
+
+            double[] parmodValues = new double[ParmodLength];
+            if (parmod != null)
+            {
+                for (int i = 0; i < ParmodLength; i++)
+                {
+                    parmodValues[i] = parmod[i];
+                }
+            }
+
+            CartesianLocation startingPoint = CartesianLocation.New(startX, startY, startZ, CoordinateSystem.GSW);
+            FieldLine fieldLine = s_geopack.Trace(
+                context,
+                startingPoint,
+                traceDirection,
+                dsMax, err, rLim, r0,
+                iopt, parmodValues,
+                externalField,
+                internalField,
+                lMax);
+
+            int count = Math.Min(fieldLine.ActualPointCount, lMax);
+            for (int i = 0; i < count; i++)
+            {
+                CartesianLocation point = fieldLine.Points[i];
+                points[3 * i] = point.X;
+                points[3 * i + 1] = point.Y;
+                points[3 * i + 2] = point.Z;
+            }
+
+            *pointCount = count;
+            *endX = fieldLine.EndPoint.X;
+            *endY = fieldLine.EndPoint.Y;
+            *endZ = fieldLine.EndPoint.Z;
+            // Trace exposes the termination as a human-readable message. Pin the two
+            // known values here and fail loudly on anything else so a reword cannot
+            // silently change the meaning of the ABI enum.
+            *terminationReason = fieldLine.TerminationReason switch
+            {
+                "Maximum points exceeded" => 1,
+                "Boundary reached" => 0,
+                _ => throw new InvalidOperationException(
+                    $"Unknown trace termination reason: {fieldLine.TerminationReason}.")
+            };
+            return 0;
+        }
+        catch (Exception e)
+        {
+            return Fail(e);
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Coordinate conversion helpers
+    // ------------------------------------------------------------------
+
+    /// <summary>
+    /// Converts Cartesian location components to spherical ones (CARSPH_08).
+    /// </summary>
+    [UnmanagedCallersOnly(EntryPoint = "gp_location_to_spherical", CallConvs = new[] { typeof(CallConvCdecl) })]
+    public static int LocationToSpherical(
+        double x, double y, double z,
+        double* r, double* theta, double* phi)
+    {
+        try
+        {
+            SphericalLocation result = CartesianLocation.New(x, y, z, CoordinateSystem.GEO).ToSpherical();
+
+            *r = result.R;
+            *theta = result.Theta;
+            *phi = result.Phi;
+            return 0;
+        }
+        catch (Exception e)
+        {
+            return Fail(e);
+        }
+    }
+
+    /// <summary>
+    /// Converts spherical location components to Cartesian ones (SPHCAR_08).
+    /// </summary>
+    [UnmanagedCallersOnly(EntryPoint = "gp_location_to_cartesian", CallConvs = new[] { typeof(CallConvCdecl) })]
+    public static int LocationToCartesian(
+        double r, double theta, double phi,
+        double* x, double* y, double* z)
+    {
+        try
+        {
+            CartesianLocation result = SphericalLocation.New(r, theta, phi, CoordinateSystem.GEO).ToCartesian();
+
+            *x = result.X;
+            *y = result.Y;
+            *z = result.Z;
+            return 0;
+        }
+        catch (Exception e)
+        {
+            return Fail(e);
+        }
+    }
+
+    /// <summary>
+    /// Converts Cartesian field components at a Cartesian location to local spherical
+    /// components (BCARSP_08).
+    /// </summary>
+    [UnmanagedCallersOnly(EntryPoint = "gp_vector_to_spherical", CallConvs = new[] { typeof(CallConvCdecl) })]
+    public static int VectorToSpherical(
+        double bx, double by, double bz,
+        double x, double y, double z,
+        double* br, double* btheta, double* bphi)
+    {
+        try
+        {
+            CartesianLocation location = CartesianLocation.New(x, y, z, CoordinateSystem.GSW);
+            CartesianVector<MagneticField> vector = CartesianVector<MagneticField>.New(bx, by, bz, CoordinateSystem.GSW);
+            SphericalVector<MagneticField> result = vector.ToSphericalVector(location);
+
+            *br = result.R;
+            *btheta = result.Theta;
+            *bphi = result.Phi;
+            return 0;
+        }
+        catch (Exception e)
+        {
+            return Fail(e);
+        }
+    }
+
+    /// <summary>
+    /// Converts local spherical field components at a spherical location to Cartesian
+    /// components (BSPCAR_08).
+    /// </summary>
+    [UnmanagedCallersOnly(EntryPoint = "gp_vector_to_cartesian", CallConvs = new[] { typeof(CallConvCdecl) })]
+    public static int VectorToCartesian(
+        double br, double btheta, double bphi,
+        double r, double theta, double phi,
+        double* bx, double* by, double* bz)
+    {
+        try
+        {
+            SphericalLocation location = SphericalLocation.New(r, theta, phi, CoordinateSystem.GSW);
+            SphericalVector<MagneticField> vector = SphericalVector<MagneticField>.New(br, btheta, bphi, CoordinateSystem.GSW);
+            CartesianVector<MagneticField> result = vector.ToCartesianVector(location);
+
+            *bx = result.X;
+            *by = result.Y;
+            *bz = result.Z;
+            return 0;
+        }
+        catch (Exception e)
+        {
+            return Fail(e);
+        }
+    }
+
+    /// <summary>
+    /// Converts geodetic latitude (radians) and altitude (km) to geocentric radius (km)
+    /// and colatitude (radians) (GEODGEO_08).
+    /// </summary>
+    [UnmanagedCallersOnly(EntryPoint = "gp_geodetic_to_geocentric", CallConvs = new[] { typeof(CallConvCdecl) })]
+    public static int GeodeticToGeocentric(
+        double latitude, double altitude,
+        double* r, double* theta)
+    {
+        try
+        {
+            GeocentricCoordinates result = new GeodeticCoordinates(latitude, altitude).ToGeocentric();
+
+            *r = result.R;
+            *theta = result.Theta;
+            return 0;
+        }
+        catch (Exception e)
+        {
+            return Fail(e);
+        }
+    }
+
+    /// <summary>
+    /// Converts geocentric radius (km) and colatitude (radians) to geodetic latitude
+    /// (radians) and altitude (km) (GEODGEO_08).
+    /// </summary>
+    [UnmanagedCallersOnly(EntryPoint = "gp_geocentric_to_geodetic", CallConvs = new[] { typeof(CallConvCdecl) })]
+    public static int GeocentricToGeodetic(
+        double r, double theta,
+        double* latitude, double* altitude)
+    {
+        try
+        {
+            GeodeticCoordinates result = new GeocentricCoordinates(r, theta).ToGeodetic();
+
+            *latitude = result.Latitude;
+            *altitude = result.Altitude;
+            return 0;
+        }
+        catch (Exception e)
+        {
+            return Fail(e);
+        }
+    }
+
+    // ------------------------------------------------------------------
     // Shared plumbing
     // ------------------------------------------------------------------
 

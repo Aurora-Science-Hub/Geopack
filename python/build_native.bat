@@ -22,6 +22,9 @@ if "%RID%"=="" (
 set "OUT_DIR=%SCRIPT_DIR%out\%RID%"
 if not exist "%OUT_DIR%" mkdir "%OUT_DIR%"
 
+REM NativeAOT emits only geopack.dll on Windows, so a stale file under another
+REM library name cannot shadow it (unlike geopack.dylib/libgeopack.dylib on Unix).
+
 REM PublishAot/IsAotCompatible come from src\Directory.Build.props,
 REM NativeLib=Shared from src\Geopack.Native\Geopack.Native.csproj.
 dotnet publish "%REPO_ROOT%src\Geopack.Native\Geopack.Native.csproj" ^
